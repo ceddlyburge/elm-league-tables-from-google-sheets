@@ -1,4 +1,4 @@
-module MainFunctions exposing (..)
+port module MainFunctions exposing (..)
 
 import Html exposing (Html, text, div, h1, img)
 import Html.Attributes exposing (src, class)
@@ -17,17 +17,38 @@ type alias Model =
     }
 
 
+-- SUBSCRIPTIONS
+
+
+port returnSheet : (String -> msg) -> Sub msg
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    returnSheet ReturnedSheet
+
+
 ---- UPDATE ----
+
+
+port requestSheet : String -> Cmd msg
 
 
 type Msg
     = NoOp
+    | RequestSheet
+    | ReturnedSheet String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    ( model, Cmd.none )
-
+    case msg of 
+        NoOp ->
+            ( model, Cmd.none )
+        RequestSheet ->
+            ( model, requestSheet model.config.googleSheet )
+        ReturnedSheet sheet ->
+            -- update model with new sheet here once got the basics working
+            ( model, Cmd.none )
 
 
 ---- VIEW ----

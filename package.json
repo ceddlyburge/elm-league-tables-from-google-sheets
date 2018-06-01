@@ -11,6 +11,8 @@
   "scripts": {
     "test": "elm-spec ./spec/DisplaysAvailableLeagues.elm && elm-test"
   },
-  "devDependencies": {
+  "devDependencies": {},
+  "dependencies": {
+    "get-sheet-done": "^0.1.4"
   }
 }

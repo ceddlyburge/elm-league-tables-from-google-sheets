@@ -13,7 +13,10 @@ init config =
     ( Model config , Cmd.none )
 
 
+
 ---- PROGRAM ----
+
+
 main : Program Config Model Msg
 main =
     Html.programWithFlags
