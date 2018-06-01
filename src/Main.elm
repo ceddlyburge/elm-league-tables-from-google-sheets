@@ -8,15 +8,15 @@ import MainFunctions exposing (..)
 -- The upshot is that any code in this file is defintely not covered by the "end to end" tests.
 -- This is a bit of a shame, but its a good enough compromise I think.
 
-init : ( Model, Cmd Msg )
-init =
-    ( {}, Cmd.none )
+init : Config -> ( Model, Cmd Msg )
+init config =
+    ( Model config , Cmd.none )
 
 
 ---- PROGRAM ----
-main : Program Never Model Msg
+main : Program Config Model Msg
 main =
-    Html.program
+    Html.programWithFlags
         { init = init
         , view = view
         , update = update

@@ -1,0 +1,16 @@
+{
+  "name": "ceddlyburge-elm-league-table-from-sheet",
+  "description": "A website to calculate and show league tables based on league results entered in a Google Sheet",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": "Cedd Burge",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ceddlyburge/elm-league-table-from-sheet"
+  },
+  "scripts": {
+    "test": "elm-spec ./spec/DisplaysAvailableLeagues.elm && elm-test"
+  },
+  "devDependencies": {
+  }
+}

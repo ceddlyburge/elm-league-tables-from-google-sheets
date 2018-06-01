@@ -7,8 +7,14 @@ import Html.Attributes exposing (src, class)
 ---- MODEL ----
 
 
+type alias Config =
+    { googleSheet: String
+    }
+
+
 type alias Model =
-    {}
+    { config: Config
+    }
 
 
 ---- UPDATE ----

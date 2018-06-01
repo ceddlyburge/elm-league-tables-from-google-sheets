@@ -3,7 +3,7 @@ module Tests exposing (..)
 import Test exposing (..)
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (text)
-import MainFunctions
+import MainFunctions exposing (..)
 
 -- Check out http://package.elm-lang.org/packages/elm-community/elm-test/latest to learn more about testing in Elm!
 
@@ -13,7 +13,7 @@ all : Test
 all =
     describe "League Table"
         [test "Displays available leagues" <|
-            \() -> MainFunctions.view { }
+            \() -> MainFunctions.view ( Model ( Config "" ) )
                 |> Query.fromHtml
                 |> Query.has [ text "Regional Div 2" ]
         ]

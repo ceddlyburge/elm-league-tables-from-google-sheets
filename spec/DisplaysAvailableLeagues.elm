@@ -19,5 +19,5 @@ main =
     { subscriptions = \_ -> Sub.none
     , update = update
     , view = view
-    , init = \() -> Model
+    , init = \_ -> (Model (Config ""))
     } specs
