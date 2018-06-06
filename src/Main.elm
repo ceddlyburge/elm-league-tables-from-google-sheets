@@ -1,6 +1,8 @@
 module Main exposing (..)
 
 import Html exposing (Html)
+import Http
+
 import MainFunctions exposing (..)
 
 -- It is not possible to import this module in to an elm-spec test, as it tells me there is a circular dependency. 
@@ -10,8 +12,7 @@ import MainFunctions exposing (..)
 
 init : Config -> ( Model, Cmd Msg )
 init config =
-    ( Model config , Cmd.none )
-
+    ( Model config "", Http.send SheetResponse sheetRequest )
 
 
 ---- PROGRAM ----

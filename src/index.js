@@ -7,8 +7,3 @@ var app = Main.embed(document.getElementById('root'), {
 });
 
 registerServiceWorker();
-
-// ports related code
-app.ports.requestSheet.subscribe(function(googleSheet) {
-    app.ports.googleSheet.send('this is a google sheet, honestly')
-});
