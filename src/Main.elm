@@ -12,7 +12,7 @@ import MainFunctions exposing (..)
 
 init : Config -> ( Model, Cmd Msg )
 init config =
-    ( Model config "", Http.send SheetResponse sheetRequest )
+    ( Model config [], Http.send SheetResponse (sheetRequest config) )
 
 
 ---- PROGRAM ----

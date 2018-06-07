@@ -9,28 +9,36 @@ import Http
 
 
 type alias Config =
-    { googleSheet: String
+    { googleSheet: String,
+      googleApiKey: String
     }
 
 
 type alias Model =
     { config: Config,
-    leagueTitle: String
+    leagues: List GoogleSheet
     }
 
+type alias GoogleSheet =
+    { title: String
+    }
 
 type Msg
-    = SheetResponse (Result Http.Error String)
+    = SheetResponse (Result Http.Error (List GoogleSheet))
     | SheetRequest
     | NoOp
 
-sheetRequest : Http.Request String
-sheetRequest =
-    Http.get "https://sheets.googleapis.com/v4/spreadsheets/1Ai9H6Pfe1LPsOcksN6EF03-z-gO1CkNp8P1Im37N3TE?key=AIzaSyBZyrlDqCe1YooJq8oZ8q1u3-Jp1uL-OEc" decodeSheetResponse
+sheetRequest : Config -> Http.Request (List GoogleSheet)
+sheetRequest config =
+    Http.get ("https://sheets.googleapis.com/v4/spreadsheets/" ++ config.googleSheet ++ "?key=" ++ config.googleApiKey) decodeGoogleSheets
 
-decodeSheetResponse : Decoder String
-decodeSheetResponse =
-    at [ "properties", "title" ] string
+googleSheetDecoder : Decoder GoogleSheet
+googleSheetDecoder =
+    Json.Decode.map GoogleSheet (at [ "properties", "title" ] string)
+
+decodeGoogleSheets : Decoder (List GoogleSheet)
+decodeGoogleSheets =
+    Json.Decode.field "sheets" (list googleSheetDecoder)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -38,7 +46,7 @@ update msg model =
         NoOp ->
             ( model, Cmd.none )
         SheetRequest ->
-            ( model, Http.send SheetResponse sheetRequest )
+            ( model, Http.send SheetResponse (sheetRequest model.config) )
 
         SheetResponse result ->
             case result of
@@ -49,8 +57,8 @@ update msg model =
                     in
                         ( model, Cmd.none )
 
-                Ok leagueTitle ->
-                    ( { model | leagueTitle = leagueTitle }, Cmd.none )
+                Ok googleSheets ->
+                    ( { model | leagues = googleSheets}, Cmd.none )
 
 ---- VIEW ----
 
@@ -61,6 +69,9 @@ view model =
         [ class "leagues" ] 
         [
             h1 [] [ text "Leagues" ]
-            , div [ class "league"] [ text model.leagueTitle ]
+            , div [] (List.map leagueTitle model.leagues)
         ]
 
+leagueTitle : GoogleSheet -> Html Msg
+leagueTitle googleSheet =
+    div [ class "league"] [ text googleSheet.title ]
