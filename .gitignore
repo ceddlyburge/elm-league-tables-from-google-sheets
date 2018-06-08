@@ -13,3 +13,6 @@ npm-debug.*
 
 # Desktop Services Store on macOS
 .DS_Store
+
+# environment variables (hese contain the google api key, which is a bit sensitive)
+.env
