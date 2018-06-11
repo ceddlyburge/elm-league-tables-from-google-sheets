@@ -11,3 +11,5 @@ The following are not covered, so need to do manual testing when changing them
 
 - ./Main.elm
 - ./index.js
+
+Also the reference to gdotdesign/elm-spec in the main elm-package.json is required for a reason I don't understand.
