@@ -9,7 +9,7 @@
     "url": "https://github.com/ceddlyburge/elm-league-table-from-sheet"
   },
   "scripts": {
-    "test": "elm-spec ./spec/DisplaysAvailableLeagues.elm && elm-test"
+    "test": "elm-spec ./EndToEndTests/DisplaysAvailableLeagues.elm && elm-test"
   },
   "devDependencies": {},
   "dependencies": {

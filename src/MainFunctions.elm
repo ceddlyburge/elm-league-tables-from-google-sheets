@@ -2,6 +2,7 @@ port module MainFunctions exposing (..)
 
 import Html exposing (Html, text, div, h1, img)
 import Html.Attributes exposing (src, class)
+import Html.Events exposing (onClick)
 import Json.Decode exposing (Decoder, at, list, string, succeed)
 import Http
 
@@ -66,7 +67,10 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div  
-        [ class "leagues" ] 
+        [ 
+            class "leagues"
+            , onClick SheetRequest
+        ] 
         [
             h1 [] [ text "Leagues" ]
             , div [] (List.map leagueTitle model.leagues)

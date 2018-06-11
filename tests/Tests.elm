@@ -13,7 +13,7 @@ all : Test
 all =
     describe "League Table"
         [test "Displays available leagues" <|
-            \() -> MainFunctions.view ( Model ( Config "" ) )
+            \() -> MainFunctions.view ( Model ( Config "" ""  ) [ GoogleSheet "Regional Div 2" ] )
                 |> Query.fromHtml
                 |> Query.has [ text "Regional Div 2" ]
         ]
