@@ -1,4 +1,4 @@
-module EndToEndTests.GoogleSheetApiResponses exposing (spreadsheetIdResponse)
+module GoogleSheetApiResponses exposing (spreadsheetIdResponse)
 
 spreadsheetIdResponse: String
 spreadsheetIdResponse =

@@ -4,7 +4,8 @@
     "repository": "https://github.com/ceddlyburge/elm-league-table-from-sheet.git",
     "license": "BSD3",
     "source-directories": [
-        "src"
+        "src",
+        "EndToEndTests"
     ],
     "exposed-modules": [],
     "dependencies": {
