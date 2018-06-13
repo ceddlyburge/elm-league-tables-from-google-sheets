@@ -12,8 +12,8 @@
     "test": "bash end-to-end-tests.sh && elm-app test",
     "build": "npm run test && elm-app build"
   },
-  "devDependencies": {},
-  "dependencies": {
-    "get-sheet-done": "^0.1.4"
-  }
+  "devDependencies": {
+    "elm-spec": "^1.1.2"
+  },
+  "dependencies": {}
 }
