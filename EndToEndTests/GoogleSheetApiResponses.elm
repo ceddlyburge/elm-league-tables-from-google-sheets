@@ -1,5 +1,7 @@
 module GoogleSheetApiResponses exposing (spreadsheetIdResponse)
 
+
+-- This is the response from the test spreadsheet, at https://sheets.googleapis.com/v4/spreadsheets/1Ai9H6Pfe1LPsOcksN6EF03-z-gO1CkNp8P1Im37N3TE?key=<thekey>
 spreadsheetIdResponse: String
 spreadsheetIdResponse =
   """{
@@ -37,9 +39,21 @@ spreadsheetIdResponse =
   "sheets": [
     {
       "properties": {
+        "sheetId": 1100994793,
+        "title": "Regional Div 1",
+        "index": 0,
+        "sheetType": "GRID",
+        "gridProperties": {
+          "rowCount": 1000,
+          "columnCount": 26
+        }
+      }
+    },
+    {
+      "properties": {
         "sheetId": 0,
         "title": "Regional Div 2",
-        "index": 0,
+        "index": 1,
         "sheetType": "GRID",
         "gridProperties": {
           "rowCount": 1000,

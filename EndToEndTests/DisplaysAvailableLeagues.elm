@@ -17,7 +17,11 @@ specs =
         ,it "displays available leagues"
         [ steps.click "div.leagues"
         , assert.containsText
-          { selector = ".leagues .league"
+          { selector = ".leagues .league:first-Child"
+          , text = "Regional Div 1"
+          }
+        , assert.containsText
+          { selector = ".leagues .league:nth-Child(2)"
           , text = "Regional Div 2"
           }
         ]
