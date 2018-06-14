@@ -9,7 +9,7 @@
     "url": "https://github.com/ceddlyburge/elm-league-table-from-sheet"
   },
   "scripts": {
-    "postinstall": "elm-install",
+    "postinstall": "elm-install && cd tests && elm-install",
     "test": "bash end-to-end-tests.sh && elm-app test",
     "build": "npm run test && elm-app build"
   },
