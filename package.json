@@ -10,7 +10,7 @@
   },
   "scripts": {
     "postinstall": "elm-install && cd tests && elm-install && cd .. && cd EndToEndTests && elm-install",
-    "test": "elm-app test && cd EndToEndTests && bash end-to-end-tests.sh",
+    "test": "elm-test && cd EndToEndTests && bash end-to-end-tests.sh",
     "build": "npm run test && elm-app build"
   },
   "devDependencies": {
