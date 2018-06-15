@@ -15,7 +15,6 @@
   },
   "devDependencies": {
     "create-elm-app": "^1.10.4",
-    "elm-github-install": "^1.6.1",
     "elm-spec": "^1.1.2"
   },
   "dependencies": {}
