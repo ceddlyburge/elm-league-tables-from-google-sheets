@@ -9,9 +9,12 @@
     "url": "https://github.com/ceddlyburge/elm-league-table-from-sheet"
   },
   "scripts": {
-    "postinstall": "npm install create-elm-app -g && npm install elm-github-install -g && elm-install && cd tests && elm-install && cd .. && cd EndToEndTests && elm-install",
+    "postinstall": "npm run globalinstall -g && npm run elminstall",
+    "globalinstall": "npm install create-elm-app -g && npm install elm-github-install -g",
+    "elminstall": "elm-install && cd tests && elm-install && cd .. && cd EndToEndTests && elm-install",
     "test": "elm-test && cd EndToEndTests && bash end-to-end-tests.sh",
-    "build": "npm run test && elm-app build"
+    "build": "npm run test && elm-app build",
+    "netlifybuild": "npm run globalinstall && npm run elminstall && npm run build"
   },
   "devDependencies": {
     "create-elm-app": "^1.10.4",
