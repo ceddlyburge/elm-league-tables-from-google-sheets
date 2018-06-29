@@ -3,7 +3,9 @@ module Tests exposing (..)
 import Test exposing (..)
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (text)
+
 import MainFunctions exposing (..)
+import Models.League exposing (GoogleSheet)
 
 -- Check out http://package.elm-lang.org/packages/elm-community/elm-test/latest to learn more about testing in Elm!
 

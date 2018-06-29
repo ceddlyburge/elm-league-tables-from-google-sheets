@@ -6,6 +6,9 @@ import Html.Events exposing (onClick)
 import Json.Decode exposing (Decoder, at, list, string, succeed)
 import Http
 
+import Updates.DecodeGoogleSheetToLeagueList exposing (..)
+import Models.League exposing (..)
+
 ---- MODEL ----
 
 
@@ -20,9 +23,9 @@ type alias Model =
     leagues: List GoogleSheet
     }
 
-type alias GoogleSheet =
-    { title: String
-    }
+-- type alias GoogleSheet =
+--     { title: String
+--     }
 
 type Msg
     = SheetResponse (Result Http.Error (List GoogleSheet))
@@ -33,13 +36,13 @@ sheetRequest : Config -> Http.Request (List GoogleSheet)
 sheetRequest config =
     Http.get ("https://sheets.googleapis.com/v4/spreadsheets/" ++ config.googleSheet ++ "?key=" ++ config.googleApiKey) decodeGoogleSheets
 
-googleSheetDecoder : Decoder GoogleSheet
-googleSheetDecoder =
-    Json.Decode.map GoogleSheet (at [ "properties", "title" ] string)
+-- googleSheetDecoder : Decoder GoogleSheet
+-- googleSheetDecoder =
+--     Json.Decode.map GoogleSheet (at [ "properties", "title" ] string)
 
-decodeGoogleSheets : Decoder (List GoogleSheet)
-decodeGoogleSheets =
-    Json.Decode.field "sheets" (list googleSheetDecoder)
+-- decodeGoogleSheets : Decoder (List GoogleSheet)
+-- decodeGoogleSheets =
+--     Json.Decode.field "sheets" (list googleSheetDecoder)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
