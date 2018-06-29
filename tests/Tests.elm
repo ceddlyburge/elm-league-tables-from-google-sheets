@@ -5,7 +5,7 @@ import Test.Html.Query as Query
 import Test.Html.Selector exposing (text)
 
 import MainFunctions exposing (..)
-import Models.League exposing (GoogleSheet)
+import Models.League exposing (League)
 
 -- Check out http://package.elm-lang.org/packages/elm-community/elm-test/latest to learn more about testing in Elm!
 
@@ -15,7 +15,7 @@ all : Test
 all =
     describe "League Table"
         [test "Displays available leagues" <|
-            \() -> MainFunctions.view ( Model ( Config "" ""  ) [ GoogleSheet "Regional Div 2" ] )
+            \() -> MainFunctions.view ( Model ( Config "" ""  ) [ League "Regional Div 2" ] )
                 |> Query.fromHtml
                 |> Query.has [ text "Regional Div 2" ]
         ]

@@ -7,7 +7,7 @@ import Json.Decode exposing (Decoder, at, list, string, succeed)
 import Http
 
 import Updates.DecodeGoogleSheetToLeagueList exposing (..)
-import Models.League exposing (..)
+import Models.League exposing (League)
 
 ---- MODEL ----
 
@@ -20,29 +20,17 @@ type alias Config =
 
 type alias Model =
     { config: Config,
-    leagues: List GoogleSheet
+    leagues: List League
     }
 
--- type alias GoogleSheet =
---     { title: String
---     }
-
 type Msg
-    = SheetResponse (Result Http.Error (List GoogleSheet))
+    = SheetResponse (Result Http.Error (List League))
     | SheetRequest
     | NoOp
 
-sheetRequest : Config -> Http.Request (List GoogleSheet)
+sheetRequest : Config -> Http.Request (List League)
 sheetRequest config =
     Http.get ("https://sheets.googleapis.com/v4/spreadsheets/" ++ config.googleSheet ++ "?key=" ++ config.googleApiKey) decodeGoogleSheets
-
--- googleSheetDecoder : Decoder GoogleSheet
--- googleSheetDecoder =
---     Json.Decode.map GoogleSheet (at [ "properties", "title" ] string)
-
--- decodeGoogleSheets : Decoder (List GoogleSheet)
--- decodeGoogleSheets =
---     Json.Decode.field "sheets" (list googleSheetDecoder)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -61,8 +49,8 @@ update msg model =
                     in
                         ( model, Cmd.none )
 
-                Ok googleSheets ->
-                    ( { model | leagues = googleSheets}, Cmd.none )
+                Ok leagues ->
+                    ( { model | leagues = leagues}, Cmd.none )
 
 ---- VIEW ----
 
@@ -79,6 +67,6 @@ view model =
             , div [] (List.map leagueTitle model.leagues)
         ]
 
-leagueTitle : GoogleSheet -> Html Msg
-leagueTitle googleSheet =
-    div [ class "league"] [ text googleSheet.title ]
+leagueTitle : League -> Html Msg
+leagueTitle league =
+    div [ class "league"] [ text league.title ]

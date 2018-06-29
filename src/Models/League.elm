@@ -1,6 +1,6 @@
 module Models.League exposing (..)
 
-type alias GoogleSheet =
+type alias League =
     { title: String
     }
 
