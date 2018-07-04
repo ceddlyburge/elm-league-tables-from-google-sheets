@@ -29,7 +29,7 @@ sheetWithTitle title =
     """{
     "properties": {
         "sheetId": 1,
-        "title": """ ++ title ++ """,
+        "title":\"""" ++ title ++ """\",
         "etc": 0
     }
     }"""
@@ -44,8 +44,8 @@ spreadsheetIdResponse =
         "locale": "etc"
     },
     "sheets": [
-      """ ++ sheetWithTitle "Regional Div 1" ++ """,
-      """ ++ sheetWithTitle "Regional Div 2" ++ """,
+      """ ++ (sheetWithTitle "Regional Div 1") ++ """,
+      """ ++ (sheetWithTitle "Regional Div 2") ++ """
     ],
     "spreadsheetUrl": "blah"
   }"""
