@@ -3,35 +3,28 @@ port module MainFunctions exposing (..)
 import Html exposing (Html, text, div, h1, img)
 import Html.Attributes exposing (src, class)
 import Html.Events exposing (onClick)
--- import Json.Decode exposing (Decoder, at, list, string, succeed)
 import Http
 
-import Updates.DecodeGoogleSheetToLeagueList exposing (..)
+import Messages.Msg exposing ( Msg )
 import Models.League exposing (League)
 import Models.Model exposing (Model)
 import Models.Config exposing (Config)
+import Updates.DecodeGoogleSheetToLeagueList exposing (..)
+import Updates.RequestGoogleSheetAllTabs exposing (..)
 
 ---- MODEL ----
 
 
-type Msg
-    = SheetResponse (Result Http.Error (List League))
-    | SheetRequest
-    | NoOp
-
-sheetRequest : Config -> Http.Request (List League)
-sheetRequest config =
-    Http.get ("https://sheets.googleapis.com/v4/spreadsheets/" ++ config.googleSheet ++ "?key=" ++ config.googleApiKey) decodeGoogleSheets
-
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of 
-        NoOp ->
+        Messages.Msg.NoOp ->
             ( model, Cmd.none )
-        SheetRequest ->
-            ( model, Http.send SheetResponse (sheetRequest model.config) )
+        Messages.Msg.SheetRequest ->
+            sheetRequest model 
+            --( model, Http.send Messages.Msg.SheetResponse (sheetRequest model.config) )
 
-        SheetResponse result ->
+        Messages.Msg.SheetResponse result ->
             case result of
                 Err httpError ->
                     let
@@ -51,7 +44,7 @@ view model =
     div  
         [ 
             class "leagues"
-            , onClick SheetRequest
+            , onClick Messages.Msg.SheetRequest
         ] 
         [
             h1 [] [ text "Leagues" ]
