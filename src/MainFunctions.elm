@@ -3,25 +3,16 @@ port module MainFunctions exposing (..)
 import Html exposing (Html, text, div, h1, img)
 import Html.Attributes exposing (src, class)
 import Html.Events exposing (onClick)
-import Json.Decode exposing (Decoder, at, list, string, succeed)
+-- import Json.Decode exposing (Decoder, at, list, string, succeed)
 import Http
 
 import Updates.DecodeGoogleSheetToLeagueList exposing (..)
 import Models.League exposing (League)
+import Models.Model exposing (Model)
+import Models.Config exposing (Config)
 
 ---- MODEL ----
 
-
-type alias Config =
-    { googleSheet: String,
-      googleApiKey: String
-    }
-
-
-type alias Model =
-    { config: Config,
-    leagues: List League
-    }
 
 type Msg
     = SheetResponse (Result Http.Error (List League))

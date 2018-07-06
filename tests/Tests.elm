@@ -6,6 +6,8 @@ import Test.Html.Selector exposing (text)
 
 import MainFunctions exposing (..)
 import Models.League exposing (League)
+import Models.Config exposing (Config)
+import Models.Model exposing (Model)
 
 -- Check out http://package.elm-lang.org/packages/elm-community/elm-test/latest to learn more about testing in Elm!
 
