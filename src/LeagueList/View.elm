@@ -7,7 +7,6 @@ import Html.Events exposing (onClick)
 import Messages.Msg exposing ( .. )
 import Models.Model exposing ( Model )
 import Models.League exposing ( League )
-import Models.Config exposing ( Config )
 
 
 view : Model -> Html Msg
@@ -15,7 +14,7 @@ view model =
     div  
         [ 
             class "leagues"
-            , onClick Messages.Msg.SheetRequest
+            , onClick Messages.Msg.SheetRequest -- this on click is here so that the end to end tests can trigger the request
         ] 
         [
             h1 [] [ text "Leagues" ]
