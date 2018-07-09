@@ -1,10 +1,11 @@
-module Tests exposing (..)
+module LeagueListView exposing (..)
 
 import Test exposing (..)
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (text)
+import Fuzz exposing (string)
 
-import MainFunctions exposing (..)
+import LeagueList.View exposing (view)
 import Models.League exposing (League)
 import Models.Config exposing (Config)
 import Models.Model exposing (Model)
@@ -15,9 +16,8 @@ import Models.Model exposing (Model)
 
 all : Test
 all =
-    describe "League Table"
-        [test "Displays available leagues" <|
-            \() -> MainFunctions.view ( Model ( Config "" ""  ) [ League "Regional Div 2" ] )
-                |> Query.fromHtml
-                |> Query.has [ text "Regional Div 2" ]
-        ]
+    fuzz string "Displays available leagues" <|
+        \(leagueTitle) -> view ( Model ( Config "" ""  ) [ League leagueTitle ] )
+            |> Query.fromHtml
+            |> Query.has [ text leagueTitle ]
+    

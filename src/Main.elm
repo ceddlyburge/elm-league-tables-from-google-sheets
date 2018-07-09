@@ -2,11 +2,12 @@ module Main exposing (..)
 
 import Html exposing (Html)
 
-import Updates.Main exposing (..)
 import Models.Config exposing ( Config )
 import Models.Model exposing (Model)
 import Messages.Msg exposing ( Msg )
-import MainFunctions exposing (..)
+
+import LeagueList.Updates exposing (..)
+import LeagueList.View exposing (..)
 
 -- It is not possible to import this module in to an elm-spec test, as it tells me there is a circular dependency. 
 -- There isn't one that I can see, so it must be created by the test runner or something like that.

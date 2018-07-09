@@ -1,4 +1,4 @@
-module Updates.DecodeGoogleSheetToLeagueList exposing (decodeGoogleSheets)
+module LeagueList.DecodeGoogleSheetToLeagueList exposing (decodeGoogleSheets)
 
 import Json.Decode exposing (Decoder, at, list, string, succeed)
 

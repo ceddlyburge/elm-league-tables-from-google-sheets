@@ -7,7 +7,7 @@ import Json.Decode exposing (decodeString)
 import Json.Encode exposing (encode, string)
 
 import Models.League exposing (League)
-import Updates.DecodeGoogleSheetToLeagueList exposing (decodeGoogleSheets)
+import LeagueList.DecodeGoogleSheetToLeagueList exposing (decodeGoogleSheets)
 
 decodeSpreadsheetIdResponse : Test
 decodeSpreadsheetIdResponse  =

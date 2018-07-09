@@ -1,4 +1,4 @@
-module Updates.Main exposing (update, sheetRequest)
+module LeagueList.Updates exposing (update, sheetRequest)
 
 import Http
 
@@ -6,7 +6,7 @@ import Messages.Msg exposing ( .. )
 import Models.Model exposing ( Model )
 import Models.League exposing ( League )
 import Models.Config exposing ( Config )
-import Updates.DecodeGoogleSheetToLeagueList exposing (..)
+import LeagueList.DecodeGoogleSheetToLeagueList exposing (..)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =

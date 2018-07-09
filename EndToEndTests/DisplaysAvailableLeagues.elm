@@ -1,6 +1,12 @@
-import MainFunctions exposing (..)
 import Spec exposing (..)
+
 import GoogleSheetApiResponses exposing (..)
+
+import Models.Model exposing ( Model )
+import Models.Config exposing ( Config )
+
+import LeagueList.Updates exposing (update)
+import LeagueList.View exposing (view)
 
 specs : Node
 specs =

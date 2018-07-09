@@ -1,18 +1,13 @@
-port module MainFunctions exposing (..)
+module LeagueList.View exposing (..)
 
 import Html exposing (Html, text, div, h1, img)
 import Html.Attributes exposing (src, class)
 import Html.Events exposing (onClick)
 
-import Messages.Msg exposing ( Msg )
-import Models.League exposing (League)
-import Models.Model exposing (Model)
-
----- MODEL ----
-
-
-
----- VIEW ----
+import Messages.Msg exposing ( .. )
+import Models.Model exposing ( Model )
+import Models.League exposing ( League )
+import Models.Config exposing ( Config )
 
 
 view : Model -> Html Msg
