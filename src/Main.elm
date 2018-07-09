@@ -1,8 +1,11 @@
 module Main exposing (..)
 
 import Html exposing (Html)
-import Http
 
+import Updates.RequestGoogleSheetAllTabs exposing (..)
+import Models.Config exposing ( Config )
+import Models.Model exposing (Model)
+import Messages.Msg exposing ( Msg )
 import MainFunctions exposing (..)
 
 -- It is not possible to import this module in to an elm-spec test, as it tells me there is a circular dependency. 
@@ -12,7 +15,7 @@ import MainFunctions exposing (..)
 
 init : Config -> ( Model, Cmd Msg )
 init config =
-    ( Model config [], Http.send SheetResponse (sheetRequest config) )
+    sheetRequest ( Model config [] )
 
 
 ---- PROGRAM ----
