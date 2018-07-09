@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Html exposing (Html)
 
-import Updates.RequestGoogleSheetAllTabs exposing (..)
+import Updates.Main exposing (..)
 import Models.Config exposing ( Config )
 import Models.Model exposing (Model)
 import Messages.Msg exposing ( Msg )

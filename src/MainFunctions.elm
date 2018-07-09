@@ -7,23 +7,10 @@ import Html.Events exposing (onClick)
 import Messages.Msg exposing ( Msg )
 import Models.League exposing (League)
 import Models.Model exposing (Model)
-import Updates.RequestGoogleSheetAllTabs exposing (..)
-import Updates.RespondGoogleSheetAllTabs exposing (sheetRespond)
 
 ---- MODEL ----
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of 
-        Messages.Msg.NoOp ->
-            ( model, Cmd.none )
-        
-        Messages.Msg.SheetRequest ->
-            sheetRequest model 
-
-        Messages.Msg.SheetResponse result ->
-            sheetRespond result model
 
 ---- VIEW ----
 
