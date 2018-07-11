@@ -21,7 +21,7 @@ apiError =
 apiSuccess : Test
 apiSuccess =
     fuzz ( list string ) "Returns model and Leagues on success" <|
-        \( leagues ) -> update ( Messages.Msg.SheetResponse ( Ok ( List.map League leagues ) ) ) model
+        \( leagues ) -> update ( Messages.Msg.SheetResponse ( Ok <| List.map League leagues ) ) model
             |> \( model, cmd ) -> model.leagues
             |> Expect.equal ( List.map League leagues )
 
