@@ -11,7 +11,7 @@ import LeagueList.View exposing (view)
 
 specs : Node
 specs =
-  describe "LeagueTable"
+  describe "League Table"
     [ 
       context "with HTTP mocks"
         [ http
@@ -25,7 +25,7 @@ specs =
             }
           ]
         
-          ,it "displays available leagues"
+          ,it "calculates and displays league table"
           [ steps.click "div.leagues"
           , steps.click "div.league" -- only one league in the results
           , assert.containsText
