@@ -14,10 +14,13 @@ view model =
     div  
         [ 
             class "leagues"
-            , onClick Messages.Msg.SheetRequest -- this on click is here so that the end to end tests can trigger the request
         ] 
         [
-            h1 [] [ text "Leagues" ]
+            h1 
+                [
+                    onClick Messages.Msg.SheetRequest -- this on click is here so that the end to end tests can trigger the request
+                ] 
+                [ text "Leagues" ]
             , div [] (List.map leagueTitle model.leagues)
         ]
 
