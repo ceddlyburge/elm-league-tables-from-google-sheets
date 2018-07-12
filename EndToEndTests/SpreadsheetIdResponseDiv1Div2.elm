@@ -1,9 +1,9 @@
-module GoogleSheetApiResponses exposing (spreadsheetIdResponse)
+module SpreadsheetIdResponseDiv1Div2 exposing (spreadsheetIdResponseDiv1Div2)
 
 
 -- This is the response from the test spreadsheet, at https://sheets.googleapis.com/v4/spreadsheets/1Ai9H6Pfe1LPsOcksN6EF03-z-gO1CkNp8P1Im37N3TE?key=<thekey>
-spreadsheetIdResponse: String
-spreadsheetIdResponse =
+spreadsheetIdResponseDiv1Div2: String
+spreadsheetIdResponseDiv1Div2 =
   """{
   "spreadsheetId": "1Ai9H6Pfe1LPsOcksN6EF03-z-gO1CkNp8P1Im37N3TE",
   "properties": {
