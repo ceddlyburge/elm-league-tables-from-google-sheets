@@ -1,12 +1,10 @@
 module Messages.Msg exposing (..)
 
 import Http
+import Models.LeagueSummary exposing (LeagueSummary)
 
-import Models.League exposing (League)
 
 type Msg
-    = SheetResponse (Result Http.Error (List League))
+    = SheetResponse (Result Http.Error (List LeagueSummary))
     | SheetRequest
     | NoOp
-
-
