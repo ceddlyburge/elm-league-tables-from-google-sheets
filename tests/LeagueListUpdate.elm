@@ -4,7 +4,7 @@ import Http exposing (..)
 import Test exposing (..)
 import Fuzz exposing (list, string)
 import Expect
-import LeagueList.Updates exposing (update)
+import LeagueList.Update exposing (update)
 import Messages.Msg exposing (..)
 import Models.Config exposing (Config)
 import Models.Model exposing (LeagueListModel)
