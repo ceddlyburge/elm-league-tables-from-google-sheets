@@ -1,17 +1,11 @@
 module LeagueTable.View exposing (..)
 
 import Html exposing (Html, text, div, h1, img)
-
-
 import Html.Attributes exposing (class)
---import Html.Events exposing (onClick)
 
 import Messages.Msg exposing (..)
 import Models.Model exposing (LeagueTableModel)
 import Models.Team exposing (Team)
-
-
---import Models.LeagueSummary exposing ( LeagueSummary )
 
 
 view : LeagueTableModel -> Html Msg
