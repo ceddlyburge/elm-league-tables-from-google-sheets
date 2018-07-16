@@ -2,7 +2,7 @@ module Models.Team exposing (Team)
 
 
 type alias Team =
-    { teamName : String
+    { name : String
     , gamesPlayed : Int
     , points : Int
     , goalsFor : Int

@@ -23,7 +23,7 @@ oneTeam =
                 |> Query.fromHtml
                 |> Query.find [ Test.Html.Selector.class "team" ]
                 |> Query.contains
-                    [ Html.div [ Html.Attributes.class "teamName" ] [ Html.text "castle" ]
+                    [ Html.div [ Html.Attributes.class "name" ] [ Html.text "Castle" ]
                     , Html.div [ Html.Attributes.class "points" ] [ Html.text "3" ]
                     , Html.div [ Html.Attributes.class "gamesPlayed" ] [ Html.text "1" ]
                     , Html.div [ Html.Attributes.class "goalsFor" ] [ Html.text "6" ]
