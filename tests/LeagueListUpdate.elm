@@ -16,7 +16,7 @@ apiError =
     test "Returns model and cmd.none on error" <|
         \() ->
             update (Messages.Msg.SheetResponse (Err NetworkError)) model
-                |> Expect.equal ( Models.Model.LeagueList model, Cmd.none )
+                |> Expect.equal ( model, Cmd.none )
 
 
 apiSuccess : Test
@@ -24,7 +24,7 @@ apiSuccess =
     fuzz (list string) "Returns model and Leagues on success" <|
         \leagues ->
             update (Messages.Msg.SheetResponse (Ok <| List.map LeagueSummary leagues)) model
-                |> Expect.equal ( Models.Model.LeagueList (LeagueListModel (Config "" "") (List.map LeagueSummary leagues)), Cmd.none )
+                |> Expect.equal ( { model | leagues = List.map LeagueSummary leagues }, Cmd.none )
 
 
 model : LeagueListModel
