@@ -3,18 +3,18 @@ module LeagueTable.View exposing (..)
 import Html exposing (Html, text, div, h1, img)
 import Html.Attributes exposing (class)
 
-import Messages.Msg exposing (..)
-import Models.Model exposing (LeagueTableModel)
+import Msg exposing (..)
+import Models.Model exposing (Model)
 import Models.Team exposing (Team)
 
 
-view : LeagueTableModel -> Html Msg
+view : Model -> Html Msg
 view model =
     div
         [ class "league"
         ]
-        [ h1 [] [ text model.league.title ]
-        , div [] (List.map teamRow model.league.teams)
+        [ h1 [] [ text model.leagueTable.title ]
+        , div [] (List.map teamRow model.leagueTable.teams)
         ]
 
 

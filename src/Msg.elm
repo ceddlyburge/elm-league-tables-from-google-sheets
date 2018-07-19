@@ -1,4 +1,4 @@
-module Messages.Msg exposing (..)
+module Msg exposing (..)
 
 import Http
 import Models.LeagueSummary exposing (LeagueSummary)

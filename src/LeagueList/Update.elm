@@ -1,32 +1,32 @@
 module LeagueList.Update exposing (update, sheetRequest)
 
 import Http
-import Messages.Msg exposing (..)
-import Models.Model exposing (Model, LeagueListModel)
+import Msg exposing (..)
+import Models.Model exposing (Model)
 import Models.LeagueSummary exposing (LeagueSummary)
 import Models.Config exposing (Config)
 import LeagueList.DecodeGoogleSheetToLeagueList exposing (..)
 
 
-update : Msg -> LeagueListModel -> ( Model, Cmd Msg )
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Messages.Msg.NoOp ->
-            ( Models.Model.LeagueList model, Cmd.none )
+        NoOp ->
+            ( model, Cmd.none )
 
-        Messages.Msg.SheetRequest ->
+        SheetRequest ->
             sheetRequest model
 
-        Messages.Msg.SheetResponse (Err httpError) ->
+        SheetResponse (Err httpError) ->
             logErrorAndNoOp httpError model
 
-        Messages.Msg.SheetResponse (Ok leagues) ->
-            ( Models.Model.LeagueList { model | leagues = leagues }, Cmd.none )
+        SheetResponse (Ok leagues) ->
+            ( { model | leagues = leagues }, Cmd.none )
 
 
-sheetRequest : LeagueListModel -> ( Model, Cmd Msg )
+sheetRequest : Model -> ( Model, Cmd Msg )
 sheetRequest model =
-    ( Models.Model.LeagueList model, Http.send Messages.Msg.SheetResponse (request model.config) )
+    ( model, Http.send SheetResponse (request model.config) )
 
 
 request : Config -> Http.Request (List LeagueSummary)
@@ -34,10 +34,10 @@ request config =
     Http.get ("https://sheets.googleapis.com/v4/spreadsheets/" ++ config.googleSheet ++ "?key=" ++ config.googleApiKey) decodeGoogleSheets
 
 
-logErrorAndNoOp : Http.Error -> LeagueListModel -> ( Model, Cmd Msg )
+logErrorAndNoOp : Http.Error -> Model -> ( Model, Cmd Msg )
 logErrorAndNoOp httpError model =
     let
         _ =
             Debug.log "sheetResponseError" httpError
     in
-        ( Models.Model.LeagueList model, Cmd.none )
+        ( model, Cmd.none )

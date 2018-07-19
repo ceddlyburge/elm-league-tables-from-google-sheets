@@ -2,10 +2,10 @@ module Main exposing (..)
 
 import Html exposing (Html)
 import Models.Config exposing (Config)
-import Models.Model exposing (Model, LeagueListModel)
-import Messages.Msg exposing (Msg)
-import LeagueList.Updates exposing (sheetRequest)
-import Update exposing (update)
+import Models.Model exposing (Model)
+import Models.LeagueTable exposing (LeagueTable)
+import Msg exposing (Msg)
+import LeagueList.Update exposing (update, sheetRequest)
 import LeagueList.View exposing (..)
 
 
@@ -17,7 +17,7 @@ import LeagueList.View exposing (..)
 
 init : Config -> ( Model, Cmd Msg )
 init config =
-    sheetRequest (LeagueListModel config [])
+    sheetRequest (Model config [] ( LeagueTable "" [] ) )
 
 
 

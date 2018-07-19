@@ -4,8 +4,9 @@ import SpreadsheetIdResponseDiv1Div2 exposing (..)
 
 import Models.Model exposing ( Model )
 import Models.Config exposing ( Config )
+import Models.LeagueTable exposing ( LeagueTable )
 
-import LeagueList.Updates exposing (update)
+import LeagueList.Update exposing (update)
 import LeagueList.View exposing (view)
 
 specs : Node
@@ -20,7 +21,7 @@ specs =
             }
           ]
         ,it "displays available leagues"
-        [ steps.click "div.leagues"
+        [ steps.click "h1.leaguesTitle "
         , assert.containsText
           { selector = ".leagues .league:first-Child"
           , text = "Regional Div 1"
@@ -38,5 +39,5 @@ main =
     { subscriptions = \_ -> Sub.none
     , update = update
     , view = view
-    , init = \_ -> (Model (Config "spreadSheetId" "googleApiKey") [])
+    , init = \_ -> (Model (Config "spreadSheetId" "googleApiKey") [] (LeagueTable "" []) )
     } specs

@@ -7,7 +7,7 @@ import Html exposing (div, ul, li, text)
 import Html.Attributes exposing (class)
 import LeagueTable.View exposing (view)
 import Models.Config exposing (Config)
-import Models.Model exposing (LeagueTableModel)
+import Models.Model exposing (Model)
 import Models.Team exposing (Team)
 import Models.LeagueTable exposing (LeagueTable)
 
@@ -32,6 +32,6 @@ oneTeam =
                     ]
 
 
-modelWithTeams : List Team -> LeagueTableModel
+modelWithTeams : List Team -> Model
 modelWithTeams teams =
-    LeagueTableModel (Config "" "") (LeagueTable "" teams)
+    Model (Config "" "") [] (LeagueTable "" teams)

@@ -5,8 +5,9 @@ import SpreadsheetValuesResponse exposing (..)
 
 import Models.Model exposing ( Model )
 import Models.Config exposing ( Config )
+import Models.LeagueTable exposing ( LeagueTable )
 
-import LeagueList.Updates exposing (update)
+import LeagueList.Update exposing (update)
 import LeagueList.View exposing (view)
 
 specs : Node
@@ -85,5 +86,5 @@ main =
     { subscriptions = \_ -> Sub.none
     , update = update
     , view = view
-    , init = \_ -> (Model (Config "spreadSheetId" "googleApiKey") [])
+    , init = \_ -> (Model (Config "spreadSheetId" "googleApiKey") [] (LeagueTable "" []) )
     } specs
