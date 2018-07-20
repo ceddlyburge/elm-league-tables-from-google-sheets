@@ -1,4 +1,4 @@
-module DecodeGoogleSheetToLeagueListTest exposing (..)
+module DecodeGoogleSheetToGameListTest exposing (..)
 
 import Test exposing (..)
 import Fuzz exposing (Fuzzer, list, string)
@@ -6,7 +6,8 @@ import Expect
 import Json.Decode exposing (decodeString)
 import Json.Encode exposing (encode, string)
 import Models.LeagueSummary exposing (LeagueSummary)
-import LeagueTable.DecodeGoogleSheetToGameList exposing (decodeGoogleSheets)
+import Models.Game exposing (Game)
+import LeagueTable.DecodeGoogleSheetToGameList exposing (decodeSheetToGames)
 
 
 decodeSpreadsheetIdResponse : Test
@@ -14,10 +15,8 @@ decodeSpreadsheetIdResponse =
     test "Sets League.Title from title property of google sheet / tab" <|
         \() ->
             spreadsheetValuesResponse 
-                |> decodeString decodeGoogleSheets
-                |> Expect.equal (Ok (Game "Castle" 3 0 "Meridian" "2018-06-04" [1, 6, 4] [2] [3] [5,3] "good game" ))
-
-
+                |> decodeString decodeSheetToGames
+                |> Expect.equal (Ok [Game "Castle" 3 "Meridian" 1 "2018-06-04" "1, 6, 4" "2" "good game" ])
 
 -- This is a cut down response from the test spreadsheet, at https://sheets.googleapis.com/v4/spreadsheets/1Ai9H6Pfe1LPsOcksN6EF03-z-gO1CkNp8P1Im37N3TE/values/Regional%20Div%201?key=<thekey>
 
@@ -48,8 +47,6 @@ spreadsheetValuesResponse =
       "2018-06-04",
       "1, 6, 4",
       "2",
-      "3",
-      "5,3",
       "good game"
     ]
   ]
