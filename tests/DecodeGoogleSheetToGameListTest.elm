@@ -1,15 +1,14 @@
 module DecodeGoogleSheetToGameListTest exposing (..)
 
 import Test exposing (..)
-import Fuzz exposing (Fuzzer, list, string)
 import Expect
 import Json.Decode exposing (decodeString)
-import Json.Encode exposing (encode, string)
-import Models.LeagueSummary exposing (LeagueSummary)
 import Models.Game exposing (Game)
 import LeagueTable.DecodeGoogleSheetToGameList exposing (decodeSheetToGames)
 
-
+-- I could probably fuzz test this by writing a custom fuzzer that created Game 's. 
+-- The values from these could be used to create the json string, and to assert against.
+-- Seems like a faff though, I might come back to it later.
 decodeSpreadsheetIdResponse : Test
 decodeSpreadsheetIdResponse =
     test "Sets League.Title from title property of google sheet / tab" <|
@@ -18,12 +17,64 @@ decodeSpreadsheetIdResponse =
                 |> decodeString decodeSheetToGames
                 |> Expect.equal (Ok [Game "Castle" 3 "Meridian" 1 "2018-06-04" "1, 6, 4" "2" "Green 3, Yellow 5" "Red 14" "good game" ])
 
+decodeInvalidSpreadsheetIdResponse : Test
+decodeInvalidSpreadsheetIdResponse =
+    test "Decoding fails if any games are invalid (as opposed to returning just the games that could be decoded)" <|
+        \() ->
+            invalidSpreadsheetValuesResponse 
+                |> decodeString decodeSheetToGames
+                |> isError
+                |> Expect.equal True 
+
+
+isError : Result error value -> Bool
+isError result =
+  case result of
+    Err error -> True    
+    Ok value -> False
+
 -- This is a cut down response from the test spreadsheet, at https://sheets.googleapis.com/v4/spreadsheets/1Ai9H6Pfe1LPsOcksN6EF03-z-gO1CkNp8P1Im37N3TE/values/Regional%20Div%201?key=<thekey>
-
-
 spreadsheetValuesResponse : String
 spreadsheetValuesResponse =
-    """{
+    spreadsheetValuesHeader ++
+    """
+    [
+      "Castle",
+      "3",
+      "1",
+      "Meridian",
+      "2018-06-04",
+      "1, 6, 4",
+      "2",
+      "Green 3, Yellow 5",
+      "Red 14",
+      "good game"
+    ]
+    """
+    ++ spreadsheetValuesFooter
+
+invalidSpreadsheetValuesResponse : String
+invalidSpreadsheetValuesResponse =
+  spreadsheetValuesHeader ++
+  """
+  [
+    "Castle",
+    "not a number",
+    "1",
+    "Meridian",
+    "2018-06-04",
+    "1, 6, 4",
+    "2",
+    "Green 3, Yellow 5",
+    "Red 14",
+    "good game"
+  ]
+  """
+  ++ spreadsheetValuesFooter
+
+spreadsheetValuesHeader : String
+spreadsheetValuesHeader =
+  """{
   "range": "'Regional Div 1'!A1:Z1000",
   "majorDimension": "ROWS",
   "values": [
@@ -38,21 +89,10 @@ spreadsheetValuesResponse =
       "Home Cards",
       "Away Cards",
       "Notes"
-    ],
-    [
-      "Castle",
-      "3",
-      "1",
-      "Meridian",
-      "2018-06-04",
-      "1, 6, 4",
-      "2",
-      "Green 3, Yellow 5",
-      "Red 14",
-      "good game"
-    ]
-  ]
-}
-"""
+    ],"""
 
-
+spreadsheetValuesFooter : String
+spreadsheetValuesFooter =
+  """]
+  }
+  """
