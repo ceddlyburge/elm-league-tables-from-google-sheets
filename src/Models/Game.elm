@@ -9,5 +9,7 @@ type alias Game =
     , dateplayed : String
     , homeScorers : String
     , awayScorers : String
-    , notesAndCards : String
+    , homeCards : String
+    , awayCards : String
+    , notes : String
     }

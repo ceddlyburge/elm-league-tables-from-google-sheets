@@ -30,5 +30,7 @@ decodeRowToGame row =
                 |> andMap (index 5 string)
                 |> andMap (index 6 string)
                 |> andMap (index 7 string)
+                |> andMap (index 8 string)
+                |> andMap (index 9 string)
                 |> Json.Decode.map Just
     
