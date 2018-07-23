@@ -1,7 +1,7 @@
 module LeagueTable.DecodeGoogleSheetToGameList exposing (decodeSheetToGames)
 
 import Json.Decode exposing (Decoder, at, list, string, succeed, index, int, value, Value, andThen, decodeString)
-import Json.Decode.Extra exposing (parseInt, indexedList)
+import Json.Decode.Extra exposing (parseInt, indexedList, andMap)
 import Models.Game exposing (Game)
 
 
@@ -21,35 +21,14 @@ decodeRowToGame row =
         0 ->
             succeed Maybe.Nothing
         _ ->
-                Json.Decode.map8 
-                    gameFromStrings  
-                    (index 0 string)
-                    (index 1 parseInt)
-                    (index 3 string) -- this is on purpose
-                    (index 2 parseInt)
-                    (index 4 string)
-                    (index 5 string)
-                    (index 6 string)
-                    (index 7 string)
-                
-gameFromStrings
-    homeTeamName
-    homeTeamGoals 
-    awayTeamName 
-    awayTeamGoals
-    dateplayed 
-    homeScorers
-    awayScorers
-    notesAndCards 
-    =
-    Just (
-        Game 
-        homeTeamName
-        homeTeamGoals 
-        awayTeamName 
-        awayTeamGoals
-        dateplayed 
-        homeScorers
-        awayScorers
-        notesAndCards
-    )
+            succeed Game
+                |> andMap (index 0 string)
+                |> andMap (index 1 parseInt)
+                |> andMap (index 3 string) -- this is on purpose
+                |> andMap (index 2 parseInt)
+                |> andMap (index 4 string)
+                |> andMap (index 5 string)
+                |> andMap (index 6 string)
+                |> andMap (index 7 string)
+                |> Json.Decode.map Just
+    
