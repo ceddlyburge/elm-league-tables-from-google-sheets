@@ -1,4 +1,4 @@
-module LeagueList.Update exposing (update, sheetRequest)
+module LeagueList.Update exposing (sheetRequest)
 
 import Http
 import Msg exposing (..)
@@ -8,20 +8,20 @@ import Models.Config exposing (Config)
 import LeagueList.DecodeGoogleSheetToLeagueList exposing (..)
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        NoOp ->
-            ( model, Cmd.none )
+-- update : Msg -> Model -> ( Model, Cmd Msg )
+-- update msg model =
+--     case msg of
+--         NoOp ->
+--             ( model, Cmd.none )
 
-        SheetRequest ->
-            sheetRequest model
+--         SheetRequest ->
+--             sheetRequest model
 
-        SheetResponse (Err httpError) ->
-            logErrorAndNoOp httpError model
+--         SheetResponse (Err httpError) ->
+--             logErrorAndNoOp httpError model
 
-        SheetResponse (Ok leagues) ->
-            ( { model | leagues = leagues }, Cmd.none )
+--         SheetResponse (Ok leagues) ->
+--             ( { model | leagues = leagues }, Cmd.none )
 
 
 sheetRequest : Model -> ( Model, Cmd Msg )
