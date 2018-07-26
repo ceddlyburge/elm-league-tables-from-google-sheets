@@ -4,7 +4,7 @@ import Http
 import Msg exposing (..)
 import Models.Model exposing (Model)
 import LeagueList.Update exposing (allSheetSummaryRequest, allSheetSummaryResponse)
-import LeagueTable.Update exposing (individualSheetRequest, calculateLeagueTable)
+import LeagueTable.Update exposing (individualSheetRequest, individualSheetResponse)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -31,7 +31,8 @@ update msg model =
             logErrorAndNoOp httpError model
 
         IndividualSheetResponse (Ok leagueGames) ->
-            ( { model | leagueTable = calculateLeagueTable leagueGames }, Cmd.none ) 
+            individualSheetResponse leagueGames model
+            --( { model | leagueTable = calculateLeagueTable leagueGames }, Cmd.none ) 
 
 logErrorAndNoOp : Http.Error -> Model -> ( Model, Cmd Msg )
 logErrorAndNoOp httpError model =

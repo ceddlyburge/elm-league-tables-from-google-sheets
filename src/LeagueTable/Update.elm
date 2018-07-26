@@ -1,4 +1,4 @@
-module LeagueTable.Update exposing (individualSheetRequest, calculateLeagueTable)
+module LeagueTable.Update exposing (individualSheetRequest, individualSheetResponse)
 
 import Http
 import Msg exposing (..)
@@ -12,6 +12,10 @@ import LeagueTable.DecodeGoogleSheetToGameList exposing (..)
 individualSheetRequest : String -> Model -> ( Model, Cmd Msg )
 individualSheetRequest leagueTitle model  =
     ( model, Http.send IndividualSheetResponse (request model.config leagueTitle) )
+
+individualSheetResponse : LeagueGames -> Model -> ( Model, Cmd Msg )
+individualSheetResponse leagueGames model =
+    ( { model | leagueTable = calculateLeagueTable leagueGames }, Cmd.none ) 
 
 calculateLeagueTable: LeagueGames -> LeagueTable
 calculateLeagueTable leagueGames =
