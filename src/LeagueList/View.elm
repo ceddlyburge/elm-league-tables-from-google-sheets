@@ -14,7 +14,7 @@ view model =
         [ class "leagues"
         ]
         [ h1
-            [ class "leaguesTitle", onClick SheetRequest -- this on click is here so that the end to end tests can trigger the request
+            [ class "leaguesTitle", onClick AllSheetSummaryRequest -- this on click is here so that the end to end tests can trigger the request
             ]
             [ text "Leagues" ]
         , div [] (List.map leagueTitle model.leagues)

@@ -3,7 +3,7 @@ module Update exposing (update)
 import Http
 import Msg exposing (..)
 import Models.Model exposing (Model)
-import LeagueList.Update exposing (sheetRequest)
+import LeagueList.Update exposing (allSheetSummaryRequest, allSheetSummaryResponse)
 import LeagueTable.Update exposing (individualSheetRequest, calculateLeagueTable)
 
 
@@ -14,14 +14,14 @@ update msg model =
             ( model, Cmd.none )
 
         -- League List
-        SheetRequest ->
-            sheetRequest model
+        AllSheetSummaryRequest ->
+            allSheetSummaryRequest model
 
-        SheetResponse (Err httpError) ->
+        AllSheetSummaryResponse (Err httpError) ->
             logErrorAndNoOp httpError model
 
-        SheetResponse (Ok leagues) ->
-            ( { model | leagues = leagues }, Cmd.none )
+        AllSheetSummaryResponse (Ok leagues) ->
+            allSheetSummaryResponse model leagues
 
         -- League Table
         IndividualSheetRequest leagueTitle ->
