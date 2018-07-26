@@ -3,8 +3,8 @@ module DecodeGoogleSheetToGameListTest exposing (..)
 import Test exposing (..)
 import Expect
 import Json.Decode exposing (decodeString)
-import Models.Game exposing (Game)
-import LeagueTable.DecodeGoogleSheetToGameList exposing (decodeSheetToGames)
+import Models.Game exposing (Game, LeagueGames)
+import LeagueTable.DecodeGoogleSheetToGameList exposing (decodeSheetToLeagueGames)
 
 -- I could probably fuzz test this by writing a custom fuzzer that created Game 's. 
 -- The values from these could be used to create the json string, and to assert against.
@@ -14,15 +14,15 @@ decodeSpreadsheetIdResponse =
     test "Sets League.Title from title property of google sheet / tab" <|
         \() ->
             spreadsheetValuesResponse 
-                |> decodeString decodeSheetToGames
-                |> Expect.equal (Ok [Game "Castle" 3 "Meridian" 1 "2018-06-04" "1, 6, 4" "2" "Green 3, Yellow 5" "Red 14" "good game" ])
+                |> decodeString (decodeSheetToLeagueGames "Regional Div 1")
+                |> Expect.equal (Ok (LeagueGames "Regional Div 1" [Game "Castle" 3 "Meridian" 1 "2018-06-04" "1, 6, 4" "2" "Green 3, Yellow 5" "Red 14" "good game" ]))
 
 decodeInvalidSpreadsheetIdResponse : Test
 decodeInvalidSpreadsheetIdResponse =
     test "Decoding fails if any games are invalid (as opposed to returning just the games that could be decoded)" <|
         \() ->
             invalidSpreadsheetValuesResponse 
-                |> decodeString decodeSheetToGames
+                |> decodeString (decodeSheetToLeagueGames "doesnt matter")
                 |> isError
                 |> Expect.equal True 
 

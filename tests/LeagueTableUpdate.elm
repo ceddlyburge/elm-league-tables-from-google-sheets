@@ -8,7 +8,7 @@ import Msg exposing (..)
 import Models.Config exposing (Config)
 import Models.Model exposing (Model)
 import Models.LeagueTable exposing (LeagueTable)
-import Models.Game exposing (Game)
+import Models.Game exposing (Game, LeagueGames)
 import Models.Team exposing (Team)
 
 
@@ -24,7 +24,7 @@ apiSuccess : Test
 apiSuccess =
     test "Returns model and Leagues on success" <|
         \() ->
-            update (IndividualSheetResponse  (Ok [ game ])) model
+            update (IndividualSheetResponse (Ok (LeagueGames "Regional Div 1" [ game ]))) model
             |> \(model, msg) -> model.leagueTable
             |> Expect.equal leagueTable
 

@@ -2,7 +2,7 @@ module Msg exposing (..)
 
 import Http
 import Models.LeagueSummary exposing (LeagueSummary)
-import Models.Game exposing (Game)
+import Models.Game exposing (LeagueGames)
 
 
 type Msg
@@ -12,6 +12,6 @@ type Msg
     | SheetResponse (Result Http.Error (List LeagueSummary))
     -- LeagueTable
     | IndividualSheetRequest String
-    | IndividualSheetResponse (Result Http.Error (List Game))
+    | IndividualSheetResponse (Result Http.Error LeagueGames)
     -- 
     | NoOp

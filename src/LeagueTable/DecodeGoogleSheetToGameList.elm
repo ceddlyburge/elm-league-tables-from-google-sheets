@@ -1,9 +1,12 @@
-module LeagueTable.DecodeGoogleSheetToGameList exposing (decodeSheetToGames)
+module LeagueTable.DecodeGoogleSheetToGameList exposing (decodeSheetToLeagueGames)
 
 import Json.Decode exposing (Decoder, at, list, string, succeed, index, int, value, Value, andThen, decodeString)
 import Json.Decode.Extra exposing (parseInt, indexedList, andMap)
-import Models.Game exposing (Game)
+import Models.Game exposing (Game, LeagueGames)
 
+decodeSheetToLeagueGames : String -> Decoder LeagueGames
+decodeSheetToLeagueGames leagueTitle =
+    Json.Decode.map (\(games) -> LeagueGames leagueTitle games) decodeSheetToGames
 
 decodeSheetToGames : Decoder (List Game)
 decodeSheetToGames =

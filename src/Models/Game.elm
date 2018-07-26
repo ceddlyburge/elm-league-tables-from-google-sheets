@@ -1,4 +1,4 @@
-module Models.Game exposing (Game)
+module Models.Game exposing (Game, LeagueGames)
 
 
 type alias Game =
@@ -12,4 +12,9 @@ type alias Game =
     , homeCards : String
     , awayCards : String
     , notes : String
+    }
+
+type alias LeagueGames =
+    { leagueTitle : String
+    , games : List Game
     }
