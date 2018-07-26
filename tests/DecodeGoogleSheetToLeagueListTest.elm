@@ -6,7 +6,7 @@ import Expect
 import Json.Decode exposing (decodeString)
 import Json.Encode exposing (encode, string)
 import Models.LeagueSummary exposing (LeagueSummary)
-import LeagueList.DecodeGoogleSheetToLeagueList exposing (decodeGoogleSheets)
+import LeagueList.DecodeGoogleSheetToLeagueList exposing (decodeAllSheetSummaryToLeagueSummaries)
 
 
 decodeSpreadsheetIdResponse : Test
@@ -14,7 +14,7 @@ decodeSpreadsheetIdResponse =
     fuzz (list Fuzz.string) "Sets League.Title from title property of google sheet / tab" <|
         \leagueTitles ->
             spreadsheetIdResponseWithSheetNames leagueTitles
-                |> decodeString decodeGoogleSheets
+                |> decodeString decodeAllSheetSummaryToLeagueSummaries
                 |> Expect.equal (Ok (List.map LeagueSummary leagueTitles))
 
 

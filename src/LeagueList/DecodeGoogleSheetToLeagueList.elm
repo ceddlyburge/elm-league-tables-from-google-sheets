@@ -1,14 +1,14 @@
-module LeagueList.DecodeGoogleSheetToLeagueList exposing (decodeGoogleSheets)
+module LeagueList.DecodeGoogleSheetToLeagueList exposing (decodeAllSheetSummaryToLeagueSummaries)
 
 import Json.Decode exposing (Decoder, at, list, string, succeed)
 import Models.LeagueSummary exposing (LeagueSummary)
 
+decodeAllSheetSummaryToLeagueSummaries : Decoder (List LeagueSummary)
+decodeAllSheetSummaryToLeagueSummaries =
+    Json.Decode.field "sheets" (list decodeSheetSummaryToLeagueSummary)
 
-googleSheetDecoder : Decoder LeagueSummary
-googleSheetDecoder =
+decodeSheetSummaryToLeagueSummary : Decoder LeagueSummary
+decodeSheetSummaryToLeagueSummary =
     Json.Decode.map LeagueSummary (at [ "properties", "title" ] string)
 
 
-decodeGoogleSheets : Decoder (List LeagueSummary)
-decodeGoogleSheets =
-    Json.Decode.field "sheets" (list googleSheetDecoder)

@@ -15,7 +15,7 @@ allSheetSummaryRequest model =
 
 request : Config -> Http.Request (List LeagueSummary)
 request config =
-    Http.get ("https://sheets.googleapis.com/v4/spreadsheets/" ++ config.googleSheet ++ "?key=" ++ config.googleApiKey) decodeGoogleSheets
+    Http.get ("https://sheets.googleapis.com/v4/spreadsheets/" ++ config.googleSheet ++ "?key=" ++ config.googleApiKey) decodeAllSheetSummaryToLeagueSummaries
 
 
 allSheetSummaryResponse: Model -> List LeagueSummary -> ( Model, Cmd Msg )

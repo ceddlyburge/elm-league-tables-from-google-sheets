@@ -32,7 +32,6 @@ update msg model =
 
         IndividualSheetResponse (Ok leagueGames) ->
             individualSheetResponse leagueGames model
-            --( { model | leagueTable = calculateLeagueTable leagueGames }, Cmd.none ) 
 
 logErrorAndNoOp : Http.Error -> Model -> ( Model, Cmd Msg )
 logErrorAndNoOp httpError model =
