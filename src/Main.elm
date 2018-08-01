@@ -5,7 +5,8 @@ import Models.Config exposing (Config)
 import Models.Model exposing (Model)
 import Models.LeagueTable exposing (LeagueTable)
 import Msg exposing (Msg)
-import LeagueList.Update exposing (update, sheetRequest)
+import LeagueList.Update exposing (allSheetSummaryRequest)
+import Update exposing (update)
 import LeagueList.View exposing (..)
 
 
@@ -17,7 +18,7 @@ import LeagueList.View exposing (..)
 
 init : Config -> ( Model, Cmd Msg )
 init config =
-    sheetRequest (Model config [] ( LeagueTable "" [] ) )
+    allSheetSummaryRequest (Model config [] ( LeagueTable "" [] ) )
 
 
 
