@@ -1,7 +1,7 @@
 module CalculateLeagueTableFromLeagueGamesTest exposing (..)
 
 import Test exposing (..)
-import Fuzz exposing (Fuzzer, list, string)
+import Fuzz exposing (Fuzzer, intRange)
 import Expect
 
 import Models.LeagueTable exposing (LeagueTable)
@@ -9,22 +9,40 @@ import Models.Game exposing (Game, LeagueGames)
 import Models.Team exposing (Team)
 import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
 
-apiSuccess : Test
-apiSuccess =
-    test "Calculates one game" <|
-        \() ->
-            calculateLeagueTable (LeagueGames "Regional Div 1" [ game ])
-            |> Expect.equal leagueTable
+-- oneGame : Test
+-- oneGame =
+--     test "Calculates one game" <|
+--         \() ->
+--             let
+--                 meridianGoals = 2
+--                 castleGoals = meridianGoals * 2
+--                 castleGoalDifference = meridianGoals
+--                 meridianGoalDifference = -meridianGoals
+--             in    
+--                 calculateLeagueTable (LeagueGames "Regional Div 1" [ game castleGoals meridianGoals ])
+--                 |> Expect.equal (leagueTable castleGoals meridianGoals castleGoalDifference meridianGoalDifference)
 
-game: Game
-game = 
-    Game "Castle" 3 "Meridian" 1 "2018-06-04" "1, 6, 4" "2" "Green 3, Yellow 5" "Red 14" "good game"
+oneGame : Test
+oneGame =
+    fuzz (intRange 1 100) "Calculates one game" <|
+        \(meridianGoals) ->
+            let
+                castleGoals = meridianGoals * 2
+                castleGoalDifference = meridianGoals
+                meridianGoalDifference = -meridianGoals
+            in    
+                calculateLeagueTable (LeagueGames "Regional Div 1" [ game castleGoals meridianGoals ])
+                |> Expect.equal (leagueTable castleGoals meridianGoals castleGoalDifference meridianGoalDifference)
 
-leagueTable: LeagueTable
-leagueTable = 
+game: Int -> Int -> Game
+game castleGoals meridianGoals = 
+    Game "Castle" castleGoals "Meridian" meridianGoals "2018-06-04" "1, 6, 4" "2" "Green 3, Yellow 5" "Red 14" "good game"
+
+leagueTable: Int -> Int -> Int -> Int -> LeagueTable
+leagueTable castleGoals meridianGoals castleGoalDifference meridianGoalDifference = 
     LeagueTable 
         "Regional Div 1" 
         [ 
-            Team "Castle" 1 3 3 1 2
-            , Team "Meridian" 1 0 1 3 -2
+              Team "Castle"   1 3 castleGoals   meridianGoals castleGoalDifference
+            , Team "Meridian" 1 0 meridianGoals castleGoals   meridianGoalDifference
         ]
