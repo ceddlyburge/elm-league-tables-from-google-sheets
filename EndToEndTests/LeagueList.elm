@@ -6,7 +6,7 @@ import Models.Model exposing ( Model )
 import Models.Config exposing ( Config )
 import Models.LeagueTable exposing ( LeagueTable )
 
-import LeagueList.Update exposing (update)
+import Update exposing (update)
 import LeagueList.View exposing (view)
 
 specs : Node
