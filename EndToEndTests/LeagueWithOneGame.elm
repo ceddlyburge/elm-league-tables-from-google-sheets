@@ -8,7 +8,7 @@ import Models.Config exposing ( Config )
 import Models.LeagueTable exposing ( LeagueTable )
 
 import Update exposing (update)
-import LeagueList.View exposing (view)
+import View exposing (view)
 
 specs : Node
 specs =
@@ -21,36 +21,36 @@ specs =
             , response = { status = 200, body = spreadsheetIdResponseDiv1 }
             },
             { method = "GET"
-            , url = "https://sheets.googleapis.com/v4/spreadsheets/spreadsheetId/values/Regional%20Div%201?key=googleApiKey"
+            , url = "https://sheets.googleapis.com/v4/spreadsheets/spreadSheetId/values/Regional%20Div%201?key=googleApiKey"
             , response = { status = 200, body = spreadsheetValuesResponse }
             }
           ]
         
           ,it "calculates and displays league table"
-          [ steps.click "div.leagues"
+          [ steps.click "h1.leaguesTitle"
           , steps.click "div.league" -- only one league in the results
           , assert.containsText
             { selector = ".teams .team:first-Child"
             , text = "Castle"
             }
           , assert.containsText
-            { selector = ".teams .played:first-Child"
+            { selector = ".teams .team:first-Child .gamesPlayed"
             , text = "1"
             }
           , assert.containsText
-            { selector = ".teams .points:first-Child"
+            { selector = ".teams .team:first-Child .points"
             , text = "3"
             }
           , assert.containsText
-            { selector = ".teams .goalsFor:first-Child"
+            { selector = ".teams .team:first-Child .goalsFor"
             , text = "3"
             }
           , assert.containsText
-            { selector = ".teams .goalsAgainst:first-Child"
+            { selector = ".teams .team:first-Child .goalsAgainst"
             , text = "0"
             }
           , assert.containsText
-            { selector = ".teams .goalDifference:first-Child"
+            { selector = ".teams .team:first-Child .goalDifference"
             , text = "3"
             }
           , assert.containsText
@@ -58,23 +58,23 @@ specs =
             , text = "Meridian"
             }
           , assert.containsText
-            { selector = ".teams .played:nth-Child(2)"
+            { selector = ".teams .team:nth-Child(2) .gamesPlayed"
             , text = "1"
             }
           , assert.containsText
-            { selector = ".teams .points:nth-Child(2)"
+            { selector = ".teams .team:nth-Child(2) .points"
             , text = "0"
             }
           , assert.containsText
-            { selector = ".teams .goalsFor:nth-Child(2)"
+            { selector = ".teams .team:nth-Child(2) .goalsFor"
             , text = "0"
             }
           , assert.containsText
-            { selector = ".teams .goalsAgainst:nth-Child(2)"
+            { selector = ".teams .team:nth-Child(2) .goalsAgainst"
             , text = "3"
             }
           , assert.containsText
-            { selector = ".teams .goalDifference:nth-Child(2)"
+            { selector = ".teams .team:nth-Child(2) .goalDifference"
             , text = "-3"
             }
           ]

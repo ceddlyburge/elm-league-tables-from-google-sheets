@@ -26,7 +26,11 @@ spreadsheetValuesResponse =
         "0",
         "Meridian",
         "2018-06-04",
-        "1, 1, 1"
+        "1, 1, 1",
+        "",
+        "2, 3",
+        "4",
+        "Good game"
       ]
     ]
   }"""
