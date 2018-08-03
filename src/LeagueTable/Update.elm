@@ -21,7 +21,7 @@ request config leagueTitle =
     Http.get 
         ("https://sheets.googleapis.com/v4/spreadsheets/" ++ 
             config.googleSheet ++ 
-            "spreadsheetId/values/" ++ 
+            "/values/" ++ 
             leagueTitle ++ 
             "?key=" ++ 
             config.googleApiKey) 
