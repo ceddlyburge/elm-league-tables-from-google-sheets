@@ -14,7 +14,7 @@ view model =
         [ class "league"
         ]
         [ h1 [] [ text model.leagueTable.title ]
-        , div [] (List.map teamRow model.leagueTable.teams)
+        , div [class "teams"] (List.map teamRow model.leagueTable.teams)
         ]
 
 
