@@ -7,7 +7,7 @@ import Models.LeagueTable exposing (LeagueTable)
 import Msg exposing (Msg)
 import LeagueList.Update exposing (allSheetSummaryRequest)
 import Update exposing (update)
-import LeagueList.View exposing (..)
+import View exposing (view)
 
 
 -- It is not possible to import this module in to an elm-spec test, as it tells me there is a circular dependency.
