@@ -23,4 +23,4 @@ view model =
 
 leagueTitle : LeagueSummary -> Html Msg
 leagueTitle league =
-    div [ class "league", onClick (IndividualSheetRequest "Regional%20Div%201") ] [ text league.title ]
+    div [ class "league", onClick (IndividualSheetRequest league.title) ] [ text league.title ]
