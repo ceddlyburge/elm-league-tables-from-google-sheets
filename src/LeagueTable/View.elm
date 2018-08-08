@@ -37,14 +37,14 @@ view model =
 
 teamRow : Team -> Element Styles variation Msg
 teamRow team =
-    row DataRow [ padding 10, spacing 7, center ] 
+    row DataRow [ padding 10, spacing 7, center, class "team" ] 
     [ 
-        el LeagueTableTeamName [ width (px 200) ] (text team.name)
-        , el LeagueTablePoints [ width (px 100) ] (text (toString team.points) )
-        , el LeagueTableGamesPlayed [ width (px 100) ] (text (toString team.gamesPlayed) )
-        , el LeagueTableGoalDifference [ width (px 120) ] (text (toString team.goalDifference) )
-        , el LeagueTableGoalsFor [ width (px 100) ] (text (toString team.goalsFor) )
-        , el LeagueTableGoalsAgainst [ width (px 100) ] (text (toString team.goalsAgainst) )
+        el LeagueTableTeamName [ width (px 200), class "name" ] (text team.name)
+        , el LeagueTablePoints [ width (px 100), class "points" ] (text (toString team.points) )
+        , el LeagueTableGamesPlayed [ width (px 100), class "gamesPlayed" ] (text (toString team.gamesPlayed) )
+        , el LeagueTableGoalDifference [ width (px 120), class "goalDifference" ] (text (toString team.goalDifference) )
+        , el LeagueTableGoalsFor [ width (px 100), class "goalsFor" ] (text (toString team.goalsFor) )
+        , el LeagueTableGoalsAgainst [ width (px 100), class "goalsAgainst" ] (text (toString team.goalsAgainst) )
     ]
 
 -- view : Model -> Html Msg
