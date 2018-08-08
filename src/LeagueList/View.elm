@@ -3,6 +3,7 @@ module LeagueList.View exposing (view)
 import Html exposing (Html, text, div, h1, img)
 import Html.Attributes exposing (src, class)
 import Html.Events exposing (onClick)
+
 import Msg exposing (..)
 import Models.Model exposing (Model)
 import Models.LeagueSummary exposing (LeagueSummary)
