@@ -17,7 +17,7 @@ view model =
         column LeagueTable [ width (percent 100), spacing 25, center ]
         [
             el Title [ width (percent 100), padding 25, center ] (text model.leagueTable.title)
-            , column None []
+            , column None [ class "teams" ]
             (
                 [
                     row HeaderRow [ padding 10, spacing 7, center ] 
