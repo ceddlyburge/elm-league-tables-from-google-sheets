@@ -16,6 +16,7 @@ import Style.Transition as Transition
 type Styles
     = None
     | Title
+    | LeagueListLeagueTitle
     | LeagueTable
     | LeagueTableTeams
     | LeagueTableTeamName
@@ -61,6 +62,12 @@ stylesheet : StyleSheet Styles variation
 stylesheet =
     Style.styleSheet
         [ style None []
+        , style LeagueListLeagueTitle  -- same as DataRow, probably make it in to a function
+            [ Font.size 25
+            , Color.text colors.text
+            , Border.bottom 2
+            , Color.border colors.border
+            ]
         , style LeagueTable []
         , style LeagueTableTeams []
         , style LeagueTableTeamName  []
