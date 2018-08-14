@@ -17,9 +17,7 @@ calculateLeagueTable leagueGames =
         gamesPlayed2 = List.map (gamesPlayed leagueGames.games) teamNames
         points2 = List.map (points leagueGames.games) teamNames
         teams = List.map (team leagueGames.games) teamNames
-        -- map teams to return a list of ints, where the int is the home goals for 
-        -- this requires games to be reduced, which homeGoalsFor does
-        --_ = Debug.log "goalsFor" goalsFor2
+        
     in
         LeagueTable 
             leagueGames.leagueTitle teams
