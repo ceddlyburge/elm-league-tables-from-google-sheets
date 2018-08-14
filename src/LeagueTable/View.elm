@@ -1,7 +1,6 @@
 module LeagueTable.View exposing (..)
 
 import Html exposing (Html, div, h1, img)
--- import Html.Attributes exposing (class)
 import Element exposing (..)
 import Element.Attributes exposing (..)
 
