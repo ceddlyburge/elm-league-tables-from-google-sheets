@@ -2,6 +2,7 @@ module Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
 
 import List.Extra exposing (unique)
 
+import Calculations.SortBy exposing (..)
 import Models.LeagueTable exposing (LeagueTable)
 import Models.Game exposing (LeagueGames, Game)
 import Models.Team exposing (Team)
@@ -17,11 +18,11 @@ calculateLeagueTable leagueGames =
         gamesPlayed2 = List.map (gamesPlayed leagueGames.games) teamNames
         points2 = List.map (points leagueGames.games) teamNames
         teams = List.map (team leagueGames.games) teamNames
-        
+        sortedTeams = List.sortWith (by .points DESC |> andThen .goalDifference DESC |> andThen .goalsFor DESC) teams
+
     in
         LeagueTable 
-            leagueGames.leagueTitle teams
-            
+            leagueGames.leagueTitle sortedTeams
 
 team: List Game -> String -> Team
 team games teamName =
@@ -45,7 +46,7 @@ homePoints: Game -> Int
 homePoints game =
     if game.homeTeamGoals > game.awayTeamGoals then
         3
-    else if game.homeTeamGoals > game.awayTeamGoals then
+    else if game.homeTeamGoals < game.awayTeamGoals then
         0
     else    
         1
@@ -54,7 +55,7 @@ awayPoints: Game -> Int
 awayPoints game =
     if game.homeTeamGoals > game.awayTeamGoals then
         0
-    else if game.homeTeamGoals > game.awayTeamGoals then
+    else if game.homeTeamGoals < game.awayTeamGoals then
         3
     else    
         1

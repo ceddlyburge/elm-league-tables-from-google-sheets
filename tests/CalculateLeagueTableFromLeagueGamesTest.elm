@@ -9,19 +9,6 @@ import Models.Game exposing (Game, LeagueGames)
 import Models.Team exposing (Team)
 import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
 
--- oneGame : Test
--- oneGame =
---     test "Calculates one game" <|
---         \() ->
---             let
---                 meridianGoals = 2
---                 castleGoals = meridianGoals * 2
---                 castleGoalDifference = meridianGoals
---                 meridianGoalDifference = -meridianGoals
---             in    
---                 calculateLeagueTable (LeagueGames "Regional Div 1" [ game castleGoals meridianGoals ])
---                 |> Expect.equal (leagueTable castleGoals meridianGoals castleGoalDifference meridianGoalDifference)
-
 oneGame : Test
 oneGame =
     fuzz (intRange 1 100) "Calculates one game" <|
@@ -36,7 +23,7 @@ oneGame =
 
 game: Int -> Int -> Game
 game castleGoals meridianGoals = 
-    Game "Castle" castleGoals "Meridian" meridianGoals "2018-06-04" "1, 6, 4" "2" "Green 3, Yellow 5" "Red 14" "good game"
+    Game "Meridian" meridianGoals "Castle" castleGoals "2018-06-04" "1, 6, 4" "2" "Green 3, Yellow 5" "Red 14" "good game"
 
 leagueTable: Int -> Int -> Int -> Int -> LeagueTable
 leagueTable castleGoals meridianGoals castleGoalDifference meridianGoalDifference = 
