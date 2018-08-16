@@ -6,25 +6,25 @@ import Expect
 import Update exposing (update)
 import Msg exposing (..)
 import Models.Config exposing (Config)
-import Models.Model exposing (Model)
+import Models.Model exposing (Model, vanillaModel)
 import Models.LeagueTable exposing (LeagueTable)
 import Models.Game exposing (Game, LeagueGames)
 import Models.Team exposing (Team)
-
+import Models.State exposing (State)
 
 apiError : Test
 apiError =
     test "Returns model and cmd.none on error" <|
         \() ->
-            update (IndividualSheetResponse (Err NetworkError)) model
-                |> Expect.equal ( model, Cmd.none )
+            update (IndividualSheetResponse (Err NetworkError)) vanillaModel
+                |> Expect.equal ( vanillaModel, Cmd.none )
 
 
 apiSuccess : Test
 apiSuccess =
     test "Returns model and Leagues on success" <|
         \() ->
-            update (IndividualSheetResponse (Ok (LeagueGames "Regional Div 1" [ game ]))) model
+            update (IndividualSheetResponse (Ok (LeagueGames "Regional Div 1" [ game ]))) vanillaModel
             |> \(model, msg) -> model.leagueTable
             |> Expect.equal leagueTable
 
@@ -40,7 +40,3 @@ leagueTable =
             Team "Castle" 1 3 3 1 2
             , Team "Meridian" 1 0 1 3 -2
         ]
-
-model : Model
-model =
-    Model (Config "" "") [] ( LeagueTable "" [])

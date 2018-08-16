@@ -11,3 +11,7 @@ type alias Model =
     , leagues: List LeagueSummary
     , leagueTable : LeagueTable
     }
+
+vanillaModel : Model
+vanillaModel =
+    Model (Config "" "") Models.State.LeagueList [] ( LeagueTable "" [])

@@ -2,9 +2,7 @@ module Main exposing (..)
 
 import Html exposing (Html)
 import Models.Config exposing (Config)
-import Models.Model exposing (Model)
-import Models.State as State exposing (State) 
-import Models.LeagueTable exposing (LeagueTable)
+import Models.Model exposing (Model, vanillaModel)
 import Msg exposing (Msg)
 import LeagueList.Update exposing (allSheetSummaryRequest)
 import Update exposing (update)
@@ -19,7 +17,7 @@ import View exposing (view)
 
 init : Config -> ( Model, Cmd Msg )
 init config =
-    allSheetSummaryRequest (Model config State.LeagueList [] ( LeagueTable "" [] ) )
+    allSheetSummaryRequest { vanillaModel | config = config }
 
 
 

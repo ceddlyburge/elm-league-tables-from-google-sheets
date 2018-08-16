@@ -3,11 +3,8 @@ module LeagueTableView exposing (..)
 import Test exposing (..)
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (text, class)
-import Html exposing (div, ul, li, text)
-import Html.Attributes exposing (class)
 import LeagueTable.View exposing (view)
-import Models.Config exposing (Config)
-import Models.Model exposing (Model)
+import Models.Model exposing (Model, vanillaModel)
 import Models.Team exposing (Team)
 import Models.LeagueTable exposing (LeagueTable)
 
@@ -59,4 +56,4 @@ teamElement  =
 
 modelWithTeams : List Team -> Model
 modelWithTeams teams =
-    Model (Config "" "") [] (LeagueTable "" teams)
+    { vanillaModel | leagueTable = LeagueTable "" teams }

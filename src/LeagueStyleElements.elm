@@ -15,6 +15,7 @@ import Style.Transition as Transition
 
 type Styles
     = None
+    | Hidden
     | Title
     | TitleButton
     | LeagueListLeagueTitle
@@ -47,6 +48,7 @@ colors :
     , titleButton : Color.Color
     , titleBackground : Color.Color
     , border : Color.Color
+    , transparent : Color.Color
     }
 
 colors =
@@ -58,6 +60,7 @@ colors =
     , titleButton = Color.rgba 70 124 134 1.0 -- primary 3
     , titleBackground = Color.rgba 130 174 182 1.0 -- primary 2
     , border = Color.rgba 215 227 241 1.0 -- secondary 1
+    , transparent = Color.rgba 255 255 255 0 
     }
 
 
@@ -65,15 +68,21 @@ stylesheet : StyleSheet Styles variation
 stylesheet =
     Style.styleSheet
         [ style None []
+        , style Hidden [ 
+            Color.background colors.transparent
+            , Color.text colors.transparent
+            ]
         , style TitleButton [ 
             Color.background colors.titleBackground
             , Color.text colors.titleButton
+            , cursor "pointer"
             ]
         , style LeagueListLeagueTitle  -- same as DataRow, probably make it in to a function
             [ Font.size 25
             , Color.text colors.text
             , Border.bottom 2
             , Color.border colors.border
+            , cursor "pointer"
             ]
         , style LeagueTable []
         , style LeagueTableTeams []

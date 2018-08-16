@@ -16,10 +16,3 @@ view model =
             LeagueList.View.view model
         State.LeagueTable ->
             LeagueTable.View.view model
-    -- if (model.leagueTable.title /= "") then
-    --     LeagueTable.View.view model
-    -- else
-    --     LeagueList.View.view model
-
-
-

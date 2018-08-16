@@ -9,6 +9,7 @@ import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.Model exposing (Model)
 import Models.LeagueSummary exposing (LeagueSummary)
+import ViewComponents exposing (backIcon, refreshIcon)
 
 
 view : Model -> Html Msg
@@ -16,16 +17,17 @@ view model =
     Element.layout stylesheet <|
         column LeagueTable [ width (percent 100), spacing 25, center ]
         [
-            el 
+            row 
                 Title 
-                [ 
-                    width (percent 100)
-                    , padding 25
-                    , center
-                    , onClick AllSheetSummaryRequest 
-                    , class "leaguesTitle"   
-                ] 
-                (text "Leagues")
+                [ width (percent 100), padding 25, verticalCenter ] 
+                [
+                    row None [ center, spacing 25, width (percent 100)   ]
+                    [
+                        row Hidden [ ] [ backIcon ]
+                        , el Title [ width fill, center ] (text "Leagues")
+                        , row TitleButton [ onClick AllSheetSummaryRequest, class "leaguesTitle" ] [ refreshIcon ]
+                    ]
+                ]
             , column 
                 None 
                 [ 

@@ -1,11 +1,11 @@
 module LeagueTable.View exposing (..)
 
 import Html exposing (Html, span)
-import Html.Attributes exposing (class)
 import Element exposing (..)
 import Element.Attributes exposing (..)
 import Element.Events exposing (onClick)
 
+import ViewComponents exposing (backIcon, refreshIcon)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.Model exposing (Model)
@@ -45,16 +45,6 @@ view model =
                 (List.map teamRow model.leagueTable.teams)
             )
         ]
-
-backIcon : Element style variation msg
-backIcon =
-    Html.span [ Html.Attributes.class "fas fa-arrow-alt-circle-left" ] []
-        |> Element.html
-
-refreshIcon : Element style variation msg
-refreshIcon =
-    Html.span [ Html.Attributes.class "fas fa-sync-alt" ] []
-        |> Element.html
 
 teamRow : Team -> Element Styles variation Msg
 teamRow team =

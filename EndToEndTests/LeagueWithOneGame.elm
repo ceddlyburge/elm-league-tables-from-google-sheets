@@ -3,9 +3,8 @@ import Spec exposing (..)
 import SpreadsheetIdResponseDiv1 exposing (..)
 import SpreadsheetValuesResponse exposing (..)
 
-import Models.Model exposing ( Model )
+import Models.Model exposing ( Model, vanillaModel )
 import Models.Config exposing ( Config )
-import Models.LeagueTable exposing ( LeagueTable )
 
 import Update exposing (update)
 import View exposing (view)
@@ -27,8 +26,8 @@ specs =
           ]
         
           ,it "calculates and displays league table"
-          [ steps.click "div.leaguesTitle"
-          , steps.click "div.league" -- only one league in the results
+          [ steps.click ".leaguesTitle"
+          , steps.click ".league" -- only one league in the results
           , assert.containsText
             { selector = ".teams .team:nth-Child(2) .name"
             , text = "Castle"
@@ -86,5 +85,5 @@ main =
     { subscriptions = \_ -> Sub.none
     , update = update
     , view = view
-    , init = \_ -> (Model (Config "spreadSheetId" "googleApiKey") [] (LeagueTable "" []) )
+    ,init = \_ -> { vanillaModel | config = Config "spreadSheetId" "googleApiKey" }
     } specs
