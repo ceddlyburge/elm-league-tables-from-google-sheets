@@ -5,6 +5,7 @@ import Msg exposing (..)
 import Models.Model exposing (Model)
 import Models.LeagueSummary exposing (LeagueSummary)
 import Models.Config exposing (Config)
+import Models.State as State exposing (State)
 import LeagueList.DecodeGoogleSheetToLeagueList exposing (..)
 
 
@@ -20,4 +21,4 @@ request config =
 
 allSheetSummaryResponse: Model -> List LeagueSummary -> ( Model, Cmd Msg )
 allSheetSummaryResponse model leagues = 
-    ( { model | leagues = leagues }, Cmd.none )
+    ( { model | state = State.LeagueList, leagues = leagues }, Cmd.none )

@@ -5,12 +5,13 @@ import Msg exposing (..)
 import Models.Model exposing (Model)
 import Models.Game exposing (LeagueGames)
 import Models.Config exposing (Config)
+import Models.State as State exposing (State)
 import LeagueTable.DecodeGoogleSheetToGameList exposing (..)
 import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
 
 individualSheetRequest : String -> Model -> ( Model, Cmd Msg )
 individualSheetRequest leagueTitle model  =
-    ( model, Http.send IndividualSheetResponse (request model.config leagueTitle) )
+    ( { model | state = State.LeagueTable }, Http.send IndividualSheetResponse (request model.config leagueTitle) )
 
 individualSheetResponse : LeagueGames -> Model -> ( Model, Cmd Msg )
 individualSheetResponse leagueGames model =
