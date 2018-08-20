@@ -6,10 +6,10 @@ import Fuzz exposing (list, string)
 import Expect
 import Update exposing (update)
 import Msg exposing (..)
-import Models.Config exposing (Config)
+--import Models.Config exposing (Config)
 import Models.Model exposing (Model, vanillaModel)
 import Models.LeagueSummary exposing (LeagueSummary)
-import Models.LeagueTable exposing (LeagueTable)
+--import Models.LeagueTable exposing (LeagueTable)
 import Models.State exposing (State)
 
 apiError : Test
@@ -25,7 +25,7 @@ apiSuccess =
     fuzz (list string) "Returns model and Leagues on success" <|
         \leagues ->
             update (AllSheetSummaryResponse (Ok <| List.map LeagueSummary leagues)) vanillaModel
-                |> Expect.equal ( Model (Config "" "") Models.State.LeagueList (List.map LeagueSummary leagues) ( LeagueTable "" []) , Cmd.none )
+                |> Expect.equal ( { vanillaModel | state = Models.State.LeagueList, leagues = (List.map LeagueSummary leagues) }, Cmd.none )
 
 
 

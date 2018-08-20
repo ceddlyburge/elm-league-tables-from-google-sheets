@@ -6,6 +6,7 @@ import Models.Model exposing (Model)
 import Models.LeagueSummary exposing (LeagueSummary)
 import Models.Config exposing (Config)
 import Models.State as State exposing (State)
+import Models.Route as Route exposing (Route)
 import LeagueList.DecodeGoogleSheetToLeagueList exposing (..)
 
 
@@ -21,4 +22,4 @@ request config =
 
 allSheetSummaryResponse: Model -> List LeagueSummary -> ( Model, Cmd Msg )
 allSheetSummaryResponse model leagues = 
-    ( { model | state = State.LeagueList, leagues = leagues }, Cmd.none )
+    ( { model | state = State.LeagueList, route = Route.LeagueListRoute, leagues = leagues }, Cmd.none )
