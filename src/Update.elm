@@ -1,6 +1,7 @@
 module Update exposing (update)
 
 import Http
+import Navigation exposing (newUrl)
 
 import Msg exposing (..)
 import Models.Model exposing (Model)
@@ -38,13 +39,21 @@ update msg model =
         -- routing
         OnLocationChange location ->
             -- this relies on the other update cases to actually set the route in the model, probably not the best idea
-            case parseLocation location of
-                Route.LeagueListRoute ->
-                    update AllSheetSummaryRequest model
-                Route.LeagueTableRoute leagueTitle ->
-                    update (IndividualSheetRequest leagueTitle) model 
-                _ ->
-                    ( model, Cmd.none )            
+            let
+                route = parseLocation location
+            in
+                -- If we are already on the page, then don't do anything (otherwise there will be an infinite loop)
+                if ((toUrl route) == (toUrl model.route)) then
+                    ( model, Cmd.none )
+                else 
+                    case parseLocation location of
+                        Route.LeagueListRoute ->
+                            update AllSheetSummaryRequest model
+                        Route.LeagueTableRoute leagueTitle ->
+                            update (IndividualSheetRequest leagueTitle) model 
+                        _ ->
+                            ( model, Cmd.none )            
+
 
 logErrorAndNoOp : Http.Error -> Model -> ( Model, Cmd Msg )
 logErrorAndNoOp httpError model =

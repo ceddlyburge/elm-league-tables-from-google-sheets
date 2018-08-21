@@ -10,6 +10,7 @@ import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.Model exposing (Model)
 import Models.Team exposing (Team)
+import Routing exposing (..)
 
 
 view : Model -> Html Msg
@@ -23,9 +24,9 @@ view model =
                 [
                     row None [ center, spacing 25, width (percent 100)   ]
                     [
-                        row TitleButton [ onClick AllSheetSummaryRequest ] [ backIcon ]
+                        el TitleButton [ onClick AllSheetSummaryRequest ] backIcon
                         , el Title [ width fill, center ] (text model.leagueTable.title)
-                        , row TitleButton [ onClick (IndividualSheetRequest model.leagueTable.title) ] [ refreshIcon ]
+                        , el TitleButton [ onClick <| IndividualSheetRequest model.leagueTable.title ] refreshIcon
                     ]
                 ]
             , column None [ Element.Attributes.class "teams" ]

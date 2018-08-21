@@ -26,7 +26,7 @@ specs =
           ]
         
           ,it "calculates and displays league table"
-          [ steps.click ".leaguesTitle"
+          [ steps.click ".refresh"
           , steps.click ".league" -- only one league in the results
           , assert.containsText
             { selector = ".teams .team:nth-Child(2) .name"

@@ -23,7 +23,7 @@ specs =
             }
           ]
         ,it "displays available leagues"
-        [ steps.click ".leaguesTitle"
+        [ steps.click ".refresh"
           , assert.containsText
           { selector = ".leagues .league:first-Child"
           , text = "Regional Div 1"

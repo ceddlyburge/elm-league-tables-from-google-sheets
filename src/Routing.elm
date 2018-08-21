@@ -1,4 +1,4 @@
-module Routing exposing (parseLocation)
+module Routing exposing (parseLocation, toUrl)
 
 import Navigation exposing (Location)
 import Models.Route as Route exposing (Route)
@@ -14,6 +14,17 @@ parseLocation location =
         Nothing ->
             Route.NotFoundRoute
 
+toUrl : Route -> String
+toUrl route =
+    case route of
+        Route.LeagueListRoute ->
+            "/"
+
+        Route.LeagueTableRoute leagueTitle ->
+            "/league/" ++ leagueTitle
+        
+        Route.NotFoundRoute ->
+            "404"
 
 matchers : Parser (Route -> a) a
 matchers =

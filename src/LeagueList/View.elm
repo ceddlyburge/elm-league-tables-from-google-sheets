@@ -10,6 +10,7 @@ import Msg exposing (..)
 import Models.Model exposing (Model)
 import Models.LeagueSummary exposing (LeagueSummary)
 import ViewComponents exposing (backIcon, refreshIcon)
+import Routing exposing (..)
 
 
 view : Model -> Html Msg
@@ -23,9 +24,9 @@ view model =
                 [
                     row None [ center, spacing 25, width (percent 100)   ]
                     [
-                        row Hidden [ ] [ backIcon ]
+                        el Hidden [ ] backIcon
                         , el Title [ width fill, center ] (text "Leagues")
-                        , row TitleButton [ onClick AllSheetSummaryRequest, class "leaguesTitle" ] [ refreshIcon ]
+                        , el TitleButton [ class "refresh", onClick AllSheetSummaryRequest ] refreshIcon
                     ]
                 ]
             , column 
@@ -47,6 +48,6 @@ leagueTitle league =
             , width (percent 60)
             , class "league"
             , center
-            , onClick (IndividualSheetRequest league.title)
+            , onClick <| IndividualSheetRequest league.title
         ] 
-        (text league.title) 
+        (text league.title)

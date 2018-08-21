@@ -16,4 +16,4 @@ type alias Model =
 
 vanillaModel : Model
 vanillaModel =
-    Model (Config "" "") Models.State.LeagueList LeagueListRoute [] ( LeagueTable "" [])
+    Model (Config "" "") Models.State.LeagueList NotFoundRoute [] ( LeagueTable "" [])
