@@ -11,7 +11,7 @@ import Models.State as State exposing (State)
 import Models.Route as Route exposing (Route)
 import LeagueTable.DecodeGoogleSheetToGameList exposing (..)
 import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
-import Routing exposing (leagueTablePath)
+import Routing exposing (toUrl)
 
 individualSheetRequest : String -> Model -> ( Model, Cmd Msg )
 individualSheetRequest leagueTitle model  =
@@ -19,7 +19,7 @@ individualSheetRequest leagueTitle model  =
 
 individualSheetResponse : LeagueGames -> Model -> ( Model, Cmd Msg )
 individualSheetResponse leagueGames model =
-    ( { model | leagueTable = calculateLeagueTable leagueGames }, newUrl <| leagueTablePath leagueGames.leagueTitle ) 
+    ( { model | leagueTable = calculateLeagueTable leagueGames }, newUrl <| toUrl <| Route.LeagueTableRoute leagueGames.leagueTitle ) 
 
 request : Config -> String -> Http.Request LeagueGames
 request config leagueTitle =

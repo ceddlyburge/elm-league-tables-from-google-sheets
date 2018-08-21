@@ -10,7 +10,7 @@ import Models.Config exposing (Config)
 import Models.State as State exposing (State)
 import Models.Route as Route exposing (Route)
 import LeagueList.DecodeGoogleSheetToLeagueList exposing (..)
-import Routing exposing (leagueListPath)
+import Routing exposing (toUrl)
 
 
 allSheetSummaryRequest : Model -> ( Model, Cmd Msg )
@@ -25,4 +25,4 @@ request config =
 
 allSheetSummaryResponse: Model -> List LeagueSummary -> ( Model, Cmd Msg )
 allSheetSummaryResponse model leagues = 
-    ( { model | state = State.LeagueList, route = Route.LeagueListRoute, leagues = leagues }, newUrl leagueListPath )
+    ( { model | state = State.LeagueList, route = Route.LeagueListRoute, leagues = leagues }, newUrl <| toUrl Route.LeagueListRoute )
