@@ -1,15 +1,10 @@
 import Spec exposing (..)
 
 import SpreadsheetIdResponseDiv1Div2 exposing (..)
-
-import Html exposing (Html)
-
-import Msg exposing ( Msg )
 import Models.Model exposing ( Model, vanillaModel )
 import Models.Config exposing ( Config )
-import Models.LeagueTable exposing ( LeagueTable )
 import Update exposing (update)
-import LeagueList.View exposing (view)
+import View exposing (view)
 
 specs : Node
 specs =

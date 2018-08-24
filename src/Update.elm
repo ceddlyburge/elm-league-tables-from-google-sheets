@@ -1,7 +1,6 @@
 module Update exposing (update)
 
 import Http
-import Navigation exposing (newUrl)
 
 import Msg exposing (..)
 import Models.Model exposing (Model)
@@ -20,11 +19,8 @@ update msg model =
         AllSheetSummaryRequest ->
             allSheetSummaryRequest model
 
-        AllSheetSummaryResponse (Err httpError) ->
-            logErrorAndNoOp httpError model
-
-        AllSheetSummaryResponse (Ok leagues) ->
-            allSheetSummaryResponse model leagues
+        AllSheetSummaryResponse response ->
+            allSheetSummaryResponse model response
 
         -- League Table
         IndividualSheetRequest leagueTitle ->

@@ -13,11 +13,11 @@ view : Model -> Html Msg
 view model =
     case model.route of
         Route.LeagueListRoute ->
-            LeagueList.View.view model
+            LeagueList.View.view model.leagues
         Route.LeagueTableRoute leagueTitle ->
             LeagueTable.View.view model
         Route.NotFoundRoute ->
-            LeagueList.View.view model -- return 404 later
+            LeagueList.View.view model.leagues -- return 404 later
 
 -- notFoundView : Html msg
 -- notFoundView =
