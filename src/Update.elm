@@ -1,7 +1,5 @@
 module Update exposing (update)
 
-import Http
-
 import Msg exposing (..)
 import Models.Model exposing (Model)
 import Models.Route as Route exposing (Route)
