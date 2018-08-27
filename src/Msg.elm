@@ -1,6 +1,5 @@
 module Msg exposing (..)
 
-import Http
 import RemoteData exposing (WebData)
 
 import Models.LeagueSummary exposing (LeagueSummary)
@@ -15,7 +14,7 @@ type Msg
     | AllSheetSummaryResponse (WebData (List LeagueSummary))
     -- LeagueTable
     | IndividualSheetRequest String
-    | IndividualSheetResponse (Result Http.Error LeagueGames)
+    | IndividualSheetResponse String (WebData LeagueGames)
     -- routing
     | OnLocationChange Location
     -- 

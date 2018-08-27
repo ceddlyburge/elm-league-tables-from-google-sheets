@@ -10,7 +10,7 @@ import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueSummary exposing (LeagueSummary)
 import ViewComponents exposing (backIcon, refreshIcon, loading)
-import ErrorMessages exposing (errorMessage)
+import ErrorMessages exposing (httpErrorMessage, unexpectedNotAskedMessage)
 
 
 view : WebData (List LeagueSummary) -> Html Msg
@@ -36,7 +36,7 @@ maybeLeagueList : WebData (List LeagueSummary) -> Element Styles variation Msg
 maybeLeagueList response =
     case response of
         RemoteData.NotAsked ->
-            leagueListText "Hmmm, There is a bug in my code. You could report a bug at https://github.com/ceddlyburge/elm-league-tables-from-google-sheets/issues/new, or maybe try going back to the homepage and starting again"
+            leagueListText unexpectedNotAskedMessage
 
         RemoteData.Loading ->
             loading
@@ -45,7 +45,7 @@ maybeLeagueList response =
             leagueList leagues
 
         RemoteData.Failure error ->
-            leagueListText <| errorMessage error
+            leagueListText <| httpErrorMessage error
 
 
 leagueList: List LeagueSummary -> Element Styles variation Msg

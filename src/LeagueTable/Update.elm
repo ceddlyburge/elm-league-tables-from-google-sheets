@@ -2,6 +2,7 @@ module LeagueTable.Update exposing (individualSheetRequest, individualSheetRespo
 
 import Http
 import Navigation exposing (newUrl)
+import RemoteData exposing (WebData)
 
 import Msg exposing (..)
 import Models.Model exposing (Model)
@@ -15,14 +16,21 @@ import Routing exposing (toUrl)
 
 individualSheetRequest : String -> Model -> ( Model, Cmd Msg )
 individualSheetRequest leagueTitle model  =
-    ( { model | state = State.LeagueTable, route = Route.LeagueTableRoute leagueTitle }, Http.send IndividualSheetResponse (request model.config leagueTitle) )
+    ( { model | leagueTable = RemoteData.Loading }, fetchLeagueGames leagueTitle model.config )
 
-individualSheetResponse : LeagueGames -> Model -> ( Model, Cmd Msg )
-individualSheetResponse leagueGames model =
-    ( { model | leagueTable = calculateLeagueTable leagueGames }, newUrl <| toUrl <| Route.LeagueTableRoute leagueGames.leagueTitle ) 
+individualSheetResponse : Model -> WebData LeagueGames -> String -> ( Model, Cmd Msg )
+individualSheetResponse  model response leagueTitle =
+    ( 
+        { model | 
+            state = State.LeagueTable
+            , route = Route.LeagueTableRoute leagueTitle
+            , leagueTable = RemoteData.map calculateLeagueTable response 
+        }
+        , newUrl <| toUrl <| Route.LeagueTableRoute leagueTitle
+    )
 
-request : Config -> String -> Http.Request LeagueGames
-request config leagueTitle =
+fetchLeagueGames : String -> Config -> Cmd Msg
+fetchLeagueGames leagueTitle config =
     Http.get 
         ("https://sheets.googleapis.com/v4/spreadsheets/" ++ 
             config.googleSheet ++ 
@@ -31,3 +39,5 @@ request config leagueTitle =
             "?key=" ++ 
             config.googleApiKey) 
         (decodeSheetToLeagueGames leagueTitle)
+        |> RemoteData.sendRequest
+        |> Cmd.map (IndividualSheetResponse leagueTitle)

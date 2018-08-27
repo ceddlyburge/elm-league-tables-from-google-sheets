@@ -13,9 +13,9 @@ type alias Model =
     , state: State -- do we need this and route? probably not
     , route: Route
     , leagues: WebData (List LeagueSummary)
-    , leagueTable : LeagueTable
+    , leagueTable : WebData (LeagueTable)
     }
 
 vanillaModel : Model
 vanillaModel =
-    Model (Config "" "") State.LeagueList Route.NotFoundRoute RemoteData.NotAsked (LeagueTable "" [])
+    Model (Config "" "") State.LeagueList Route.NotFoundRoute RemoteData.NotAsked RemoteData.NotAsked

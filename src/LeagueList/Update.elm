@@ -18,10 +18,9 @@ allSheetSummaryRequest : Model -> ( Model, Cmd Msg )
 allSheetSummaryRequest model =
     ( { model | leagues = RemoteData.Loading }, fetchLeagueSummaries model.config )
 
-
-request : Config -> Http.Request (List LeagueSummary)
-request config =
-    Http.get ("https://sheets.googleapis.com/v4/spreadsheets/" ++ config.googleSheet ++ "?key=" ++ config.googleApiKey) decodeAllSheetSummaryToLeagueSummaries
+allSheetSummaryResponse: Model -> WebData (List LeagueSummary) -> ( Model, Cmd Msg )
+allSheetSummaryResponse model response = 
+    ( { model | state = State.LeagueList, route = Route.LeagueListRoute, leagues = response }, newUrl <| toUrl Route.LeagueListRoute )
 
 fetchLeagueSummaries : Config -> Cmd Msg
 fetchLeagueSummaries config =
@@ -29,6 +28,3 @@ fetchLeagueSummaries config =
         |> RemoteData.sendRequest
         |> Cmd.map AllSheetSummaryResponse
 
-allSheetSummaryResponse: Model -> WebData (List LeagueSummary) -> ( Model, Cmd Msg )
-allSheetSummaryResponse model response = 
-    ( { model | state = State.LeagueList, route = Route.LeagueListRoute, leagues = response }, newUrl <| toUrl Route.LeagueListRoute )

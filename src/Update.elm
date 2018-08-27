@@ -26,11 +26,8 @@ update msg model =
         IndividualSheetRequest leagueTitle ->
             individualSheetRequest leagueTitle model
 
-        IndividualSheetResponse (Err httpError) ->
-            logErrorAndNoOp httpError model
-
-        IndividualSheetResponse (Ok leagueGames) ->
-            individualSheetResponse leagueGames model
+        IndividualSheetResponse leagueTitle response ->
+            individualSheetResponse model response leagueTitle
         
         -- routing
         OnLocationChange location ->
@@ -51,10 +48,10 @@ update msg model =
                             ( model, Cmd.none )            
 
 
-logErrorAndNoOp : Http.Error -> Model -> ( Model, Cmd Msg )
-logErrorAndNoOp httpError model =
-    let
-        _ =
-            Debug.log "httpError" httpError
-    in
-        ( model, Cmd.none )
+-- logErrorAndNoOp : Http.Error -> Model -> ( Model, Cmd Msg )
+-- logErrorAndNoOp httpError model =
+--     let
+--         _ =
+--             Debug.log "httpError" httpError
+--     in
+--         ( model, Cmd.none )

@@ -15,7 +15,7 @@ view model =
         Route.LeagueListRoute ->
             LeagueList.View.view model.leagues
         Route.LeagueTableRoute leagueTitle ->
-            LeagueTable.View.view model
+            LeagueTable.View.view leagueTitle model.leagueTable
         Route.NotFoundRoute ->
             LeagueList.View.view model.leagues -- return 404 later
 
