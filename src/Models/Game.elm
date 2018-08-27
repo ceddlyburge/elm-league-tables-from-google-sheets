@@ -3,9 +3,9 @@ module Models.Game exposing (Game, LeagueGames)
 
 type alias Game =
     { homeTeamName : String
-    , homeTeamGoals : Int
+    , homeTeamGoals : Maybe Int
     , awayTeamName : String
-    , awayTeamGoals : Int
+    , awayTeamGoals : Maybe Int
     , dateplayed : String
     , homeScorers : String
     , awayScorers : String

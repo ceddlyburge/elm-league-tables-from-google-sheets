@@ -44,21 +44,29 @@ gamePoints teamName game =
 
 homePoints: Game -> Int
 homePoints game =
-    if game.homeTeamGoals > game.awayTeamGoals then
-        3
-    else if game.homeTeamGoals < game.awayTeamGoals then
-        0
-    else    
-        1
+    case (game.homeTeamGoals, game.awayTeamGoals) of
+        (Just homeTeamGoals, Just awayTeamGoals) ->
+            if homeTeamGoals > awayTeamGoals then
+                3
+            else if homeTeamGoals < awayTeamGoals then
+                0
+            else    
+                1
+        (_, _) ->
+            0
 
 awayPoints: Game -> Int
 awayPoints game =
-    if game.homeTeamGoals > game.awayTeamGoals then
-        0
-    else if game.homeTeamGoals < game.awayTeamGoals then
-        3
-    else    
-        1
+    case (game.homeTeamGoals, game.awayTeamGoals) of
+        (Just homeTeamGoals, Just awayTeamGoals) ->
+            if homeTeamGoals > awayTeamGoals then
+                0
+            else if homeTeamGoals < awayTeamGoals then
+                3
+            else    
+                1
+        (_, _) ->
+            0
 
 gamesPlayed: List Game -> String -> Int
 gamesPlayed games teamName =
@@ -66,12 +74,16 @@ gamesPlayed games teamName =
 
 gameGamesPlayed: String -> Game -> Int
 gameGamesPlayed teamName game =
-    if teamName == game.homeTeamName then
-        1
-    else if teamName == game.awayTeamName then
-        1
-    else    
-        0
+    case (game.homeTeamGoals, game.awayTeamGoals) of
+        (Just _, Just _) ->
+            if teamName == game.homeTeamName then
+                1
+            else if teamName == game.awayTeamName then
+                1
+            else    
+                0
+        (_, _) ->
+            0
 
 goalsAgainst: List Game -> String -> Int
 goalsAgainst games teamName =
@@ -80,9 +92,9 @@ goalsAgainst games teamName =
 gameGoalsAgainst: String -> Game -> Int
 gameGoalsAgainst teamName game =
     if teamName == game.homeTeamName then
-        game.awayTeamGoals
+        Maybe.withDefault 0 game.awayTeamGoals
     else if teamName == game.awayTeamName then
-        game.homeTeamGoals
+        Maybe.withDefault 0 game.homeTeamGoals
     else    
         0
 
@@ -93,9 +105,9 @@ goalsFor games teamName =
 gameGoalsFor: String -> Game -> Int
 gameGoalsFor teamName game =
     if teamName == game.homeTeamName then
-        game.homeTeamGoals
+        Maybe.withDefault 0 game.homeTeamGoals
     else if teamName == game.awayTeamName then
-        game.awayTeamGoals
+        Maybe.withDefault 0 game.awayTeamGoals
     else    
         0
 
