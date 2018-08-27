@@ -36,7 +36,8 @@ maybeLeagueList : WebData (List LeagueSummary) -> Element Styles variation Msg
 maybeLeagueList response =
     case response of
         RemoteData.NotAsked ->
-            leagueListText unexpectedNotAskedMessage
+            -- This situation occurs when going to the url for a league table. I'm not sure why this view is shown first, it looks from the model history as though it shouldn't be the case
+            leagueListText "" --unexpectedNotAskedMessage
 
         RemoteData.Loading ->
             loading
