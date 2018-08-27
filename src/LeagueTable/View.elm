@@ -5,6 +5,7 @@ import Element exposing (..)
 import Element.Attributes exposing (..)
 import Element.Events exposing (onClick)
 import RemoteData exposing (WebData)
+import Http exposing (decodeUri)
 
 import ViewComponents exposing (backIcon, refreshIcon, loading)
 import LeagueStyleElements exposing (..)
@@ -26,7 +27,7 @@ view leagueTitle response =
                     row None [ center, spacing 25, width (percent 100)   ]
                     [
                         el TitleButton [ onClick AllSheetSummaryRequest ] backIcon
-                        , el Title [ width fill, center ] (text leagueTitle)
+                        , el Title [ width fill, center ] (text <| Maybe.withDefault "" (decodeUri leagueTitle))
                         , el TitleButton [ onClick <| IndividualSheetRequest leagueTitle ] refreshIcon
                     ]
                 ]
