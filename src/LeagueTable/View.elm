@@ -10,13 +10,12 @@ import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.Model exposing (Model)
 import Models.Team exposing (Team)
-import Routing exposing (..)
 
 
 view : Model -> Html Msg
 view model =
     Element.layout stylesheet <|
-        column LeagueTable [ width (percent 100), spacing 25, center ]
+        column Body [ width (percent 100), spacing 25, center ]
         [
             row 
                 Title 

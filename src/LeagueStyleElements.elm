@@ -1,25 +1,20 @@
 module LeagueStyleElements exposing (..)
 
-import Html
 import Color
-import Element exposing (..)
-import Element.Attributes exposing (..)
-import Element.Events exposing (..)
 import Style exposing (..)
 import Style.Border as Border
-import Style.Background as Background
+
 import Style.Color as Color
 import Style.Font as Font
-import Style.Shadow as Shadow
-import Style.Transition as Transition
 
 type Styles
     = None
+    | Body
     | Hidden
     | Title
     | TitleButton
+    | LeagueListText
     | LeagueListLeagueTitle
-    | LeagueTable
     | LeagueTableTeams
     | LeagueTableTeamName
     | LeagueTablePoints
@@ -33,8 +28,11 @@ type Styles
 
 sansSerif : List Font
 sansSerif =
-    [ Font.font "helvetica"
-    , Font.font "arial"
+    [ Font.font "Source Sans Pro"
+    , Font.font "Trebuchet MS"
+    , Font.font "Lucida Grande"
+    , Font.font "Bitstream Vera Sans"
+    , Font.font "Helvetica Neue"
     , Font.font "sans-serif"
     ]
 
@@ -68,6 +66,7 @@ stylesheet : StyleSheet Styles variation
 stylesheet =
     Style.styleSheet
         [ style None []
+        , style Body [ Font.typeface sansSerif ]
         , style Hidden [ 
             Color.background colors.transparent
             , Color.text colors.transparent
@@ -77,14 +76,19 @@ stylesheet =
             , Color.text colors.titleButton
             , cursor "pointer"
             ]
-        , style LeagueListLeagueTitle  -- same as DataRow, probably make it in to a function
+        , style LeagueListText  -- same as DataRow, make it in to a function / fix
             [ Font.size 25
+            , Font.center
+            , Color.text colors.text
+            ]
+        , style LeagueListLeagueTitle  -- same as DataRow, make it in to a function / fix
+            [ Font.size 25
+            , Font.center
             , Color.text colors.text
             , Border.bottom 2
             , Color.border colors.border
             , cursor "pointer"
             ]
-        , style LeagueTable []
         , style LeagueTableTeams []
         , style LeagueTableTeamName  []
         , style LeagueTablePoints  []
@@ -95,6 +99,7 @@ stylesheet =
         , style Title
             [ Color.background colors.titleBackground
             , Font.size 34
+            , Font.center
             , Color.text colors.titleText
             ]
         , style Heading1

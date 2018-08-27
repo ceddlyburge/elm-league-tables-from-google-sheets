@@ -9,17 +9,18 @@ import RemoteData exposing (WebData)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueSummary exposing (LeagueSummary)
-import ViewComponents exposing (backIcon, refreshIcon)
+import ViewComponents exposing (backIcon, refreshIcon, loading)
+import ErrorMessages exposing (errorMessage)
 
 
 view : WebData (List LeagueSummary) -> Html Msg
 view response =
     Element.layout stylesheet <|         
-        column LeagueTable [ width (percent 100), spacing 25, center ]
+        column Body [ width (percent 100), spacing 25, center ]
             [
                 row 
                     Title 
-                    [ width (percent 100), padding 25, verticalCenter ] 
+                    [ width (percent 100), padding 25, verticalCenter, center ] 
                     [
                         row None [ center, spacing 25, width (percent 100)   ]
                         [
@@ -35,16 +36,17 @@ maybeLeagueList : WebData (List LeagueSummary) -> Element Styles variation Msg
 maybeLeagueList response =
     case response of
         RemoteData.NotAsked ->
-            text "Hmmm, There is a bug in my code. You could report a bug at https://github.com/ceddlyburge/elm-league-tables-from-google-sheets/issues/new, or maybe try going back to the homepage and starting again"
+            leagueListText "Hmmm, There is a bug in my code. You could report a bug at https://github.com/ceddlyburge/elm-league-tables-from-google-sheets/issues/new, or maybe try going back to the homepage and starting again"
 
         RemoteData.Loading ->
-            text "Loading..."
+            loading
 
         RemoteData.Success leagues ->
             leagueList leagues
 
         RemoteData.Failure error ->
-            text (toString error)
+            leagueListText <| errorMessage error
+
 
 leagueList: List LeagueSummary -> Element Styles variation Msg
 leagueList leagueSummaries =
@@ -69,3 +71,7 @@ leagueTitle league =
             , onClick <| IndividualSheetRequest league.title
         ] 
         (text league.title)
+
+leagueListText: String -> Element Styles variation Msg
+leagueListText string =
+    el LeagueListText [] <| text string

@@ -1,4 +1,5 @@
-import './main.css';
+import './fade-in.css';
+import './loading.css';
 import { Main } from './Main.elm';
 import registerServiceWorker from './registerServiceWorker';
 
