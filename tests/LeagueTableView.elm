@@ -3,8 +3,9 @@ module LeagueTableView exposing (..)
 import Test exposing (..)
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (text, class)
+import RemoteData exposing (WebData)
+
 import LeagueTable.View exposing (view)
-import Models.Model exposing (Model, vanillaModel)
 import Models.Team exposing (Team)
 import Models.LeagueTable exposing (LeagueTable)
 
@@ -50,10 +51,6 @@ oneTeam =
 
 --teamElement : Query.Single Msg.Msg
 teamElement  =
-    view (modelWithTeams [ Team "Castle" 1 3 6 4 2 ])
+    view "" (RemoteData.Success (LeagueTable "" [ Team "Castle" 1 3 6 4 2 ]))
         |> Query.fromHtml
         |> Query.find [ Test.Html.Selector.class "team" ]
-
-modelWithTeams : List Team -> Model
-modelWithTeams teams =
-    { vanillaModel | leagueTable = LeagueTable "" teams }
