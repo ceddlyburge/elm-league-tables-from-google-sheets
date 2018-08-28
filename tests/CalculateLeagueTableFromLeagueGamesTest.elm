@@ -23,7 +23,7 @@ oneGame =
 
 game: Int -> Int -> Game
 game castleGoals meridianGoals = 
-    Game "Meridian" meridianGoals "Castle" castleGoals "2018-06-04" "1, 6, 4" "2" "Green 3, Yellow 5" "Red 14" "good game"
+    Game "Meridian" (Just meridianGoals) "Castle" (Just castleGoals) "2018-06-04" "1, 6, 4" "2" "Green 3, Yellow 5" "Red 14" "good game"
 
 leagueTable: Int -> Int -> Int -> Int -> LeagueTable
 leagueTable castleGoals meridianGoals castleGoalDifference meridianGoalDifference = 

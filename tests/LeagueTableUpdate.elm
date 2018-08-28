@@ -20,7 +20,7 @@ apiSuccess =
 
 game: Game
 game = 
-    Game "Castle" 3 "Meridian" 1 "2018-06-04" "1, 6, 4" "2" "Green 3, Yellow 5" "Red 14" "good game"
+    Game "Castle" (Just 3) "Meridian" (Just 1) "2018-06-04" "1, 6, 4" "2" "Green 3, Yellow 5" "Red 14" "good game"
 
 leagueTable: WebData LeagueTable
 leagueTable = 

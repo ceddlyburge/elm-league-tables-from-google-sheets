@@ -15,7 +15,7 @@ decodeSpreadsheetIdResponse =
         \() ->
             spreadsheetValuesResponse 
                 |> decodeString (decodeSheetToLeagueGames "Regional Div 1")
-                |> Expect.equal (Ok (LeagueGames "Regional Div 1" [Game "Castle" 3 "Meridian" 1 "2018-06-04" "1, 6, 4" "2" "Green 3, Yellow 5" "Red 14" "good game" ]))
+                |> Expect.equal (Ok (LeagueGames "Regional Div 1" [Game "Castle" (Just 3) "Meridian" (Just 1) "2018-06-04" "1, 6, 4" "2" "Green 3, Yellow 5" "Red 14" "good game" ]))
 
 decodeInvalidSpreadsheetIdResponse : Test
 decodeInvalidSpreadsheetIdResponse =
@@ -53,21 +53,21 @@ spreadsheetValuesResponse =
     """
     ++ spreadsheetValuesFooter
 
+-- this has one less item in the array than is required
 invalidSpreadsheetValuesResponse : String
 invalidSpreadsheetValuesResponse =
   spreadsheetValuesHeader ++
   """
   [
     "Castle",
-    "not a number",
+    "0",
     "1",
     "Meridian",
     "2018-06-04",
     "1, 6, 4",
     "2",
     "Green 3, Yellow 5",
-    "Red 14",
-    "good game"
+    "Red 14"
   ]
   """
   ++ spreadsheetValuesFooter
