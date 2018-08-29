@@ -8,6 +8,7 @@ import RemoteData exposing (WebData)
 import LeagueTable.View exposing (view)
 import Models.Team exposing (Team)
 import Models.LeagueTable exposing (LeagueTable)
+import Models.Model exposing (vanillaModel)
 
 
 -- also wants to show the league title
@@ -51,6 +52,6 @@ oneTeam =
 
 --teamElement : Query.Single Msg.Msg
 teamElement  =
-    view "" (RemoteData.Success (LeagueTable "" [ Team "Castle" 1 3 6 4 2 ]))
+    view "" (RemoteData.Success (LeagueTable "" [ Team "Castle" 1 3 6 4 2 ]))  vanillaModel.device
         |> Query.fromHtml
         |> Query.find [ Test.Html.Selector.class "team" ]

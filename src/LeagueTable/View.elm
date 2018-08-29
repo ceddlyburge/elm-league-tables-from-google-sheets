@@ -4,10 +4,11 @@ import Html exposing (Html, span)
 import Element exposing (..)
 import Element.Attributes exposing (..)
 import Element.Events exposing (onClick)
+--import Element.Internal exposing (..)
 import RemoteData exposing (WebData)
 import Http exposing (decodeUri)
 
-import ViewComponents exposing (backIcon, refreshIcon, loading)
+import ViewComponents exposing (backIcon, refreshIcon, loading, Gaps, gapsForDevice)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueTable exposing (LeagueTable)
@@ -17,25 +18,28 @@ import ErrorMessages exposing (httpErrorMessage, unexpectedNotAskedMessage)
 
 view : String -> WebData LeagueTable -> Device -> Html Msg
 view leagueTitle response device =
-    Element.layout (stylesheet device) <|         
-        column Body [ width (percent 100), spacing 25, center ]
-        [
-            row 
-                Title 
-                [ width (percent 100), padding 25, verticalCenter ] 
-                [
-                    row None [ center, spacing 25, width (percent 100)   ]
+    let
+        gaps = gapsForDevice device
+    in
+        Element.layout (stylesheet device) <|         
+            column Body [ width (percent 100), spacing gaps.big, center ]
+            [
+                row 
+                    Title 
+                    [ width (percent 100), padding gaps.big, verticalCenter ] 
                     [
-                        el TitleButton [ onClick AllSheetSummaryRequest ] backIcon
-                        , el Title [ width fill, center ] (text <| Maybe.withDefault "" (decodeUri leagueTitle))
-                        , el TitleButton [ onClick <| IndividualSheetRequest leagueTitle ] refreshIcon
+                        row None [ center, spacing gaps.big, width (percent 100)   ]
+                        [
+                            el TitleButton [ onClick AllSheetSummaryRequest ] backIcon
+                            , el Title [ width fill, center ] (text <| Maybe.withDefault "" (decodeUri leagueTitle))
+                            , el TitleButton [ onClick <| IndividualSheetRequest leagueTitle ] refreshIcon
+                        ]
                     ]
+                    , maybeLeagueTable device gaps response
                 ]
-                , maybeLeagueTable response
-            ]
 
-maybeLeagueTable : WebData LeagueTable -> Element Styles variation Msg
-maybeLeagueTable response =
+maybeLeagueTable : Device -> Gaps -> WebData LeagueTable -> Element Styles variation Msg
+maybeLeagueTable device gaps response =
     case response of
         RemoteData.NotAsked ->
             leagueTableText unexpectedNotAskedMessage
@@ -44,42 +48,108 @@ maybeLeagueTable response =
             loading
 
         RemoteData.Success leagueTable ->
-            leagueTableElement leagueTable
+            leagueTableElement device gaps leagueTable
 
         RemoteData.Failure error ->
             leagueTableText <| httpErrorMessage error
 
-leagueTableElement : LeagueTable -> Element Styles variation Msg
-leagueTableElement leagueTable =
+leagueTableElement : Device -> Gaps -> LeagueTable -> Element Styles variation Msg
+leagueTableElement device gaps leagueTable =
     column None [ class "teams" ]
     (
-        [
-            row HeaderRow [ padding 10, spacing 7, center ] 
-            [
-                el LeagueTableTeamName [ width (px 200) ] (text "Team")
-                , el LeagueTablePoints [ width (px 100) ] (text "Points")
-                , el LeagueTableGamesPlayed [ width (px 100) ] (text "Played")
-                , el LeagueTableGoalDifference [ width (px 120) ] (text "Goal\nDifference")
-                , el LeagueTableGoalsFor [ width (px 100) ] (text "Goals\nFor")
-                , el LeagueTableGoalsAgainst [ width (px 100) ] (text "Goals\nAgainst")
-            ]
-        ]
+        [ headerRow device gaps ]
         ++ 
-        (List.map teamRow leagueTable.teams)
+        (List.map (teamRow device gaps) leagueTable.teams)
     )
 
-teamRow : Team -> Element Styles variation Msg
-teamRow team =
-    row DataRow [ padding 10, spacing 7, center, class "team" ] 
+-- I could use some fancy functional action no not bother taking the gaps
+headerRow device gaps = 
+    if device.width < 400 then
+        compactHeaderRow device gaps 
+    else
+        fullHeaderRow device gaps 
+
+fullHeaderRow device gaps = 
+    row LeagueTableHeaderRow [ padding gaps.medium, spacing gaps.small, center ] 
+    [
+        el None [ bigColumnWidth device ] (text "Team")
+        , el None [ width (px (smallColumnWidth device)) ] (text "Points")
+        , el None [ width (px (smallColumnWidth device)) ] (text "Played")
+        , el None [ width (px (mediumColumnWidth device)) ] (text "Goal\nDifference")
+        , el None [ width (px (smallColumnWidth device)) ] (text "Goals\nFor")
+        , el None [ width (px (smallColumnWidth device)) ] (text "Goals\nAgainst")
+    ]
+
+compactHeaderRow device gaps = 
+    row LeagueTableHeaderRow [ padding gaps.medium, spacing gaps.small, center ] 
+    [
+        el None [ width (px (smallColumnWidth device)) ] (text "Points")
+        , el None [ width (px (smallColumnWidth device)) ] (text "Played")
+        , el None [ width (px (mediumColumnWidth device)) ] (text "Goal\nDifference")
+        , el None [ width (px (smallColumnWidth device)) ] (text "Goals\nFor")
+        , el None [ width (px (smallColumnWidth device)) ] (text "Goals\nAgainst")
+    ]
+
+-- I could use some fancy functional action no not bother taking the gaps and team
+teamRow : Device -> Gaps -> Team -> Element Styles variation Msg
+teamRow device gaps team = 
+    if device.width < 400 then
+        compactTeamRow device gaps team
+    else
+        fullTeamRow device gaps team
+
+fullTeamRow : Device -> Gaps -> Team -> Element Styles variation Msg
+fullTeamRow device gaps team =
+    row LeagueTableTeamRow [ padding gaps.medium, spacing gaps.small, center, class "team" ] 
     [ 
-        el LeagueTableTeamName [ width (px 200), class "name" ] (text team.name)
-        , el LeagueTablePoints [ width (px 100), class "points" ] (text (toString team.points) )
-        , el LeagueTableGamesPlayed [ width (px 100), class "gamesPlayed" ] (text (toString team.gamesPlayed) )
-        , el LeagueTableGoalDifference [ width (px 120), class "goalDifference" ] (text (toString team.goalDifference) )
-        , el LeagueTableGoalsFor [ width (px 100), class "goalsFor" ] (text (toString team.goalsFor) )
-        , el LeagueTableGoalsAgainst [ width (px 100), class "goalsAgainst" ] (text (toString team.goalsAgainst) )
+        el None [ bigColumnWidth device, class "name" ] (text team.name)
+        , el None [ width (px (smallColumnWidth device)), class "points" ] (text (toString team.points) )
+        , el None [ width (px (smallColumnWidth device)), class "gamesPlayed" ] (text (toString team.gamesPlayed) )
+        , el None [ width (px (mediumColumnWidth device)), class "goalDifference" ] (text (toString team.goalDifference) )
+        , el None [ width (px (smallColumnWidth device)), class "goalsFor" ] (text (toString team.goalsFor) )
+        , el None [ width (px (smallColumnWidth device)), class "goalsAgainst" ] (text (toString team.goalsAgainst) )
+    ]
+
+compactTeamRow : Device -> Gaps -> Team -> Element Styles variation Msg
+compactTeamRow device gaps team =
+    row LeagueTableTeamRow [ padding gaps.medium, spacing gaps.small, center, class "team" ] 
+    [ 
+        column None []
+        [
+            row None [] 
+                [ el None [ width fill, class "name" ] (text team.name) ]
+            , row None []
+                [
+                    el None [ width (px (smallColumnWidth device)), class "points" ] (text (toString team.points) )
+                    , el None [ width (px (smallColumnWidth device)), class "gamesPlayed" ] (text (toString team.gamesPlayed) )
+                    , el None [ width (px (mediumColumnWidth device)), class "goalDifference" ] (text (toString team.goalDifference) )
+                    , el None [ width (px (smallColumnWidth device)), class "goalsFor" ] (text (toString team.goalsFor) )
+                    , el None [ width (px (smallColumnWidth device)), class "goalsAgainst" ] (text (toString team.goalsAgainst) )
+                ]
+        ]
     ]
 
 leagueTableText: String -> Element Styles variation Msg
 leagueTableText string =
     el LeagueListText [] <| text string
+
+smallColumnWidth: Device -> Float
+smallColumnWidth device = 
+    if device.phone then
+        50
+    else
+        100
+
+mediumColumnWidth: Device -> Float
+mediumColumnWidth device = 
+    if device.phone then
+        70
+    else
+        120
+
+bigColumnWidth: Device -> Element.Attribute variation msg
+bigColumnWidth device = 
+    if device.phone then
+        width fill
+    else
+        width (px 200)

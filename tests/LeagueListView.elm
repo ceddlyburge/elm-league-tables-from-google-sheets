@@ -8,14 +8,14 @@ import Fuzz exposing (list, string)
 
 import LeagueList.View exposing (view)
 import Models.LeagueSummary exposing (LeagueSummary)
-import Models.Model exposing (Model, vanillaModel)
+import Models.Model exposing (vanillaModel)
 
 
 multipleLeagues : Test
 multipleLeagues =
     fuzz (list string) "Displays multiple leagues correctly" <|
         \leagueTitles ->
-            view (leagueListResponse leagueTitles)
+            view (leagueListResponse leagueTitles) vanillaModel.device
                 |> Query.fromHtml
                 |> Query.has (List.map text leagueTitles)
 

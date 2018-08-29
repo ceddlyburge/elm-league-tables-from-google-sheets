@@ -15,16 +15,8 @@ type Styles
     | TitleButton
     | LeagueListText
     | LeagueListLeagueTitle
-    | LeagueTableTeams
-    | LeagueTableTeamName
-    | LeagueTablePoints
-    | LeagueTableGamesPlayed
-    | LeagueTableGoalDifference
-    | LeagueTableGoalsFor
-    | LeagueTableGoalsAgainst
-    | Heading1
-    | HeaderRow
-    | DataRow
+    | LeagueTableHeaderRow
+    | LeagueTableTeamRow
 
 sansSerif : List Font
 sansSerif =
@@ -71,7 +63,7 @@ calculatefontSize: Device -> FontSize
 calculatefontSize device =
     if device.phone then
         { big = 24
-        , medium = 16
+        , medium = 14
         , small = 12    
         }
     else 
@@ -88,6 +80,12 @@ stylesheet device =
     in
         Style.styleSheet
             [ style None []
+            , style Title
+                [ Color.background colors.titleBackground
+                , Font.size fontSize.big
+                , Font.center
+                , Color.text colors.titleText
+                ]
             , style Body [ Font.typeface sansSerif ]
             , style Hidden [ 
                 Color.background colors.transparent
@@ -98,12 +96,12 @@ stylesheet device =
                 , Color.text colors.titleButton
                 , cursor "pointer"
                 ]
-            , style LeagueListText  -- same as DataRow, make it in to a function / fix
+            , style LeagueListText 
                 [ Font.size fontSize.medium
                 , Font.center
                 , Color.text colors.text
                 ]
-            , style LeagueListLeagueTitle  -- same as DataRow, make it in to a function / fix
+            , style LeagueListLeagueTitle 
                 [ Font.size fontSize.medium
                 , Font.center
                 , Color.text colors.text
@@ -111,32 +109,13 @@ stylesheet device =
                 , Color.border colors.border
                 , cursor "pointer"
                 ]
-            , style LeagueTableTeams []
-            , style LeagueTableTeamName  []
-            , style LeagueTablePoints  []
-            , style LeagueTableGamesPlayed  []
-            , style LeagueTableGoalDifference  []
-            , style LeagueTableGoalsFor  []
-            , style LeagueTableGoalsAgainst  []
-            , style Title
-                [ Color.background colors.titleBackground
-                , Font.size fontSize.big
-                , Font.center
-                , Color.text colors.titleText
-                ]
-            , style Heading1
-                [ Font.size fontSize.medium
-                , Color.text Color.brown
-                , Border.bottom 2
-                , Color.border colors.text
-                ]
-            , style HeaderRow
+            , style LeagueTableHeaderRow
                 [ Font.size fontSize.medium
                 , Color.text colors.text
                 , Border.bottom 2
                 , Color.border colors.border
                 ]
-            , style DataRow
+            , style LeagueTableTeamRow
                 [ Font.size fontSize.medium
                 , Color.text colors.text
                 , Border.bottom 2
