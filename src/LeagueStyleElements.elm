@@ -70,9 +70,9 @@ type alias FontSize =
 calculatefontSize: Device -> FontSize
 calculatefontSize device =
     if device.phone then
-        { big = 18
-        , medium = 12
-        , small = 8    
+        { big = 24
+        , medium = 16
+        , small = 12    
         }
     else 
         { big = 34
