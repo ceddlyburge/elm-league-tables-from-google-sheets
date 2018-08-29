@@ -15,9 +15,9 @@ import Models.Team exposing (Team)
 import ErrorMessages exposing (httpErrorMessage, unexpectedNotAskedMessage)
 
 
-view : String -> WebData LeagueTable -> Html Msg
-view leagueTitle response =
-    Element.layout stylesheet <|
+view : String -> WebData LeagueTable -> Device -> Html Msg
+view leagueTitle response device =
+    Element.layout (stylesheet device) <|         
         column Body [ width (percent 100), spacing 25, center ]
         [
             row 

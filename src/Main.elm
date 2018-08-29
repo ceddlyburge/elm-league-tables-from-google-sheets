@@ -6,6 +6,7 @@ import Msg exposing (Msg)
 import Update exposing (update)
 import View exposing (view)
 import Navigation exposing (Location)
+import Subscriptions
 
 -- It is not possible to import this module in to an elm-spec test, as it tells me there is a circular dependency.
 -- There isn't one that I can see, so it must be created by the test runner or something like that.
@@ -29,5 +30,5 @@ main =
         { init = init
         , view = view
         , update = update
-        , subscriptions = \_ -> Sub.none
-        }
+        , subscriptions = Subscriptions.subscriptions
+         }

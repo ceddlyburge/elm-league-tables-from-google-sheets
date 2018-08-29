@@ -3,9 +3,9 @@ module LeagueStyleElements exposing (..)
 import Color
 import Style exposing (..)
 import Style.Border as Border
-
 import Style.Color as Color
 import Style.Font as Font
+import Element exposing (Device)
 
 type Styles
     = None
@@ -61,63 +61,85 @@ colors =
     , transparent = Color.rgba 255 255 255 0 
     }
 
+type alias FontSize =
+    { big: Float
+    , medium: Float
+    , small: Float    
+    }
 
-stylesheet : StyleSheet Styles variation
-stylesheet =
-    Style.styleSheet
-        [ style None []
-        , style Body [ Font.typeface sansSerif ]
-        , style Hidden [ 
-            Color.background colors.transparent
-            , Color.text colors.transparent
+calculatefontSize: Device -> FontSize
+calculatefontSize device =
+    if device.phone then
+        { big = 18
+        , medium = 12
+        , small = 8    
+        }
+    else 
+        { big = 34
+        , medium = 25
+        , small = 18    
+        }
+
+
+stylesheet : Device -> StyleSheet Styles variation
+stylesheet device =
+    let
+        fontSize = calculatefontSize device     
+    in
+        Style.styleSheet
+            [ style None []
+            , style Body [ Font.typeface sansSerif ]
+            , style Hidden [ 
+                Color.background colors.transparent
+                , Color.text colors.transparent
+                ]
+            , style TitleButton [ 
+                Color.background colors.titleBackground
+                , Color.text colors.titleButton
+                , cursor "pointer"
+                ]
+            , style LeagueListText  -- same as DataRow, make it in to a function / fix
+                [ Font.size fontSize.medium
+                , Font.center
+                , Color.text colors.text
+                ]
+            , style LeagueListLeagueTitle  -- same as DataRow, make it in to a function / fix
+                [ Font.size fontSize.medium
+                , Font.center
+                , Color.text colors.text
+                , Border.bottom 2
+                , Color.border colors.border
+                , cursor "pointer"
+                ]
+            , style LeagueTableTeams []
+            , style LeagueTableTeamName  []
+            , style LeagueTablePoints  []
+            , style LeagueTableGamesPlayed  []
+            , style LeagueTableGoalDifference  []
+            , style LeagueTableGoalsFor  []
+            , style LeagueTableGoalsAgainst  []
+            , style Title
+                [ Color.background colors.titleBackground
+                , Font.size fontSize.big
+                , Font.center
+                , Color.text colors.titleText
+                ]
+            , style Heading1
+                [ Font.size fontSize.medium
+                , Color.text Color.brown
+                , Border.bottom 2
+                , Color.border colors.text
+                ]
+            , style HeaderRow
+                [ Font.size fontSize.medium
+                , Color.text colors.text
+                , Border.bottom 2
+                , Color.border colors.border
+                ]
+            , style DataRow
+                [ Font.size fontSize.medium
+                , Color.text colors.text
+                , Border.bottom 2
+                , Color.border colors.border
+                ]
             ]
-        , style TitleButton [ 
-            Color.background colors.titleBackground
-            , Color.text colors.titleButton
-            , cursor "pointer"
-            ]
-        , style LeagueListText  -- same as DataRow, make it in to a function / fix
-            [ Font.size 25
-            , Font.center
-            , Color.text colors.text
-            ]
-        , style LeagueListLeagueTitle  -- same as DataRow, make it in to a function / fix
-            [ Font.size 25
-            , Font.center
-            , Color.text colors.text
-            , Border.bottom 2
-            , Color.border colors.border
-            , cursor "pointer"
-            ]
-        , style LeagueTableTeams []
-        , style LeagueTableTeamName  []
-        , style LeagueTablePoints  []
-        , style LeagueTableGamesPlayed  []
-        , style LeagueTableGoalDifference  []
-        , style LeagueTableGoalsFor  []
-        , style LeagueTableGoalsAgainst  []
-        , style Title
-            [ Color.background colors.titleBackground
-            , Font.size 34
-            , Font.center
-            , Color.text colors.titleText
-            ]
-        , style Heading1
-            [ Font.size 25
-            , Color.text Color.brown
-            , Border.bottom 2
-            , Color.border colors.text
-            ]
-        , style HeaderRow
-            [ Font.size 25
-            , Color.text colors.text
-            , Border.bottom 2
-            , Color.border colors.border
-            ]
-        , style DataRow
-            [ Font.size 25
-            , Color.text colors.text
-            , Border.bottom 2
-            , Color.border colors.border
-            ]
-        ]

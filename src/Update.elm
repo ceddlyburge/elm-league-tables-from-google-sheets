@@ -1,5 +1,6 @@
 module Update exposing (update)
 
+import Element exposing (classifyDevice)
 import Msg exposing (..)
 import Models.Model exposing (Model)
 import Models.Route as Route exposing (Route)
@@ -27,6 +28,10 @@ update msg model =
         IndividualSheetResponse leagueTitle response ->
             individualSheetResponse model response leagueTitle
         
+        -- responsiveness
+        SetScreenSize size ->
+            ({ model | device = classifyDevice size }, Cmd.none)
+
         -- routing
         OnLocationChange location ->
             -- this relies on the other update cases to actually set the route in the model, probably not the best idea
@@ -37,19 +42,10 @@ update msg model =
                 if ((toUrl route) == (toUrl model.route)) then
                     ( model, Cmd.none )
                 else 
-                    case parseLocation location of
+                    case route of
                         Route.LeagueListRoute ->
                             update AllSheetSummaryRequest model
                         Route.LeagueTableRoute leagueTitle ->
                             update (IndividualSheetRequest leagueTitle) model 
                         _ ->
                             ( model, Cmd.none )            
-
-
--- logErrorAndNoOp : Http.Error -> Model -> ( Model, Cmd Msg )
--- logErrorAndNoOp httpError model =
---     let
---         _ =
---             Debug.log "httpError" httpError
---     in
---         ( model, Cmd.none )

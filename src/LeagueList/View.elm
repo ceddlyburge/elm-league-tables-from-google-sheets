@@ -13,9 +13,9 @@ import ViewComponents exposing (backIcon, refreshIcon, loading)
 import ErrorMessages exposing (httpErrorMessage, unexpectedNotAskedMessage)
 
 
-view : WebData (List LeagueSummary) -> Html Msg
-view response =
-    Element.layout stylesheet <|         
+view : WebData (List LeagueSummary) -> Device -> Html Msg
+view response device =
+    Element.layout (stylesheet device) <|         
         column Body [ width (percent 100), spacing 25, center ]
             [
                 row 

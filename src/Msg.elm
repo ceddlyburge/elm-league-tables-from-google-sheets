@@ -1,6 +1,7 @@
 module Msg exposing (..)
 
 import RemoteData exposing (WebData)
+import Window exposing (size)
 
 import Models.LeagueSummary exposing (LeagueSummary)
 import Models.Game exposing (LeagueGames)
@@ -17,5 +18,7 @@ type Msg
     | IndividualSheetResponse String (WebData LeagueGames)
     -- routing
     | OnLocationChange Location
+    -- responsiveness
+    | SetScreenSize Window.Size
     -- 
     | NoOp
