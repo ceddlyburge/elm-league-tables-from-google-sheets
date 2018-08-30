@@ -71,7 +71,7 @@ headerRow device gaps =
 fullHeaderRow device gaps = 
     row LeagueTableHeaderRow [ padding gaps.medium, spacing gaps.small, center ] 
     [
-        el None [ bigColumnWidth device ] (text "Team")
+        paragraph None [ bigColumnWidth device ] [ text "Team" ]
         , el None [ width (px (smallColumnWidth device)) ] (text "Points")
         , el None [ width (px (smallColumnWidth device)) ] (text "Played")
         , el None [ width (px (mediumColumnWidth device)) ] (text "Goal\nDifference")
@@ -84,9 +84,9 @@ compactHeaderRow device gaps =
     [
         el None [ width (px (smallColumnWidth device)) ] (text "Points")
         , el None [ width (px (smallColumnWidth device)) ] (text "Played")
-        , el None [ width (px (mediumColumnWidth device)) ] (text "Goal\nDifference")
-        , el None [ width (px (smallColumnWidth device)) ] (text "Goals\nFor")
-        , el None [ width (px (smallColumnWidth device)) ] (text "Goals\nAgainst")
+        , paragraph None [ width (px (mediumColumnWidth device)) ] [ text "Goal Difference" ]
+        , paragraph None [ width (px (smallColumnWidth device)) ] [ text "Goals For" ]
+        , paragraph None [ width (px (smallColumnWidth device)) ] [ text "Goals Against" ]
     ]
 
 -- I could use some fancy functional action no not bother taking the gaps and team
@@ -101,7 +101,7 @@ fullTeamRow : Device -> Gaps -> Team -> Element Styles variation Msg
 fullTeamRow device gaps team =
     row LeagueTableTeamRow [ padding gaps.medium, spacing gaps.small, center, class "team" ] 
     [ 
-        el None [ bigColumnWidth device, class "name" ] (text team.name)
+        paragraph None [ bigColumnWidth device, class "name" ] [ text team.name ]
         , el None [ width (px (smallColumnWidth device)), class "points" ] (text (toString team.points) )
         , el None [ width (px (smallColumnWidth device)), class "gamesPlayed" ] (text (toString team.gamesPlayed) )
         , el None [ width (px (mediumColumnWidth device)), class "goalDifference" ] (text (toString team.goalDifference) )
@@ -115,8 +115,7 @@ compactTeamRow device gaps team =
     [ 
         column None []
         [
-            row None [] 
-                [ el None [ width fill, class "name" ] (text team.name) ]
+            paragraph None [ width fill, class "name" ] [text team.name]
             , row None []
                 [
                     el None [ width (px (smallColumnWidth device)), class "points" ] (text (toString team.points) )

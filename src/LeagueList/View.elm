@@ -74,4 +74,4 @@ leagueTitle gaps league =
             , center
             , onClick <| IndividualSheetRequest league.title
         ] 
-        (text league.title)
+        (paragraph None [] [ text league.title ] )
