@@ -24,7 +24,6 @@ specs =
             , response = { status = 200, body = spreadsheetValuesWithDataEntryIssuesResponse }
             }
           ]
-        
           ,it "ignores invalid games"
           [ steps.click ".refresh"
           , steps.click ".league" -- only one league in the results

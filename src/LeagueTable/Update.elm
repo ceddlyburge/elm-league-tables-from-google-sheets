@@ -8,7 +8,6 @@ import Msg exposing (..)
 import Models.Model exposing (Model)
 import Models.Game exposing (LeagueGames)
 import Models.Config exposing (Config)
-import Models.State as State exposing (State)
 import Models.Route as Route exposing (Route)
 import LeagueTable.DecodeGoogleSheetToGameList exposing (..)
 import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
@@ -22,8 +21,7 @@ individualSheetResponse : Model -> WebData LeagueGames -> String -> ( Model, Cmd
 individualSheetResponse  model response leagueTitle =
     ( 
         { model | 
-            state = State.LeagueTable
-            , route = Route.LeagueTableRoute leagueTitle
+            route = Route.LeagueTableRoute leagueTitle
             , leagueTable = RemoteData.map calculateLeagueTable response 
         }
         , newUrl <| toUrl <| Route.LeagueTableRoute leagueTitle

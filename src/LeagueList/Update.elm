@@ -8,7 +8,6 @@ import Msg exposing (..)
 import Models.Model exposing (Model)
 import Models.LeagueSummary exposing (LeagueSummary)
 import Models.Config exposing (Config)
-import Models.State as State exposing (State)
 import Models.Route as Route exposing (Route)
 import LeagueList.DecodeGoogleSheetToLeagueList exposing (..)
 import Routing exposing (toUrl)
@@ -20,7 +19,7 @@ allSheetSummaryRequest model =
 
 allSheetSummaryResponse: Model -> WebData (List LeagueSummary) -> ( Model, Cmd Msg )
 allSheetSummaryResponse model response = 
-    ( { model | state = State.LeagueList, route = Route.LeagueListRoute, leagues = response }, newUrl <| toUrl Route.LeagueListRoute )
+    ( { model | route = Route.LeagueListRoute, leagues = response }, newUrl <| toUrl Route.LeagueListRoute )
 
 fetchLeagueSummaries : Config -> Cmd Msg
 fetchLeagueSummaries config =
