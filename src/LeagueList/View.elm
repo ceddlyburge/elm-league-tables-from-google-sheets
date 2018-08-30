@@ -9,7 +9,7 @@ import RemoteData exposing (WebData)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueSummary exposing (LeagueSummary)
-import ViewComponents exposing (backIcon, refreshIcon, loading, gapsForDevice, Gaps)
+import ViewComponents exposing (..)
 import ErrorMessages exposing (httpErrorMessage, unexpectedNotAskedMessage)
 
 
@@ -40,7 +40,7 @@ maybeLeagueList gaps response =
     case response of
         RemoteData.NotAsked ->
             -- This situation occurs when going to the url for a league table. I'm not sure why this view is shown first, it looks from the model history as though it shouldn't be the case
-            leagueListText "" --unexpectedNotAskedMessage
+            unhappyPathText "" --unexpectedNotAskedMessage
 
         RemoteData.Loading ->
             loading
@@ -49,7 +49,7 @@ maybeLeagueList gaps response =
             leagueList gaps leagues
 
         RemoteData.Failure error ->
-            leagueListText <| httpErrorMessage error
+            unhappyPathText <| httpErrorMessage error
 
 
 leagueList: Gaps -> List LeagueSummary -> Element Styles variation Msg
@@ -75,7 +75,3 @@ leagueTitle gaps league =
             , onClick <| IndividualSheetRequest league.title
         ] 
         (text league.title)
-
-leagueListText: String -> Element Styles variation Msg
-leagueListText string =
-    el LeagueListText [] <| text string

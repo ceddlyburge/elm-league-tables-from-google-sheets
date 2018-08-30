@@ -4,11 +4,10 @@ import Html exposing (Html, span)
 import Element exposing (..)
 import Element.Attributes exposing (..)
 import Element.Events exposing (onClick)
---import Element.Internal exposing (..)
 import RemoteData exposing (WebData)
 import Http exposing (decodeUri)
 
-import ViewComponents exposing (backIcon, refreshIcon, loading, Gaps, gapsForDevice)
+import ViewComponents exposing (..)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueTable exposing (LeagueTable)
@@ -42,7 +41,7 @@ maybeLeagueTable : Device -> Gaps -> WebData LeagueTable -> Element Styles varia
 maybeLeagueTable device gaps response =
     case response of
         RemoteData.NotAsked ->
-            leagueTableText unexpectedNotAskedMessage
+            unhappyPathText unexpectedNotAskedMessage
 
         RemoteData.Loading ->
             loading
@@ -51,7 +50,7 @@ maybeLeagueTable device gaps response =
             leagueTableElement device gaps leagueTable
 
         RemoteData.Failure error ->
-            leagueTableText <| httpErrorMessage error
+            unhappyPathText <| httpErrorMessage error
 
 leagueTableElement : Device -> Gaps -> LeagueTable -> Element Styles variation Msg
 leagueTableElement device gaps leagueTable =
@@ -128,10 +127,6 @@ compactTeamRow device gaps team =
                 ]
         ]
     ]
-
-leagueTableText: String -> Element Styles variation Msg
-leagueTableText string =
-    el LeagueListText [] <| text string
 
 smallColumnWidth: Device -> Float
 smallColumnWidth device = 

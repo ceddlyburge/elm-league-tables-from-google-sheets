@@ -13,7 +13,7 @@ type Styles
     | Hidden
     | Title
     | TitleButton
-    | LeagueListText
+    | UnhappyPathText
     | LeagueListLeagueTitle
     | LeagueTableHeaderRow
     | LeagueTableTeamRow
@@ -96,7 +96,7 @@ stylesheet device =
                 , Color.text colors.titleButton
                 , cursor "pointer"
                 ]
-            , style LeagueListText 
+            , style UnhappyPathText 
                 [ Font.size fontSize.medium
                 , Font.center
                 , Color.text colors.text

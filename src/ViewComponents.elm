@@ -3,6 +3,8 @@ module ViewComponents exposing (..)
 import Html exposing (Html)
 import Html.Attributes exposing (class)
 import Element exposing (..)
+import Element.Attributes exposing (..)
+import LeagueStyleElements exposing (..)
 
 type alias Gaps =
     { big: Float
@@ -53,3 +55,7 @@ loading =
                 ]
         ]
     |> Element.html
+
+unhappyPathText: String -> Element Styles variation msg
+unhappyPathText string =
+    paragraph UnhappyPathText [ width (percent 90) ] [ text string ]
