@@ -25,7 +25,7 @@ specs =
             }
           ]
         
-          ,it "calculates and displays league table"
+          ,it "ignores invalid games"
           [ steps.click ".refresh"
           , steps.click ".league" -- only one league in the results
           , assert.containsText
@@ -35,10 +35,6 @@ specs =
           , assert.containsText
             { selector = ".teams .team:nth-Child(3) .name"
             , text = "Meridian"
-            }
-          , assert.containsText
-            { selector = ".teams .team:nth-Child(3) .name"
-            , text = "Blackwater"
             }
           ]
         ]

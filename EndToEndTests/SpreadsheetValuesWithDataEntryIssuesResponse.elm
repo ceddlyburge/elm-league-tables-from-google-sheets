@@ -28,16 +28,10 @@ spreadsheetValuesWithDataEntryIssuesResponse =
         "Meridian"
       ],
       [
-        "Blackwater",
-        "not a number",
+        "asd",
         "",
         ""
-      ]
-      [
-        "Battersea",
-        "",
-        ""
-      ]
+      ],
       [
       ]
     ]

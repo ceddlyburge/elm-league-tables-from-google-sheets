@@ -25,7 +25,7 @@ specs =
             }
           ]
         
-          ,it "calculates and displays league table"
+          ,it "allows games in the future / games with no scores"
           [ steps.click ".refresh"
           , steps.click ".league" -- only one league in the results
           , assert.containsText
