@@ -1,7 +1,7 @@
 module SpreadsheetValuesWithOneUnplayedGameResponse exposing (spreadsheetValuesWithOneUnplayedGameResponse)
 
 
--- This is the response from the test spreadsheet, at https://sheets.googleapis.com/v4/spreadsheets/1Ai9H6Pfe1LPsOcksN6EF03-z-gO1CkNp8P1Im37N3TE/values/Regional%20Div%201?key=<thekey>
+-- This is the based on the response from the test spreadsheet, at https://sheets.googleapis.com/v4/spreadsheets/1Ai9H6Pfe1LPsOcksN6EF03-z-gO1CkNp8P1Im37N3TE/values/Regional%20Div%201?key=<thekey>
 spreadsheetValuesWithOneUnplayedGameResponse: String
 spreadsheetValuesWithOneUnplayedGameResponse =
   """{
