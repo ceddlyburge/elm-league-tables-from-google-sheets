@@ -1,5 +1,9 @@
 module Main exposing (..)
 
+import Element exposing (classifyDevice)
+import Window exposing (size)
+import Task exposing (perform)
+
 import Models.Config exposing (Config)
 import Models.Model exposing (Model, vanillaModel)
 import Msg exposing (Msg)
@@ -16,9 +20,14 @@ import Subscriptions
 
 init : Config -> Location -> ( Model, Cmd Msg )
 init config location =
-    update 
-     (Msg.OnLocationChange location)
-     { vanillaModel | config = config }
+    let
+        (model, cmd) = 
+            update 
+            (Msg.OnLocationChange location)
+            { vanillaModel | config = config }
+    in
+        (model, Cmd.batch [Task.perform Msg.SetScreenSize Window.size, cmd] )
+     
 
 
 ---- PROGRAM ----
