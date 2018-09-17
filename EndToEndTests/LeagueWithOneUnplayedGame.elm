@@ -11,7 +11,7 @@ import View exposing (view)
 
 specs : Node
 specs =
-  describe "League Table"
+  describe "League Table With One Unplayed Game"
     [ 
       context "with HTTP mocks"
         [ http
