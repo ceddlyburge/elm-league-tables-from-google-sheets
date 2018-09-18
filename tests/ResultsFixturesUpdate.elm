@@ -6,9 +6,8 @@ import RemoteData exposing (WebData)
 import Update exposing (update)
 import Msg exposing (..)
 import Models.Model exposing (Model, vanillaModel)
-import Models.LeagueTable exposing (LeagueTable)
-import Models.Game exposing (Game, LeagueGames)
-import Models.Team exposing (Team)
+import Models.Game exposing (Game)
+import Models.LeagueGames exposing (LeagueGames)
 
 apiSuccess : Test
 apiSuccess =
@@ -18,7 +17,7 @@ apiSuccess =
             |> \(model, msg) -> model.leagueGames
             |> Expect.equal leagueGames
 
-leagueGames: LeagueGames
+leagueGames: WebData LeagueGames
 leagueGames = 
     RemoteData.Success ( LeagueGames "Div 1" [ game ] )
 

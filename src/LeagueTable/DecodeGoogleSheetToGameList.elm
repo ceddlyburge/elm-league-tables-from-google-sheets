@@ -2,7 +2,8 @@ module LeagueTable.DecodeGoogleSheetToGameList exposing (decodeSheetToLeagueGame
 
 import Json.Decode exposing (Decoder, at, list, string, succeed, index, int, value, Value, andThen, decodeString, maybe)
 import Json.Decode.Extra exposing (parseInt, indexedList, andMap, optionalField, withDefault)
-import Models.Game exposing (Game, LeagueGames)
+import Models.Game exposing (Game)
+import Models.LeagueGames exposing (LeagueGames)
 
 decodeSheetToLeagueGames : String -> Decoder LeagueGames
 decodeSheetToLeagueGames leagueTitle =

@@ -1,4 +1,4 @@
-module LeagueTable.Update exposing (individualSheetRequest, individualSheetResponse)
+module ResultsFixtures.Update exposing (individualSheetRequestForResultsFixtures, individualSheetResponseForResultsFixtures)
 
 import Http
 import Navigation exposing (newUrl)
@@ -10,19 +10,18 @@ import Models.LeagueGames exposing (LeagueGames)
 import Models.Config exposing (Config)
 import Models.Route as Route exposing (Route)
 import LeagueTable.DecodeGoogleSheetToGameList exposing (..)
-import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
 import Routing exposing (toUrl)
 
-individualSheetRequest : String -> Model -> ( Model, Cmd Msg )
-individualSheetRequest leagueTitle model  =
+individualSheetRequestForResultsFixtures : String -> Model -> ( Model, Cmd Msg )
+individualSheetRequestForResultsFixtures leagueTitle model  =
     ( { model | leagueTable = RemoteData.Loading }, fetchLeagueGames leagueTitle model.config )
 
-individualSheetResponse : Model -> WebData LeagueGames -> String -> ( Model, Cmd Msg )
-individualSheetResponse  model response leagueTitle =
+individualSheetResponseForResultsFixtures : Model -> WebData LeagueGames -> String -> ( Model, Cmd Msg )
+individualSheetResponseForResultsFixtures  model response leagueTitle =
     ( 
         { model | 
-            route = Route.LeagueTableRoute leagueTitle
-            , leagueTable = RemoteData.map calculateLeagueTable response 
+            route = Route.ResultsFixturesRoute leagueTitle
+            , leagueGames = response 
         }
         , newUrl <| toUrl <| Route.LeagueTableRoute leagueTitle
     )

@@ -5,7 +5,8 @@ import Fuzz exposing (Fuzzer, intRange)
 import Expect
 
 import Models.LeagueTable exposing (LeagueTable)
-import Models.Game exposing (Game, LeagueGames)
+import Models.Game exposing (Game)
+import Models.LeagueGames exposing (LeagueGames)
 import Models.Team exposing (Team)
 import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
 

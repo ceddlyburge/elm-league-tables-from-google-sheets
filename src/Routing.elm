@@ -23,6 +23,9 @@ toUrl route =
         Route.LeagueTableRoute leagueTitle ->
             "/league/" ++ leagueTitle
         
+        Route.ResultsFixturesRoute leagueTitle ->
+            "/results-fixtures/" ++ leagueTitle
+        
         Route.NotFoundRoute ->
             "404"
 
