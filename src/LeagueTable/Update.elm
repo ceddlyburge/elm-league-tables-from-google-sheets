@@ -1,6 +1,5 @@
 module LeagueTable.Update exposing (individualSheetRequest, individualSheetResponse)
 
-import Http
 import Navigation exposing (newUrl)
 import RemoteData exposing (WebData)
 
@@ -9,9 +8,9 @@ import Models.Model exposing (Model)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.Config exposing (Config)
 import Models.Route as Route exposing (Route)
-import LeagueTable.DecodeGoogleSheetToGameList exposing (..)
 import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
 import Routing exposing (toUrl)
+import UpdateSharedFunctions exposing (fetchIndividualSheet)
 
 individualSheetRequest : String -> Model -> ( Model, Cmd Msg )
 individualSheetRequest leagueTitle model  =
@@ -29,13 +28,5 @@ individualSheetResponse  model response leagueTitle =
 
 fetchLeagueGames : String -> Config -> Cmd Msg
 fetchLeagueGames leagueTitle config =
-    Http.get 
-        ("https://sheets.googleapis.com/v4/spreadsheets/" ++ 
-            config.googleSheet ++ 
-            "/values/" ++ 
-            leagueTitle ++ 
-            "?key=" ++ 
-            config.googleApiKey) 
-        (decodeSheetToLeagueGames leagueTitle)
-        |> RemoteData.sendRequest
-        |> Cmd.map (IndividualSheetResponse leagueTitle)
+    fetchIndividualSheet leagueTitle config
+    |> Cmd.map (IndividualSheetResponse leagueTitle)
