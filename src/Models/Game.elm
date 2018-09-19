@@ -6,7 +6,7 @@ type alias Game =
     , homeTeamGoals : Maybe Int
     , awayTeamName : String
     , awayTeamGoals : Maybe Int
-    , dateplayed : String
+    , datePlayed : String
     , homeScorers : String
     , awayScorers : String
     , homeCards : String
