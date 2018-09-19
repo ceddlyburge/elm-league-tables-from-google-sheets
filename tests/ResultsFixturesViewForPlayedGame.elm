@@ -1,14 +1,11 @@
-module ResultsFixturesView exposing (..)
+module ResultsFixturesViewForPlayedGame exposing (..)
 
 import Test exposing (..)
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (text, class)
-import RemoteData exposing (WebData)
 
-import ResultsFixtures.View exposing (view)
-import Models.Model exposing (vanillaModel)
-import Models.Game exposing (Game)
-import Models.LeagueGames exposing (LeagueGames)
+import Msg exposing (..)
+import ResultsFixturesViewHelpers exposing (..)
 
 
 onePlayedGame : Test
@@ -37,15 +34,7 @@ onePlayedGame =
                 |> Query.has [ Test.Html.Selector.text "Meridian"]
         ]
 
+onePlayedGameElement: Query.Single Msg
 onePlayedGameElement =
-    gameElement { vanillaGame | homeTeamName = "Castle", homeTeamGoals = Just 1, awayTeamName = "Meridian", awayTeamGoals = Just 0 }
-
---teamElement : Query.Single Msg.Msg
-gameElement game  =
-    view "" (RemoteData.Success (LeagueGames "" [ game ]))  vanillaModel.device
-        |> Query.fromHtml
-        |> Query.find [ Test.Html.Selector.class "team" ]
-
-vanillaGame : Game
-vanillaGame = 
-    Game "" Nothing "" Nothing "" "" "" "" "" "" 
+    html { vanillaGame | homeTeamName = "Castle", homeTeamGoals = Just 1, awayTeamName = "Meridian", awayTeamGoals = Just 0 }
+    |> Query.find [ Test.Html.Selector.class "game" ]
