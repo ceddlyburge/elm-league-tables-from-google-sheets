@@ -13,7 +13,3 @@ html :  Game -> Query.Single Msg
 html game  =
     view "" (RemoteData.Success (LeagueGames "" [ game ]))  vanillaModel.device
         |> Query.fromHtml
-
-vanillaGame : Game
-vanillaGame = 
-    Game "" Nothing "" Nothing "" "" "" "" "" "" 

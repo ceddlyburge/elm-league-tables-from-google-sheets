@@ -6,6 +6,7 @@ import Test.Html.Selector exposing (text, class)
 
 import Msg exposing (..)
 import ResultsFixturesViewHelpers exposing (..)
+import ResultsFixturesHelpers exposing (..)
 
 
 oneUnplayedGame : Test
