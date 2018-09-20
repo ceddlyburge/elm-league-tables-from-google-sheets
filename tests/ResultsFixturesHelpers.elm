@@ -4,4 +4,4 @@ import Models.Game exposing (Game)
 
 vanillaGame : Game
 vanillaGame = 
-    Game "" Nothing "" Nothing "" "" "" "" "" "" 
+    Game "" Nothing "" Nothing Nothing "" "" "" "" "" 

@@ -2,6 +2,7 @@ module ResultsFixturesUpdate exposing (..)
 
 import Test exposing (..)
 import Date exposing (..)
+import Time exposing (..)
 import Expect
 import RemoteData exposing (WebData)
 import Update exposing (update)
@@ -49,7 +50,7 @@ gameWithNoDate: Game
 gameWithNoDate = 
     vanillaGame
 
-gameWithDate: Int -> Game
+gameWithDate: Float -> Game
 gameWithDate timestamp = 
-    { vanillaGame | datePlayed = Just <| Date.fromTime timestamp }
+    { vanillaGame | datePlayed = Just <| Date.fromTime <| Time.second * timestamp }
 

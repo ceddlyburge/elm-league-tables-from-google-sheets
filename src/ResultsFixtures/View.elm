@@ -88,7 +88,7 @@ scoreSlashDate game =
             ]
         (_, _) ->
             [ 
-                el None [ width (percent 100) , class "datePlayed" ] (text game.datePlayed)
+                el None [ width (percent 100) , class "datePlayed" ] (text <| Maybe.withDefault "" (Maybe.map toString game.datePlayed) )
             ]
             
 
