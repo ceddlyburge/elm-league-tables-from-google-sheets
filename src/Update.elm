@@ -55,5 +55,7 @@ update msg model =
                             update AllSheetSummaryRequest model
                         Route.LeagueTableRoute leagueTitle ->
                             update (IndividualSheetRequest leagueTitle) model 
-                        _ ->
+                        Route.ResultsFixturesRoute leagueTitle ->
+                            update (IndividualSheetRequestForResultsFixtures leagueTitle) model 
+                        Route.NotFoundRoute ->
                             ( model, Cmd.none )            
