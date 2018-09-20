@@ -16,6 +16,12 @@ spreadsheetValuesOneResultTwoFixturesResponse =
         "Date Played"
       ],
       [
+        "Blackwater",
+        "",
+        "",
+        "Nomad"
+      ],
+      [
         "Castle",
         "3",
         "0",
@@ -28,12 +34,6 @@ spreadsheetValuesOneResultTwoFixturesResponse =
         "",
         "Clapham",
         "2018-06-03"
-      ],
-      [
-        "Blackwater",
-        "",
-        "",
-        "Nomad"
       ]
     ]
   }"""
