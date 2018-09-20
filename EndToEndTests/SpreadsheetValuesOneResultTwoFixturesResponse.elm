@@ -13,7 +13,7 @@ spreadsheetValuesOneResultTwoFixturesResponse =
         "Home Score",
         "Away Score",
         "Away Team",
-        "Date Played",
+        "Date Played"
       ],
       [
         "Castle",

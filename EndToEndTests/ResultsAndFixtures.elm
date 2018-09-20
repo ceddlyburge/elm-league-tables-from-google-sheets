@@ -30,35 +30,35 @@ specs =
           , steps.click ".league" -- only one league in the results
           , steps.click ".resultsAndFixtures" -- shows results and fixtures page
           , assert.containsText
-            { selector = ".games .game:nth-Child(1) .homeTeam"
+            { selector = ".el"
             , text = "Castle"
             }
           , assert.containsText
-            { selector = ".games .game:nth-Child(1) .homeScore"
+            { selector = ".games .game:nth-Child(1) .homeTeamGoals"
             , text = "3"
             }
           , assert.containsText
-            { selector = ".games .game:nth-Child(1) .awayScore"
+            { selector = ".games .game:nth-Child(1) .awayTeamGoals"
             , text = "0"
             }          
           , assert.containsText
-            { selector = ".games .game:nth-Child(1) .awayTeam"
-            , text = "3"
+            { selector = ".games .game:nth-Child(1) .awayTeamName"
+            , text = "Meridian"
             }
           , assert.containsText
-            { selector = ".games .game:nth-Child(2) .homeTeam"
+            { selector = ".games .game:nth-Child(2) .homeTeamName"
             , text = "Battersea"
             }
           , assert.containsText
-            { selector = ".games .game:nth-Child(2) .awayTeam"
+            { selector = ".games .game:nth-Child(2) .awayTeamName"
             , text = "Clapham"
             }
           , assert.containsText
-            { selector = ".games .game:nth-Child(2) .homeTeam"
+            { selector = ".games .game:nth-Child(3) .homeTeamName"
             , text = "Blackwater"
             }
           , assert.containsText
-            { selector = ".games .game:nth-Child(2) .awayTeam"
+            { selector = ".games .game:nth-Child(3) .awayTeamName"
             , text = "Nomad"
             }
           ]
