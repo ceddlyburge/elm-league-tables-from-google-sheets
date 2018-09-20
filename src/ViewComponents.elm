@@ -38,6 +38,11 @@ refreshIcon =
     Html.span [ Html.Attributes.class "fas fa-sync-alt" ] []
         |> Element.html
 
+resultsFixturesIcon : Element style variation msg
+resultsFixturesIcon =
+    Html.span [ Html.Attributes.class "resultsAndFixtures fas fa-calendar-alt" ] []
+        |> Element.html
+
 -- It is nice to wait before showing the loading animation, to avoid Jank
 -- style-elements doesn't really support this, so using standard html / css
 loading: Element style variation msg
