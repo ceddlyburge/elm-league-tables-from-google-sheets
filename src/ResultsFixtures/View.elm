@@ -7,6 +7,7 @@ import Element.Events exposing (onClick)
 import RemoteData exposing (WebData)
 import Http exposing (decodeUri)
 
+import Date.Format exposing (..)
 import ViewComponents exposing (..)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
@@ -23,21 +24,26 @@ view leagueTitle response device =
         Element.layout (stylesheet device) <|         
             column Body [ width (percent 100), spacing gaps.big, center ]
             [
-                row 
-                    Title 
-                    [ width (percent 100), padding gaps.big, verticalCenter ] 
-                    [
-                        row None [ center, spacing gaps.big, width (percent 100)   ]
-                        [
-                            el TitleButton [ onClick <| IndividualSheetRequest leagueTitle ] backIcon
-                            , el Title [ width fill, center ] (text <| Maybe.withDefault "" (decodeUri leagueTitle))
-                            , el TitleButton [ onClick <| IndividualSheetRequestForResultsFixtures leagueTitle ] refreshIcon
-                        ]
+                column 
+                    Title
+                    [ width (percent 100) ]
+                    [ 
+                        row 
+                            None
+                            [ width (percent 100), padding gaps.big, verticalCenter ] 
+                            [
+                                row None [ center, spacing gaps.big, width (percent 100)   ]
+                                [
+                                    el TitleButton [ onClick <| IndividualSheetRequest leagueTitle ] backIcon
+                                    , el Title [ width fill, center ] (text <| Maybe.withDefault "" (decodeUri leagueTitle))
+                                    , el TitleButton [ onClick <| IndividualSheetRequestForResultsFixtures leagueTitle ] refreshIcon
+                                ]
+                            ]
+                        , el 
+                            SubTitle 
+                            [ width (percent 100), padding gaps.medium, verticalCenter ]
+                            (text "Results / Fixtures")
                     ]
-                , el 
-                    Title 
-                    [ width (percent 100), padding gaps.big, verticalCenter ]
-                    (text "Results / Fixtures")
                 , maybeFixturesResults device gaps response
             ]
 
@@ -70,12 +76,12 @@ gameRow device gaps game =
         LeagueTableTeamRow 
         [ padding gaps.medium, spacing gaps.small, center, class "game" ] 
         [ 
-            paragraph None [ teamWidth device, class "homeTeamName" ] [text game.homeTeamName]
+            paragraph ResultFixtureHome [ alignRight, teamWidth device, class "homeTeamName" ] [text game.homeTeamName]
             , row 
                 None 
                 [ scoreSlashDateWidth device ] 
                 ( scoreSlashDate game )
-            , paragraph None [ teamWidth device, class "awayTeamName" ] [ text game.awayTeamName ]
+            , paragraph ResultFixtureAway [ alignLeft, teamWidth device, class "awayTeamName" ] [ text game.awayTeamName ]
         ]
 
 scoreSlashDate : Game -> List (Element Styles variation Msg)
@@ -83,25 +89,26 @@ scoreSlashDate game =
     case (game.homeTeamGoals, game.awayTeamGoals) of
         (Just homeTeamGoals, Just awayTeamGoals) ->
             [ 
-                el None [ width (percent 50), class "homeTeamGoals" ] (text (toString homeTeamGoals) )
-                , el None [ width (percent 50), class "awayTeamGoals" ] (text (toString awayTeamGoals) )
+                el ResultFixtureHome [ alignRight, width (percent 35), class "homeTeamGoals" ] (text (toString homeTeamGoals) )
+                , el None [ width (percent 30)] empty
+                , el ResultFixtureAway [ alignLeft, width (percent 35), class "awayTeamGoals" ] (text (toString awayTeamGoals) )
             ]
         (_, _) ->
             [ 
-                el None [ width (percent 100) , class "datePlayed" ] (text <| Maybe.withDefault "" (Maybe.map toString game.datePlayed) )
+                el ResultFixtureDate [ verticalCenter, width (percent 100) , class "datePlayed" ] (text <| Maybe.withDefault "" (Maybe.map formatDate game.datePlayed) )
             ]
             
 
 teamWidth: Device -> Element.Attribute variation msg
 teamWidth device = 
     if device.phone then
-        width (percent 40)
+        width (percent 35)
     else
-        width (px 200)
+        width (px 300)
 
 scoreSlashDateWidth: Device -> Element.Attribute variation msg
 scoreSlashDateWidth device = 
     if device.phone then
-        width (percent 20)
+        width (percent 30)
     else
-        width (px 100)
+        width (px 200)

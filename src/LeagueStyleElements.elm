@@ -12,11 +12,15 @@ type Styles
     | Body
     | Hidden
     | Title
+    | SubTitle
     | TitleButton
     | UnhappyPathText
     | LeagueListLeagueTitle
     | LeagueTableHeaderRow
     | LeagueTableTeamRow
+    | ResultFixtureDate
+    | ResultFixtureHome
+    | ResultFixtureAway
 
 sansSerif : List Font
 sansSerif =
@@ -35,8 +39,10 @@ colors :
     , secondary2 : Color.Color
     , text : Color.Color
     , titleText : Color.Color
+    , subTitleText : Color.Color
     , titleButton : Color.Color
     , titleBackground : Color.Color
+    , subTitleBackground : Color.Color
     , border : Color.Color
     , transparent : Color.Color
     }
@@ -47,8 +53,10 @@ colors =
     , secondary2 = Color.rgba 139 162 190 1.0
     , text = Color.rgba 79 108 142 1.0 -- secondary 3
     , titleText = Color.rgba 4 38 45 1.0 -- primary 5
+    , subTitleText = Color.rgba 7 25 48 1.0 -- primary 5
     , titleButton = Color.rgba 70 124 134 1.0 -- primary 3
     , titleBackground = Color.rgba 130 174 182 1.0 -- primary 2
+    , subTitleBackground  = Color.rgba 215 226 241 1.0 -- secondery 2 - 1
     , border = Color.rgba 215 227 241 1.0 -- secondary 1
     , transparent = Color.rgba 255 255 255 0 
     }
@@ -86,6 +94,12 @@ stylesheet device =
                 , Font.center
                 , Color.text colors.titleText
                 ]
+            , style SubTitle
+                [ Color.background colors.subTitleBackground
+                , Font.size fontSize.medium
+                , Font.center
+                , Color.text colors.titleText
+                ]
             , style Body [ Font.typeface sansSerif ]
             , style Hidden [ 
                 Color.background colors.transparent
@@ -120,5 +134,15 @@ stylesheet device =
                 , Color.text colors.text
                 , Border.bottom 2
                 , Color.border colors.border
+                ]
+            , style ResultFixtureDate
+                [ Font.size fontSize.small
+                , Font.center
+                ]
+            , style ResultFixtureHome
+                [ Font.alignRight
+                ]
+            , style ResultFixtureDate
+                [ Font.alignLeft
                 ]
             ]
