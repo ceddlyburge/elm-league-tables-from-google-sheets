@@ -34,7 +34,7 @@ decodeRowToGame row =
                         |> andMap (index 1 (maybe parseInt))
                         |> andMap (index 3 string) -- this is on purpose
                         |> andMap (index 2 (maybe parseInt))
-                        |> andMap (index 4 (maybe date))
+                        |> andMap (withDefault Nothing (index 4 (maybe date)))
                         --|> andMap (withDefault "" (index 4 string))
                         |> andMap (withDefault "" (index 5 string))
                         |> andMap (withDefault "" (index 6 string))
