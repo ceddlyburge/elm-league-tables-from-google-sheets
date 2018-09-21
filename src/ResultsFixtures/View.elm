@@ -66,7 +66,7 @@ fixturesResultsElement : Device -> Gaps -> LeagueGames -> Element Styles variati
 fixturesResultsElement device gaps leagueGames =
     column 
         None 
-        [ class "games" ]
+        [ rowWidth device, class "games" ]
         (List.map (gameRow device gaps) leagueGames.games)
 
 gameRow : Device -> Gaps -> Game -> Element Styles variation Msg
@@ -98,6 +98,13 @@ scoreSlashDate game =
                 el ResultFixtureDate [ verticalCenter, width (percent 100) , class "datePlayed" ] (text <| Maybe.withDefault "" (Maybe.map formatDate game.datePlayed) )
             ]
             
+
+rowWidth: Device -> Element.Attribute variation msg
+rowWidth device = 
+    if device.phone then
+        width (percent 95)
+    else
+        width (px 800)
 
 teamWidth: Device -> Element.Attribute variation msg
 teamWidth device = 
