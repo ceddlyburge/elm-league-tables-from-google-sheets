@@ -54,13 +54,13 @@ maybeLeagueList gaps response =
 
 leagueList: Gaps -> List LeagueSummary -> Element Styles variation Msg
 leagueList gaps leagueSummaries =
-            column 
-                None 
-                [ 
-                    width (percent 100)
-                    , class "leagues"   
-                ] 
-                (List.map (leagueTitle gaps) leagueSummaries)
+    column 
+        None 
+        [ 
+            width (percent 100)
+            , class "leagues"   
+        ] 
+        (List.map (leagueTitle gaps) leagueSummaries)
 
 leagueTitle : Gaps -> LeagueSummary -> Element Styles variation Msg
 leagueTitle gaps league =

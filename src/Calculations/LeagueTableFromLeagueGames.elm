@@ -4,7 +4,8 @@ import List.Extra exposing (unique)
 
 import Calculations.SortBy exposing (..)
 import Models.LeagueTable exposing (LeagueTable)
-import Models.Game exposing (LeagueGames, Game)
+import Models.Game exposing (Game)
+import Models.LeagueGames exposing (LeagueGames)
 import Models.Team exposing (Team)
 
 calculateLeagueTable: LeagueGames -> LeagueTable

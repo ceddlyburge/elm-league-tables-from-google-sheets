@@ -1,7 +1,7 @@
 import Spec exposing (..)
 
 import SpreadsheetIdResponseDiv1 exposing (..)
-import SpreadsheetValuesWithOneUnplayedGameResponse exposing (..)
+import SpreadsheetValuesOneResultTwoFixturesResponse exposing (..)
 
 import Models.Model exposing ( Model, vanillaModel )
 import Models.Config exposing ( Config )
@@ -11,7 +11,7 @@ import View exposing (view)
 
 specs : Node
 specs =
-  describe "League Table With One Unplayed Game"
+  describe "Results and Fixtures"
     [ 
       context "with HTTP mocks"
         [ http
@@ -21,60 +21,45 @@ specs =
             },
             { method = "GET"
             , url = "https://sheets.googleapis.com/v4/spreadsheets/spreadSheetId/values/Regional Div 1?key=googleApiKey"
-            , response = { status = 200, body = spreadsheetValuesWithOneUnplayedGameResponse }
+            , response = { status = 200, body = spreadsheetValuesOneResultTwoFixturesResponse }
             }
           ]
         
-          ,it "allows games in the future / games with no scores"
+          ,it "shows results and fixtures"
           [ steps.click ".refresh"
           , steps.click ".league" -- only one league in the results
+          , steps.click ".resultsAndFixtures" -- shows results and fixtures page
           , assert.containsText
-            { selector = ".teams .team:nth-Child(2) .name"
+            { selector = ".el"
             , text = "Castle"
             }
           , assert.containsText
-            { selector = ".teams .team:nth-Child(2) .gamesPlayed"
-            , text = "0"
+            { selector = ".games .game:nth-Child(1) .homeTeamGoals"
+            , text = "3"
             }
           , assert.containsText
-            { selector = ".teams .team:nth-Child(2) .points"
+            { selector = ".games .game:nth-Child(1) .awayTeamGoals"
             , text = "0"
-            }
+            }          
           , assert.containsText
-            { selector = ".teams .team:nth-Child(2) .goalsFor"
-            , text = "0"
-            }
-          , assert.containsText
-            { selector = ".teams .team:nth-Child(2) .goalsAgainst"
-            , text = "0"
-            }
-          , assert.containsText
-            { selector = ".teams .team:nth-Child(2) .goalDifference"
-            , text = "0"
-            }
-          , assert.containsText
-            { selector = ".teams .team:nth-Child(3) .name"
+            { selector = ".games .game:nth-Child(1) .awayTeamName"
             , text = "Meridian"
             }
           , assert.containsText
-            { selector = ".teams .team:nth-Child(3) .gamesPlayed"
-            , text = "0"
+            { selector = ".games .game:nth-Child(2) .homeTeamName"
+            , text = "Battersea"
             }
           , assert.containsText
-            { selector = ".teams .team:nth-Child(3) .points"
-            , text = "0"
+            { selector = ".games .game:nth-Child(2) .awayTeamName"
+            , text = "Clapham"
             }
           , assert.containsText
-            { selector = ".teams .team:nth-Child(3) .goalsFor"
-            , text = "0"
+            { selector = ".games .game:nth-Child(3) .homeTeamName"
+            , text = "Blackwater"
             }
           , assert.containsText
-            { selector = ".teams .team:nth-Child(3) .goalsAgainst"
-            , text = "0"
-            }
-          , assert.containsText
-            { selector = ".teams .team:nth-Child(3) .goalDifference"
-            , text = "0"
+            { selector = ".games .game:nth-Child(3) .awayTeamName"
+            , text = "Nomad"
             }
           ]
         ]

@@ -30,6 +30,7 @@ view leagueTitle response device =
                         row None [ center, spacing gaps.big, width (percent 100)   ]
                         [
                             el TitleButton [ onClick AllSheetSummaryRequest ] backIcon
+                            , el TitleButton [ onClick <| IndividualSheetRequestForResultsFixtures leagueTitle ] resultsFixturesIcon
                             , el Title [ width fill, center ] (text <| Maybe.withDefault "" (decodeUri leagueTitle))
                             , el TitleButton [ onClick <| IndividualSheetRequest leagueTitle ] refreshIcon
                         ]
@@ -62,12 +63,14 @@ leagueTableElement device gaps leagueTable =
     )
 
 -- I could use some fancy functional action no not bother taking the gaps
+headerRow : Device -> Gaps -> Element Styles variation Msg
 headerRow device gaps = 
     if device.width < 400 then
         compactHeaderRow device gaps 
     else
         fullHeaderRow device gaps 
 
+fullHeaderRow : Device -> Gaps -> Element Styles variation Msg
 fullHeaderRow device gaps = 
     row LeagueTableHeaderRow [ padding gaps.medium, spacing gaps.small, center ] 
     [
@@ -79,6 +82,7 @@ fullHeaderRow device gaps =
         , el None [ width (px (smallColumnWidth device)) ] (text "Goals\nAgainst")
     ]
 
+compactHeaderRow : Device -> Gaps -> Element Styles variation Msg
 compactHeaderRow device gaps = 
     row LeagueTableHeaderRow [ padding gaps.medium, spacing gaps.small, center ] 
     [

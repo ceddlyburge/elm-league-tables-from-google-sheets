@@ -1,20 +1,16 @@
-module Models.Game exposing (Game, LeagueGames)
+module Models.Game exposing (Game)
 
+import Date exposing (..)
 
 type alias Game =
     { homeTeamName : String
     , homeTeamGoals : Maybe Int
     , awayTeamName : String
     , awayTeamGoals : Maybe Int
-    , dateplayed : String
+    , datePlayed : Maybe Date
     , homeScorers : String
     , awayScorers : String
     , homeCards : String
     , awayCards : String
     , notes : String
-    }
-
-type alias LeagueGames =
-    { leagueTitle : String
-    , games : List Game
     }

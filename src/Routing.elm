@@ -23,12 +23,17 @@ toUrl route =
         Route.LeagueTableRoute leagueTitle ->
             "/league/" ++ leagueTitle
         
+        Route.ResultsFixturesRoute leagueTitle ->
+            "/results-fixtures/" ++ leagueTitle
+        
         Route.NotFoundRoute ->
             "404"
 
+-- need to test this
 matchers : Parser (Route -> a) a
 matchers =
     oneOf
         [ map Route.LeagueListRoute top
         , map Route.LeagueTableRoute (s "league" </> string)
+        , map Route.ResultsFixturesRoute (s "results-fixtures" </> string)
         ]

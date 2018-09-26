@@ -6,6 +6,7 @@ import Models.Model exposing (Model)
 import Models.Route as Route exposing (Route)
 import LeagueList.Update exposing (allSheetSummaryRequest, allSheetSummaryResponse)
 import LeagueTable.Update exposing (individualSheetRequest, individualSheetResponse)
+import ResultsFixtures.Update exposing (individualSheetRequestForResultsFixtures, individualSheetResponseForResultsFixtures)
 import Routing exposing (..)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -28,6 +29,13 @@ update msg model =
         IndividualSheetResponse leagueTitle response ->
             individualSheetResponse model response leagueTitle
         
+        -- Fixtures / Results
+        IndividualSheetRequestForResultsFixtures leagueTitle ->
+            individualSheetRequestForResultsFixtures leagueTitle model
+
+        IndividualSheetResponseForResultsFixtures leagueTitle response ->
+            individualSheetResponseForResultsFixtures model response leagueTitle
+        
         -- responsiveness
         SetScreenSize size ->
             ({ model | device = classifyDevice size }, Cmd.none)
@@ -47,5 +55,7 @@ update msg model =
                             update AllSheetSummaryRequest model
                         Route.LeagueTableRoute leagueTitle ->
                             update (IndividualSheetRequest leagueTitle) model 
-                        _ ->
+                        Route.ResultsFixturesRoute leagueTitle ->
+                            update (IndividualSheetRequestForResultsFixtures leagueTitle) model 
+                        Route.NotFoundRoute ->
                             ( model, Cmd.none )            

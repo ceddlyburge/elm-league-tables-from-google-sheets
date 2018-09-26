@@ -1,9 +1,11 @@
 module DecodeGoogleSheetToGameListTest exposing (..)
 
 import Test exposing (..)
+import Date exposing (..)
 import Expect
 import Json.Decode exposing (decodeString)
-import Models.Game exposing (Game, LeagueGames)
+import Models.Game exposing (Game)
+import Models.LeagueGames exposing (LeagueGames)
 import LeagueTable.DecodeGoogleSheetToGameList exposing (decodeSheetToLeagueGames)
 
 -- I could probably fuzz test this by writing a custom fuzzer that created Game 's. 
@@ -15,7 +17,7 @@ decodeSpreadsheetIdResponse =
         \() ->
             spreadsheetValuesResponse 
                 |> decodeString (decodeSheetToLeagueGames "Regional Div 1")
-                |> Expect.equal (Ok (LeagueGames "Regional Div 1" [Game "Castle" (Just 3) "Meridian" (Just 1) "2018-06-04" "1, 6, 4" "2" "Green 3, Yellow 5" "Red 14" "good game" ]))
+                |> Expect.equal (Ok (LeagueGames "Regional Div 1" [Game "Castle" (Just 3) "Meridian" (Just 1) (Result.toMaybe (Date.fromString "2018-06-04")) "1, 6, 4" "2" "Green 3, Yellow 5" "Red 14" "good game" ]))
 
 decodeJustEnoughColumnsSpreadsheetIdResponse : Test
 decodeJustEnoughColumnsSpreadsheetIdResponse =
@@ -23,7 +25,7 @@ decodeJustEnoughColumnsSpreadsheetIdResponse =
         \() ->
             justEnoughColumnsSpreadsheetValuesResponse 
                 |> decodeString (decodeSheetToLeagueGames "Regional Div 1")
-                |> Expect.equal (Ok (LeagueGames "Regional Div 1" [Game "" Nothing "" Nothing "" "" "" "" "" "" ]))
+                |> Expect.equal (Ok (LeagueGames "Regional Div 1" [Game "" Nothing "" Nothing Nothing "" "" "" "" "" ]))
 
 decodeNotEnoughColumnsSpreadsheetIdResponse : Test
 decodeNotEnoughColumnsSpreadsheetIdResponse =

@@ -1,11 +1,13 @@
 module CalculateLeagueTableFromLeagueGamesTest exposing (..)
 
+import Date exposing (..)
 import Test exposing (..)
 import Fuzz exposing (Fuzzer, intRange)
 import Expect
 
 import Models.LeagueTable exposing (LeagueTable)
-import Models.Game exposing (Game, LeagueGames)
+import Models.Game exposing (Game)
+import Models.LeagueGames exposing (LeagueGames)
 import Models.Team exposing (Team)
 import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
 
@@ -23,7 +25,7 @@ oneGame =
 
 game: Int -> Int -> Game
 game castleGoals meridianGoals = 
-    Game "Meridian" (Just meridianGoals) "Castle" (Just castleGoals) "2018-06-04" "1, 6, 4" "2" "Green 3, Yellow 5" "Red 14" "good game"
+    Game "Meridian" (Just meridianGoals) "Castle" (Just castleGoals) (Just <| Date.fromTime 1) "1, 6, 4" "2" "Green 3, Yellow 5" "Red 14" "good game"
 
 leagueTable: Int -> Int -> Int -> Int -> LeagueTable
 leagueTable castleGoals meridianGoals castleGoalDifference meridianGoalDifference = 
