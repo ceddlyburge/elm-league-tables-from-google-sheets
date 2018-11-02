@@ -6,7 +6,7 @@ import Test.Html.Query as Query
 import Test.Html.Selector exposing (text, class)
 import Fuzz exposing (list, string)
 
-import LeagueList.View exposing (view)
+import Pages.LeagueList.View exposing (view)
 import Models.LeagueSummary exposing (LeagueSummary)
 import Models.Model exposing (vanillaModel)
 

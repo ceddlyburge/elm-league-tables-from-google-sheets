@@ -1,4 +1,4 @@
-module ResultsFixtures.Update exposing (individualSheetRequestForResultsFixtures, individualSheetResponseForResultsFixtures)
+module Pages.ResultsFixtures.Update exposing (individualSheetRequestForResultsFixtures, individualSheetResponseForResultsFixtures)
 
 import Navigation exposing (newUrl)
 import RemoteData exposing (WebData)

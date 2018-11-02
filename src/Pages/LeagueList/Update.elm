@@ -1,4 +1,4 @@
-module LeagueList.Update exposing (allSheetSummaryRequest, allSheetSummaryResponse)
+module Pages.LeagueList.Update exposing (allSheetSummaryRequest, allSheetSummaryResponse)
 
 import Http
 import Navigation exposing (newUrl)

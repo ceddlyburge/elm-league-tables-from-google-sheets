@@ -1,4 +1,4 @@
-module LeagueTable.Update exposing (individualSheetRequest, individualSheetResponse)
+module Pages.LeagueTable.Update exposing (individualSheetRequest, individualSheetResponse)
 
 import Navigation exposing (newUrl)
 import RemoteData exposing (WebData)
