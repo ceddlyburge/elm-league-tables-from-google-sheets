@@ -11,6 +11,8 @@ import Update exposing (update)
 import View exposing (view)
 import Navigation exposing (Location)
 import Subscriptions
+import Pages.LeagueList.Update exposing (allSheetSummaryRequest)
+
 
 -- It is not possible to import this module in to an elm-spec test, as it tells me there is a circular dependency.
 -- There isn't one that I can see, so it must be created by the test runner or something like that.
@@ -26,7 +28,7 @@ init config location =
             (Msg.OnLocationChange location)
             { vanillaModel | config = config }
     in
-        (model, cmd) --Cmd.batch [cmd, Task.perform Msg.SetScreenSize Window.size] )
+        allSheetSummaryRequest model --Cmd.batch [cmd, Task.perform Msg.SetScreenSize Window.size] )
      
 
 
