@@ -1,4 +1,3 @@
-environment:
 install:
  - node --version
  - npm --version
