@@ -6,7 +6,7 @@ import Expect
 import Json.Decode exposing (decodeString)
 import Models.Game exposing (Game)
 import Models.LeagueGames exposing (LeagueGames)
-import LeagueTable.DecodeGoogleSheetToGameList exposing (decodeSheetToLeagueGames)
+import GoogleSheet.DecodeGoogleSheetToGameList exposing (decodeSheetToLeagueGames)
 
 -- I could probably fuzz test this by writing a custom fuzzer that created Game 's. 
 -- The values from these could be used to create the json string, and to assert against.

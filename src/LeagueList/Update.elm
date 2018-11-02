@@ -9,7 +9,7 @@ import Models.Model exposing (Model)
 import Models.LeagueSummary exposing (LeagueSummary)
 import Models.Config exposing (Config)
 import Models.Route as Route exposing (Route)
-import LeagueList.DecodeGoogleSheetToLeagueList exposing (..)
+import GoogleSheet.DecodeGoogleSheetToLeagueList exposing (..)
 import Routing exposing (toUrl)
 
 

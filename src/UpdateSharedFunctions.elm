@@ -5,7 +5,7 @@ import RemoteData exposing (WebData)
 
 import Models.LeagueGames exposing (LeagueGames)
 import Models.Config exposing (Config)
-import LeagueTable.DecodeGoogleSheetToGameList exposing (..)
+import GoogleSheet.DecodeGoogleSheetToGameList exposing (..)
 
 fetchIndividualSheet : String -> Config -> Cmd (WebData LeagueGames)
 fetchIndividualSheet leagueTitle config =

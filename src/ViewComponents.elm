@@ -40,7 +40,7 @@ refreshIcon =
 
 resultsFixturesIcon : Element style variation msg
 resultsFixturesIcon =
-    Html.span [ Html.Attributes.class "resultsAndFixtures fas fa-calendar-alt" ] []
+    Html.span [ Html.Attributes.class "resultsAndFixtures DecodeGoogleSheetToGameListfas fa-calendar-alt" ] []
         |> Element.html
 
 -- It is nice to wait before showing the loading animation, to avoid Jank

@@ -1,4 +1,4 @@
-module LeagueList.DecodeGoogleSheetToLeagueList exposing (decodeAllSheetSummaryToLeagueSummaries)
+module GoogleSheet.DecodeGoogleSheetToLeagueList exposing (decodeAllSheetSummaryToLeagueSummaries)
 
 import Json.Decode exposing (Decoder, at, list, string, succeed)
 import Models.LeagueSummary exposing (LeagueSummary)

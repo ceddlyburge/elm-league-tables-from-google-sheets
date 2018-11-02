@@ -6,7 +6,7 @@ import Expect
 import Json.Decode exposing (decodeString)
 import Json.Encode exposing (encode, string)
 import Models.LeagueSummary exposing (LeagueSummary)
-import LeagueList.DecodeGoogleSheetToLeagueList exposing (decodeAllSheetSummaryToLeagueSummaries)
+import GoogleSheet.DecodeGoogleSheetToLeagueList exposing (decodeAllSheetSummaryToLeagueSummaries)
 
 
 decodeSpreadsheetIdResponse : Test
