@@ -34,6 +34,7 @@ matchers : Parser (Route -> a) a
 matchers =
     oneOf
         [ map Route.LeagueListRoute top
+        , map Route.LeagueListRoute (s "index.html")
         , map Route.LeagueTableRoute (s "league" </> string)
         , map Route.ResultsFixturesRoute (s "results-fixtures" </> string)
         ]
