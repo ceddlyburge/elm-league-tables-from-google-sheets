@@ -142,6 +142,9 @@ stylesheet device =
             , style ResultFixtureHome
                 [ Font.alignRight
                 ]
+            , style ResultFixtureAway
+                [ 
+                ]
             , style ResultFixtureDate
                 [ Font.alignLeft
                 ]
