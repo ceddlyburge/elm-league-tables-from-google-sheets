@@ -11,8 +11,6 @@ import Models.LeagueTable exposing (LeagueTable)
 import Models.Model exposing (vanillaModel)
 import Msg exposing (..)
 
--- also wants to show the league title
-
 
 oneTeam : Test
 oneTeam =
