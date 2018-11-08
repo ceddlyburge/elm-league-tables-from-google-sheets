@@ -21,17 +21,6 @@ import Subscriptions
 init : Config -> Location -> ( Model, Cmd Msg )
 init config location =
     let
-        _ = Debug.log "href" location.href
-        _ = Debug.log "host" location.host
-        _ = Debug.log "hostname" location.hostname
-        _ = Debug.log "protocol" location.protocol
-        _ = Debug.log "origin" location.origin
-        _ = Debug.log "port_" location.port_
-        _ = Debug.log "pathnamee" location.pathname
-        _ = Debug.log "search" location.search
-        _ = Debug.log "hash" location.hash
-        _ = Debug.log "username" location.username
-        _ = Debug.log "password" location.password
         (model, cmd) = 
             update 
             (Msg.OnLocationChange location)
