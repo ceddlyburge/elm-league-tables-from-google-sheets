@@ -1,4 +1,4 @@
-module LeagueTable.DecodeGoogleSheetToGameList exposing (decodeSheetToLeagueGames)
+module GoogleSheet.DecodeGoogleSheetToGameList exposing (decodeSheetToLeagueGames)
 
 import Json.Decode exposing (Decoder, at, list, string, succeed, index, int, value, Value, andThen, decodeString, maybe)
 import Json.Decode.Extra exposing (parseInt, date, indexedList, andMap, optionalField, withDefault)

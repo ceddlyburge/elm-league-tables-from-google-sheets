@@ -26,7 +26,7 @@ init config location =
             (Msg.OnLocationChange location)
             { vanillaModel | config = config }
     in
-        (model, Cmd.batch [Task.perform Msg.SetScreenSize Window.size, cmd] )
+        (model, Cmd.batch [cmd, Task.perform Msg.SetScreenSize Window.size] )
      
 
 

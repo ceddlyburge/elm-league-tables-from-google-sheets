@@ -1,4 +1,4 @@
-module LeagueTable.Update exposing (individualSheetRequest, individualSheetResponse)
+module Pages.LeagueTable.Update exposing (individualSheetRequest, individualSheetResponse)
 
 import Navigation exposing (newUrl)
 import RemoteData exposing (WebData)
@@ -10,7 +10,7 @@ import Models.Config exposing (Config)
 import Models.Route as Route exposing (Route)
 import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
 import Routing exposing (toUrl)
-import UpdateSharedFunctions exposing (fetchIndividualSheet)
+import GoogleSheet.Api exposing (fetchIndividualSheet)
 
 individualSheetRequest : String -> Model -> ( Model, Cmd Msg )
 individualSheetRequest leagueTitle model  =
@@ -28,5 +28,7 @@ individualSheetResponse  model response leagueTitle =
 
 fetchLeagueGames : String -> Config -> Cmd Msg
 fetchLeagueGames leagueTitle config =
-    fetchIndividualSheet leagueTitle config
-    |> Cmd.map (IndividualSheetResponse leagueTitle)
+    fetchIndividualSheet 
+        leagueTitle
+        config 
+        (IndividualSheetResponse leagueTitle)

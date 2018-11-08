@@ -5,7 +5,7 @@ import Test.Html.Query as Query
 import Test.Html.Selector exposing (text, class)
 import RemoteData exposing (WebData)
 
-import LeagueTable.View exposing (view)
+import Pages.LeagueTable.View exposing (view)
 import Models.Team exposing (Team)
 import Models.LeagueTable exposing (LeagueTable)
 import Models.Model exposing (vanillaModel)

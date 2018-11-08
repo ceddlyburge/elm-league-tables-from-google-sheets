@@ -1,4 +1,4 @@
-module LeagueList.View exposing (view)
+module Pages.LeagueList.View exposing (view)
 
 import Html exposing (Html)
 import Element exposing (..)

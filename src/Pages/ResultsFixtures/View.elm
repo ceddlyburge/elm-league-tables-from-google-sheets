@@ -1,4 +1,4 @@
-module ResultsFixtures.View exposing (..)
+module Pages.ResultsFixtures.View exposing (..)
 
 import Html exposing (Html, span)
 import Element exposing (..)

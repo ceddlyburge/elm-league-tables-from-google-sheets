@@ -1,4 +1,4 @@
-module LeagueTable.View exposing (..)
+module Pages.LeagueTable.View exposing (..)
 
 import Html exposing (Html, span)
 import Element exposing (..)

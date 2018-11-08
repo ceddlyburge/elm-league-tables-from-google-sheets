@@ -1,4 +1,4 @@
-module ResultsFixtures.Update exposing (individualSheetRequestForResultsFixtures, individualSheetResponseForResultsFixtures)
+module Pages.ResultsFixtures.Update exposing (individualSheetRequestForResultsFixtures, individualSheetResponseForResultsFixtures)
 
 import Navigation exposing (newUrl)
 import RemoteData exposing (WebData)
@@ -11,7 +11,7 @@ import Models.Game exposing (Game)
 import Models.Config exposing (Config)
 import Models.Route as Route exposing (Route)
 import Routing exposing (toUrl)
-import UpdateSharedFunctions exposing (fetchIndividualSheet)
+import GoogleSheet.Api exposing (fetchIndividualSheet)
 
 individualSheetRequestForResultsFixtures : String -> Model -> ( Model, Cmd Msg )
 individualSheetRequestForResultsFixtures leagueTitle model  =
@@ -31,8 +31,10 @@ individualSheetResponseForResultsFixtures  model response leagueTitle =
 
 fetchLeagueGames : String -> Config -> Cmd Msg
 fetchLeagueGames leagueTitle config =
-    fetchIndividualSheet leagueTitle config
-    |> Cmd.map (IndividualSheetResponseForResultsFixtures leagueTitle)
+    fetchIndividualSheet 
+        leagueTitle 
+        config 
+        (IndividualSheetResponseForResultsFixtures leagueTitle)
 
 orderLeagueGames : LeagueGames -> LeagueGames
 orderLeagueGames leagueGames =
