@@ -1,6 +1,6 @@
 import Spec exposing (..)
 
-import SpreadsheetIdResponseDiv1 exposing (..)
+import SpreadsheetIdResponses exposing (..)
 import SpreadsheetValuesWithDataEntryIssuesResponse exposing (..)
 
 import Models.Model exposing ( Model, vanillaModel )

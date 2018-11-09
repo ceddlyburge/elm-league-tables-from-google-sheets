@@ -1,6 +1,6 @@
 import Spec exposing (..)
 
-import SpreadsheetIdResponseDiv1Div2 exposing (..)
+import SpreadsheetIdResponses exposing (..)
 import Models.Model exposing ( Model, vanillaModel )
 import Models.Config exposing ( Config )
 import Update exposing (update)
