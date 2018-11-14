@@ -1,6 +1,5 @@
 module Main exposing (..)
 
-import Element exposing (classifyDevice)
 import Window exposing (size)
 import Task exposing (perform)
 
