@@ -9,7 +9,7 @@ import RemoteData exposing (WebData)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueSummary exposing (LeagueSummary)
-import ViewComponents exposing (..)
+import Pages.ViewComponents exposing (..)
 import ErrorMessages exposing (httpErrorMessage, unexpectedNotAskedMessage)
 
 
@@ -75,3 +75,4 @@ leagueTitle gaps league =
             , onClick <| IndividualSheetRequest league.title
         ] 
         (paragraph None [] [ text league.title ] )
+ 

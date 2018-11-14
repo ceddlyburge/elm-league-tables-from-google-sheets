@@ -8,7 +8,7 @@ import RemoteData exposing (WebData)
 import Http exposing (decodeUri)
 
 import Date.Format exposing (..)
-import ViewComponents exposing (..)
+import Pages.ViewComponents exposing (..)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueGames exposing (LeagueGames)

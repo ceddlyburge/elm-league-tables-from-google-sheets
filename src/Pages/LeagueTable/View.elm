@@ -7,7 +7,7 @@ import Element.Events exposing (onClick)
 import RemoteData exposing (WebData)
 import Http exposing (decodeUri)
 
-import ViewComponents exposing (..)
+import Pages.ViewComponents exposing (..)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueTable exposing (LeagueTable)
@@ -62,7 +62,6 @@ leagueTableElement device gaps leagueTable =
         (List.map (teamRow device gaps) leagueTable.teams)
     )
 
--- I could use some fancy functional action no not bother taking the gaps
 headerRow : Device -> Gaps -> Element Styles variation Msg
 headerRow device gaps = 
     if device.width < 400 then

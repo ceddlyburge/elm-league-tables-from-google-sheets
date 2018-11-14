@@ -1,4 +1,4 @@
-module ViewComponents exposing (..)
+module Pages.ViewComponents exposing (..)
 
 import Html exposing (Html)
 import Html.Attributes exposing (class)
