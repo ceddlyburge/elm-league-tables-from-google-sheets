@@ -14,15 +14,16 @@ import GoogleSheet.Api exposing (fetchIndividualSheet)
 
 individualSheetRequest : String -> Model -> ( Model, Cmd Msg )
 individualSheetRequest leagueTitle model  =
-    ( { model | leagueTable = RemoteData.Loading }, fetchLeagueGames leagueTitle model.config )
+    ( { model | 
+            leagueTable = RemoteData.Loading
+            , route = Route.LeagueTableRoute leagueTitle 
+      }
+    , fetchLeagueGames leagueTitle model.config )
 
 individualSheetResponse : Model -> WebData LeagueGames -> String -> ( Model, Cmd Msg )
 individualSheetResponse  model response leagueTitle =
     ( 
-        { model | 
-            route = Route.LeagueTableRoute leagueTitle
-            , leagueTable = RemoteData.map calculateLeagueTable response 
-        }
+        { model | leagueTable = RemoteData.map calculateLeagueTable response }
         , newUrl <| toUrl <| Route.LeagueTableRoute leagueTitle
     )
 

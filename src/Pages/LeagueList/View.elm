@@ -39,8 +39,7 @@ maybeLeagueList : Gaps -> WebData (List LeagueSummary) -> Element Styles variati
 maybeLeagueList gaps response =
     case response of
         RemoteData.NotAsked ->
-            -- This situation occurs when going to the url for a league table. I'm not sure why this view is shown first, it looks from the model history as though it shouldn't be the case
-            unhappyPathText "" --unexpectedNotAskedMessage
+            unhappyPathText unexpectedNotAskedMessage
 
         RemoteData.Loading ->
             loading
