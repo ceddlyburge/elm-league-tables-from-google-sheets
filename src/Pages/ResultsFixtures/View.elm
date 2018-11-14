@@ -13,7 +13,7 @@ import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.Game exposing (Game)
-import ErrorMessages exposing (httpErrorMessage, unexpectedNotAskedMessage)
+import Pages.MaybeResponse exposing (..)
 
 
 view : String -> WebData LeagueGames -> Device -> Html Msg
@@ -44,23 +44,9 @@ view leagueTitle response device =
                             [ width (percent 100), padding gaps.medium, verticalCenter ]
                             (text "Results / Fixtures")
                     ]
-                , maybeFixturesResults device gaps response
+                , maybeResponse response (fixturesResultsElement device gaps)
             ]
 
-maybeFixturesResults : Device -> Gaps -> WebData LeagueGames -> Element Styles variation Msg
-maybeFixturesResults device gaps response =
-    case response of
-        RemoteData.NotAsked ->
-            unhappyPathText unexpectedNotAskedMessage
-
-        RemoteData.Loading ->
-            loading
-
-        RemoteData.Success leagueTable ->
-            fixturesResultsElement device gaps leagueTable
-
-        RemoteData.Failure error ->
-            unhappyPathText <| httpErrorMessage error
 
 fixturesResultsElement : Device -> Gaps -> LeagueGames -> Element Styles variation Msg
 fixturesResultsElement device gaps leagueGames =

@@ -1,16 +1,16 @@
 module Pages.LeagueList.View exposing (view)
 
+import RemoteData exposing (WebData)
 import Html exposing (Html)
 import Element exposing (..)
 import Element.Attributes exposing (..)
 import Element.Events exposing (onClick)
-import RemoteData exposing (WebData)
 
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueSummary exposing (LeagueSummary)
 import Pages.ViewComponents exposing (..)
-import ErrorMessages exposing (httpErrorMessage, unexpectedNotAskedMessage)
+import Pages.MaybeResponse exposing (..)
 
 
 view : WebData (List LeagueSummary) -> Device -> Html Msg
@@ -32,24 +32,8 @@ view response device =
                                 , el TitleButton [ class "refresh", onClick AllSheetSummaryRequest ] refreshIcon
                             ]
                         ]
-                    , maybeLeagueList gaps response
+                    , maybeResponse response (leagueList gaps)
                 ]
-
-maybeLeagueList : Gaps -> WebData (List LeagueSummary) -> Element Styles variation Msg
-maybeLeagueList gaps response =
-    case response of
-        RemoteData.NotAsked ->
-            unhappyPathText unexpectedNotAskedMessage
-
-        RemoteData.Loading ->
-            loading
-
-        RemoteData.Success leagues ->
-            leagueList gaps leagues
-
-        RemoteData.Failure error ->
-            unhappyPathText <| httpErrorMessage error
-
 
 leagueList: Gaps -> List LeagueSummary -> Element Styles variation Msg
 leagueList gaps leagueSummaries =

@@ -1,6 +1,25 @@
-module ErrorMessages exposing (..)
+module Pages.MaybeResponse exposing (maybeResponse)
 
 import Http exposing (..)
+import RemoteData exposing (WebData)
+import Element exposing (..)
+import Pages.ViewComponents exposing (..)
+import LeagueStyleElements exposing (..)
+
+maybeResponse : WebData payload -> (payload -> Element Styles variation msg) -> Element Styles variation msg
+maybeResponse response success =
+    case response of
+        RemoteData.NotAsked ->
+            unhappyPathText unexpectedNotAskedMessage
+
+        RemoteData.Loading ->
+            loading
+
+        RemoteData.Success payload ->
+            success payload
+
+        RemoteData.Failure error ->
+            unhappyPathText <| httpErrorMessage error
 
 unexpectedNotAskedMessage : String
 unexpectedNotAskedMessage =
@@ -19,4 +38,3 @@ httpErrorMessage error =
       "Bad Response. Hmmm, there is probably a problem in my configuration, please contact the League Administrator"
     Http.BadUrl _ ->
       "Bad Url. Hmmm, there is probably a problem in my configuration, please contact the League Administrator"
-

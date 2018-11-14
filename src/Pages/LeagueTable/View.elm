@@ -7,12 +7,12 @@ import Element.Events exposing (onClick)
 import RemoteData exposing (WebData)
 import Http exposing (decodeUri)
 
-import Pages.ViewComponents exposing (..)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueTable exposing (LeagueTable)
 import Models.Team exposing (Team)
-import ErrorMessages exposing (httpErrorMessage, unexpectedNotAskedMessage)
+import Pages.ViewComponents exposing (..)
+import Pages.MaybeResponse exposing (..)
 
 
 view : String -> WebData LeagueTable -> Device -> Html Msg
@@ -35,23 +35,8 @@ view leagueTitle response device =
                             , el TitleButton [ onClick <| IndividualSheetRequest leagueTitle ] refreshIcon
                         ]
                     ]
-                    , maybeLeagueTable device gaps response
+                    , maybeResponse response (leagueTableElement device gaps)
                 ]
-
-maybeLeagueTable : Device -> Gaps -> WebData LeagueTable -> Element Styles variation Msg
-maybeLeagueTable device gaps response =
-    case response of
-        RemoteData.NotAsked ->
-            unhappyPathText unexpectedNotAskedMessage
-
-        RemoteData.Loading ->
-            loading
-
-        RemoteData.Success leagueTable ->
-            leagueTableElement device gaps leagueTable
-
-        RemoteData.Failure error ->
-            unhappyPathText <| httpErrorMessage error
 
 leagueTableElement : Device -> Gaps -> LeagueTable -> Element Styles variation Msg
 leagueTableElement device gaps leagueTable =
