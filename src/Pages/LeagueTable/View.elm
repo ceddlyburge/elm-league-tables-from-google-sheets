@@ -92,7 +92,6 @@ compactHeaderRow device gaps =
         , paragraph None [ width (px (smallColumnWidth device)) ] [ text "Goals Against" ]
     ]
 
--- I could use some fancy functional action no not bother taking the gaps and team
 teamRow : Device -> Gaps -> Team -> Element Styles variation Msg
 teamRow device gaps team = 
     if device.width < 400 then
