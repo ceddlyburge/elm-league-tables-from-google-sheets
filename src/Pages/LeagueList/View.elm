@@ -21,7 +21,18 @@ body device gaps elements =
             [ width (percent 100), spacing gaps.big, center ]
             elements
 
-
+header: Gaps -> List (Element Styles variation msg) -> Element.Element Styles variation msg
+header gaps elements = 
+    row 
+        Title 
+        [ width (percent 100), padding gaps.big, verticalCenter, center ] 
+        [
+            row 
+                None 
+                [ center, spacing gaps.big, width (percent 100) ]
+                elements
+        ]
+      
 view : WebData (List LeagueSummary) -> Device -> Html Msg
 view response device =
     let
@@ -31,16 +42,12 @@ view response device =
             device
             gaps  
             [
-                row 
-                    Title 
-                    [ width (percent 100), padding gaps.big, verticalCenter, center ] 
+                header
+                    gaps
                     [
-                        row None [ center, spacing gaps.big, width (percent 100)   ]
-                        [
-                            el Hidden [ ] backIcon
-                            , el Title [ width fill, center ] (text "Leagues")
-                            , el TitleButton [ class "refresh", onClick AllSheetSummaryRequest ] refreshIcon
-                        ]
+                        el Hidden [ ] backIcon
+                        , el Title [ width fill, center ] (text "Leagues")
+                        , el TitleButton [ class "refresh", onClick AllSheetSummaryRequest ] refreshIcon
                     ]
                 , maybeResponse response (leagueList gaps)
             ]
