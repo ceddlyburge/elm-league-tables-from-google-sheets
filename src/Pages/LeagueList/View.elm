@@ -13,27 +13,53 @@ import Pages.ViewComponents exposing (..)
 import Pages.MaybeResponse exposing (..)
 
 
+body: Device -> Gaps -> List (Element Styles variation msg) -> Html msg
+body device gaps elements = 
+    Element.layout (stylesheet device) <|         
+        column 
+            Body 
+            [ width (percent 100), spacing gaps.big, center ]
+            elements
+
+
 view : WebData (List LeagueSummary) -> Device -> Html Msg
 view response device =
     let
         gaps = gapsForDevice device
     in
-        Element.layout (stylesheet device) <|         
-            column Body [ width (percent 100), spacing gaps.big, center ]
-                [
-                    row 
-                        Title 
-                        [ width (percent 100), padding gaps.big, verticalCenter, center ] 
+        body 
+            device
+            gaps  
+            [
+                row 
+                    Title 
+                    [ width (percent 100), padding gaps.big, verticalCenter, center ] 
+                    [
+                        row None [ center, spacing gaps.big, width (percent 100)   ]
                         [
-                            row None [ center, spacing gaps.big, width (percent 100)   ]
-                            [
-                                el Hidden [ ] backIcon
-                                , el Title [ width fill, center ] (text "Leagues")
-                                , el TitleButton [ class "refresh", onClick AllSheetSummaryRequest ] refreshIcon
-                            ]
+                            el Hidden [ ] backIcon
+                            , el Title [ width fill, center ] (text "Leagues")
+                            , el TitleButton [ class "refresh", onClick AllSheetSummaryRequest ] refreshIcon
                         ]
-                    , maybeResponse response (leagueList gaps)
-                ]
+                    ]
+                , maybeResponse response (leagueList gaps)
+            ]
+        -- Element.layout (stylesheet device) <|         
+        --     column Body [ width (percent 100), spacing gaps.big, center ]
+        --         [
+        --             row 
+        --                 Title 
+        --                 [ width (percent 100), padding gaps.big, verticalCenter, center ] 
+        --                 [
+        --                     row None [ center, spacing gaps.big, width (percent 100)   ]
+        --                     [
+        --                         el Hidden [ ] backIcon
+        --                         , el Title [ width fill, center ] (text "Leagues")
+        --                         , el TitleButton [ class "refresh", onClick AllSheetSummaryRequest ] refreshIcon
+        --                     ]
+        --                 ]
+        --             , maybeResponse response (leagueList gaps)
+        --         ]
 
 leagueList: Gaps -> List LeagueSummary -> Element Styles variation Msg
 leagueList gaps leagueSummaries =
