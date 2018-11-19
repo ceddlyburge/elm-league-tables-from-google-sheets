@@ -9,30 +9,10 @@ import Element.Events exposing (onClick)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueSummary exposing (LeagueSummary)
-import Pages.ViewComponents exposing (..)
+import Pages.Components exposing (..)
 import Pages.MaybeResponse exposing (..)
 
 
-body: Device -> Gaps -> List (Element Styles variation msg) -> Html msg
-body device gaps elements = 
-    Element.layout (stylesheet device) <|         
-        column 
-            Body 
-            [ width (percent 100), spacing gaps.big, center ]
-            elements
-
-header: Gaps -> List (Element Styles variation msg) -> Element.Element Styles variation msg
-header gaps elements = 
-    row 
-        Title 
-        [ width (percent 100), padding gaps.big, verticalCenter, center ] 
-        [
-            row 
-                None 
-                [ center, spacing gaps.big, width (percent 100) ]
-                elements
-        ]
-      
 view : WebData (List LeagueSummary) -> Device -> Html Msg
 view response device =
     let
@@ -42,31 +22,15 @@ view response device =
             device
             gaps  
             [
-                header
+                heading
                     gaps
                     [
-                        el Hidden [ ] backIcon
-                        , el Title [ width fill, center ] (text "Leagues")
-                        , el TitleButton [ class "refresh", onClick AllSheetSummaryRequest ] refreshIcon
+                        titleButtonSizedSpace
+                        , title "Leagues"
+                        , refreshTitleButton AllSheetSummaryRequest
                     ]
                 , maybeResponse response (leagueList gaps)
             ]
-        -- Element.layout (stylesheet device) <|         
-        --     column Body [ width (percent 100), spacing gaps.big, center ]
-        --         [
-        --             row 
-        --                 Title 
-        --                 [ width (percent 100), padding gaps.big, verticalCenter, center ] 
-        --                 [
-        --                     row None [ center, spacing gaps.big, width (percent 100)   ]
-        --                     [
-        --                         el Hidden [ ] backIcon
-        --                         , el Title [ width fill, center ] (text "Leagues")
-        --                         , el TitleButton [ class "refresh", onClick AllSheetSummaryRequest ] refreshIcon
-        --                     ]
-        --                 ]
-        --             , maybeResponse response (leagueList gaps)
-        --         ]
 
 leagueList: Gaps -> List LeagueSummary -> Element Styles variation Msg
 leagueList gaps leagueSummaries =

@@ -3,7 +3,7 @@ module Pages.MaybeResponse exposing (maybeResponse)
 import Http exposing (..)
 import RemoteData exposing (WebData)
 import Element exposing (..)
-import Pages.ViewComponents exposing (..)
+import Pages.Components exposing (..)
 import LeagueStyleElements exposing (..)
 
 maybeResponse : WebData payload -> (payload -> Element Styles variation msg) -> Element Styles variation msg

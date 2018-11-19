@@ -11,7 +11,7 @@ import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueTable exposing (LeagueTable)
 import Models.Team exposing (Team)
-import Pages.ViewComponents exposing (..)
+import Pages.Components exposing (..)
 import Pages.MaybeResponse exposing (..)
 
 

@@ -1,10 +1,12 @@
-module Pages.ViewComponents exposing (..)
+module Pages.Components exposing (..)
 
 import Html exposing (Html)
 import Html.Attributes exposing (class)
 import Element exposing (..)
 import Element.Attributes exposing (..)
+import Element.Events exposing (onClick)
 import LeagueStyleElements exposing (..)
+import Msg exposing (..)
 
 type alias Gaps =
     { big: Float
@@ -27,6 +29,38 @@ gapsForDevice device =
         , small = 7    
         , percentageWidthToUse = 60
         }
+
+body: Device -> Gaps -> List (Element Styles variation msg) -> Html msg
+body device gaps elements = 
+    Element.layout (stylesheet device) <|         
+        column 
+            Body 
+            [ width (percent 100), spacing gaps.big, center ]
+            elements
+
+heading: Gaps -> List (Element Styles variation msg) -> Element.Element Styles variation msg
+heading gaps elements = 
+    row 
+        Title 
+        [ width (percent 100), padding gaps.big, verticalCenter, center ] 
+        [
+            row 
+                None 
+                [ center, spacing gaps.big, width (percent 100) ]
+                elements
+        ]
+
+title: String -> Element.Element Styles variation msg
+title titleText = 
+    el Title [ width fill ] (text titleText)
+
+titleButtonSizedSpace: Element.Element Styles variation msg
+titleButtonSizedSpace = 
+    el Hidden [ ] backIcon
+
+refreshTitleButton: Msg -> Element.Element Styles variation Msg
+refreshTitleButton msg = 
+    el TitleButton [ Element.Attributes.class "refresh", onClick msg ] refreshIcon
 
 backIcon : Element style variation msg
 backIcon =
