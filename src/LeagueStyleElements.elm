@@ -7,6 +7,9 @@ import Style.Color as Color
 import Style.Font as Font
 import Element exposing (Device)
 
+type Variations
+    = NotApplicable
+
 type Styles
     = None
     | Body

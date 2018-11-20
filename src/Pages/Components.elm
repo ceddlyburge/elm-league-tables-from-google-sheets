@@ -8,6 +8,15 @@ import Element.Events exposing (onClick)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 
+type alias Scaffold =
+    { body: List (Element Styles Variations Msg) -> Html Msg
+    , heading: List (Element Styles Variations Msg) -> Element.Element Styles Variations Msg
+    , titleButtonSizedSpace: Element.Element Styles Variations Msg
+    , title: String -> Element.Element Styles Variations Msg
+    , refreshTitleButton: Msg -> Element.Element Styles Variations Msg
+    }
+
+
 type alias Gaps =
     { big: Float
     , medium: Float

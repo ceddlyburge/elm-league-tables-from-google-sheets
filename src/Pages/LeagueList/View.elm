@@ -11,10 +11,42 @@ import Msg exposing (..)
 import Models.LeagueSummary exposing (LeagueSummary)
 import Pages.Components exposing (..)
 import Pages.MaybeResponse exposing (..)
+import Pages.Page exposing (..)
+import Pages.HeaderBar exposing ( .. ) 
+import Pages.HeaderBarItem exposing (..)
+import Pages.RenderPage exposing (..)
 
 
 view : WebData (List LeagueSummary) -> Device -> Html Msg
 view response device =
+    let
+        gaps = gapsForDevice device
+        page = 
+            Page
+                ( HeaderBar 
+                    [ HeaderButtonSizedSpace ] 
+                    "Leagues" 
+                    [ RefreshHeaderButton AllSheetSummaryRequest ] )
+                ( maybeResponse response (leagueList gaps) )
+    in
+        renderPage device page
+        -- body 
+        --     device
+        --     gaps  
+        --     [
+        --         heading
+        --             gaps
+        --             [
+        --                 titleButtonSizedSpace
+        --                 , title "Leagues"
+        --                 , refreshTitleButton AllSheetSummaryRequest
+        --             ]
+        --         , maybeResponse response (leagueList gaps)
+        --     ]
+
+
+view2 : WebData (List LeagueSummary) -> Device -> Html Msg
+view2 response device =
     let
         gaps = gapsForDevice device
     in
