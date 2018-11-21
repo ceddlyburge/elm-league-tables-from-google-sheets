@@ -41,3 +41,7 @@ renderHeaderBarItem headerBarItem =
             el Hidden [ ] backIcon
         RefreshHeaderButton msg ->
             el TitleButton [ class "refresh", onClick msg ] refreshIcon
+        ResultsFixturesHeaderButton msg ->
+            el TitleButton [ onClick msg ] resultsFixturesIcon
+        BackHeaderButton msg ->
+            el TitleButton [ onClick msg ] backIcon

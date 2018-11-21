@@ -5,6 +5,8 @@ import Msg exposing (..)
 type HeaderBarItem =
     HeaderButtonSizedSpace
     | RefreshHeaderButton Msg
+    | ResultsFixturesHeaderButton Msg
+    | BackHeaderButton Msg
     
 
 

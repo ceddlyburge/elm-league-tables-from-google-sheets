@@ -13,30 +13,27 @@ import Models.LeagueTable exposing (LeagueTable)
 import Models.Team exposing (Team)
 import Pages.Components exposing (..)
 import Pages.MaybeResponse exposing (..)
+import Pages.Page exposing (..)
+import Pages.HeaderBar exposing (..) 
+import Pages.HeaderBarItem exposing (..)
+import Pages.RenderPage exposing (..)
 
 
 view : String -> WebData LeagueTable -> Device -> Html Msg
 view leagueTitle response device =
     let
         gaps = gapsForDevice device
+        page = 
+            Page
+                ( HeaderBar 
+                    [ BackHeaderButton AllSheetSummaryRequest
+                    , ResultsFixturesHeaderButton <| IndividualSheetRequestForResultsFixtures leagueTitle ] 
+                    (Maybe.withDefault "" (decodeUri leagueTitle))
+                    [ RefreshHeaderButton <| IndividualSheetRequest leagueTitle ] )
+                ( maybeResponse response (leagueTableElement device gaps) )
     in
-        Element.layout (stylesheet device) <|         
-            column Body [ width (percent 100), spacing gaps.big, center ]
-            [
-                row 
-                    Title 
-                    [ width (percent 100), padding gaps.big, verticalCenter ] 
-                    [
-                        row None [ center, spacing gaps.big, width (percent 100)   ]
-                        [
-                            el TitleButton [ onClick AllSheetSummaryRequest ] backIcon
-                            , el TitleButton [ onClick <| IndividualSheetRequestForResultsFixtures leagueTitle ] resultsFixturesIcon
-                            , el Title [ width fill, center ] (text <| Maybe.withDefault "" (decodeUri leagueTitle))
-                            , el TitleButton [ onClick <| IndividualSheetRequest leagueTitle ] refreshIcon
-                        ]
-                    ]
-                    , maybeResponse response (leagueTableElement device gaps)
-                ]
+        renderPage device page
+
 
 leagueTableElement : Device -> Gaps -> LeagueTable -> Element Styles variation Msg
 leagueTableElement device gaps leagueTable =

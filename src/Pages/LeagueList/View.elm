@@ -30,39 +30,6 @@ view response device =
                 ( maybeResponse response (leagueList gaps) )
     in
         renderPage device page
-        -- body 
-        --     device
-        --     gaps  
-        --     [
-        --         heading
-        --             gaps
-        --             [
-        --                 titleButtonSizedSpace
-        --                 , title "Leagues"
-        --                 , refreshTitleButton AllSheetSummaryRequest
-        --             ]
-        --         , maybeResponse response (leagueList gaps)
-        --     ]
-
-
-view2 : WebData (List LeagueSummary) -> Device -> Html Msg
-view2 response device =
-    let
-        gaps = gapsForDevice device
-    in
-        body 
-            device
-            gaps  
-            [
-                heading
-                    gaps
-                    [
-                        titleButtonSizedSpace
-                        , title "Leagues"
-                        , refreshTitleButton AllSheetSummaryRequest
-                    ]
-                , maybeResponse response (leagueList gaps)
-            ]
 
 leagueList: Gaps -> List LeagueSummary -> Element Styles variation Msg
 leagueList gaps leagueSummaries =
