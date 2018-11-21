@@ -1,7 +1,6 @@
 module Pages.LeagueList.View exposing (view)
 
 import RemoteData exposing (WebData)
-import Html exposing (Html)
 import Element exposing (..)
 import Element.Attributes exposing (..)
 import Element.Events exposing (onClick)
@@ -14,33 +13,30 @@ import Pages.MaybeResponse exposing (..)
 import Pages.Page exposing (..)
 import Pages.HeaderBar exposing ( .. ) 
 import Pages.HeaderBarItem exposing (..)
-import Pages.RenderPage exposing (..)
 
 
-view : WebData (List LeagueSummary) -> Device -> Html Msg
+view : WebData (List LeagueSummary) -> Device -> Page
 view response device =
+    Page
+        ( SingleHeader <| 
+            HeaderBar 
+                [ HeaderButtonSizedSpace ] 
+                "Leagues" 
+                [ RefreshHeaderButton AllSheetSummaryRequest ] )
+        ( maybeResponse response <| leagueList device )
+
+leagueList: Device -> List LeagueSummary -> Element Styles variation Msg
+leagueList device leagueSummaries =
     let
         gaps = gapsForDevice device
-        page = 
-            Page
-                ( SingleHeader <| 
-                    HeaderBar 
-                        [ HeaderButtonSizedSpace ] 
-                        "Leagues" 
-                        [ RefreshHeaderButton AllSheetSummaryRequest ] )
-                ( maybeResponse response (leagueList gaps) )
     in
-        renderPage device page
-
-leagueList: Gaps -> List LeagueSummary -> Element Styles variation Msg
-leagueList gaps leagueSummaries =
-    column 
-        None 
-        [ 
-            width (percent 100)
-            , class "leagues"   
-        ] 
-        (List.map (leagueTitle gaps) leagueSummaries)
+        column 
+            None 
+            [ 
+                width (percent 100)
+                , class "leagues"   
+            ] 
+            (List.map (leagueTitle gaps) leagueSummaries)
 
 leagueTitle : Gaps -> LeagueSummary -> Element Styles variation Msg
 leagueTitle gaps league =

@@ -1,6 +1,5 @@
 module Pages.LeagueTable.View exposing (..)
 
-import Html exposing (Html, span)
 import Element exposing (..)
 import Element.Attributes exposing (..)
 import RemoteData exposing (WebData)
@@ -15,34 +14,31 @@ import Pages.MaybeResponse exposing (..)
 import Pages.Page exposing (..)
 import Pages.HeaderBar exposing (..) 
 import Pages.HeaderBarItem exposing (..)
-import Pages.RenderPage exposing (..)
 
 
-view : String -> WebData LeagueTable -> Device -> Html Msg
+view : String -> WebData LeagueTable -> Device -> Page
 view leagueTitle response device =
+    Page
+        ( SingleHeader <| 
+            HeaderBar 
+                [ BackHeaderButton AllSheetSummaryRequest
+                , ResultsFixturesHeaderButton <| IndividualSheetRequestForResultsFixtures leagueTitle ] 
+                (Maybe.withDefault "" (decodeUri leagueTitle))
+                [ RefreshHeaderButton <| IndividualSheetRequest leagueTitle ] )
+        ( maybeResponse response (leagueTableElement device) )
+
+
+leagueTableElement : Device -> LeagueTable -> Element Styles variation Msg
+leagueTableElement device leagueTable =
     let
         gaps = gapsForDevice device
-        page = 
-            Page
-                ( SingleHeader <| 
-                    HeaderBar 
-                        [ BackHeaderButton AllSheetSummaryRequest
-                        , ResultsFixturesHeaderButton <| IndividualSheetRequestForResultsFixtures leagueTitle ] 
-                        (Maybe.withDefault "" (decodeUri leagueTitle))
-                        [ RefreshHeaderButton <| IndividualSheetRequest leagueTitle ] )
-                ( maybeResponse response (leagueTableElement device gaps) )
     in
-        renderPage device page
-
-
-leagueTableElement : Device -> Gaps -> LeagueTable -> Element Styles variation Msg
-leagueTableElement device gaps leagueTable =
-    column None [ class "teams" ]
-    (
-        [ headerRow device gaps ]
-        ++ 
-        (List.map (teamRow device gaps) leagueTable.teams)
-    )
+        column None [ class "teams" ]
+        (
+            [ headerRow device gaps ]
+            ++ 
+            (List.map (teamRow device gaps) leagueTable.teams)
+        )
 
 headerRow : Device -> Gaps -> Element Styles variation Msg
 headerRow device gaps = 

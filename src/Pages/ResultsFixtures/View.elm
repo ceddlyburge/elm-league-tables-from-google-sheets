@@ -1,9 +1,7 @@
 module Pages.ResultsFixtures.View exposing (..)
 
-import Html exposing (Html, span)
 import Element exposing (..)
 import Element.Attributes exposing (..)
-import Element.Events exposing (onClick)
 import RemoteData exposing (WebData)
 import Http exposing (decodeUri)
 
@@ -17,36 +15,34 @@ import Pages.MaybeResponse exposing (..)
 import Pages.Page exposing (..)
 import Pages.HeaderBar exposing (..) 
 import Pages.HeaderBarItem exposing (..)
-import Pages.RenderPage exposing (..)
 
 
-view : String -> WebData LeagueGames -> Device -> Html Msg
+view : String -> WebData LeagueGames -> Device -> Page
 view leagueTitle response device =
-    let
-        gaps = gapsForDevice device
-        page = 
-            Page
-                ( DoubleHeader  
-                    (headerBar leagueTitle)
-                    (SubHeaderBar "Results / Fixtures"))
-                ( maybeResponse response (fixturesResultsElement device gaps) )
-    in
-        renderPage device page
+    Page
+        ( DoubleHeader  
+            (headerBar leagueTitle)
+            (SubHeaderBar "Results / Fixtures"))
+        ( maybeResponse response (fixturesResultsElement device) )
 
 headerBar: String -> HeaderBar
 headerBar leagueTitle = 
     HeaderBar 
-        [ BackHeaderButton AllSheetSummaryRequest
+        [ BackHeaderButton <| IndividualSheetRequest leagueTitle
         , ResultsFixturesHeaderButton <| IndividualSheetRequestForResultsFixtures leagueTitle ] 
         (Maybe.withDefault "" (decodeUri leagueTitle))
-        [ RefreshHeaderButton <| IndividualSheetRequest leagueTitle ]
+        [ HeaderButtonSizedSpace
+          , RefreshHeaderButton <| IndividualSheetRequest leagueTitle ]
 
-fixturesResultsElement : Device -> Gaps -> LeagueGames -> Element Styles variation Msg
-fixturesResultsElement device gaps leagueGames =
-    column 
-        None 
-        [ rowWidth device, class "games" ]
-        (List.map (gameRow device gaps) leagueGames.games)
+fixturesResultsElement : Device -> LeagueGames -> Element Styles variation Msg
+fixturesResultsElement device leagueGames =
+    let
+        gaps = gapsForDevice device
+    in
+        column 
+            None 
+            [ rowWidth device, class "games" ]
+            (List.map (gameRow device gaps) leagueGames.games)
 
 gameRow : Device -> Gaps -> Game -> Element Styles variation Msg
 gameRow device gaps game =

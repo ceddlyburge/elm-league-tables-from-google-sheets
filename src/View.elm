@@ -8,10 +8,16 @@ import Models.Route as Route exposing ( Route )
 import Pages.LeagueList.View exposing (view)
 import Pages.LeagueTable.View exposing (view)
 import Pages.ResultsFixtures.View exposing (view)
+import Pages.Page exposing (..)
+import Pages.RenderPage exposing (..)
 
 
 view : Model -> Html Msg
 view model =
+    renderPage model.device <| page model
+
+page : Model -> Page
+page model =
     case model.route of
         Route.LeagueListRoute ->
             Pages.LeagueList.View.view model.leagues model.device
