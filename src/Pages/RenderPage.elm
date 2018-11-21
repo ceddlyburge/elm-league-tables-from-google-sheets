@@ -28,9 +28,9 @@ renderPage device page =
 renderHeaderBar: Gaps -> PageHeader -> Element.Element Styles variation Msg
 renderHeaderBar gaps pageHeader = 
     case pageHeader of
-        Single headerBar ->
+        SingleHeader headerBar ->
             renderMainHeaderBar gaps headerBar
-        Double headerBar subHeaderBar ->
+        DoubleHeader headerBar subHeaderBar ->
             renderMainAndSubHeaderBar gaps headerBar subHeaderBar
 
 renderMainAndSubHeaderBar: Gaps -> HeaderBar -> SubHeaderBar -> Element.Element Styles variation Msg

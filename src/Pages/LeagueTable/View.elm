@@ -24,7 +24,7 @@ view leagueTitle response device =
         gaps = gapsForDevice device
         page = 
             Page
-                ( Single <| 
+                ( SingleHeader <| 
                     HeaderBar 
                         [ BackHeaderButton AllSheetSummaryRequest
                         , ResultsFixturesHeaderButton <| IndividualSheetRequestForResultsFixtures leagueTitle ] 

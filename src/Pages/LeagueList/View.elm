@@ -23,7 +23,7 @@ view response device =
         gaps = gapsForDevice device
         page = 
             Page
-                ( Single <| 
+                ( SingleHeader <| 
                     HeaderBar 
                         [ HeaderButtonSizedSpace ] 
                         "Leagues" 

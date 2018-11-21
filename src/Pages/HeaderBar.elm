@@ -3,8 +3,8 @@ module Pages.HeaderBar exposing (..)
 import Pages.HeaderBarItem exposing (..)
 
 type PageHeader =
-    Single HeaderBar
-    | Double HeaderBar SubHeaderBar
+    SingleHeader HeaderBar
+    | DoubleHeader HeaderBar SubHeaderBar
 
 type alias HeaderBar =
     {   leftItems: List HeaderBarItem

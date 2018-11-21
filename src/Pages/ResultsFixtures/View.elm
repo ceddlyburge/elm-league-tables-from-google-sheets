@@ -14,39 +14,32 @@ import Msg exposing (..)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.Game exposing (Game)
 import Pages.MaybeResponse exposing (..)
+import Pages.Page exposing (..)
+import Pages.HeaderBar exposing (..) 
+import Pages.HeaderBarItem exposing (..)
+import Pages.RenderPage exposing (..)
 
 
 view : String -> WebData LeagueGames -> Device -> Html Msg
 view leagueTitle response device =
     let
         gaps = gapsForDevice device
+        page = 
+            Page
+                ( DoubleHeader  
+                    (headerBar leagueTitle)
+                    (SubHeaderBar "Results / Fixtures"))
+                ( maybeResponse response (fixturesResultsElement device gaps) )
     in
-        Element.layout (stylesheet device) <|         
-            column Body [ width (percent 100), spacing gaps.big, center ]
-            [
-                column 
-                    Title
-                    [ width (percent 100) ]
-                    [ 
-                        row 
-                            None
-                            [ width (percent 100), padding gaps.big, verticalCenter ] 
-                            [
-                                row None [ center, spacing gaps.big, width (percent 100)   ]
-                                [
-                                    el TitleButton [ onClick <| IndividualSheetRequest leagueTitle ] backIcon
-                                    , el Title [ width fill, center ] (text <| Maybe.withDefault "" (decodeUri leagueTitle))
-                                    , el TitleButton [ onClick <| IndividualSheetRequestForResultsFixtures leagueTitle ] refreshIcon
-                                ]
-                            ]
-                        , el 
-                            SubTitle 
-                            [ width (percent 100), padding gaps.medium, verticalCenter ]
-                            (text "Results / Fixtures")
-                    ]
-                , maybeResponse response (fixturesResultsElement device gaps)
-            ]
+        renderPage device page
 
+headerBar: String -> HeaderBar
+headerBar leagueTitle = 
+    HeaderBar 
+        [ BackHeaderButton AllSheetSummaryRequest
+        , ResultsFixturesHeaderButton <| IndividualSheetRequestForResultsFixtures leagueTitle ] 
+        (Maybe.withDefault "" (decodeUri leagueTitle))
+        [ RefreshHeaderButton <| IndividualSheetRequest leagueTitle ]
 
 fixturesResultsElement : Device -> Gaps -> LeagueGames -> Element Styles variation Msg
 fixturesResultsElement device gaps leagueGames =
