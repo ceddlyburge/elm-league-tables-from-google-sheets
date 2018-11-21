@@ -6,7 +6,7 @@ import RemoteData exposing (WebData)
 import Http exposing (decodeUri)
 
 import Date.Format exposing (..)
-import Pages.Components exposing (..)
+import Pages.Gaps exposing (..)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueGames exposing (LeagueGames)
@@ -28,11 +28,9 @@ page leagueTitle response device =
 headerBar: String -> HeaderBar
 headerBar leagueTitle = 
     HeaderBar 
-        [ BackHeaderButton <| IndividualSheetRequest leagueTitle
-        , ResultsFixturesHeaderButton <| IndividualSheetRequestForResultsFixtures leagueTitle ] 
+        [ BackHeaderButton <| IndividualSheetRequest leagueTitle ] 
         (Maybe.withDefault "" (decodeUri leagueTitle))
-        [ HeaderButtonSizedSpace
-          , RefreshHeaderButton <| IndividualSheetRequest leagueTitle ]
+        [ RefreshHeaderButton <| IndividualSheetRequestForResultsFixtures leagueTitle ]
 
 fixturesResultsElement : Device -> LeagueGames -> Element Styles variation Msg
 fixturesResultsElement device leagueGames =

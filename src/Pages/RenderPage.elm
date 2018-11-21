@@ -4,13 +4,14 @@ import Html exposing (Html)
 import Element exposing (..)
 import Element.Attributes exposing (..)
 import Element.Events exposing (onClick)
+import Html.Attributes exposing (class)
 
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Pages.Page exposing (..)
 import Pages.HeaderBar exposing (..)
 import Pages.HeaderBarItem exposing (..)
-import Pages.Components exposing (..)
+import Pages.Gaps exposing (..)
 
 renderPage: Device -> Page -> Html Msg
 renderPage device page =
@@ -63,8 +64,48 @@ renderHeaderBarItem headerBarItem =
         HeaderButtonSizedSpace ->
             el Hidden [ ] backIcon
         RefreshHeaderButton msg ->
-            el TitleButton [ class "refresh", onClick msg ] refreshIcon
+            el TitleButton [ Element.Attributes.class "refresh", onClick msg ] refreshIcon
         ResultsFixturesHeaderButton msg ->
             el TitleButton [ onClick msg ] resultsFixturesIcon
         BackHeaderButton msg ->
             el TitleButton [ onClick msg ] backIcon
+
+body: Device -> Gaps -> List (Element Styles variation msg) -> Html msg
+body device gaps elements = 
+    Element.layout (stylesheet device) <|         
+        column 
+            Body 
+            [ width (percent 100), spacing gaps.big, center ]
+            elements
+
+heading: Gaps -> List (Element Styles variation msg) -> Element.Element Styles variation msg
+heading gaps elements = 
+    row 
+        Title 
+        [ width (percent 100), padding gaps.big, verticalCenter, center ] 
+        [
+            row 
+                None 
+                [ center, spacing gaps.big, width (percent 100) ]
+                elements
+        ]
+
+title: String -> Element.Element Styles variation msg
+title titleText = 
+    el Title [ width fill ] (text titleText)
+
+
+backIcon : Element style variation msg
+backIcon =
+    Html.span [ Html.Attributes.class "fas fa-arrow-alt-circle-left" ] []
+        |> Element.html
+
+refreshIcon : Element style variation msg
+refreshIcon =
+    Html.span [ Html.Attributes.class "fas fa-sync-alt" ] []
+        |> Element.html
+
+resultsFixturesIcon : Element style variation msg
+resultsFixturesIcon =
+    Html.span [ Html.Attributes.class "resultsAndFixtures DecodeGoogleSheetToGameList fas fa-calendar-alt" ] []
+        |> Element.html

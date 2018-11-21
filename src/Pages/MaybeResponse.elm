@@ -1,9 +1,11 @@
 module Pages.MaybeResponse exposing (maybeResponse)
 
 import Http exposing (..)
+import Html exposing (div)
+import Html.Attributes exposing (class)
 import RemoteData exposing (WebData)
 import Element exposing (..)
-import Pages.Components exposing (..)
+import Element.Attributes exposing (..)
 import LeagueStyleElements exposing (..)
 
 maybeResponse : WebData payload -> (payload -> Element Styles variation msg) -> Element Styles variation msg
@@ -38,3 +40,25 @@ httpErrorMessage error =
       "Bad Response. Hmmm, there is probably a problem in my configuration, please contact the League Administrator"
     Http.BadUrl _ ->
       "Bad Url. Hmmm, there is probably a problem in my configuration, please contact the League Administrator"
+
+-- It is nice to wait before showing the loading animation, to avoid Jank
+-- style-elements doesn't really support this, so using standard html / css
+loading: Element style variation msg
+loading =
+    Html.div 
+        [ Html.Attributes.class "loading" ] 
+        [
+            Html.div 
+                [ Html.Attributes.class "la-ball-newton-cradle la-3x" ] 
+                [
+                    Html.div [] []
+                    , Html.div [] []
+                    , Html.div [] []
+                    , Html.div [] []
+                ]
+        ]
+    |> Element.html
+
+unhappyPathText: String -> Element Styles variation msg
+unhappyPathText string =
+    paragraph UnhappyPathText [ width (percent 90) ] [ text string ]
