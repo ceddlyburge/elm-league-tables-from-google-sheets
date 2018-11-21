@@ -23,10 +23,11 @@ view response device =
         gaps = gapsForDevice device
         page = 
             Page
-                ( HeaderBar 
-                    [ HeaderButtonSizedSpace ] 
-                    "Leagues" 
-                    [ RefreshHeaderButton AllSheetSummaryRequest ] )
+                ( Single <| 
+                    HeaderBar 
+                        [ HeaderButtonSizedSpace ] 
+                        "Leagues" 
+                        [ RefreshHeaderButton AllSheetSummaryRequest ] )
                 ( maybeResponse response (leagueList gaps) )
     in
         renderPage device page

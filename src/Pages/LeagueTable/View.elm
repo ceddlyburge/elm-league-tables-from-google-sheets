@@ -3,7 +3,6 @@ module Pages.LeagueTable.View exposing (..)
 import Html exposing (Html, span)
 import Element exposing (..)
 import Element.Attributes exposing (..)
-import Element.Events exposing (onClick)
 import RemoteData exposing (WebData)
 import Http exposing (decodeUri)
 
@@ -25,11 +24,12 @@ view leagueTitle response device =
         gaps = gapsForDevice device
         page = 
             Page
-                ( HeaderBar 
-                    [ BackHeaderButton AllSheetSummaryRequest
-                    , ResultsFixturesHeaderButton <| IndividualSheetRequestForResultsFixtures leagueTitle ] 
-                    (Maybe.withDefault "" (decodeUri leagueTitle))
-                    [ RefreshHeaderButton <| IndividualSheetRequest leagueTitle ] )
+                ( Single <| 
+                    HeaderBar 
+                        [ BackHeaderButton AllSheetSummaryRequest
+                        , ResultsFixturesHeaderButton <| IndividualSheetRequestForResultsFixtures leagueTitle ] 
+                        (Maybe.withDefault "" (decodeUri leagueTitle))
+                        [ RefreshHeaderButton <| IndividualSheetRequest leagueTitle ] )
                 ( maybeResponse response (leagueTableElement device gaps) )
     in
         renderPage device page

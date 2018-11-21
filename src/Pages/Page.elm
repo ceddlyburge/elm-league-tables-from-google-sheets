@@ -6,7 +6,7 @@ import Msg exposing (..)
 import Pages.HeaderBar exposing (..)
 
 type alias Page =
-    {   headerBar: HeaderBar
+    {   header: PageHeader
         , body: Element Styles Variations Msg
     }
 

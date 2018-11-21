@@ -21,18 +21,41 @@ renderPage device page =
             device
             gaps  
             [
-                renderHeaderBar gaps page.headerBar
+                renderHeaderBar gaps page.header
                 , page.body
             ]
 
-renderHeaderBar: Gaps -> HeaderBar -> Element.Element Styles variation Msg
-renderHeaderBar gaps headerBar = 
+renderHeaderBar: Gaps -> PageHeader -> Element.Element Styles variation Msg
+renderHeaderBar gaps pageHeader = 
+    case pageHeader of
+        Single headerBar ->
+            renderMainHeaderBar gaps headerBar
+        Double headerBar subHeaderBar ->
+            renderMainAndSubHeaderBar gaps headerBar subHeaderBar
+
+renderMainAndSubHeaderBar: Gaps -> HeaderBar -> SubHeaderBar -> Element.Element Styles variation Msg
+renderMainAndSubHeaderBar gaps headerBar subHeaderBar =
+    column 
+        Title
+        [ width (percent 100) ]
+        [ renderMainHeaderBar gaps headerBar
+          , renderSubHeaderBar gaps subHeaderBar ]
+
+
+renderMainHeaderBar: Gaps -> HeaderBar -> Element.Element Styles variation Msg
+renderMainHeaderBar gaps headerBar = 
     heading
         gaps
         (List.map renderHeaderBarItem headerBar.leftItems
             ++ [ title headerBar.title ]
             ++ List.map renderHeaderBarItem headerBar.rightItems)
 
+renderSubHeaderBar: Gaps -> SubHeaderBar -> Element.Element Styles variation Msg
+renderSubHeaderBar gaps subHeaderBar = 
+    el 
+        SubTitle 
+        [ width (percent 100), padding gaps.medium, verticalCenter ]
+        (text subHeaderBar.title)
 
 renderHeaderBarItem: HeaderBarItem -> Element.Element Styles variation Msg
 renderHeaderBarItem headerBarItem =
