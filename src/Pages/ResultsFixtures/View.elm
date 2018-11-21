@@ -1,4 +1,4 @@
-module Pages.ResultsFixtures.View exposing (..)
+module Pages.ResultsFixtures.View exposing (page)
 
 import Element exposing (..)
 import Element.Attributes exposing (..)
@@ -17,8 +17,8 @@ import Pages.HeaderBar exposing (..)
 import Pages.HeaderBarItem exposing (..)
 
 
-view : String -> WebData LeagueGames -> Device -> Page
-view leagueTitle response device =
+page : String -> WebData LeagueGames -> Device -> Page
+page leagueTitle response device =
     Page
         ( DoubleHeader  
             (headerBar leagueTitle)

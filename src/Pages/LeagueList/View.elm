@@ -1,4 +1,4 @@
-module Pages.LeagueList.View exposing (view)
+module Pages.LeagueList.View exposing (page)
 
 import RemoteData exposing (WebData)
 import Element exposing (..)
@@ -15,8 +15,8 @@ import Pages.HeaderBar exposing ( .. )
 import Pages.HeaderBarItem exposing (..)
 
 
-view : WebData (List LeagueSummary) -> Device -> Page
-view response device =
+page : WebData (List LeagueSummary) -> Device -> Page
+page response device =
     Page
         ( SingleHeader <| 
             HeaderBar 

@@ -1,4 +1,4 @@
-module Pages.LeagueTable.View exposing (..)
+module Pages.LeagueTable.View exposing (page)
 
 import Element exposing (..)
 import Element.Attributes exposing (..)
@@ -16,8 +16,8 @@ import Pages.HeaderBar exposing (..)
 import Pages.HeaderBarItem exposing (..)
 
 
-view : String -> WebData LeagueTable -> Device -> Page
-view leagueTitle response device =
+page : String -> WebData LeagueTable -> Device -> Page
+page leagueTitle response device =
     Page
         ( SingleHeader <| 
             HeaderBar 
