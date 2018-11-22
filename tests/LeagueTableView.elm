@@ -5,7 +5,8 @@ import Test.Html.Query as Query
 import Test.Html.Selector exposing (text, class)
 import RemoteData exposing (WebData)
 
-import Pages.LeagueTable.View exposing (view)
+import Pages.LeagueTable.View exposing (..)
+import Pages.RenderPage exposing (..)
 import Models.Team exposing (Team)
 import Models.LeagueTable exposing (LeagueTable)
 import Models.Model exposing (vanillaModel)
@@ -59,5 +60,7 @@ teamElement  =
 
 html : Query.Single Msg.Msg
 html  =
-    view "" (RemoteData.Success (LeagueTable "" [ Team "Castle" 1 3 6 4 2 ]))  vanillaModel.device
+    renderPage 
+        vanillaModel.device
+        (page "" (RemoteData.Success (LeagueTable "" [ Team "Castle" 1 3 6 4 2 ]))  vanillaModel.device)
     |> Query.fromHtml
