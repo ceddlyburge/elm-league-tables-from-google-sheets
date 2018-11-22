@@ -15,6 +15,18 @@ import Pages.Page exposing (..)
 import Pages.HeaderBar exposing (..) 
 import Pages.HeaderBarItem exposing (..)
 
+type alias LeagueTableHeaderText = 
+    { position: String
+        , team: String
+        , played: String
+        , won: String
+        , drawn: String
+        , lost: String
+        , goalsFor: String
+        , goalsAgainst: String
+        , goalDifference: String
+        , points: String
+    }
 
 page : String -> WebData LeagueTable -> Device -> Page
 page leagueTitle response device =
@@ -42,87 +54,108 @@ leagueTableElement device leagueTable =
 
 headerRow : Device -> Gaps -> Element Styles variation Msg
 headerRow device gaps = 
-    if device.width < 400 then
-        compactHeaderRow device gaps 
-    else
-        fullHeaderRow device gaps 
+    let
+        headers = headerText device
+    in
+        row LeagueTableHeaderRow [ padding gaps.medium, spacing gaps.small, center ] 
+        [
+            small device "" headers.position
+            , big device "" headers.team
+            , small device "" headers.played
+            , small device "" headers.won
+            , small device "" headers.drawn
+            , small device "" headers.lost
+            , smallWithWrap device "" headers.goalsFor
+            , smallWithWrap device "" headers.goalsAgainst
+            , mediumWithWrap device "" headers.goalDifference
+            , small device "" headers.points
+        ]
 
-fullHeaderRow : Device -> Gaps -> Element Styles variation Msg
-fullHeaderRow device gaps = 
-    row LeagueTableHeaderRow [ padding gaps.medium, spacing gaps.small, center ] 
-    [
-        paragraph None [ bigColumnWidth device ] [ text "Team" ]
-        , el None [ width (px (smallColumnWidth device)) ] (text "Points")
-        , el None [ width (px (smallColumnWidth device)) ] (text "Played")
-        , el None [ width (px (mediumColumnWidth device)) ] (text "Goal\nDifference")
-        , el None [ width (px (smallColumnWidth device)) ] (text "Goals\nFor")
-        , el None [ width (px (smallColumnWidth device)) ] (text "Goals\nAgainst")
-    ]
 
-compactHeaderRow : Device -> Gaps -> Element Styles variation Msg
-compactHeaderRow device gaps = 
-    row LeagueTableHeaderRow [ padding gaps.medium, spacing gaps.small, center ] 
-    [
-        el None [ width (px (smallColumnWidth device)) ] (text "Points")
-        , el None [ width (px (smallColumnWidth device)) ] (text "Played")
-        , paragraph None [ width (px (mediumColumnWidth device)) ] [ text "Goal Difference" ]
-        , paragraph None [ width (px (smallColumnWidth device)) ] [ text "Goals For" ]
-        , paragraph None [ width (px (smallColumnWidth device)) ] [ text "Goals Against" ]
-    ]
 
 teamRow : Device -> Gaps -> Team -> Element Styles variation Msg
 teamRow device gaps team = 
+    row LeagueTableTeamRow [ padding gaps.medium, spacing gaps.small, center, class "team" ] 
+    [ 
+        small device "" "0"  -- team.position
+        , bigWithWrap device "name" team.name
+        , small device "gamesPlayed" (toString team.gamesPlayed)
+        , small device "" "0" -- headers.won
+        , small device "" "0" -- headers.drawn
+        , small device "" "0" -- headers.lost
+        , small device "goalsFor" (toString team.goalsFor)
+        , small device "goalsAgainst" (toString team.goalsAgainst)
+        , medium device "goalDifference" (toString team.goalDifference)
+        , small device "points" (toString team.points)
+    ]
+
+small: Device -> String -> String -> Element Styles variation Msg
+small  device cssClass cellContents = 
+    el None [ smallWidth device, class cssClass ] (text cellContents)
+
+smallWithWrap: Device -> String -> String -> Element Styles variation Msg
+smallWithWrap  device cssClass cellContents = 
+    paragraph None [ smallWidth device, class cssClass ] [text cellContents]
+
+medium: Device -> String -> String -> Element Styles variation Msg
+medium device cssClass cellContents = 
+    el None [ mediumWidth device, class cssClass ] (text cellContents)
+
+mediumWithWrap: Device -> String -> String -> Element Styles variation Msg
+mediumWithWrap  device cssClass cellContents = 
+    paragraph None [ mediumWidth device, class cssClass ] [text cellContents]
+
+big: Device -> String -> String -> Element Styles variation Msg
+big device cssClass cellContents = 
+    el None [ bigWidth device, class cssClass ] (text cellContents)
+
+bigWithWrap: Device -> String -> String -> Element Styles variation Msg
+bigWithWrap  device cssClass cellContents = 
+    paragraph None [ bigWidth device, class cssClass ] [text cellContents]
+
+headerText: Device -> LeagueTableHeaderText
+headerText device = 
     if device.width < 400 then
-        compactTeamRow device gaps team
+        LeagueTableHeaderText
+            ""
+            "Team"
+            "P"
+            "W"
+            "D"
+            "L"
+            ""
+            ""
+            "GD"
+            "Pts"
     else
-        fullTeamRow device gaps team
+        LeagueTableHeaderText
+            ""
+            "Team"
+            "Played"
+            "Won"
+            "Drawn"
+            "Lost"
+            "Goals For"
+            "Goals Against"
+            "Goal Difference"
+            "Points"
 
-fullTeamRow : Device -> Gaps -> Team -> Element Styles variation Msg
-fullTeamRow device gaps team =
-    row LeagueTableTeamRow [ padding gaps.medium, spacing gaps.small, center, class "team" ] 
-    [ 
-        paragraph None [ bigColumnWidth device, class "name" ] [ text team.name ]
-        , el None [ width (px (smallColumnWidth device)), class "points" ] (text (toString team.points) )
-        , el None [ width (px (smallColumnWidth device)), class "gamesPlayed" ] (text (toString team.gamesPlayed) )
-        , el None [ width (px (mediumColumnWidth device)), class "goalDifference" ] (text (toString team.goalDifference) )
-        , el None [ width (px (smallColumnWidth device)), class "goalsFor" ] (text (toString team.goalsFor) )
-        , el None [ width (px (smallColumnWidth device)), class "goalsAgainst" ] (text (toString team.goalsAgainst) )
-    ]
-
-compactTeamRow : Device -> Gaps -> Team -> Element Styles variation Msg
-compactTeamRow device gaps team =
-    row LeagueTableTeamRow [ padding gaps.medium, spacing gaps.small, center, class "team" ] 
-    [ 
-        column None []
-        [
-            paragraph None [ width fill, class "name" ] [text team.name]
-            , row None []
-                [
-                    el None [ width (px (smallColumnWidth device)), class "points" ] (text (toString team.points) )
-                    , el None [ width (px (smallColumnWidth device)), class "gamesPlayed" ] (text (toString team.gamesPlayed) )
-                    , el None [ width (px (mediumColumnWidth device)), class "goalDifference" ] (text (toString team.goalDifference) )
-                    , el None [ width (px (smallColumnWidth device)), class "goalsFor" ] (text (toString team.goalsFor) )
-                    , el None [ width (px (smallColumnWidth device)), class "goalsAgainst" ] (text (toString team.goalsAgainst) )
-                ]
-        ]
-    ]
-
-smallColumnWidth: Device -> Float
-smallColumnWidth device = 
+smallWidth: Device -> Element.Attribute variation msg
+smallWidth device = 
     if device.phone then
-        50
+        width (px 20)
     else
-        100
+        width (px 80)
 
-mediumColumnWidth: Device -> Float
-mediumColumnWidth device = 
+mediumWidth: Device -> Element.Attribute variation msg
+mediumWidth device = 
     if device.phone then
-        70
+        width (px 20)
     else
-        120
+        width (px 120)
 
-bigColumnWidth: Device -> Element.Attribute variation msg
-bigColumnWidth device = 
+bigWidth: Device -> Element.Attribute variation msg
+bigWidth device = 
     if device.phone then
         width fill
     else
