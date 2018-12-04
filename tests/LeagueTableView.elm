@@ -20,43 +20,43 @@ oneTeam =
         test "resultsFixtures" <|
             \_ ->
                 html
-                |> Query.has [ class "resultsAndFixtures" ]
+                |> Query.has [ class "data-test-resultsAndFixtures" ]
         , test "name" <|
             \_ ->
                 teamElement
-                |> Query.find [ class "name" ]
+                |> Query.find [ class "data-test-name" ]
                 |> Query.has [ text "Castle" ]
         , test "points" <|
             \_ ->
                 teamElement
-                |> Query.find [ class "points" ]
+                |> Query.find [ class "data-test-points" ]
                 |> Query.has [ text "3"]
         , test "games played" <|
             \_ ->
                 teamElement
-                |> Query.find [ class "gamesPlayed" ]
+                |> Query.find [ class "data-test-gamesPlayed" ]
                 |> Query.has [ text "1"]
         , test "goals for" <|
             \_ ->
                 teamElement
-                |> Query.find [ class "goalsFor" ]
+                |> Query.find [ class "data-test-goalsFor" ]
                 |> Query.has [ text "6"]
         , test "goals against" <|
             \_ ->
                 teamElement
-                |> Query.find [ class "goalsAgainst" ]
+                |> Query.find [ class "data-test-goalsAgainst" ]
                 |> Query.has [ text "4"]
         , test "goal difference" <|
             \_ ->
                 teamElement
-                |> Query.find [ class "goalDifference" ]
+                |> Query.find [ class "data-test-goalDifference" ]
                 |> Query.has [ text "2"]
         ]
 
 teamElement : Query.Single Msg.Msg
 teamElement  =
     html
-    |> Query.find [ Test.Html.Selector.class "team" ]
+    |> Query.find [ Test.Html.Selector.class "data-test-team" ]
 
 html : Query.Single Msg.Msg
 html  =

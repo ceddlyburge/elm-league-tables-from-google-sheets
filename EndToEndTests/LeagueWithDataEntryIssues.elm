@@ -25,14 +25,14 @@ specs =
             }
           ]
           ,it "ignores invalid games"
-          [ steps.click ".refresh"
-          , steps.click ".league" -- only one league in the results
+          [ steps.click ".data-test-refresh"
+          , steps.click ".data-test-league" -- only one league in the results
           , assert.containsText
-            { selector = ".teams .team:nth-Child(2) .name"
+            { selector = ".data-test-teams .data-test-team:nth-Child(2) .data-test-name"
             , text = "Castle"
             }
           , assert.containsText
-            { selector = ".teams .team:nth-Child(3) .name"
+            { selector = ".data-test-teams .data-test-team:nth-Child(3) .data-test-name"
             , text = "Meridian"
             }
           ]

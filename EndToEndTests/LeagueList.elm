@@ -18,13 +18,13 @@ specs =
             }
           ]
         ,it "displays available leagues"
-        [ steps.click ".refresh"
+        [ steps.click ".data-test-refresh"
           , assert.containsText
-          { selector = ".leagues .league:first-Child"
+          { selector = ".data-test-leagues .data-test-league:first-Child"
           , text = "Regional Div 1"
           }
         , assert.containsText
-          { selector = ".leagues .league:nth-Child(2)"
+          { selector = ".data-test-leagues .data-test-league:nth-Child(2)"
           , text = "Regional Div 2"
           }
         ]
