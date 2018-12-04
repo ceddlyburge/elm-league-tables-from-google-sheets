@@ -26,39 +26,39 @@ specs =
           ]
         
           ,it "shows results and fixtures"
-          [ steps.click ".refresh"
-          , steps.click ".league" -- only one league in the results
-          , steps.click ".resultsAndFixtures" -- shows results and fixtures page
+          [ steps.click ".data-test-refresh"
+          , steps.click ".data-test-league" -- only one league in the results
+          , steps.click ".data-test-resultsAndFixtures" -- shows results and fixtures page
           , assert.containsText
             { selector = ".el"
             , text = "Castle"
             }
           , assert.containsText
-            { selector = ".games .game:nth-Child(1) .homeTeamGoals"
+            { selector = ".data-test-games .data-test-game:nth-Child(1) .data-test-homeTeamGoals"
             , text = "3"
             }
           , assert.containsText
-            { selector = ".games .game:nth-Child(1) .awayTeamGoals"
+            { selector = ".data-test-games .data-test-game:nth-Child(1) .data-test-awayTeamGoals"
             , text = "0"
             }          
           , assert.containsText
-            { selector = ".games .game:nth-Child(1) .awayTeamName"
+            { selector = ".data-test-games .data-test-game:nth-Child(1) .data-test-awayTeamName"
             , text = "Meridian"
             }
           , assert.containsText
-            { selector = ".games .game:nth-Child(2) .homeTeamName"
+            { selector = ".data-test-games .data-test-game:nth-Child(2) .data-test-homeTeamName"
             , text = "Battersea"
             }
           , assert.containsText
-            { selector = ".games .game:nth-Child(2) .awayTeamName"
+            { selector = ".data-test-games .data-test-game:nth-Child(2) .data-test-awayTeamName"
             , text = "Clapham"
             }
           , assert.containsText
-            { selector = ".games .game:nth-Child(3) .homeTeamName"
+            { selector = ".data-test-games .data-test-game:nth-Child(3) .data-test-homeTeamName"
             , text = "Blackwater"
             }
           , assert.containsText
-            { selector = ".games .game:nth-Child(3) .awayTeamName"
+            { selector = ".data-test-games .data-test-game:nth-Child(3) .data-test-awayTeamName"
             , text = "Nomad"
             }
           ]

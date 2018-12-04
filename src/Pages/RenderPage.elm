@@ -64,7 +64,7 @@ renderHeaderBarItem headerBarItem =
         HeaderButtonSizedSpace ->
             el Hidden [ ] backIcon
         RefreshHeaderButton msg ->
-            el TitleButton [ Element.Attributes.class "refresh", onClick msg ] refreshIcon
+            el TitleButton [ Element.Attributes.class "data-test-refresh", onClick msg ] refreshIcon
         ResultsFixturesHeaderButton msg ->
             el TitleButton [ onClick msg ] resultsFixturesIcon
         BackHeaderButton msg ->
@@ -107,5 +107,5 @@ refreshIcon =
 
 resultsFixturesIcon : Element style variation msg
 resultsFixturesIcon =
-    Html.span [ Html.Attributes.class "resultsAndFixtures DecodeGoogleSheetToGameList fas fa-calendar-alt" ] []
+    Html.span [ Html.Attributes.class "data-test-resultsAndFixtures DecodeGoogleSheetToGameList fas fa-calendar-alt" ] []
         |> Element.html

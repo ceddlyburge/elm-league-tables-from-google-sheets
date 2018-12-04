@@ -34,7 +34,7 @@ leagueList device leagueSummaries =
             None 
             [ 
                 width (percent 100)
-                , class "leagues"   
+                , class "data-test-leagues"   
             ] 
             (List.map (leagueTitle gaps) leagueSummaries)
 
@@ -46,7 +46,7 @@ leagueTitle gaps league =
             padding gaps.medium
             , spacing gaps.small
             , width (percent gaps.percentageWidthToUse)
-            , class "league"
+            , class "data-test-league"
             , center
             , onClick <| IndividualSheetRequest league.title
         ] 

@@ -26,54 +26,54 @@ specs =
           ]
         
           ,it "allows games in the future / games with no scores"
-          [ steps.click ".refresh"
-          , steps.click ".league" -- only one league in the results
+          [ steps.click ".data-test-refresh"
+          , steps.click ".data-test-league" -- only one league in the results
           , assert.containsText
-            { selector = ".teams .team:nth-Child(2) .data-test-name"
+            { selector = ".data-test-teams .data-test-team:nth-Child(2) .data-test-name"
             , text = "Castle"
             }
           , assert.containsText
-            { selector = ".teams .team:nth-Child(2) .data-test-gamesPlayed"
+            { selector = ".data-test-teams .data-test-team:nth-Child(2) .data-test-gamesPlayed"
             , text = "0"
             }
           , assert.containsText
-            { selector = ".teams .team:nth-Child(2) .data-test-points"
+            { selector = ".data-test-teams .data-test-team:nth-Child(2) .data-test-points"
             , text = "0"
             }
           , assert.containsText
-            { selector = ".teams .team:nth-Child(2) .data-test-goalsFor"
+            { selector = ".data-test-teams .data-test-team:nth-Child(2) .data-test-goalsFor"
             , text = "0"
             }
           , assert.containsText
-            { selector = ".teams .team:nth-Child(2) .data-test-goalsAgainst"
+            { selector = ".data-test-teams .data-test-team:nth-Child(2) .data-test-goalsAgainst"
             , text = "0"
             }
           , assert.containsText
-            { selector = ".teams .team:nth-Child(2) .data-test-goalDifference"
+            { selector = ".data-test-teams .data-test-team:nth-Child(2) .data-test-goalDifference"
             , text = "0"
             }
           , assert.containsText
-            { selector = ".teams .team:nth-Child(3) .data-test-name"
+            { selector = ".data-test-teams .data-test-team:nth-Child(3) .data-test-name"
             , text = "Meridian"
             }
           , assert.containsText
-            { selector = ".teams .team:nth-Child(3) .data-test-gamesPlayed"
+            { selector = ".data-test-teams .data-test-team:nth-Child(3) .data-test-gamesPlayed"
             , text = "0"
             }
           , assert.containsText
-            { selector = ".teams .team:nth-Child(3) .data-test-points"
+            { selector = ".data-test-teams .data-test-team:nth-Child(3) .data-test-points"
             , text = "0"
             }
           , assert.containsText
-            { selector = ".teams .team:nth-Child(3) .data-test-goalsFor"
+            { selector = ".data-test-teams .data-test-team:nth-Child(3) .data-test-goalsFor"
             , text = "0"
             }
           , assert.containsText
-            { selector = ".teams .team:nth-Child(3) .data-test-goalsAgainst"
+            { selector = ".data-test-teams .data-test-team:nth-Child(3) .data-test-goalsAgainst"
             , text = "0"
             }
           , assert.containsText
-            { selector = ".teams .team:nth-Child(3) .data-test-goalDifference"
+            { selector = ".data-test-teams .data-test-team:nth-Child(3) .data-test-goalDifference"
             , text = "0"
             }
           ]

@@ -39,7 +39,7 @@ leagueTableElement device leagueTable =
             gaps.small  
             (allColumns device)
     in
-        column None [ class "teams" ]
+        column None [ class "data-test-teams" ]
         (
             [ headerRow columns device gaps ]
             ++ 
@@ -64,7 +64,7 @@ teamRow : List Column -> Device -> Gaps -> Team -> Element Styles Variations Msg
 teamRow tableColumns device gaps team = 
     row 
         LeagueTableTeamRow 
-        [ padding gaps.medium, spacing gaps.small, center, class "team" ] 
+        [ padding gaps.medium, spacing gaps.small, center, class "data-test-team" ] 
         (List.map (teamCell team) tableColumns)
 
 teamCell : Team -> Column -> Element Styles Variations Msg
@@ -133,31 +133,31 @@ allColumns device =
 -- the type signature for these is extremely onerous, and I haven't found a 
 -- way of making it better, so I'm just leaving them out for now.
 position = 
-    Column Models.Team.position "position"
+    Column Models.Team.position "data-test-position"
 
 team = 
-    Column Models.Team.name "name"
+    Column Models.Team.name "data-test-name"
 
 played = 
-    Column Models.Team.gamesPlayed "gamesPlayed"
+    Column Models.Team.gamesPlayed "data-test-gamesPlayed"
 
 won = 
-    Column Models.Team.won "won"
+    Column Models.Team.won "data-test-won"
 
 drawn =
-    Column Models.Team.drawn "drawn"
+    Column Models.Team.drawn "data-test-drawn"
 
 lost =
-    Column Models.Team.lost "lost"
+    Column Models.Team.lost "data-test-lost"
 
 goalsFor =
-    Column Models.Team.goalsFor "goalsFor"
+    Column Models.Team.goalsFor "data-test-goalsFor"
 
 goalsAgainst =
-    Column Models.Team.goalsAgainst "goalsAgainst"
+    Column Models.Team.goalsAgainst "data-test-goalsAgainst"
 
 goalDifference =
-    Column Models.Team.goalDifference "goalDifference"
+    Column Models.Team.goalDifference "data-test-goalDifference"
 
 points =
-    Column Models.Team.points "points"
+    Column Models.Team.points "data-test-points"

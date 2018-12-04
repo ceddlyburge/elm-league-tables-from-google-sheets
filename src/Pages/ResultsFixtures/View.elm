@@ -39,7 +39,7 @@ fixturesResultsElement device leagueGames =
     in
         column 
             None 
-            [ rowWidth device, class "games" ]
+            [ rowWidth device, class "data-test-games" ]
             (List.map (gameRow device gaps) leagueGames.games)
 
 gameRow : Device -> Gaps -> Game -> Element Styles variation Msg
@@ -47,14 +47,14 @@ gameRow device gaps game =
     -- do something about LeagueTableTeamRow
     row 
         LeagueTableTeamRow 
-        [ padding gaps.medium, spacing gaps.small, center, class "game" ] 
+        [ padding gaps.medium, spacing gaps.small, center, class "data-test-game" ] 
         [ 
-            paragraph ResultFixtureHome [ alignRight, teamWidth device, class "homeTeamName" ] [text game.homeTeamName]
+            paragraph ResultFixtureHome [ alignRight, teamWidth device, class "data-test-homeTeamName" ] [text game.homeTeamName]
             , row 
                 None 
                 [ scoreSlashDateWidth device ] 
                 ( scoreSlashDate game )
-            , paragraph ResultFixtureAway [ alignLeft, teamWidth device, class "awayTeamName" ] [ text game.awayTeamName ]
+            , paragraph ResultFixtureAway [ alignLeft, teamWidth device, class "data-test-awayTeamName" ] [ text game.awayTeamName ]
         ]
 
 scoreSlashDate : Game -> List (Element Styles variation Msg)
@@ -62,13 +62,13 @@ scoreSlashDate game =
     case (game.homeTeamGoals, game.awayTeamGoals) of
         (Just homeTeamGoals, Just awayTeamGoals) ->
             [ 
-                el ResultFixtureHome [ alignRight, width (percent 35), class "homeTeamGoals" ] (text (toString homeTeamGoals) )
+                el ResultFixtureHome [ alignRight, width (percent 35), class "data-test-homeTeamGoals" ] (text (toString homeTeamGoals) )
                 , el None [ width (percent 30)] empty
-                , el ResultFixtureAway [ alignLeft, width (percent 35), class "awayTeamGoals" ] (text (toString awayTeamGoals) )
+                , el ResultFixtureAway [ alignLeft, width (percent 35), class "data-test-awayTeamGoals" ] (text (toString awayTeamGoals) )
             ]
         (_, _) ->
             [ 
-                el ResultFixtureDate [ verticalCenter, width (percent 100) , class "datePlayed" ] (text <| Maybe.withDefault "" (Maybe.map formatDate game.datePlayed) )
+                el ResultFixtureDate [ verticalCenter, width (percent 100) , class "data-test-datePlayed" ] (text <| Maybe.withDefault "" (Maybe.map formatDate game.datePlayed) )
             ]
             
 
