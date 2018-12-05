@@ -58,4 +58,7 @@ update msg model =
                         Route.ResultsFixturesRoute leagueTitle ->
                             update (IndividualSheetRequestForResultsFixtures leagueTitle) model 
                         Route.NotFoundRoute ->
-                            ( model, Cmd.none )            
+                            let
+                                _ = Debug.log "Route not found" location
+                            in
+                                ( model, Cmd.none )            

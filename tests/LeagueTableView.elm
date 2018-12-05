@@ -5,13 +5,12 @@ import Test.Html.Query as Query
 import Test.Html.Selector exposing (text, class)
 import RemoteData exposing (WebData)
 
-import Pages.LeagueTable.View exposing (view)
+import Pages.LeagueTable.View exposing (..)
+import Pages.RenderPage exposing (..)
 import Models.Team exposing (Team)
 import Models.LeagueTable exposing (LeagueTable)
 import Models.Model exposing (vanillaModel)
 import Msg exposing (..)
-
--- also wants to show the league title
 
 
 oneTeam : Test
@@ -21,45 +20,67 @@ oneTeam =
         test "resultsFixtures" <|
             \_ ->
                 html
-                |> Query.has [ class "resultsAndFixtures" ]
+                |> Query.has [ class "data-test-resultsAndFixtures" ]
+        , test "position" <|
+            \_ ->
+                teamElement
+                |> Query.find [ class "data-test-position" ]
+                |> Query.has [ text "1" ]
         , test "name" <|
             \_ ->
                 teamElement
-                |> Query.find [ class "name" ]
+                |> Query.find [ class "data-test-name" ]
                 |> Query.has [ text "Castle" ]
+        , test "won" <|
+            \_ ->
+                teamElement
+                |> Query.find [ class "data-test-won" ]
+                |> Query.has [ text "1" ]
+        , test "drawn" <|
+            \_ ->
+                teamElement
+                |> Query.find [ class "data-test-drawn" ]
+                |> Query.has [ text "0" ]
+        , test "lost" <|
+            \_ ->
+                teamElement
+                |> Query.find [ class "data-test-lost" ]
+                |> Query.has [ text "0" ]
         , test "points" <|
             \_ ->
                 teamElement
-                |> Query.find [ class "points" ]
+                |> Query.find [ class "data-test-points" ]
                 |> Query.has [ text "3"]
         , test "games played" <|
             \_ ->
                 teamElement
-                |> Query.find [ class "gamesPlayed" ]
+                |> Query.find [ class "data-test-gamesPlayed" ]
                 |> Query.has [ text "1"]
         , test "goals for" <|
             \_ ->
                 teamElement
-                |> Query.find [ class "goalsFor" ]
+                |> Query.find [ class "data-test-goalsFor" ]
                 |> Query.has [ text "6"]
         , test "goals against" <|
             \_ ->
                 teamElement
-                |> Query.find [ class "goalsAgainst" ]
+                |> Query.find [ class "data-test-goalsAgainst" ]
                 |> Query.has [ text "4"]
         , test "goal difference" <|
             \_ ->
                 teamElement
-                |> Query.find [ class "goalDifference" ]
+                |> Query.find [ class "data-test-goalDifference" ]
                 |> Query.has [ text "2"]
         ]
 
 teamElement : Query.Single Msg.Msg
 teamElement  =
     html
-    |> Query.find [ Test.Html.Selector.class "team" ]
+    |> Query.find [ Test.Html.Selector.class "data-test-team" ]
 
 html : Query.Single Msg.Msg
 html  =
-    view "" (RemoteData.Success (LeagueTable "" [ Team "Castle" 1 3 6 4 2 ]))  vanillaModel.device
+    renderPage 
+        vanillaModel.device
+        (page "" (RemoteData.Success (LeagueTable "" [ Team 1 "Castle" 1 1 0 0 3 6 4 2 ]))  vanillaModel.device)
     |> Query.fromHtml

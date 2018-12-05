@@ -1,9 +1,16 @@
-module SpreadsheetIdResponseDiv1Div2 exposing (spreadsheetIdResponseDiv1Div2)
+module SpreadsheetIdResponses exposing (spreadsheetIdResponseDiv1, spreadsheetIdResponseDiv1Div2)
 
+spreadsheetIdResponseDiv1: String
+spreadsheetIdResponseDiv1 =
+  spreadsheetIdResponse [ "Regional Div 1" ]
 
--- This is the response from the test spreadsheet, at https://sheets.googleapis.com/v4/spreadsheets/1Ai9H6Pfe1LPsOcksN6EF03-z-gO1CkNp8P1Im37N3TE?key=<thekey>
 spreadsheetIdResponseDiv1Div2: String
 spreadsheetIdResponseDiv1Div2 =
+  spreadsheetIdResponse ["Regional Div 1", "Regional Div 2" ]
+
+-- This is the response from the test spreadsheet, at https://sheets.googleapis.com/v4/spreadsheets/1Ai9H6Pfe1LPsOcksN6EF03-z-gO1CkNp8P1Im37N3TE?key=<thekey>
+spreadsheetIdResponse: List String -> String
+spreadsheetIdResponse sheetTitles =
   """{
   "spreadsheetId": "1Ai9H6Pfe1LPsOcksN6EF03-z-gO1CkNp8P1Im37N3TE",
   "properties": {
@@ -37,10 +44,21 @@ spreadsheetIdResponseDiv1Div2 =
     }
   },
   "sheets": [
+  """ 
+  ++ String.join ", " (List.map sheetWithTitle sheetTitles) ++ 
+  """  ],
+  "spreadsheetUrl": "https://docs.google.com/spreadsheets/d/1Ai9H6Pfe1LPsOcksN6EF03-z-gO1CkNp8P1Im37N3TE/edit"
+  }"""
+
+sheetWithTitle: String -> String
+sheetWithTitle title =
+  """
     {
       "properties": {
         "sheetId": 1100994793,
-        "title": "Regional Div 1",
+    """ 
+    ++ "\"title\": \"" ++  title ++ "\"," ++ 
+    """
         "index": 0,
         "sheetType": "GRID",
         "gridProperties": {
@@ -48,19 +66,5 @@ spreadsheetIdResponseDiv1Div2 =
           "columnCount": 26
         }
       }
-    },
-    {
-      "properties": {
-        "sheetId": 0,
-        "title": "Regional Div 2",
-        "index": 1,
-        "sheetType": "GRID",
-        "gridProperties": {
-          "rowCount": 1000,
-          "columnCount": 26
-        }
-      }
     }
-  ],
-  "spreadsheetUrl": "https://docs.google.com/spreadsheets/d/1Ai9H6Pfe1LPsOcksN6EF03-z-gO1CkNp8P1Im37N3TE/edit"
-}"""
+  """

@@ -1,66 +1,42 @@
-module Pages.LeagueList.View exposing (view)
+module Pages.LeagueList.View exposing (page)
 
-import Html exposing (Html)
+import RemoteData exposing (WebData)
 import Element exposing (..)
 import Element.Attributes exposing (..)
 import Element.Events exposing (onClick)
-import RemoteData exposing (WebData)
 
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueSummary exposing (LeagueSummary)
-import ViewComponents exposing (..)
-import ErrorMessages exposing (httpErrorMessage, unexpectedNotAskedMessage)
+import Pages.Gaps exposing (..)
+import Pages.MaybeResponse exposing (..)
+import Pages.Page exposing (..)
+import Pages.HeaderBar exposing ( .. ) 
+import Pages.HeaderBarItem exposing (..)
 
 
-view : WebData (List LeagueSummary) -> Device -> Html Msg
-view response device =
+page : WebData (List LeagueSummary) -> Device -> Page
+page response device =
+    Page
+        ( SingleHeader <| 
+            HeaderBar 
+                [ HeaderButtonSizedSpace ] 
+                "Leagues" 
+                [ RefreshHeaderButton AllSheetSummaryRequest ] )
+        ( maybeResponse response <| leagueList device )
+
+leagueList: Device -> List LeagueSummary -> Element Styles variation Msg
+leagueList device leagueSummaries =
     let
         gaps = gapsForDevice device
     in
-        Element.layout (stylesheet device) <|         
-            column Body [ width (percent 100), spacing gaps.big, center ]
-                [
-                    row 
-                        Title 
-                        [ width (percent 100), padding gaps.big, verticalCenter, center ] 
-                        [
-                            row None [ center, spacing gaps.big, width (percent 100)   ]
-                            [
-                                el Hidden [ ] backIcon
-                                , el Title [ width fill, center ] (text "Leagues")
-                                , el TitleButton [ class "refresh", onClick AllSheetSummaryRequest ] refreshIcon
-                            ]
-                        ]
-                    , maybeLeagueList gaps response
-                ]
-
-maybeLeagueList : Gaps -> WebData (List LeagueSummary) -> Element Styles variation Msg
-maybeLeagueList gaps response =
-    case response of
-        RemoteData.NotAsked ->
-            -- This situation occurs when going to the url for a league table. I'm not sure why this view is shown first, it looks from the model history as though it shouldn't be the case
-            unhappyPathText "" --unexpectedNotAskedMessage
-
-        RemoteData.Loading ->
-            loading
-
-        RemoteData.Success leagues ->
-            leagueList gaps leagues
-
-        RemoteData.Failure error ->
-            unhappyPathText <| httpErrorMessage error
-
-
-leagueList: Gaps -> List LeagueSummary -> Element Styles variation Msg
-leagueList gaps leagueSummaries =
-    column 
-        None 
-        [ 
-            width (percent 100)
-            , class "leagues"   
-        ] 
-        (List.map (leagueTitle gaps) leagueSummaries)
+        column 
+            None 
+            [ 
+                width (percent 100)
+                , class "data-test-leagues"   
+            ] 
+            (List.map (leagueTitle gaps) leagueSummaries)
 
 leagueTitle : Gaps -> LeagueSummary -> Element Styles variation Msg
 leagueTitle gaps league =
@@ -70,8 +46,9 @@ leagueTitle gaps league =
             padding gaps.medium
             , spacing gaps.small
             , width (percent gaps.percentageWidthToUse)
-            , class "league"
+            , class "data-test-league"
             , center
             , onClick <| IndividualSheetRequest league.title
         ] 
         (paragraph None [] [ text league.title ] )
+ 

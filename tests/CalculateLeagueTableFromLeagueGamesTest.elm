@@ -32,6 +32,6 @@ leagueTable castleGoals meridianGoals castleGoalDifference meridianGoalDifferenc
     LeagueTable 
         "Regional Div 1" 
         [ 
-              Team "Castle"   1 3 castleGoals   meridianGoals castleGoalDifference
-            , Team "Meridian" 1 0 meridianGoals castleGoals   meridianGoalDifference
+              Team 1 "Castle"   1 1 0 0 3 castleGoals   meridianGoals castleGoalDifference
+            , Team 2 "Meridian" 1 0 0 1 0 meridianGoals castleGoals   meridianGoalDifference
         ]

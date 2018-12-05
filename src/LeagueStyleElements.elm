@@ -7,6 +7,9 @@ import Style.Color as Color
 import Style.Font as Font
 import Element exposing (Device)
 
+type Variations
+    = NotApplicable
+
 type Styles
     = None
     | Body
@@ -69,15 +72,25 @@ type alias FontSize =
 
 calculatefontSize: Device -> FontSize
 calculatefontSize device =
-    if device.phone then
+    if device.width <= 600 then
         { big = 24
         , medium = 14
         , small = 12    
         }
-    else 
+    else if device.width <= 1200 then
+        { big = 29
+        , medium = 19
+        , small = 15    
+        }
+    else if device.width <= 1800 then
         { big = 34
         , medium = 25
         , small = 18    
+        }
+    else 
+        { big = 48
+        , medium = 32
+        , small = 24    
         }
 
 
@@ -124,13 +137,13 @@ stylesheet device =
                 , cursor "pointer"
                 ]
             , style LeagueTableHeaderRow
-                [ Font.size fontSize.medium
+                [ Font.size fontSize.small
                 , Color.text colors.text
                 , Border.bottom 2
                 , Color.border colors.border
                 ]
             , style LeagueTableTeamRow
-                [ Font.size fontSize.medium
+                [ Font.size fontSize.small
                 , Color.text colors.text
                 , Border.bottom 2
                 , Color.border colors.border
@@ -141,6 +154,9 @@ stylesheet device =
                 ]
             , style ResultFixtureHome
                 [ Font.alignRight
+                ]
+            , style ResultFixtureAway
+                [ 
                 ]
             , style ResultFixtureDate
                 [ Font.alignLeft

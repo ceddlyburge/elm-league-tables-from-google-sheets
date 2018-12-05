@@ -15,17 +15,18 @@ import GoogleSheet.Api exposing (fetchIndividualSheet)
 
 individualSheetRequestForResultsFixtures : String -> Model -> ( Model, Cmd Msg )
 individualSheetRequestForResultsFixtures leagueTitle model  =
-    ( { model | leagueGames = RemoteData.Loading }, fetchLeagueGames leagueTitle model.config )
+    ( { model | 
+            leagueGames = RemoteData.Loading
+            , route = Route.ResultsFixturesRoute leagueTitle
+       }
+       , fetchLeagueGames leagueTitle model.config )
 
 individualSheetResponseForResultsFixtures : Model -> WebData LeagueGames -> String -> ( Model, Cmd Msg )
 individualSheetResponseForResultsFixtures  model response leagueTitle =
     -- probably define a new shared function that takes the model and returns the newUrl with the route in the model
     -- this will reduce duplication and make it impossible to mismatch the change in urls
     ( 
-        { model | 
-            route = Route.ResultsFixturesRoute leagueTitle
-            , leagueGames = RemoteData.map orderLeagueGames response 
-        }
+        { model | leagueGames = RemoteData.map orderLeagueGames response }
         , newUrl <| toUrl <| Route.ResultsFixturesRoute leagueTitle
     )
 

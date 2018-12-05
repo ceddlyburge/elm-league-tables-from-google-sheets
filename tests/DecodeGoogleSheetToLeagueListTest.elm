@@ -13,7 +13,7 @@ decodeSpreadsheetIdResponse : Test
 decodeSpreadsheetIdResponse =
     fuzz (list Fuzz.string) "Sets League.Title from title property of google sheet / tab" <|
         \leagueTitles ->
-            spreadsheetIdResponseWithSheetNames leagueTitles
+            spreadsheetIdResponseWithSheetTitles leagueTitles
                 |> decodeString decodeAllSheetSummaryToLeagueSummaries
                 |> Expect.equal (Ok (List.map LeagueSummary leagueTitles))
 
@@ -22,24 +22,24 @@ decodeSpreadsheetIdResponse =
 -- This is a cut down response from the test spreadsheet, at https://sheets.googleapis.com/v4/spreadsheets/1Ai9H6Pfe1LPsOcksN6EF03-z-gO1CkNp8P1Im37N3TE?key=<thekey>
 
 
-spreadsheetIdResponseWithSheetNames : List String -> String
-spreadsheetIdResponseWithSheetNames leagueTitles =
+spreadsheetIdResponseWithSheetTitles : List String -> String
+spreadsheetIdResponseWithSheetTitles titles =
     """{
-    "spreadsheetId": "blah",
+    "spreadsheetId": "not used",
     "properties": {
-        "title": "Canoe Polo League Test Scores ",
-        "locale": "etc"
+        "title": "not used",
+        "locale": "not used"
     },
     "sheets": [
-      """ ++ sheetsWithTitles leagueTitles ++ """
+      """ ++ sheetsWithTitles titles ++ """
     ],
-    "spreadsheetUrl": "blah"
+    "spreadsheetUrl": "not used"
   }"""
 
 
 sheetsWithTitles : List String -> String
-sheetsWithTitles leagueTitles =
-    String.join "," (List.map sheetWithTitle leagueTitles)
+sheetsWithTitles titles =
+    String.join "," (List.map sheetWithTitle titles)
 
 
 sheetWithTitle : String -> String

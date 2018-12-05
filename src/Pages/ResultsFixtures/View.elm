@@ -1,87 +1,60 @@
-module Pages.ResultsFixtures.View exposing (..)
+module Pages.ResultsFixtures.View exposing (page)
 
-import Html exposing (Html, span)
 import Element exposing (..)
 import Element.Attributes exposing (..)
-import Element.Events exposing (onClick)
 import RemoteData exposing (WebData)
 import Http exposing (decodeUri)
 
 import Date.Format exposing (..)
-import ViewComponents exposing (..)
+import Pages.Gaps exposing (..)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.Game exposing (Game)
-import ErrorMessages exposing (httpErrorMessage, unexpectedNotAskedMessage)
+import Pages.MaybeResponse exposing (..)
+import Pages.Page exposing (..)
+import Pages.HeaderBar exposing (..) 
+import Pages.HeaderBarItem exposing (..)
 
 
-view : String -> WebData LeagueGames -> Device -> Html Msg
-view leagueTitle response device =
+page : String -> WebData LeagueGames -> Device -> Page
+page leagueTitle response device =
+    Page
+        ( DoubleHeader  
+            (headerBar leagueTitle)
+            (SubHeaderBar "Results / Fixtures"))
+        ( maybeResponse response (fixturesResultsElement device) )
+
+headerBar: String -> HeaderBar
+headerBar leagueTitle = 
+    HeaderBar 
+        [ BackHeaderButton <| IndividualSheetRequest leagueTitle ] 
+        (Maybe.withDefault "" (decodeUri leagueTitle))
+        [ RefreshHeaderButton <| IndividualSheetRequestForResultsFixtures leagueTitle ]
+
+fixturesResultsElement : Device -> LeagueGames -> Element Styles variation Msg
+fixturesResultsElement device leagueGames =
     let
         gaps = gapsForDevice device
     in
-        Element.layout (stylesheet device) <|         
-            column Body [ width (percent 100), spacing gaps.big, center ]
-            [
-                column 
-                    Title
-                    [ width (percent 100) ]
-                    [ 
-                        row 
-                            None
-                            [ width (percent 100), padding gaps.big, verticalCenter ] 
-                            [
-                                row None [ center, spacing gaps.big, width (percent 100)   ]
-                                [
-                                    el TitleButton [ onClick <| IndividualSheetRequest leagueTitle ] backIcon
-                                    , el Title [ width fill, center ] (text <| Maybe.withDefault "" (decodeUri leagueTitle))
-                                    , el TitleButton [ onClick <| IndividualSheetRequestForResultsFixtures leagueTitle ] refreshIcon
-                                ]
-                            ]
-                        , el 
-                            SubTitle 
-                            [ width (percent 100), padding gaps.medium, verticalCenter ]
-                            (text "Results / Fixtures")
-                    ]
-                , maybeFixturesResults device gaps response
-            ]
-
-maybeFixturesResults : Device -> Gaps -> WebData LeagueGames -> Element Styles variation Msg
-maybeFixturesResults device gaps response =
-    case response of
-        RemoteData.NotAsked ->
-            unhappyPathText unexpectedNotAskedMessage
-
-        RemoteData.Loading ->
-            loading
-
-        RemoteData.Success leagueTable ->
-            fixturesResultsElement device gaps leagueTable
-
-        RemoteData.Failure error ->
-            unhappyPathText <| httpErrorMessage error
-
-fixturesResultsElement : Device -> Gaps -> LeagueGames -> Element Styles variation Msg
-fixturesResultsElement device gaps leagueGames =
-    column 
-        None 
-        [ rowWidth device, class "games" ]
-        (List.map (gameRow device gaps) leagueGames.games)
+        column 
+            None 
+            [ rowWidth device, class "data-test-games" ]
+            (List.map (gameRow device gaps) leagueGames.games)
 
 gameRow : Device -> Gaps -> Game -> Element Styles variation Msg
 gameRow device gaps game =
     -- do something about LeagueTableTeamRow
     row 
         LeagueTableTeamRow 
-        [ padding gaps.medium, spacing gaps.small, center, class "game" ] 
+        [ padding gaps.medium, spacing gaps.small, center, class "data-test-game" ] 
         [ 
-            paragraph ResultFixtureHome [ alignRight, teamWidth device, class "homeTeamName" ] [text game.homeTeamName]
+            paragraph ResultFixtureHome [ alignRight, teamWidth device, class "data-test-homeTeamName" ] [text game.homeTeamName]
             , row 
                 None 
                 [ scoreSlashDateWidth device ] 
                 ( scoreSlashDate game )
-            , paragraph ResultFixtureAway [ alignLeft, teamWidth device, class "awayTeamName" ] [ text game.awayTeamName ]
+            , paragraph ResultFixtureAway [ alignLeft, teamWidth device, class "data-test-awayTeamName" ] [ text game.awayTeamName ]
         ]
 
 scoreSlashDate : Game -> List (Element Styles variation Msg)
@@ -89,13 +62,13 @@ scoreSlashDate game =
     case (game.homeTeamGoals, game.awayTeamGoals) of
         (Just homeTeamGoals, Just awayTeamGoals) ->
             [ 
-                el ResultFixtureHome [ alignRight, width (percent 35), class "homeTeamGoals" ] (text (toString homeTeamGoals) )
+                el ResultFixtureHome [ alignRight, width (percent 35), class "data-test-homeTeamGoals" ] (text (toString homeTeamGoals) )
                 , el None [ width (percent 30)] empty
-                , el ResultFixtureAway [ alignLeft, width (percent 35), class "awayTeamGoals" ] (text (toString awayTeamGoals) )
+                , el ResultFixtureAway [ alignLeft, width (percent 35), class "data-test-awayTeamGoals" ] (text (toString awayTeamGoals) )
             ]
         (_, _) ->
             [ 
-                el ResultFixtureDate [ verticalCenter, width (percent 100) , class "datePlayed" ] (text <| Maybe.withDefault "" (Maybe.map formatDate game.datePlayed) )
+                el ResultFixtureDate [ verticalCenter, width (percent 100) , class "data-test-datePlayed" ] (text <| Maybe.withDefault "" (Maybe.map formatDate game.datePlayed) )
             ]
             
 

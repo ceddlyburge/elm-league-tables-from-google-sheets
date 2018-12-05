@@ -10,7 +10,6 @@ import Update exposing (update)
 import Msg exposing (..)
 import Models.Model exposing (Model, vanillaModel)
 import Models.LeagueSummary exposing (LeagueSummary)
-import Models.Route as Route exposing (Route)
 
 apiError : Test
 apiError =
@@ -21,7 +20,7 @@ apiError =
             in 
                 update (AllSheetSummaryResponse response) vanillaModel
                 |> getModel
-                |> Expect.equal { vanillaModel | route = Route.LeagueListRoute, leagues = response }
+                |> Expect.equal { vanillaModel | leagues = response }
 
 apiSuccess : Test
 apiSuccess =
@@ -32,7 +31,7 @@ apiSuccess =
             in 
                 update (AllSheetSummaryResponse response) vanillaModel
                 |> getModel
-                |> Expect.equal { vanillaModel | route = Route.LeagueListRoute, leagues = response }  
+                |> Expect.equal { vanillaModel | leagues = response }  
 
 getModel : (Model, Cmd Msg) -> Model
 getModel (model, cmd) = 
