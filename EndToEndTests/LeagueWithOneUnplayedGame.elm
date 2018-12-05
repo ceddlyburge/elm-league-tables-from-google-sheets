@@ -29,11 +29,27 @@ specs =
           [ steps.click ".data-test-refresh"
           , steps.click ".data-test-league" -- only one league in the results
           , assert.containsText
+            { selector = ".data-test-teams .data-test-team:nth-Child(2) .data-test-position"
+            , text = "0"
+            }
+          , assert.containsText
             { selector = ".data-test-teams .data-test-team:nth-Child(2) .data-test-name"
             , text = "Castle"
             }
           , assert.containsText
             { selector = ".data-test-teams .data-test-team:nth-Child(2) .data-test-gamesPlayed"
+            , text = "0"
+            }
+          , assert.containsText
+            { selector = ".data-test-teams .data-test-team:nth-Child(2) .data-test-won"
+            , text = "0"
+            }
+          , assert.containsText
+            { selector = ".data-test-teams .data-test-team:nth-Child(2) .data-test-drawn"
+            , text = "0"
+            }
+          , assert.containsText
+            { selector = ".data-test-teams .data-test-team:nth-Child(2) .data-test-lost"
             , text = "0"
             }
           , assert.containsText
