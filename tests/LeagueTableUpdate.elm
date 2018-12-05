@@ -29,7 +29,7 @@ leagueTable =
         (LeagueTable 
             "Regional Div 1" 
             [ 
-                Team "Castle" 1 3 3 1 2
-                , Team "Meridian" 1 0 1 3 -2
+                Team 1 "Castle" 1 1 0 0 3 3 1 2
+                , Team 2 "Meridian" 1 0 0 1 0 1 3 -2
             ]
         )

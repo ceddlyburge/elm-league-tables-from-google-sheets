@@ -30,7 +30,7 @@ specs =
           , steps.click ".data-test-league" -- only one league in the results
           , assert.containsText
             { selector = ".data-test-teams .data-test-team:nth-Child(2) .data-test-position"
-            , text = "0"
+            , text = "1"
             }
           , assert.containsText
             { selector = ".data-test-teams .data-test-team:nth-Child(2) .data-test-name"

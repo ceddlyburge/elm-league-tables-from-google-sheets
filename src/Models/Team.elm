@@ -2,8 +2,12 @@ module Models.Team exposing (..)
 
 
 type alias Team =
-    { name : String
+    { position : Int
+    , name : String
     , gamesPlayed : Int
+    , won : Int
+    , drawn : Int
+    , lost : Int
     , points : Int
     , goalsFor : Int
     , goalsAgainst : Int
@@ -12,7 +16,7 @@ type alias Team =
 
 position: Team -> String
 position team = 
-    "0"
+    toString team.position
 
 name: Team -> String
 name team = 
@@ -40,13 +44,13 @@ goalDifference team =
 
 won: Team -> String
 won team = 
-    "0"
+    toString team.won
 
 drawn: Team -> String
 drawn team = 
-    "0"
+    toString team.drawn
 
 lost: Team -> String
 lost team = 
-    "0"
+    toString team.lost
 

@@ -21,11 +21,31 @@ oneTeam =
             \_ ->
                 html
                 |> Query.has [ class "data-test-resultsAndFixtures" ]
+        , test "position" <|
+            \_ ->
+                teamElement
+                |> Query.find [ class "data-test-position" ]
+                |> Query.has [ text "1" ]
         , test "name" <|
             \_ ->
                 teamElement
                 |> Query.find [ class "data-test-name" ]
                 |> Query.has [ text "Castle" ]
+        , test "won" <|
+            \_ ->
+                teamElement
+                |> Query.find [ class "data-test-won" ]
+                |> Query.has [ text "1" ]
+        , test "drawn" <|
+            \_ ->
+                teamElement
+                |> Query.find [ class "data-test-drawn" ]
+                |> Query.has [ text "0" ]
+        , test "lost" <|
+            \_ ->
+                teamElement
+                |> Query.find [ class "data-test-lost" ]
+                |> Query.has [ text "0" ]
         , test "points" <|
             \_ ->
                 teamElement
@@ -62,5 +82,5 @@ html : Query.Single Msg.Msg
 html  =
     renderPage 
         vanillaModel.device
-        (page "" (RemoteData.Success (LeagueTable "" [ Team "Castle" 1 3 6 4 2 ]))  vanillaModel.device)
+        (page "" (RemoteData.Success (LeagueTable "" [ Team 1 "Castle" 1 1 0 0 3 6 4 2 ]))  vanillaModel.device)
     |> Query.fromHtml
