@@ -29,36 +29,37 @@ specs =
           [ steps.click ".data-test-refresh"
           , steps.click ".data-test-league" -- only one league in the results
           , steps.click ".data-test-resultsAndFixtures" -- shows results and fixtures page
+          -- create a function for these selectors to remove duplication? makes it harder to read, but less likely to have typos. hmmm.
           , assert.containsText
-            { selector = ".el"
+            { selector = ".data-test-dates .data-test-date-2018-06-04 .data-test-game:nth-Child(1) .data-test-homeTeamName"
             , text = "Castle"
             }
           , assert.containsText
-            { selector = ".data-test-games .data-test-game:nth-Child(1) .data-test-homeTeamGoals"
+            { selector = ".data-test-dates .data-test-date-2018-06-04 .data-test-game:nth-Child(1) .data-test-homeTeamGoals"
             , text = "3"
             }
           , assert.containsText
-            { selector = ".data-test-games .data-test-game:nth-Child(1) .data-test-awayTeamGoals"
+            { selector = ".data-test-dates .data-test-date-2018-06-04 .data-test-game:nth-Child(1) .data-test-awayTeamGoals"
             , text = "0"
             }          
           , assert.containsText
-            { selector = ".data-test-games .data-test-game:nth-Child(1) .data-test-awayTeamName"
+            { selector = ".data-test-dates .data-test-date-2018-06-04 .data-test-game:nth-Child(1) .data-test-awayTeamName"
             , text = "Meridian"
             }
           , assert.containsText
-            { selector = ".data-test-games .data-test-game:nth-Child(2) .data-test-homeTeamName"
+            { selector = ".data-test-dates .data-test-date-2018-06-03 .data-test-game:nth-Child(1) .data-test-homeTeamName"
             , text = "Battersea"
             }
           , assert.containsText
-            { selector = ".data-test-games .data-test-game:nth-Child(2) .data-test-awayTeamName"
+            { selector = ".data-test-dates .data-test-date-2018-06-03 .data-test-game:nth-Child(1) .data-test-awayTeamName"
             , text = "Clapham"
             }
           , assert.containsText
-            { selector = ".data-test-games .data-test-game:nth-Child(3) .data-test-homeTeamName"
+            { selector = ".data-test-dates .data-test-date-unscheduled .data-test-game:nth-Child(1) .data-test-homeTeamName"
             , text = "Blackwater"
             }
           , assert.containsText
-            { selector = ".data-test-games .data-test-game:nth-Child(3) .data-test-awayTeamName"
+            { selector = ".data-test-dates .data-test-date-unscheduled .data-test-game:nth-Child(1) .data-test-awayTeamName"
             , text = "Nomad"
             }
           ]
