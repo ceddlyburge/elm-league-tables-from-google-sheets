@@ -1,25 +1,34 @@
 module CalculateFixturesResultsFromLeagueGamesTest exposing (..)
 
 import Date exposing (..)
+import Date.Extra exposing (..)
+import List.Extra exposing (..)
 import Test exposing (..)
-import Fuzz exposing (Fuzzer, intRange)
+import Fuzz exposing (Fuzzer, intRange, list)
 import Expect exposing (Expectation)
 
-import Models.LeagueTable exposing (LeagueTable)
 import Models.Game exposing (Game)
 import Models.LeagueGames exposing (LeagueGames)
-import Models.Team exposing (Team)
 import Models.ResultsFixtures exposing (ResultsFixtures)
 import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 
 
--- what tests do I want
--- multiple games on same date. fuzz the number of games and the date, check that result has one date with that number of games in
--- multiple games all on different dates. 
--- one game with no date. check it goes in to a maybe date day
+groupsGamesByDay : Test
+groupsGamesByDay =
+    fuzz (list (intRange 0 10)) "Groups all scheduled games into a LeagueGamesForDay for each day" <|
+        \(dateVariations) ->
+            let
+                dates = List.map (\dateVariation -> Date.Extra.add Day dateVariation (Date.Extra.fromCalendarDate 2001 Feb 27) ) dateVariations
+                games = List.map scheduledGame dates
+                groupedDates = List.Extra.group dates
+            in    
+                calculateResultsFixtures (LeagueGames "Any League Title" games)
+                |> Expect.all [
+                        expectDays <| List.length groupedDates
+                        , expectNumberOfGamesForDates <| List.map (\datesInGroup -> GamesForDay (List.head datesInGroup) (List.length datesInGroup)) groupedDates
+                    ]
 
--- multiple unscheduled games
 groupsUnscheduledGamesInNothingDay : Test
 groupsUnscheduledGamesInNothingDay =
     fuzz (intRange 1 100) "Groups all unscheduled games in a LeagueGamesForDay with a 'Nothing' day" <|
@@ -34,6 +43,15 @@ groupsUnscheduledGamesInNothingDay =
                         , expectFirstDay <| expectNumberOfGames numberOfGames
                     ]
 
+type alias GamesForDay =
+    { date: Maybe Date
+    , numberOfGames: Int 
+    }
+
+scheduledGame: Date -> Game
+scheduledGame date = 
+    Game "" Nothing "" Nothing (Just date) "" "" "" "" ""
+
 unscheduledGame: Game
 unscheduledGame = 
     Game "" Nothing "" Nothing Nothing "" "" "" "" ""
@@ -41,6 +59,13 @@ unscheduledGame =
 expectDays: Int -> ResultsFixtures -> Expectation
 expectDays expectedNumberOfDays resultsFixtures =
     Expect.equal expectedNumberOfDays (List.length resultsFixtures.days)
+
+expectNumberOfGamesForDates: List GamesForDay -> ResultsFixtures -> Expectation
+expectNumberOfGamesForDates expectedNumberOfDaysForDates resultsFixtures =
+    let
+        actualNumberOfDaysForDates = List.map (\leagueGamesForDay -> GamesForDay leagueGamesForDay.date (List.length leagueGamesForDay.games )) resultsFixtures.days
+    in    
+        Expect.equalLists expectedNumberOfDaysForDates actualNumberOfDaysForDates
 
 expectFirstDay: (Maybe LeagueGamesForDay -> Expectation) -> ResultsFixtures -> Expectation
 expectFirstDay expect resultsFixtures =
