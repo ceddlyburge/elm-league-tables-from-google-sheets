@@ -24,7 +24,7 @@ page model =
         Route.LeagueTableRoute leagueTitle ->
             Pages.LeagueTable.View.page leagueTitle model.leagueTable model.device
         Route.ResultsFixturesRoute leagueTitle ->
-            Pages.ResultsFixtures.View.page leagueTitle model.leagueGames model.device
+            Pages.ResultsFixtures.View.page leagueTitle model.resultsFixtures model.device
         Route.NotFoundRoute ->
             Pages.LeagueList.View.page model.leagues model.device -- return 404 later
 

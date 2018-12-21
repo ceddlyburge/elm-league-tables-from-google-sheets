@@ -3,20 +3,20 @@ module Pages.ResultsFixtures.Update exposing (individualSheetRequestForResultsFi
 import Navigation exposing (newUrl)
 import RemoteData exposing (WebData)
 
-import Date exposing (..)
 import Msg exposing (..)
 import Models.Model exposing (Model)
 import Models.LeagueGames exposing (LeagueGames)
-import Models.Game exposing (Game)
 import Models.Config exposing (Config)
 import Models.Route as Route exposing (Route)
 import Routing exposing (toUrl)
 import GoogleSheet.Api exposing (fetchIndividualSheet)
+import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
 
 individualSheetRequestForResultsFixtures : String -> Model -> ( Model, Cmd Msg )
 individualSheetRequestForResultsFixtures leagueTitle model  =
     ( { model | 
             leagueGames = RemoteData.Loading
+            , resultsFixtures = RemoteData.Loading
             , route = Route.ResultsFixturesRoute leagueTitle
        }
        , fetchLeagueGames leagueTitle model.config )
@@ -26,7 +26,9 @@ individualSheetResponseForResultsFixtures  model response leagueTitle =
     -- probably define a new shared function that takes the model and returns the newUrl with the route in the model
     -- this will reduce duplication and make it impossible to mismatch the change in urls
     ( 
-        { model | leagueGames = RemoteData.map orderLeagueGames response }
+        { model | 
+            leagueGames = response
+            , resultsFixtures = RemoteData.map calculateResultsFixtures response }
         , newUrl <| toUrl <| Route.ResultsFixturesRoute leagueTitle
     )
 
@@ -36,24 +38,3 @@ fetchLeagueGames leagueTitle config =
         leagueTitle 
         config 
         (IndividualSheetResponseForResultsFixtures leagueTitle)
-
-orderLeagueGames : LeagueGames -> LeagueGames
-orderLeagueGames leagueGames =
-    {leagueGames | games = List.sortWith descendingDate leagueGames.games }
-
-descendingDate: Game -> Game -> Order
-descendingDate game1 game2 =
-    case (game1.datePlayed, game2.datePlayed) of
-        (Nothing, Nothing) -> 
-            EQ
-        (Nothing, Just _) ->
-            GT
-        (Just _, Nothing) ->
-            LT
-        (Just date1, Just date2) ->
-            if Date.toTime date1 > Date.toTime date2 then
-                LT
-            else if Date.toTime date1 < Date.toTime date2 then
-                GT
-            else
-                EQ

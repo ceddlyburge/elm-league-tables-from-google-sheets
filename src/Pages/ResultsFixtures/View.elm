@@ -5,19 +5,21 @@ import Element.Attributes exposing (..)
 import RemoteData exposing (WebData)
 import Http exposing (decodeUri)
 
-import Date.Format exposing (..)
+import Date.Extra exposing (..)
 import Pages.Gaps exposing (..)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueGames exposing (LeagueGames)
+import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 import Models.Game exposing (Game)
+import Models.ResultsFixtures exposing (ResultsFixtures)
 import Pages.MaybeResponse exposing (..)
 import Pages.Page exposing (..)
 import Pages.HeaderBar exposing (..) 
 import Pages.HeaderBarItem exposing (..)
 
 
-page : String -> WebData LeagueGames -> Device -> Page
+page : String -> WebData ResultsFixtures -> Device -> Page
 page leagueTitle response device =
     Page
         ( DoubleHeader  
@@ -32,15 +34,31 @@ headerBar leagueTitle =
         (Maybe.withDefault "" (decodeUri leagueTitle))
         [ RefreshHeaderButton <| IndividualSheetRequestForResultsFixtures leagueTitle ]
 
-fixturesResultsElement : Device -> LeagueGames -> Element Styles variation Msg
-fixturesResultsElement device leagueGames =
+fixturesResultsElement : Device -> ResultsFixtures -> Element Styles variation Msg
+fixturesResultsElement device resultsFixtures =
     let
         gaps = gapsForDevice device
     in
         column 
             None 
-            [ rowWidth device, class "data-test-games" ]
-            (List.map (gameRow device gaps) leagueGames.games)
+            [ rowWidth device, class "data-test-dates" ]
+            (List.map (day device gaps) resultsFixtures.days)
+
+day : Device -> Gaps -> LeagueGamesForDay -> Element Styles variation Msg
+day device gaps leagueGamesForDay =
+    -- do something about LeagueTableTeamRow
+    column 
+        LeagueTableTeamRow 
+        [ padding gaps.medium
+        , spacing gaps.small
+        , center
+        , class 
+        (
+            "data-test-day data-test-date-" ++ 
+            Maybe.withDefault 
+                "unscheduled" 
+                (Maybe.map (Date.Extra.toFormattedString "yyyy-MM-dd") leagueGamesForDay.date) ) ] 
+        (List.map (gameRow device gaps) leagueGamesForDay.games)
 
 gameRow : Device -> Gaps -> Game -> Element Styles variation Msg
 gameRow device gaps game =
@@ -68,7 +86,7 @@ scoreSlashDate game =
             ]
         (_, _) ->
             [ 
-                el ResultFixtureDate [ verticalCenter, width (percent 100) , class "data-test-datePlayed" ] (text <| Maybe.withDefault "" (Maybe.map formatDate game.datePlayed) )
+                el ResultFixtureDate [ verticalCenter, width (percent 100) , class "data-test-datePlayed" ] (text <| Maybe.withDefault "" (Maybe.map (Date.Extra.toFormattedString "HH:mm") game.datePlayed) )
             ]
             
 
