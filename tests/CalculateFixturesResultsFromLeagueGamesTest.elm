@@ -13,7 +13,7 @@ import Models.ResultsFixtures exposing (ResultsFixtures)
 import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 
-
+-- This test might be too complicated. hmmmm.
 groupsGamesByDay : Test
 groupsGamesByDay =
     fuzz (list (intRange 0 10)) "Groups all scheduled games into a LeagueGamesForDay for each day" <|
@@ -26,7 +26,10 @@ groupsGamesByDay =
                 calculateResultsFixtures (LeagueGames "Any League Title" games)
                 |> Expect.all [
                         expectDays <| List.length groupedDates
-                        , expectNumberOfGamesForDates <| List.map (\datesInGroup -> GamesForDay (List.head datesInGroup) (List.length datesInGroup)) groupedDates
+                        , expectNumberOfGamesForDates <| 
+                            List.map 
+                                (\datesInGroup -> GamesForDay (List.head datesInGroup) (List.length datesInGroup)) 
+                                groupedDates
                     ]
 
 groupsUnscheduledGamesInNothingDay : Test
