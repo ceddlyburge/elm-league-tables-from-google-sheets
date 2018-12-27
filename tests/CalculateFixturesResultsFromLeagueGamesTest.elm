@@ -14,18 +14,18 @@ import ResultsFixturesHelpers exposing (..)
 
 -- add test for order of results / fixtures within a day
 
--- could add a fuzzer to create the dates, instead of doing it via the int fuzzer
--- the output from this test when it fails is not that revealing
 -- this test is maybe too complicated, maybe it would be better to set it up manually instead of using fuzzers
 groupsGamesByDay : Test
 groupsGamesByDay =
-    fuzz (list (intRange 0 10)) "Groups all scheduled games into a LeagueGamesForDay for each day" <|
-        \(dateVariations) ->
+    fuzz (list dateTimeInFebruary) "Groups all scheduled games into a LeagueGamesForDay for each day" <|
+        \(dateTimes) ->
             let
-                dates = List.map (\dateVariation -> Date.Extra.add Day dateVariation (Date.Extra.fromCalendarDate 2001 Feb 27) ) dateVariations
-                games = List.map scheduledGame dates
-                sortedDates = List.sortWith Date.Extra.compare dates |> List.reverse
-                groupedDates = List.Gather.gatherWith (==) sortedDates
+                games = List.map scheduledGame dateTimes
+                groupedDates = 
+                    List.map (Date.Extra.floor Day) dateTimes
+                    |> List.sortWith Date.Extra.compare
+                    |> List.reverse
+                    |> List.Gather.gatherWith (==)
             in    
                 calculateResultsFixtures (LeagueGames "Any League Title" games)
                 |> Expect.all [
@@ -43,8 +43,19 @@ type alias GamesForDay =
     }
 
 expectNumberOfGamesForDates: List GamesForDay -> ResultsFixtures -> Expectation
-expectNumberOfGamesForDates expectedNumberOfDaysForDates resultsFixtures =
+expectNumberOfGamesForDates expectedNumberOfDaysFordateTimes resultsFixtures =
     let
-        actualNumberOfDaysForDates = List.map (\leagueGamesForDay -> GamesForDay leagueGamesForDay.date (List.length leagueGamesForDay.games )) resultsFixtures.days
+        actualNumberOfDaysFordateTimes = List.map (\leagueGamesForDay -> GamesForDay leagueGamesForDay.date (List.length leagueGamesForDay.games )) resultsFixtures.days
     in    
-        Expect.equalLists expectedNumberOfDaysForDates actualNumberOfDaysForDates
+        Expect.equalLists expectedNumberOfDaysFordateTimes actualNumberOfDaysFordateTimes
+
+dateTimeInFebruary : Fuzzer Date
+dateTimeInFebruary =
+    Fuzz.map2 
+        (\days hours -> 
+            Date.Extra.add Day days (Date.Extra.fromCalendarDate 2001 Feb 27)
+            |> Date.Extra.add Hour hours
+        )
+        (intRange 0 10)
+        (intRange 0 23)
+    

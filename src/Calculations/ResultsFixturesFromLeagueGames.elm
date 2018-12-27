@@ -19,12 +19,25 @@ calculateResultsFixtures leagueGames =
 
 groupGamesByDate: List Game -> List (Game, List Game)
 groupGamesByDate games =
-    List.Gather.gatherWith (\game1 game2 -> game1.datePlayed == game2.datePlayed)  games
+    List.Gather.gatherWith gameDatesEqual games
+
+gameDatesEqual: Game -> Game -> Bool
+gameDatesEqual game1 game2 = 
+    maybeDatesEqual game1.datePlayed game2.datePlayed
+
+maybeDatesEqual: Maybe Date -> Maybe Date -> Bool
+maybeDatesEqual maybeDate1 maybeDate2 = 
+    (Maybe.map2 datesEqual maybeDate1 maybeDate2) == (Just True)
+    || maybeDate1 == maybeDate2
+
+datesEqual: Date -> Date -> Bool
+datesEqual date1 date2 = 
+    Date.Extra.floor Day date1 == Date.Extra.floor Day date2
 
 leagueGamesForDay: (Game, List Game) -> LeagueGamesForDay
 leagueGamesForDay (firstGame, remainingGames) = 
-    LeagueGamesForDay 
-        firstGame.datePlayed
+    LeagueGamesForDay
+        (Maybe.map (Date.Extra.floor Day) firstGame.datePlayed)
         (firstGame :: remainingGames)
 
 dateOfFirstGame: List Game -> Maybe Date
