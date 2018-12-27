@@ -45,4 +45,4 @@ isGreaterThan maybeDate1 maybeDate2 =
         (Just _, Nothing) ->
             True
         (Just date1, Just date2) ->
-            Date.Extra.compare date1 date2 == GT 
+            Date.Extra.compare date2 date1 == GT 

@@ -7,7 +7,6 @@ import Fuzz exposing (Fuzzer, intRange, list)
 import Expect exposing (Expectation)
 
 import List.Gather exposing (..)
-import Models.Game exposing (Game)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.ResultsFixtures exposing (ResultsFixtures)
 import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
@@ -25,7 +24,7 @@ groupsGamesByDay =
             let
                 dates = List.map (\dateVariation -> Date.Extra.add Day dateVariation (Date.Extra.fromCalendarDate 2001 Feb 27) ) dateVariations
                 games = List.map scheduledGame dates
-                sortedDates = List.sortWith Date.Extra.compare dates
+                sortedDates = List.sortWith Date.Extra.compare dates |> List.reverse
                 groupedDates = List.Gather.gatherWith (==) sortedDates
             in    
                 calculateResultsFixtures (LeagueGames "Any League Title" games)

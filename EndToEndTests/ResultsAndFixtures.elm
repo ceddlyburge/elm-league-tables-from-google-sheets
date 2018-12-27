@@ -29,6 +29,20 @@ specs =
           [ steps.click ".data-test-refresh"
           , steps.click ".data-test-league" -- only one league in the results
           , steps.click ".data-test-resultsAndFixtures" -- shows results and fixtures page
+          -- these assert the order of the days
+          , assert.classPresent
+            { selector = ".data-test-dates .data-test-day:nth-Child(1)"
+            , class = "data-test-date-2018-06-04"
+            }
+          , assert.classPresent
+            { selector = ".data-test-dates .data-test-day:nth-Child(2)"
+            , class = "data-test-date-2018-06-03"
+            }
+          , assert.classPresent
+            { selector = ".data-test-dates .data-test-day:nth-Child(3)"
+            , class = "data-test-date-unscheduled"
+            }
+          -- these assert the fixtures / results for each day
           -- create a function for these selectors to remove duplication? makes it harder to read, but less likely to have typos. hmmm.
           , assert.containsText
             { selector = ".data-test-dates .data-test-date-2018-06-04 .data-test-game:nth-Child(1) .data-test-homeTeamName"

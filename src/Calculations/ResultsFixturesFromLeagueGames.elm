@@ -44,4 +44,4 @@ descendingDate day1 day2 =
         (Just _, Nothing) ->
             LT
         (Just date1, Just date2) ->
-            Date.Extra.compare date1 date2
+            Date.Extra.compare date2 date1
