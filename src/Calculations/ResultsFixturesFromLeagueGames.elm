@@ -1,7 +1,9 @@
 module Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
 
-import List.Extra exposing (..)
 import Date exposing (..)
+import Date.Extra exposing (..)
+
+import List.Gather exposing (..)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.Game exposing (Game)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
@@ -11,20 +13,35 @@ calculateResultsFixtures: LeagueGames -> ResultsFixtures
 calculateResultsFixtures leagueGames =
     ResultsFixtures 
         leagueGames.leagueTitle 
-        (List.map 
-            leagueGamesForDay
-             <| groupGamesByDate leagueGames.games)
+        (groupGamesByDate leagueGames.games
+        |> List.map leagueGamesForDay
+        |> List.sortWith descendingDate)
 
-groupGamesByDate: List Game -> List (List Game)
+groupGamesByDate: List Game -> List (Game, List Game)
 groupGamesByDate games =
-    List.Extra.groupWhile (\game1 game2 -> game1.datePlayed == game2.datePlayed)  games
+    List.Gather.gatherWith (\game1 game2 -> game1.datePlayed == game2.datePlayed)  games
 
-leagueGamesForDay: List Game -> LeagueGamesForDay
-leagueGamesForDay gamesForDay = 
+leagueGamesForDay: (Game, List Game) -> LeagueGamesForDay
+leagueGamesForDay (firstGame, remainingGames) = 
     LeagueGamesForDay 
-        (dateOfFirstGame gamesForDay)
-        gamesForDay
+        firstGame.datePlayed
+        (firstGame :: remainingGames)
 
 dateOfFirstGame: List Game -> Maybe Date
 dateOfFirstGame games =
     Maybe.andThen (\game -> game.datePlayed) (List.head games)
+
+-- if this kind of date comparison is required again, create function to use Maybe Date's
+-- instead of LeagueGamesForDay's, so the code is more reusable. Then call that function
+-- from this one.
+descendingDate: LeagueGamesForDay -> LeagueGamesForDay -> Order
+descendingDate day1 day2 =
+    case (day1.date, day2.date) of
+        (Nothing, Nothing) -> 
+            EQ
+        (Nothing, Just _) ->
+            GT
+        (Just _, Nothing) ->
+            LT
+        (Just date1, Just date2) ->
+            Date.Extra.compare date1 date2

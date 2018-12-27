@@ -14,7 +14,7 @@ import ResultsFixturesHelpers exposing (..)
 
 oneGame : Test
 oneGame =
-    test "oneGame" <|
+    test "setLeagueGames" <|
         \() ->
             update (IndividualSheetResponseForResultsFixtures "" anyLeagueGames) vanillaModel
             |> \(model, msg) -> model.leagueGames

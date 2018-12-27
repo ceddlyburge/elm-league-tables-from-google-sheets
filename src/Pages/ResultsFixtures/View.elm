@@ -5,11 +5,11 @@ import Element.Attributes exposing (..)
 import RemoteData exposing (WebData)
 import Http exposing (decodeUri)
 
+import Date exposing (..)
 import Date.Extra exposing (..)
 import Pages.Gaps exposing (..)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
-import Models.LeagueGames exposing (LeagueGames)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 import Models.Game exposing (Game)
 import Models.ResultsFixtures exposing (ResultsFixtures)
@@ -52,13 +52,15 @@ day device gaps leagueGamesForDay =
         [ padding gaps.medium
         , spacing gaps.small
         , center
-        , class 
-        (
-            "data-test-day data-test-date-" ++ 
-            Maybe.withDefault 
-                "unscheduled" 
-                (Maybe.map (Date.Extra.toFormattedString "yyyy-MM-dd") leagueGamesForDay.date) ) ] 
+        , class <| "data-test-day data-test-date-" ++ (date leagueGamesForDay.date)
+        ] 
         (List.map (gameRow device gaps) leagueGamesForDay.games)
+
+date: Maybe Date -> String
+date maybeDate = 
+    Maybe.withDefault 
+        "unscheduled" 
+        <| Maybe.map (Date.Extra.toFormattedString "yyyy-MM-dd") maybeDate
 
 gameRow : Device -> Gaps -> Game -> Element Styles variation Msg
 gameRow device gaps game =
