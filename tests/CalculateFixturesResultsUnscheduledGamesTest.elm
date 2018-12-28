@@ -26,10 +26,6 @@ groupsUnscheduledGamesInNothingDay =
                         , expectFirstDay <| expectNumberOfGames numberOfGames
                     ]
 
-expectFirstDay: (Maybe LeagueGamesForDay -> Expectation) -> ResultsFixtures -> Expectation
-expectFirstDay expect resultsFixtures =
-    expect (List.head resultsFixtures.days)
-
 expectDate: Maybe Date -> Maybe LeagueGamesForDay -> Expectation
 expectDate expectedDate leagueGamesForDay =
     Expect.equal expectedDate (Maybe.andThen (\day -> day.date) leagueGamesForDay)

@@ -15,7 +15,7 @@ calculateResultsFixtures leagueGames =
         leagueGames.leagueTitle 
         (groupGamesByDate leagueGames.games
         |> List.map leagueGamesForDay
-        |> List.sortWith descendingDate)
+        |> List.sortWith daysDescendingDate)
 
 groupGamesByDate: List Game -> List (Game, List Game)
 groupGamesByDate games =
@@ -38,18 +38,23 @@ leagueGamesForDay: (Game, List Game) -> LeagueGamesForDay
 leagueGamesForDay (firstGame, remainingGames) = 
     LeagueGamesForDay
         (Maybe.map (Date.Extra.floor Day) firstGame.datePlayed)
-        (firstGame :: remainingGames)
+        (List.sortWith gamesAscendingDate (firstGame :: remainingGames))
 
 dateOfFirstGame: List Game -> Maybe Date
 dateOfFirstGame games =
-    Maybe.andThen (\game -> game.datePlayed) (List.head games)
+    Maybe.andThen .datePlayed (List.head games)
 
--- if this kind of date comparison is required again, create function to use Maybe Date's
--- instead of LeagueGamesForDay's, so the code is more reusable. Then call that function
--- from this one.
-descendingDate: LeagueGamesForDay -> LeagueGamesForDay -> Order
-descendingDate day1 day2 =
-    case (day1.date, day2.date) of
+gamesAscendingDate: Game -> Game -> Order
+gamesAscendingDate game1 game2 =
+    compareMaybeDate game1.datePlayed game2.datePlayed    
+
+daysDescendingDate: LeagueGamesForDay -> LeagueGamesForDay -> Order
+daysDescendingDate day1 day2 =
+    compareMaybeDate day2.date day1.date     
+
+compareMaybeDate: Maybe Date -> Maybe Date -> Order
+compareMaybeDate date1 date2 =
+    case (date1, date2) of
         (Nothing, Nothing) -> 
             EQ
         (Nothing, Just _) ->
@@ -57,4 +62,5 @@ descendingDate day1 day2 =
         (Just _, Nothing) ->
             LT
         (Just date1, Just date2) ->
-            Date.Extra.compare date2 date1
+            Date.Extra.compare date1 date2
+
