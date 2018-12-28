@@ -58,9 +58,9 @@ compareMaybeDate date1 date2 =
         (Nothing, Nothing) -> 
             EQ
         (Nothing, Just _) ->
-            GT
-        (Just _, Nothing) ->
             LT
+        (Just _, Nothing) ->
+            GT
         (Just date1, Just date2) ->
             Date.Extra.compare date1 date2
 
