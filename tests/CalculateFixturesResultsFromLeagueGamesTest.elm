@@ -28,14 +28,11 @@ groupsGamesByDay =
                     |> List.Gather.gatherWith (==)
             in    
                 calculateResultsFixtures (LeagueGames "Any League Title" games)
-                |> Expect.all [
-                        expectDays <| List.length groupedDates
-                        , expectNumberOfGamesForDates <| 
-                            List.map 
-                                (\(firstDate, remainingDates) 
-                                    -> GamesForDay (Just firstDate) (1 + (List.length remainingDates))) 
-                                groupedDates 
-                    ]
+                |> expectNumberOfGamesForDates 
+                        (List.map 
+                            (\(firstDate, remainingDates) 
+                                -> GamesForDay (Just firstDate) (1 + (List.length remainingDates))) 
+                            groupedDates)
 
 type alias GamesForDay =
     { date: Maybe Date
@@ -53,7 +50,8 @@ dateTimeInFebruary : Fuzzer Date
 dateTimeInFebruary =
     Fuzz.map2 
         (\days hours -> 
-            Date.Extra.add Day days (Date.Extra.fromCalendarDate 2001 Feb 27)
+            Date.Extra.fromCalendarDate 2001 Feb 27
+            |> Date.Extra.add Day days
             |> Date.Extra.add Hour hours
         )
         (intRange 0 10)
