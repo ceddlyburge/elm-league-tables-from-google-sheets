@@ -52,11 +52,11 @@ specs =
             }
           , assert.containsText
             { selector = ".data-test-dates .data-test-date-2018-06-04 .data-test-game:nth-Child(1) .data-test-homeTeamGoals"
-            , text = "2"
+            , text = "3"
             }
           , assert.containsText
             { selector = ".data-test-dates .data-test-date-2018-06-04 .data-test-game:nth-Child(1) .data-test-awayTeamGoals"
-            , text = "1"
+            , text = "0"
             }          
           , assert.containsText
             { selector = ".data-test-dates .data-test-date-2018-06-04 .data-test-game:nth-Child(1) .data-test-awayTeamName"
@@ -68,11 +68,11 @@ specs =
             }
           , assert.containsText
             { selector = ".data-test-dates .data-test-date-2018-06-04 .data-test-game:nth-Child(2) .data-test-homeTeamGoals"
-            , text = "3"
+            , text = "2"
             }
           , assert.containsText
             { selector = ".data-test-dates .data-test-date-2018-06-04 .data-test-game:nth-Child(2) .data-test-awayTeamGoals"
-            , text = "0"
+            , text = "1"
             }          
           , assert.containsText
             { selector = ".data-test-dates .data-test-date-2018-06-04 .data-test-game:nth-Child(2) .data-test-awayTeamName"
