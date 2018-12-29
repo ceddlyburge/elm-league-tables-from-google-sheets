@@ -22,27 +22,13 @@ orderDaysByDateDescending =
             let
                 dates = List.map (\dateVariation -> Date.Extra.add Day dateVariation (Date.Extra.fromCalendarDate 2001 Feb 27) ) dateVariations
                 games = List.map scheduledGame dates
+                descendingDates = 
+                    List.Extra.uniqueBy (Date.Extra.ordinalDay) dates -- this relies on the dates all being in the same year
+                    |> List.sortWith Date.Extra.compare
+                    |> List.reverse
+                    |> List.map Just
             in    
                 calculateResultsFixtures (LeagueGames "Any League Title" games)
-                |> expectDaysOrderedByDateDescending 
-
-expectDaysOrderedByDateDescending: ResultsFixtures -> Expectation
-expectDaysOrderedByDateDescending resultsFixtures =
-    Expect.equal 
-        (List.length resultsFixtures.days) 
-        (
-            List.Extra.groupWhileTransitively isGreaterThan (List.map .date resultsFixtures.days ) 
-            |> List.length
-        )
-
-isGreaterThan: Maybe Date -> Maybe Date -> Bool
-isGreaterThan maybeDate1 maybeDate2 = 
-    case (maybeDate1, maybeDate2) of
-        (Nothing, Nothing) -> 
-            False
-        (Nothing, Just _) ->
-            False
-        (Just _, Nothing) ->
-            True
-        (Just date1, Just date2) ->
-            Date.Extra.compare date2 date1 == GT 
+                |> .days
+                |> List.map .date
+                |> Expect.equalLists descendingDates
