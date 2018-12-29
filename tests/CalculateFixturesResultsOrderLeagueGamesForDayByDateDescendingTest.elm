@@ -1,32 +1,28 @@
 module CalculateFixturesResultsOrderLeagueGamesForDayByDateDescendingTest exposing (..)
 
-import Date exposing (..)
 import Date.Extra exposing (..)
 import List.Extra exposing (..)
 import Test exposing (..)
 import Fuzz exposing (Fuzzer, intRange, list)
 import Expect exposing (Expectation)
 
-import Models.Game exposing (Game)
 import Models.LeagueGames exposing (LeagueGames)
-import Models.ResultsFixtures exposing (ResultsFixtures)
 import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
 import ResultsFixturesHelpers exposing (..)
 
--- could add a fuzzer to create the games directly, instead of going via the list int
--- it might make the test output more readable
 orderDaysByDateDescending : Test
 orderDaysByDateDescending =
-    fuzz (list (intRange 0 10)) "Order LeagueGamesForDay by descending date. Unscheduled goes last." <|
-        \(dateVariations) ->
+    fuzz (list dateTimeInFebruary) "Order LeagueGamesForDay by descending date, unscheduled go last" <|
+        \(dateTimes) ->
             let
-                dates = List.map (\dateVariation -> Date.Extra.add Day dateVariation (Date.Extra.fromCalendarDate 2001 Feb 27) ) dateVariations
-                games = List.map scheduledGame dates
+                games = unscheduledGame :: List.map scheduledGame dateTimes
                 descendingDates = 
-                    List.Extra.uniqueBy (Date.Extra.ordinalDay) dates -- this relies on the dates all being in the same year
+                    List.map (Date.Extra.floor Day) dateTimes
+                    |> List.Extra.uniqueBy (Date.Extra.ordinalDay) -- this relies on the dates all being in the same year
                     |> List.sortWith Date.Extra.compare
-                    |> List.reverse
                     |> List.map Just
+                    |> (::) Nothing
+                    |> List.reverse
             in    
                 calculateResultsFixtures (LeagueGames "Any League Title" games)
                 |> .days

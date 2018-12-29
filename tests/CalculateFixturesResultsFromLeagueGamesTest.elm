@@ -12,9 +12,6 @@ import Models.ResultsFixtures exposing (ResultsFixtures)
 import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
 import ResultsFixturesHelpers exposing (..)
 
--- add test for order of results / fixtures within a day
-
--- this test is maybe too complicated, maybe it would be better to set it up manually instead of using fuzzers
 groupsGamesByDay : Test
 groupsGamesByDay =
     fuzz (list dateTimeInFebruary) "Groups all scheduled games into a LeagueGamesForDay for each day" <|
@@ -45,15 +42,4 @@ expectNumberOfGamesForDates expectedNumberOfDaysFordateTimes resultsFixtures =
         actualNumberOfDaysFordateTimes = List.map (\leagueGamesForDay -> GamesForDay leagueGamesForDay.date (List.length leagueGamesForDay.games )) resultsFixtures.days
     in    
         Expect.equalLists expectedNumberOfDaysFordateTimes actualNumberOfDaysFordateTimes
-
-dateTimeInFebruary : Fuzzer Date
-dateTimeInFebruary =
-    Fuzz.map2 
-        (\days hours -> 
-            Date.Extra.fromCalendarDate 2001 Feb 27
-            |> Date.Extra.add Day days
-            |> Date.Extra.add Hour hours
-        )
-        (intRange 0 10)
-        (intRange 0 23)
     
