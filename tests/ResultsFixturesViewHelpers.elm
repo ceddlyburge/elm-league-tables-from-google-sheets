@@ -15,5 +15,5 @@ html :  Game -> Query.Single Msg
 html game  =
     renderPage 
         vanillaModel.device
-        (page "" (RemoteData.Success (ResultsFixtures "" [ LeagueGamesForDay Nothing [ game ] ]))  vanillaModel.device)
+        (page "" (RemoteData.Success (ResultsFixtures "" [ LeagueGamesForDay game.datePlayed [ game ] ]))  vanillaModel.device)
     |> Query.fromHtml

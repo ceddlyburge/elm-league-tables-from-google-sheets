@@ -52,15 +52,41 @@ day device gaps leagueGamesForDay =
         [ padding gaps.medium
         , spacing gaps.small
         , center
-        , class <| "data-test-day data-test-date-" ++ (date leagueGamesForDay.date)
-        ] 
-        (List.map (gameRow device gaps) leagueGamesForDay.games)
+        , class <| "data-test-day data-test-date-" ++ (dateClassNamePart leagueGamesForDay.date)
+        ]
+        [ dayHeader leagueGamesForDay.date
+        , dayResultsFixtures device gaps leagueGamesForDay] --List.map (gameRow device gaps) leagueGamesForDay.games)
 
-date: Maybe Date -> String
-date maybeDate = 
-    Maybe.withDefault 
-        "unscheduled" 
-        <| Maybe.map (Date.Extra.toFormattedString "yyyy-MM-dd") maybeDate
+dateClassNamePart: Maybe Date -> String
+dateClassNamePart maybeDate = 
+    maybeDate
+    |> dateToString
+    |> Maybe.withDefault "unscheduled"
+
+dateDisplay: Maybe Date -> String
+dateDisplay maybeDate = 
+    maybeDate
+    |> dateToString
+    |> Maybe.withDefault "Unscheduled"
+
+dateToString: Maybe Date -> Maybe String
+dateToString maybeDate = 
+    maybeDate
+    |> Maybe.map (Date.Extra.toFormattedString "yyyy-MM-dd") 
+
+dayHeader : Maybe Date -> Element Styles variation Msg
+dayHeader maybeDate =
+    el 
+        ResultFixtureDay 
+        [ class "data-test-dayHeader" ] 
+        (text <| dateDisplay maybeDate)
+
+dayResultsFixtures : Device -> Gaps -> LeagueGamesForDay -> Element Styles variation Msg
+dayResultsFixtures device gaps leagueGamesForDay =
+    column 
+        None 
+        [ ]
+        (List.map (gameRow device gaps) leagueGamesForDay.games)
 
 gameRow : Device -> Gaps -> Game -> Element Styles variation Msg
 gameRow device gaps game =

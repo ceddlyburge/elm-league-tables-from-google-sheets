@@ -44,6 +44,20 @@ specs =
             , class = "data-test-date-unscheduled"
             }
 
+          -- these assert the day titles / headers
+          , assert.containsText
+            { selector = ".data-test-date-2018-06-04 .data-test-dayHeader"
+            , text = "2018-06-04"
+            }
+          , assert.containsText
+            { selector = ".data-test-date-2018-06-03 .data-test-dayHeader"
+            , text = "2018-06-03"
+            }
+          , assert.containsText
+            { selector = ".data-test-date-unscheduled .data-test-dayHeader"
+            , text = "Unscheduled"
+            }
+
           -- these assert the fixtures / results for each day
           -- create a function for these selectors to remove duplication? makes it harder to read, but less likely to have typos. hmmm.
           , assert.containsText

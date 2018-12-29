@@ -13,19 +13,24 @@ oneUnplayedGame : Test
 oneUnplayedGame =
     describe "Displays one unplayed game correctly"
         [ 
-        test "homeTeamName" <|
+        test "date" <|
             \_ ->
-                onePlayedGameElement
+                dayElement
+                |> Query.find [ Test.Html.Selector.class "data-test-dayHeader" ]
+                |> Query.has [ Test.Html.Selector.text "Unscheduled"]
+        , test "homeTeamName" <|
+            \_ ->
+                dayElement
                 |> Query.find [ Test.Html.Selector.class "data-test-homeTeamName" ]
                 |> Query.has [ Test.Html.Selector.text "Castle"]
         , test "awayTeamName" <|
             \_ ->
-                onePlayedGameElement
+                dayElement
                 |> Query.find [ Test.Html.Selector.class "data-test-awayTeamName" ]
                 |> Query.has [ Test.Html.Selector.text "Meridian"]
         ]
-onePlayedGameElement: Query.Single Msg
-onePlayedGameElement =
+dayElement: Query.Single Msg
+dayElement =
     html { vanillaGame | homeTeamName = "Castle", awayTeamName = "Meridian" }
-    |> Query.find [ Test.Html.Selector.class "data-test-game" ]
+    |> Query.find [ Test.Html.Selector.class "data-test-day" ]
 
