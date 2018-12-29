@@ -11,13 +11,18 @@ import ResultsFixturesHelpers exposing (..)
 
 oneUnplayedGame : Test
 oneUnplayedGame =
-    describe "Displays one unplayed game correctly"
+    describe "Displays 'Unscheduled' and team names for unplayed games with no date"
         [ 
         test "date" <|
             \_ ->
                 dayElement
                 |> Query.find [ Test.Html.Selector.class "data-test-dayHeader" ]
                 |> Query.has [ Test.Html.Selector.text "Unscheduled"]
+        , test "time" <|
+            \_ ->
+                dayElement
+                |> Query.find [ Test.Html.Selector.class "data-test-datePlayed" ]
+                |> Query.has [ Test.Html.Selector.text ""]
         , test "homeTeamName" <|
             \_ ->
                 dayElement

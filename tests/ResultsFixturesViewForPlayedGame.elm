@@ -13,7 +13,7 @@ import ResultsFixturesHelpers exposing (..)
 
 onePlayedGame : Test
 onePlayedGame =
-    describe "Displays one played game correctly"
+    describe "Displays date, teams and score for played games"
         [ 
         test "date" <|
             \_ ->
@@ -44,7 +44,8 @@ onePlayedGame =
 
 dayElement: Query.Single Msg
 dayElement =
-    html { vanillaGame | datePlayed = Just <| Date.Extra.fromCalendarDate 2006 Mar 23
+    html { vanillaGame | 
+        datePlayed = Just <| Date.Extra.fromCalendarDate 2006 Mar 23
         , homeTeamName = "Castle"
         , homeTeamGoals = Just 1
         , awayTeamName = "Meridian"
