@@ -61,10 +61,6 @@ specs =
           -- these assert the fixtures / results for each day
           -- create a function for these selectors to remove duplication? makes it harder to read, but less likely to have typos. hmmm.
           , assert.containsText
-            { selector = ".data-test-dates .data-test-date-2018-06-04 .data-test-game:nth-Child(1) data-test-datePlayed"
-            , text = "10:20"
-            }
-          , assert.containsText
             { selector = ".data-test-dates .data-test-date-2018-06-04 .data-test-game:nth-Child(1) .data-test-homeTeamName"
             , text = "Blackwater"
             }
@@ -98,6 +94,10 @@ specs =
             }
 
           , assert.containsText
+            { selector = ".data-test-dates .data-test-date-2018-06-03 .data-test-game:nth-Child(1) .data-test-datePlayed"
+            , text = "11:20"
+            }
+          , assert.containsText
             { selector = ".data-test-dates .data-test-date-2018-06-03 .data-test-game:nth-Child(1) .data-test-homeTeamName"
             , text = "Battersea"
             }
@@ -105,6 +105,7 @@ specs =
             { selector = ".data-test-dates .data-test-date-2018-06-03 .data-test-game:nth-Child(1) .data-test-awayTeamName"
             , text = "Clapham"
             }
+
           , assert.containsText
             { selector = ".data-test-dates .data-test-date-unscheduled .data-test-game:nth-Child(1) .data-test-homeTeamName"
             , text = "Blackwater"

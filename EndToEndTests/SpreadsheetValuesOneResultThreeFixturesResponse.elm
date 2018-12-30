@@ -40,7 +40,7 @@ spreadsheetValuesOneResultThreeFixturesResponse =
         "",
         "",
         "Clapham",
-        "2018-06-03"
+        "2018-06-03 11:20"
       ]
     ]
   }"""
