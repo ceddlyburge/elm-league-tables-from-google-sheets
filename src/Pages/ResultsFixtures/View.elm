@@ -46,9 +46,8 @@ fixturesResultsElement device resultsFixtures =
 
 day : Device -> Gaps -> LeagueGamesForDay -> Element Styles variation Msg
 day device gaps leagueGamesForDay =
-    -- do something about LeagueTableTeamRow
     column 
-        LeagueTableTeamRow 
+        None 
         [ padding gaps.medium
         , spacing gaps.small
         , center
@@ -56,23 +55,6 @@ day device gaps leagueGamesForDay =
         ]
         [ dayHeader leagueGamesForDay.date
         , dayResultsFixtures device gaps leagueGamesForDay] --List.map (gameRow device gaps) leagueGamesForDay.games)
-
-dateClassNamePart: Maybe Date -> String
-dateClassNamePart maybeDate = 
-    maybeDate
-    |> dateToString
-    |> Maybe.withDefault "unscheduled"
-
-dateDisplay: Maybe Date -> String
-dateDisplay maybeDate = 
-    maybeDate
-    |> dateToString
-    |> Maybe.withDefault "Unscheduled"
-
-dateToString: Maybe Date -> Maybe String
-dateToString maybeDate = 
-    maybeDate
-    |> Maybe.map (Date.Extra.toFormattedString "yyyy-MM-dd") 
 
 dayHeader : Maybe Date -> Element Styles variation Msg
 dayHeader maybeDate =
@@ -90,33 +72,72 @@ dayResultsFixtures device gaps leagueGamesForDay =
 
 gameRow : Device -> Gaps -> Game -> Element Styles variation Msg
 gameRow device gaps game =
-    -- do something about LeagueTableTeamRow
     row 
-        LeagueTableTeamRow 
+        None 
         [ padding gaps.medium, spacing gaps.small, center, class "data-test-game" ] 
         [ 
-            paragraph ResultFixtureHome [ alignRight, teamWidth device, class "data-test-homeTeamName" ] [text game.homeTeamName]
+            paragraph 
+                ResultFixtureHome 
+                [ alignRight, teamWidth device, class "data-test-homeTeamName" ] 
+                [ text game.homeTeamName ]
             , row 
                 None 
                 [ scoreSlashDateWidth device ] 
-                ( scoreSlashDate game )
-            , paragraph ResultFixtureAway [ alignLeft, teamWidth device, class "data-test-awayTeamName" ] [ text game.awayTeamName ]
+                ( scoreSlashTime game )
+            , paragraph 
+                ResultFixtureAway 
+                [ alignLeft, teamWidth device, class "data-test-awayTeamName" ] 
+                [ text game.awayTeamName ]
         ]
 
-scoreSlashDate : Game -> List (Element Styles variation Msg)
-scoreSlashDate game =
+scoreSlashTime : Game -> List (Element Styles variation Msg)
+scoreSlashTime game =
     case (game.homeTeamGoals, game.awayTeamGoals) of
         (Just homeTeamGoals, Just awayTeamGoals) ->
             [ 
-                el ResultFixtureHome [ alignRight, width (percent 35), class "data-test-homeTeamGoals" ] (text (toString homeTeamGoals) )
-                , el None [ width (percent 30)] empty
-                , el ResultFixtureAway [ alignLeft, width (percent 35), class "data-test-awayTeamGoals" ] (text (toString awayTeamGoals) )
+                el 
+                    ResultFixtureHome 
+                    [ alignRight, width (percent 35), class "data-test-homeTeamGoals" ] 
+                    (text <| toString homeTeamGoals)
+                , el 
+                    None 
+                    [ width (percent 30)] 
+                    empty
+                , el 
+                    ResultFixtureAway 
+                    [ alignLeft, width (percent 35), class "data-test-awayTeamGoals" ] 
+                    (text <| toString awayTeamGoals)
             ]
         (_, _) ->
             [ 
-                el ResultFixtureDate [ verticalCenter, width (percent 100) , class "data-test-datePlayed" ] (text <| Maybe.withDefault "" (Maybe.map (Date.Extra.toFormattedString "HH:mm") game.datePlayed) )
+                el 
+                    ResultFixtureDate 
+                    [ verticalCenter, width (percent 100) , class "data-test-datePlayed" ] 
+                    (text <| timeDisplay game.datePlayed)
             ]
             
+dateClassNamePart: Maybe Date -> String
+dateClassNamePart maybeDate = 
+    maybeDate
+    |> dateToString
+    |> Maybe.withDefault "unscheduled"
+
+dateDisplay: Maybe Date -> String
+dateDisplay maybeDate = 
+    maybeDate
+    |> dateToString
+    |> Maybe.withDefault "Unscheduled"
+
+dateToString: Maybe Date -> Maybe String
+dateToString maybeDate = 
+    maybeDate
+    |> Maybe.map (Date.Extra.toFormattedString "yyyy-MM-dd") 
+
+timeDisplay: Maybe Date -> String
+timeDisplay maybeDate = 
+    maybeDate
+    |> Maybe.map (Date.Extra.toFormattedString "HH:mm")
+    |> Maybe.withDefault ""
 
 rowWidth: Device -> Element.Attribute variation msg
 rowWidth device = 
