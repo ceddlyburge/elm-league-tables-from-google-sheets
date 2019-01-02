@@ -21,8 +21,8 @@ type Styles
     | LeagueListLeagueTitle
     | LeagueTableHeaderRow
     | LeagueTableTeamRow
-    | ResultFixtureDay
-    | ResultFixtureDate
+    | ResultFixtureDayHeader
+    | ResultFixtureRow
     | ResultFixtureHome
     | ResultFixtureAway
 
@@ -149,12 +149,15 @@ stylesheet device =
                 , Border.bottom 2
                 , Color.border colors.border
                 ]
-            , style ResultFixtureDay
-                [ 
+            , style ResultFixtureDayHeader
+                [ Font.size fontSize.medium
+                , Color.text colors.text
+                , Border.bottom 2
+                , Color.border colors.border
                 ]
-            , style ResultFixtureDate
-                [ Font.size fontSize.small
-                , Font.center
+            , style ResultFixtureRow
+                [ Font.size fontSize.small 
+                , Color.text colors.text
                 ]
             , style ResultFixtureHome
                 [ Font.alignRight

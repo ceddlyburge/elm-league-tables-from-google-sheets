@@ -41,7 +41,7 @@ fixturesResultsElement device resultsFixtures =
     in
         column 
             None 
-            [ rowWidth device, class "data-test-dates" ]
+            [ class "data-test-dates" ]
             (List.map (day device gaps) resultsFixtures.days)
 
 day : Device -> Gaps -> LeagueGamesForDay -> Element Styles variation Msg
@@ -59,7 +59,7 @@ day device gaps leagueGamesForDay =
 dayHeader : Maybe Date -> Element Styles variation Msg
 dayHeader maybeDate =
     el 
-        ResultFixtureDay 
+        ResultFixtureDayHeader 
         [ class "data-test-dayHeader" ] 
         (text <| dateDisplay maybeDate)
 
@@ -73,7 +73,7 @@ dayResultsFixtures device gaps leagueGamesForDay =
 gameRow : Device -> Gaps -> Game -> Element Styles variation Msg
 gameRow device gaps game =
     row 
-        None 
+        ResultFixtureRow 
         [ padding gaps.medium, spacing gaps.small, center, class "data-test-game" ] 
         [ 
             paragraph 
@@ -82,7 +82,7 @@ gameRow device gaps game =
                 [ text game.homeTeamName ]
             , row 
                 None 
-                [ scoreSlashDateWidth device ] 
+                [ ] 
                 ( scoreSlashTime game )
             , paragraph 
                 ResultFixtureAway 
@@ -97,65 +97,43 @@ scoreSlashTime game =
             [ 
                 el 
                     ResultFixtureHome 
-                    [ alignRight, width (percent 35), class "data-test-homeTeamGoals" ] 
+                    [ alignRight, class "data-test-homeTeamGoals" ] 
                     (text <| toString homeTeamGoals)
                 , el 
                     None 
-                    [ width (percent 30)] 
-                    empty
+                    [ ] 
+                    (text " - ")
                 , el 
                     ResultFixtureAway 
-                    [ alignLeft, width (percent 35), class "data-test-awayTeamGoals" ] 
+                    [ alignLeft, class "data-test-awayTeamGoals" ] 
                     (text <| toString awayTeamGoals)
             ]
         (_, _) ->
             [ 
                 el 
-                    ResultFixtureDate 
-                    [ verticalCenter, width (percent 100) , class "data-test-datePlayed" ] 
+                    None 
+                    [ verticalCenter, class "data-test-datePlayed" ] 
                     (text <| timeDisplay game.datePlayed)
             ]
             
 dateClassNamePart: Maybe Date -> String
 dateClassNamePart maybeDate = 
     maybeDate
-    |> dateToString
+    |> Maybe.map (Date.Extra.toFormattedString "yyyy-MM-dd") 
     |> Maybe.withDefault "unscheduled"
 
 dateDisplay: Maybe Date -> String
 dateDisplay maybeDate = 
     maybeDate
-    |> dateToString
+    |> Maybe.map (Date.Extra.toFormattedString "MMMM d, yyyy") 
     |> Maybe.withDefault "Unscheduled"
-
-dateToString: Maybe Date -> Maybe String
-dateToString maybeDate = 
-    maybeDate
-    |> Maybe.map (Date.Extra.toFormattedString "yyyy-MM-dd") 
 
 timeDisplay: Maybe Date -> String
 timeDisplay maybeDate = 
     maybeDate
     |> Maybe.map (Date.Extra.toFormattedString "HH:mm")
-    |> Maybe.withDefault ""
-
-rowWidth: Device -> Element.Attribute variation msg
-rowWidth device = 
-    if device.phone then
-        width (percent 95)
-    else
-        width (px 800)
+    |> Maybe.withDefault " - "
 
 teamWidth: Device -> Element.Attribute variation msg
 teamWidth device = 
-    if device.phone then
-        width (percent 35)
-    else
-        width (px 300)
-
-scoreSlashDateWidth: Device -> Element.Attribute variation msg
-scoreSlashDateWidth device = 
-    if device.phone then
-        width (percent 30)
-    else
-        width (px 200)
+    width <| fillPortion 50
