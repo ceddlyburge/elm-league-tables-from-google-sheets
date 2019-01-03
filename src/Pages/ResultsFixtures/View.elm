@@ -41,7 +41,7 @@ fixturesResultsElement device resultsFixtures =
     in
         column 
             None 
-            [ class "data-test-dates" ]
+            [ class "data-test-dates", width <| percent 100 ]
             (List.map (day device gaps) resultsFixtures.days)
 
 day : Device -> Gaps -> LeagueGamesForDay -> Element Styles variation Msg
@@ -50,6 +50,7 @@ day device gaps leagueGamesForDay =
         None 
         [ padding gaps.medium
         , spacing gaps.small
+        , width <| percent 100
         , center
         , class <| "data-test-day data-test-date-" ++ (dateClassNamePart leagueGamesForDay.date)
         ]
@@ -67,14 +68,18 @@ dayResultsFixtures : Device -> Gaps -> LeagueGamesForDay -> Element Styles varia
 dayResultsFixtures device gaps leagueGamesForDay =
     column 
         None 
-        [ ]
+        [ width <| percent 100 ]
         (List.map (gameRow device gaps) leagueGamesForDay.games)
 
 gameRow : Device -> Gaps -> Game -> Element Styles variation Msg
 gameRow device gaps game =
     row 
         ResultFixtureRow 
-        [ padding gaps.medium, spacing gaps.small, center, class "data-test-game" ] 
+        [ padding gaps.medium
+        , spacing gaps.small
+        , center
+        , class "data-test-game"
+        , width <| percent 100 ] 
         [ 
             paragraph 
                 ResultFixtureHome 
