@@ -19,7 +19,7 @@ onePlayedGame =
             \_ ->
                 dayElement
                 |> Query.find [ Test.Html.Selector.class "data-test-dayHeader" ]
-                |> Query.has [ Test.Html.Selector.text "2006-03-23" ]
+                |> Query.has [ Test.Html.Selector.text "March 23, 2006" ]
         , test "homeTeamName" <|
             \_ ->
                 dayElement

@@ -47,11 +47,11 @@ specs =
           -- these assert the day titles / headers
           , assert.containsText
             { selector = ".data-test-date-2018-06-04 .data-test-dayHeader"
-            , text = "2018-06-04"
+            , text = "June 4, 2018"
             }
           , assert.containsText
             { selector = ".data-test-date-2018-06-03 .data-test-dayHeader"
-            , text = "2018-06-03"
+            , text = "June 3, 2018"
             }
           , assert.containsText
             { selector = ".data-test-date-unscheduled .data-test-dayHeader"
