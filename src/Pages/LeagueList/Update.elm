@@ -21,5 +21,5 @@ allSheetSummaryRequest model =
 
 allSheetSummaryResponse: Model -> WebData (List LeagueSummary) -> ( Model, Cmd Msg )
 allSheetSummaryResponse model response = 
-    ( { model | leagues = response }, newUrl <| toUrl Route.LeagueListRoute )
+    ( { model | leagues = response }, newUrl <| toUrl <| model.route )
 

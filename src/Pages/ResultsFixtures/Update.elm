@@ -29,7 +29,7 @@ individualSheetResponseForResultsFixtures  model response leagueTitle =
         { model | 
             leagueGames = response
             , resultsFixtures = RemoteData.map calculateResultsFixtures response }
-        , newUrl <| toUrl <| Route.ResultsFixturesRoute leagueTitle
+        , newUrl <| toUrl <| model.route
     )
 
 fetchLeagueGames : String -> Config -> Cmd Msg
