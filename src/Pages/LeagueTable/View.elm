@@ -9,7 +9,7 @@ import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueTable exposing (LeagueTable)
 import Models.Team exposing (..)
-import Pages.Gaps exposing (..)
+import Pages.Progressive exposing (..)
 import Pages.MaybeResponse exposing (..)
 import Pages.Page exposing (..)
 import Pages.HeaderBar exposing (..) 
@@ -32,25 +32,25 @@ page leagueTitle response device =
 leagueTableElement : Device -> LeagueTable -> Element Styles Variations Msg
 leagueTableElement device leagueTable =
     let
-        gaps = gapsForDevice device
+        progressive = calculateProgressive device
         columns = respondedColumns 
             device.width 
-            gaps.medium 
-            gaps.small  
+            progressive.medium 
+            progressive.small  
             (allColumns device)
     in
         column None [ class "data-test-teams" ]
         (
-            [ headerRow columns device gaps ]
+            [ headerRow columns device progressive ]
             ++ 
-            (List.map (teamRow columns device gaps) leagueTable.teams)
+            (List.map (teamRow columns device progressive) leagueTable.teams)
         )
 
-headerRow : List Column -> Device -> Gaps -> Element Styles Variations Msg
-headerRow tableColumns device gaps = 
+headerRow : List Column -> Device -> Progressive -> Element Styles Variations Msg
+headerRow tableColumns device progressive = 
     row 
         LeagueTableHeaderRow 
-        [ padding gaps.medium, spacing gaps.small, center ] 
+        [ padding progressive.medium, spacing progressive.small, center ] 
         (List.map headerCell tableColumns)
 
 headerCell : Column -> Element Styles Variations Msg
@@ -60,11 +60,11 @@ headerCell column =
         [ width (px column.width), class column.cssClass ] 
         (text column.title)
 
-teamRow : List Column -> Device -> Gaps -> Team -> Element Styles Variations Msg
-teamRow tableColumns device gaps team = 
+teamRow : List Column -> Device -> Progressive -> Team -> Element Styles Variations Msg
+teamRow tableColumns device progressive team = 
     row 
         LeagueTableTeamRow 
-        [ padding gaps.medium, spacing gaps.small, center, class "data-test-team" ] 
+        [ padding progressive.medium, spacing progressive.small, center, class "data-test-team" ] 
         (List.map (teamCell team) tableColumns)
 
 teamCell : Team -> Column -> Element Styles Variations Msg

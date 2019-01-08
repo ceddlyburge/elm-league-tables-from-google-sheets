@@ -7,7 +7,7 @@ import Http exposing (decodeUri)
 
 import Date exposing (..)
 import Date.Extra exposing (..)
-import Pages.Gaps exposing (..)
+import Pages.Progressive exposing (..)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
@@ -37,25 +37,25 @@ headerBar leagueTitle =
 fixturesResultsElement : Device -> ResultsFixtures -> Element Styles variation Msg
 fixturesResultsElement device resultsFixtures =
     let
-        gaps = gapsForDevice device
+        progressive = calculateProgressive device
     in
         column 
             None 
-            [ class "data-test-dates", width <| percent 100 ]
-            (List.map (day device gaps) resultsFixtures.days)
+            [ class "data-test-dates", width <| percent 100, center ]
+            (List.map (day device progressive) resultsFixtures.days)
 
-day : Device -> Gaps -> LeagueGamesForDay -> Element Styles variation Msg
-day device gaps leagueGamesForDay =
+day : Device -> Progressive -> LeagueGamesForDay -> Element Styles variation Msg
+day device progressive leagueGamesForDay =
     column 
         None 
-        [ padding gaps.medium
-        , spacing gaps.small
-        , width <| percent 100
-        , center
+        [ padding progressive.medium
+        , spacing progressive.small
+        , dayWidth progressive
         , class <| "data-test-day data-test-date-" ++ (dateClassNamePart leagueGamesForDay.date)
         ]
         [ dayHeader leagueGamesForDay.date
-        , dayResultsFixtures device gaps leagueGamesForDay] --List.map (gameRow device gaps) leagueGamesForDay.games)
+        , dayResultsFixtures device progressive leagueGamesForDay
+        ] 
 
 dayHeader : Maybe Date -> Element Styles variation Msg
 dayHeader maybeDate =
@@ -64,19 +64,19 @@ dayHeader maybeDate =
         [ class "data-test-dayHeader" ] 
         (text <| dateDisplay maybeDate)
 
-dayResultsFixtures : Device -> Gaps -> LeagueGamesForDay -> Element Styles variation Msg
-dayResultsFixtures device gaps leagueGamesForDay =
+dayResultsFixtures : Device -> Progressive -> LeagueGamesForDay -> Element Styles variation Msg
+dayResultsFixtures device progressive leagueGamesForDay =
     column 
         None 
         [ width <| percent 100 ]
-        (List.map (gameRow device gaps) leagueGamesForDay.games)
+        (List.map (gameRow device progressive) leagueGamesForDay.games)
 
-gameRow : Device -> Gaps -> Game -> Element Styles variation Msg
-gameRow device gaps game =
+gameRow : Device -> Progressive -> Game -> Element Styles variation Msg
+gameRow device progressive game =
     row 
         ResultFixtureRow 
-        [ padding gaps.medium
-        , spacing gaps.small
+        [ padding progressive.medium
+        , spacing progressive.medium
         , center
         , class "data-test-game"
         , width <| percent 100 ] 
@@ -101,22 +101,22 @@ scoreSlashTime game =
         (Just homeTeamGoals, Just awayTeamGoals) ->
             [ 
                 el 
-                    ResultFixtureHome 
+                    ResultFixtureScore 
                     [ alignRight, class "data-test-homeTeamGoals" ] 
                     (text <| toString homeTeamGoals)
                 , el 
-                    None 
+                    ResultFixtureScore 
                     [ ] 
                     (text " - ")
                 , el 
-                    ResultFixtureAway 
+                    ResultFixtureScore 
                     [ alignLeft, class "data-test-awayTeamGoals" ] 
                     (text <| toString awayTeamGoals)
             ]
         (_, _) ->
             [ 
                 el 
-                    None 
+                    ResultFixtureTime 
                     [ verticalCenter, class "data-test-datePlayed" ] 
                     (text <| timeDisplay game.datePlayed)
             ]
@@ -139,6 +139,13 @@ timeDisplay maybeDate =
     |> Maybe.map (Date.Extra.toFormattedString "HH:mm")
     |> Maybe.withDefault " - "
 
+dayWidth: Progressive -> Element.Attribute variation msg
+dayWidth progressive = 
+    if progressive.designTeamWidth * 2.5 < progressive.viewportWidth * 0.8 then 
+        width <| percent 100
+    else 
+        width <| percent 80
+    
 teamWidth: Device -> Element.Attribute variation msg
 teamWidth device = 
     width <| fillPortion 50
