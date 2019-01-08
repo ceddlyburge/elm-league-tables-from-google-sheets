@@ -19,13 +19,13 @@ import Pages.HeaderBar exposing (..)
 import Pages.HeaderBarItem exposing (..)
 
 
-page : String -> WebData ResultsFixtures -> Device -> Page
-page leagueTitle response device =
+page : String -> WebData ResultsFixtures -> Progressive -> Page
+page leagueTitle response progessive =
     Page
         ( DoubleHeader  
             (headerBar leagueTitle)
             (SubHeaderBar "Results / Fixtures"))
-        ( maybeResponse response (fixturesResultsElement device) )
+        ( maybeResponse response (fixturesResultsElement progessive) )
 
 headerBar: String -> HeaderBar
 headerBar leagueTitle = 
@@ -34,18 +34,15 @@ headerBar leagueTitle =
         (Maybe.withDefault "" (decodeUri leagueTitle))
         [ RefreshHeaderButton <| IndividualSheetRequestForResultsFixtures leagueTitle ]
 
-fixturesResultsElement : Device -> ResultsFixtures -> Element Styles variation Msg
-fixturesResultsElement device resultsFixtures =
-    let
-        progressive = calculateProgressive device
-    in
-        column 
-            None 
-            [ class "data-test-dates", width <| percent 100, center ]
-            (List.map (day device progressive) resultsFixtures.days)
+fixturesResultsElement : Progressive -> ResultsFixtures -> Element Styles variation Msg
+fixturesResultsElement progressive resultsFixtures =
+    column 
+        None 
+        [ class "data-test-dates", width <| percent 100, center ]
+        (List.map (day progressive) resultsFixtures.days)
 
-day : Device -> Progressive -> LeagueGamesForDay -> Element Styles variation Msg
-day device progressive leagueGamesForDay =
+day : Progressive -> LeagueGamesForDay -> Element Styles variation Msg
+day progressive leagueGamesForDay =
     column 
         None 
         [ padding progressive.medium
@@ -54,7 +51,7 @@ day device progressive leagueGamesForDay =
         , class <| "data-test-day data-test-date-" ++ (dateClassNamePart leagueGamesForDay.date)
         ]
         [ dayHeader leagueGamesForDay.date
-        , dayResultsFixtures device progressive leagueGamesForDay
+        , dayResultsFixtures progressive leagueGamesForDay
         ] 
 
 dayHeader : Maybe Date -> Element Styles variation Msg
@@ -64,15 +61,15 @@ dayHeader maybeDate =
         [ class "data-test-dayHeader" ] 
         (text <| dateDisplay maybeDate)
 
-dayResultsFixtures : Device -> Progressive -> LeagueGamesForDay -> Element Styles variation Msg
-dayResultsFixtures device progressive leagueGamesForDay =
+dayResultsFixtures : Progressive -> LeagueGamesForDay -> Element Styles variation Msg
+dayResultsFixtures progressive leagueGamesForDay =
     column 
         None 
         [ width <| percent 100 ]
-        (List.map (gameRow device progressive) leagueGamesForDay.games)
+        (List.map (gameRow progressive) leagueGamesForDay.games)
 
-gameRow : Device -> Progressive -> Game -> Element Styles variation Msg
-gameRow device progressive game =
+gameRow : Progressive -> Game -> Element Styles variation Msg
+gameRow progressive game =
     row 
         ResultFixtureRow 
         [ padding progressive.medium
@@ -83,7 +80,7 @@ gameRow device progressive game =
         [ 
             paragraph 
                 ResultFixtureHome 
-                [ alignRight, teamWidth device, class "data-test-homeTeamName" ] 
+                [ alignRight, teamWidth progressive, class "data-test-homeTeamName" ] 
                 [ text game.homeTeamName ]
             , row 
                 None 
@@ -91,7 +88,7 @@ gameRow device progressive game =
                 ( scoreSlashTime game )
             , paragraph 
                 ResultFixtureAway 
-                [ alignLeft, teamWidth device, class "data-test-awayTeamName" ] 
+                [ alignLeft, teamWidth progressive, class "data-test-awayTeamName" ] 
                 [ text game.awayTeamName ]
         ]
 
@@ -146,6 +143,6 @@ dayWidth progressive =
     else 
         width <| percent 80
     
-teamWidth: Device -> Element.Attribute variation msg
-teamWidth device = 
+teamWidth: Progressive -> Element.Attribute variation msg
+teamWidth progressive = 
     width <| fillPortion 50

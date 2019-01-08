@@ -17,8 +17,8 @@ import Pages.HeaderBarItem exposing (..)
 import Pages.ResponsiveColumn exposing (..)
 
 
-page : String -> WebData LeagueTable -> Device -> Page
-page leagueTitle response device =
+page : String -> WebData LeagueTable -> Progressive -> Page
+page leagueTitle response progressive =
     Page
         ( SingleHeader <| 
             HeaderBar 
@@ -26,28 +26,27 @@ page leagueTitle response device =
                 , ResultsFixturesHeaderButton <| IndividualSheetRequestForResultsFixtures leagueTitle ] 
                 (Maybe.withDefault "" (decodeUri leagueTitle))
                 [ RefreshHeaderButton <| IndividualSheetRequest leagueTitle ] )
-        ( maybeResponse response (leagueTableElement device) )
+        ( maybeResponse response (leagueTableElement progressive) )
 
 
-leagueTableElement : Device -> LeagueTable -> Element Styles Variations Msg
-leagueTableElement device leagueTable =
+leagueTableElement : Progressive -> LeagueTable -> Element Styles Variations Msg
+leagueTableElement progressive leagueTable =
     let
-        progressive = calculateProgressive device
         columns = respondedColumns 
-            device.width 
+            progressive.viewportWidth 
             progressive.medium 
             progressive.small  
-            (allColumns device)
+            (allColumns progressive.viewportWidth)
     in
         column None [ class "data-test-teams" ]
         (
-            [ headerRow columns device progressive ]
+            [ headerRow columns progressive ]
             ++ 
-            (List.map (teamRow columns device progressive) leagueTable.teams)
+            (List.map (teamRow columns progressive) leagueTable.teams)
         )
 
-headerRow : List Column -> Device -> Progressive -> Element Styles Variations Msg
-headerRow tableColumns device progressive = 
+headerRow : List Column -> Progressive -> Element Styles Variations Msg
+headerRow tableColumns progressive = 
     row 
         LeagueTableHeaderRow 
         [ padding progressive.medium, spacing progressive.small, center ] 
@@ -60,8 +59,8 @@ headerCell column =
         [ width (px column.width), class column.cssClass ] 
         (text column.title)
 
-teamRow : List Column -> Device -> Progressive -> Team -> Element Styles Variations Msg
-teamRow tableColumns device progressive team = 
+teamRow : List Column -> Progressive -> Team -> Element Styles Variations Msg
+teamRow tableColumns progressive team = 
     row 
         LeagueTableTeamRow 
         [ padding progressive.medium, spacing progressive.small, center, class "data-test-team" ] 
@@ -75,9 +74,9 @@ teamCell team column=
         (text <| column.value team)
 
 -- Pixel widths, with one character spare, measured using https://codepen.io/jasesmith/pen/eBeoNz
-allColumns : Device -> List Column
-allColumns device =
-    if device.width <= 600 then
+allColumns : Float -> List Column
+allColumns viewportWidth =
+    if viewportWidth <= 600 then
         -- 12px font (font size is from LeagueStyleElements)
         [     position       el        ""     21  8
             , team           multiline "Team" 100 9
@@ -90,7 +89,7 @@ allColumns device =
             , goalDifference el        "GD"   21  5
             , points         el        "Pts"  26  7
         ]
-    else if device.width <= 1200 then
+    else if viewportWidth <= 1200 then
         -- 15px font (from LeagueStyleElements)
         [     position       el        ""                26  8
             , team           multiline "Team"            150 9
@@ -103,7 +102,7 @@ allColumns device =
             , goalDifference multiline "Goal Difference" 83  5
             , points         el        "Points"          53  7
         ]
-    else if device.width <= 1800 then
+    else if viewportWidth <= 1800 then
         -- 18px font (from LeagueStyleElements)
         [     position       el        ""                31  8
             , team           multiline "Team"            200 9

@@ -10,23 +10,27 @@ import Pages.LeagueTable.View exposing (..)
 import Pages.ResultsFixtures.View exposing (..)
 import Pages.Page exposing (..)
 import Pages.RenderPage exposing (..)
+import Pages.Progressive exposing (..)
 
 
 view : Model -> Html Msg
 view model =
-    renderPage model.device <| page model
+    let
+        progressive = calculateProgressive model.device
+    in
+        renderPage progressive <| page model progressive
 
-page : Model -> Page
-page model =
+page : Model -> Progressive -> Page
+page model progressive =
     case model.route of
         Route.LeagueListRoute ->
-            Pages.LeagueList.View.page model.leagues model.device
+            Pages.LeagueList.View.page model.leagues progressive
         Route.LeagueTableRoute leagueTitle ->
-            Pages.LeagueTable.View.page leagueTitle model.leagueTable model.device
+            Pages.LeagueTable.View.page leagueTitle model.leagueTable progressive
         Route.ResultsFixturesRoute leagueTitle ->
-            Pages.ResultsFixtures.View.page leagueTitle model.resultsFixtures model.device
+            Pages.ResultsFixtures.View.page leagueTitle model.resultsFixtures progressive
         Route.NotFoundRoute ->
-            Pages.LeagueList.View.page model.leagues model.device -- return 404 later
+            Pages.LeagueList.View.page model.leagues progressive -- return 404 later
 
 -- notFoundView : Html msg
 -- notFoundView =

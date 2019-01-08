@@ -13,18 +13,14 @@ import Pages.HeaderBar exposing (..)
 import Pages.HeaderBarItem exposing (..)
 import Pages.Progressive exposing (..)
 
-renderPage: Device -> Page -> Html Msg
-renderPage device page =
-    let
-        progressive = calculateProgressive device
-    in
-        body 
-            device
-            progressive  
-            [
-                renderHeaderBar progressive page.header
-                , page.body
-            ]
+renderPage: Progressive -> Page -> Html Msg
+renderPage progressive page =
+    body 
+        progressive  
+        [
+            renderHeaderBar progressive page.header
+            , page.body
+        ]
 
 renderHeaderBar: Progressive -> PageHeader -> Element.Element Styles variation Msg
 renderHeaderBar progressive pageHeader = 
@@ -70,9 +66,9 @@ renderHeaderBarItem headerBarItem =
         BackHeaderButton msg ->
             el TitleButton [ onClick msg ] backIcon
 
-body: Device -> Progressive -> List (Element Styles variation msg) -> Html msg
-body device progressive elements = 
-    Element.layout (stylesheet device) <|         
+body: Progressive -> List (Element Styles variation msg) -> Html msg
+body progressive elements = 
+    Element.layout (stylesheet progressive.viewportWidth) <|         
         column 
             Body 
             [ width (percent 100), spacing progressive.big, center ]

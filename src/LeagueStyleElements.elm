@@ -78,19 +78,19 @@ type alias FontSize =
     , small: Float    
     }
 
-calculatefontSize: Device -> FontSize
-calculatefontSize device =
-    if device.width <= 600 then
+calculatefontSize: Float -> FontSize
+calculatefontSize width =
+    if width <= 600 then
         { big = 24
         , medium = 14
         , small = 12    
         }
-    else if device.width <= 1200 then
+    else if width <= 1200 then
         { big = 29
         , medium = 19
         , small = 15    
         }
-    else if device.width <= 1800 then
+    else if width <= 1800 then
         { big = 34
         , medium = 25
         , small = 18    
@@ -102,10 +102,10 @@ calculatefontSize device =
         }
 
 
-stylesheet : Device -> StyleSheet Styles variation
-stylesheet device =
+stylesheet : Float -> StyleSheet Styles variation
+stylesheet width =
     let
-        fontSize = calculatefontSize device     
+        fontSize = calculatefontSize width     
     in
         Style.styleSheet
             [ style None []

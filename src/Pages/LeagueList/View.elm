@@ -15,28 +15,25 @@ import Pages.HeaderBar exposing ( .. )
 import Pages.HeaderBarItem exposing (..)
 
 
-page : WebData (List LeagueSummary) -> Device -> Page
-page response device =
+page : WebData (List LeagueSummary) -> Progressive -> Page
+page response progressive =
     Page
         ( SingleHeader <| 
             HeaderBar 
                 [ HeaderButtonSizedSpace ] 
                 "Leagues" 
                 [ RefreshHeaderButton AllSheetSummaryRequest ] )
-        ( maybeResponse response <| leagueList device )
+        ( maybeResponse response <| leagueList progressive )
 
-leagueList: Device -> List LeagueSummary -> Element Styles variation Msg
-leagueList device leagueSummaries =
-    let
-        progressive = calculateProgressive device
-    in
-        column 
-            None 
-            [ 
-                width (percent 100)
-                , class "data-test-leagues"   
-            ] 
-            (List.map (leagueTitle progressive) leagueSummaries)
+leagueList: Progressive -> List LeagueSummary -> Element Styles variation Msg
+leagueList progressive leagueSummaries =
+    column 
+        None 
+        [ 
+            width (percent 100)
+            , class "data-test-leagues"   
+        ] 
+        (List.map (leagueTitle progressive) leagueSummaries)
 
 leagueTitle : Progressive -> LeagueSummary -> Element Styles variation Msg
 leagueTitle progressive league =

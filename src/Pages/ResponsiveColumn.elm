@@ -15,18 +15,18 @@ type alias Column =
     , priority : Int
     }
 
-respondedColumns: Int -> Float -> Float -> List Column -> List Column
+respondedColumns: Float -> Float -> Float -> List Column -> List Column
 respondedColumns width padding spacing columns =
     columns
     |> columnsAvailableForWidth width padding spacing 
     |> padColumns width padding spacing
 
-columnsAvailableForWidth: Int -> Float -> Float -> List Column -> List Column
+columnsAvailableForWidth: Float -> Float -> Float -> List Column -> List Column
 columnsAvailableForWidth width padding spacing columns =
     let
         lowestPriority = Maybe.withDefault 0 (List.minimum <| List.map priority columns)
     in
-        if  columnsWidth padding spacing columns <= toFloat width then
+        if  columnsWidth padding spacing columns <= width then
             columns
         else
             columnsAvailableForWidth 
@@ -40,12 +40,12 @@ columnsWidth padding spacing columns =
     (List.foldr addWidth 0 columns)
     + padding + padding + (toFloat (List.length columns) * spacing)
 
-padColumns: Int -> Float -> Float -> List Column -> List Column
+padColumns: Float -> Float -> Float -> List Column -> List Column
 padColumns width padding spacing columns  = 
     let
         numberOfColumns = toFloat (List.length columns)
         allColumnsWidth = columnsWidth padding spacing columns
-        availableWidth = (toFloat) width - padding - padding - (numberOfColumns * spacing)
+        availableWidth = width - padding - padding - (numberOfColumns * spacing)
         desiredWidth = availableWidth * 0.8
     in
         if allColumnsWidth < desiredWidth then
