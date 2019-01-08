@@ -7,6 +7,9 @@ import Style.Color as Color
 import Style.Font as Font
 import Element exposing (Device)
 
+-- I didn't really want to use this, but I couldn't get a type definition to work without it
+-- I should have documented which one this was, so I can do further investigation, or to 
+-- know when I can delete this.
 type Variations
     = NotApplicable
 
@@ -25,6 +28,8 @@ type Styles
     | ResultFixtureRow
     | ResultFixtureHome
     | ResultFixtureAway
+    | ResultFixtureScore
+    | ResultFixtureTime
 
 sansSerif : List Font
 sansSerif =
@@ -44,6 +49,7 @@ colors :
     , text : Color.Color
     , titleText : Color.Color
     , subTitleText : Color.Color
+    , heading1 : Color.Color
     , titleButton : Color.Color
     , titleBackground : Color.Color
     , subTitleBackground : Color.Color
@@ -58,9 +64,10 @@ colors =
     , text = Color.rgba 79 108 142 1.0 -- secondary 3
     , titleText = Color.rgba 4 38 45 1.0 -- primary 5
     , subTitleText = Color.rgba 7 25 48 1.0 -- primary 5
+    , heading1 = Color.rgba 35 63 98 1.0 -- secondary 4
     , titleButton = Color.rgba 70 124 134 1.0 -- primary 3
     , titleBackground = Color.rgba 130 174 182 1.0 -- primary 2
-    , subTitleBackground  = Color.rgba 215 226 241 1.0 -- secondery 2 - 1
+    , subTitleBackground  = Color.rgba 215 226 241 1.0 -- secondeay 2 - 1
     , border = Color.rgba 215 227 241 1.0 -- secondary 1
     , transparent = Color.rgba 255 255 255 0 
     }
@@ -150,13 +157,13 @@ stylesheet device =
                 , Color.border colors.border
                 ]
             , style ResultFixtureDayHeader
-                [ Font.size fontSize.medium
+                [ Font.size fontSize.small
                 , Color.text colors.text
                 , Border.bottom 2
                 , Color.border colors.border
                 ]
             , style ResultFixtureRow
-                [ Font.size fontSize.small 
+                [ Font.size fontSize.medium 
                 , Color.text colors.text
                 ]
             , style ResultFixtureHome
@@ -164,5 +171,11 @@ stylesheet device =
                 ]
             , style ResultFixtureAway
                 [ 
+                ]
+            , style ResultFixtureScore
+                [ Font.bold
+                ]
+            , style ResultFixtureTime
+                [ Font.bold
                 ]
             ]
