@@ -162,7 +162,7 @@ stylesheet width =
                 , Color.border colors.border
                 ]
             , style ResultFixtureRow
-                [ Font.size fontSize.small 
+                [ Font.size fontSize.medium 
                 , Color.text colors.text
                 ]
             , style ResultFixtureHome
