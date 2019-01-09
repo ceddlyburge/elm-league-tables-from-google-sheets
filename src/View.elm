@@ -16,7 +16,7 @@ import Pages.Progressive exposing (..)
 view : Model -> Html Msg
 view model =
     let
-        progressive = calculateProgressive model.device
+        progressive = calculateProgressive <| toFloat model.device.width
     in
         renderPage progressive <| page model progressive
 

@@ -38,7 +38,10 @@ fixturesResultsElement : Progressive -> ResultsFixtures -> Element Styles variat
 fixturesResultsElement progressive resultsFixtures =
     column 
         None 
-        [ class "data-test-dates", width <| percent 100, center ]
+        [ class "data-test-dates"
+        , width <| percent 100
+        , center 
+        ]
         (List.map (day progressive) resultsFixtures.days)
 
 day : Progressive -> LeagueGamesForDay -> Element Styles variation Msg
@@ -46,7 +49,7 @@ day progressive leagueGamesForDay =
     column 
         None 
         [ padding progressive.medium
-        , spacing progressive.small
+        , spacing progressive.medium
         , dayWidth progressive
         , class <| "data-test-day data-test-date-" ++ (dateClassNamePart leagueGamesForDay.date)
         ]
@@ -65,14 +68,16 @@ dayResultsFixtures : Progressive -> LeagueGamesForDay -> Element Styles variatio
 dayResultsFixtures progressive leagueGamesForDay =
     column 
         None 
-        [ width <| percent 100 ]
+        [ width <| percent 100
+        , spacing progressive.small
+        ]
         (List.map (gameRow progressive) leagueGamesForDay.games)
 
 gameRow : Progressive -> Game -> Element Styles variation Msg
 gameRow progressive game =
     row 
         ResultFixtureRow 
-        [ padding progressive.medium
+        [ padding 0
         , spacing progressive.medium
         , center
         , class "data-test-game"
@@ -138,10 +143,10 @@ timeDisplay maybeDate =
 
 dayWidth: Progressive -> Element.Attribute variation msg
 dayWidth progressive = 
-    if progressive.designTeamWidth * 2.5 < progressive.viewportWidth * 0.8 then 
-        width <| percent 100
-    else 
+    if progressive.designTeamWidthMediumFont * 2.5 < progressive.viewportWidth * 0.8 then 
         width <| percent 80
+    else 
+        width <| percent 100
     
 teamWidth: Progressive -> Element.Attribute variation msg
 teamWidth progressive = 

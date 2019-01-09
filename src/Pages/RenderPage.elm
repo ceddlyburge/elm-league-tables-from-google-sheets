@@ -22,6 +22,14 @@ renderPage progressive page =
             , page.body
         ]
 
+body: Progressive -> List (Element Styles variation msg) -> Html msg
+body progressive elements = 
+    Element.layout (stylesheet progressive.viewportWidth) <|         
+        column 
+            Body 
+            [ width (percent 100), spacing progressive.medium, center ]
+            elements
+
 renderHeaderBar: Progressive -> PageHeader -> Element.Element Styles variation Msg
 renderHeaderBar progressive pageHeader = 
     case pageHeader of
@@ -65,14 +73,6 @@ renderHeaderBarItem headerBarItem =
             el TitleButton [ onClick msg ] resultsFixturesIcon
         BackHeaderButton msg ->
             el TitleButton [ onClick msg ] backIcon
-
-body: Progressive -> List (Element Styles variation msg) -> Html msg
-body progressive elements = 
-    Element.layout (stylesheet progressive.viewportWidth) <|         
-        column 
-            Body 
-            [ width (percent 100), spacing progressive.big, center ]
-            elements
 
 heading: Progressive -> List (Element Styles variation msg) -> Element.Element Styles variation msg
 heading progressive elements = 
