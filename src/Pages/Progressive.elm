@@ -1,4 +1,4 @@
-module Pages.Progressive exposing (Progressive, FontSize, calculateProgressive)
+module Pages.Progressive exposing (Progressive, FontSize, calculateProgressive, vanillaProgressive)
 
 type alias Progressive =
     { bigGap: Float
@@ -88,3 +88,6 @@ calculateFontSize width =
         , small = 24    
         }
 
+vanillaProgressive : Progressive
+vanillaProgressive =
+    calculateProgressive 1024.0 
