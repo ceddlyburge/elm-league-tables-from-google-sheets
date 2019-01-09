@@ -34,8 +34,8 @@ leagueTableElement progressive leagueTable =
     let
         columns = respondedColumns 
             progressive.viewportWidth 
-            progressive.medium 
-            progressive.small  
+            progressive.mediumGap 
+            progressive.smallGap  
             (allColumns progressive.viewportWidth)
     in
         column None [ class "data-test-teams" ]
@@ -49,7 +49,7 @@ headerRow : List Column -> Progressive -> Element Styles Variations Msg
 headerRow tableColumns progressive = 
     row 
         LeagueTableHeaderRow 
-        [ padding progressive.medium, spacing progressive.small, center ] 
+        [ padding progressive.mediumGap, spacing progressive.smallGap, center ] 
         (List.map headerCell tableColumns)
 
 headerCell : Column -> Element Styles Variations Msg
@@ -63,7 +63,7 @@ teamRow : List Column -> Progressive -> Team -> Element Styles Variations Msg
 teamRow tableColumns progressive team = 
     row 
         LeagueTableTeamRow 
-        [ padding progressive.medium, spacing progressive.small, center, class "data-test-team" ] 
+        [ padding progressive.mediumGap, spacing progressive.smallGap, center, class "data-test-team" ] 
         (List.map (teamCell team) tableColumns)
 
 teamCell : Team -> Column -> Element Styles Variations Msg

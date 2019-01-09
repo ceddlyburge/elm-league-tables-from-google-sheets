@@ -48,8 +48,8 @@ day : Progressive -> LeagueGamesForDay -> Element Styles variation Msg
 day progressive leagueGamesForDay =
     column 
         None 
-        [ padding progressive.medium
-        , spacing progressive.medium
+        [ padding progressive.mediumGap
+        , spacing progressive.mediumGap
         , dayWidth progressive
         , class <| "data-test-day data-test-date-" ++ (dateClassNamePart leagueGamesForDay.date)
         ]
@@ -69,7 +69,7 @@ dayResultsFixtures progressive leagueGamesForDay =
     column 
         None 
         [ width <| percent 100
-        , spacing progressive.small
+        , spacing progressive.smallGap
         ]
         (List.map (gameRow progressive) leagueGamesForDay.games)
 
@@ -78,7 +78,7 @@ gameRow progressive game =
     row 
         ResultFixtureRow 
         [ padding 0
-        , spacing progressive.medium
+        , spacing progressive.mediumGap
         , center
         , class "data-test-game"
         , width <| percent 100 ] 

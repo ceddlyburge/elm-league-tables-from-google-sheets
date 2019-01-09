@@ -24,10 +24,10 @@ renderPage progressive page =
 
 body: Progressive -> List (Element Styles variation msg) -> Html msg
 body progressive elements = 
-    Element.layout (stylesheet progressive.viewportWidth) <|         
+    Element.layout (stylesheet progressive.fontSize) <|         
         column 
             Body 
-            [ width (percent 100), spacing progressive.medium, center ]
+            [ width (percent 100), spacing progressive.mediumGap, center ]
             elements
 
 renderHeaderBar: Progressive -> PageHeader -> Element.Element Styles variation Msg
@@ -59,7 +59,7 @@ renderSubHeaderBar: Progressive -> SubHeaderBar -> Element.Element Styles variat
 renderSubHeaderBar progressive subHeaderBar = 
     el 
         SubTitle 
-        [ width (percent 100), padding progressive.medium, verticalCenter ]
+        [ width (percent 100), padding progressive.mediumGap, verticalCenter ]
         (text subHeaderBar.title)
 
 renderHeaderBarItem: HeaderBarItem -> Element.Element Styles variation Msg
@@ -78,11 +78,11 @@ heading: Progressive -> List (Element Styles variation msg) -> Element.Element S
 heading progressive elements = 
     row 
         Title 
-        [ width (percent 100), padding progressive.big, verticalCenter, center ] 
+        [ width (percent 100), padding progressive.bigGap, verticalCenter, center ] 
         [
             row 
                 None 
-                [ center, spacing progressive.big, width (percent 100) ]
+                [ center, spacing progressive.bigGap, width (percent 100) ]
                 elements
         ]
 

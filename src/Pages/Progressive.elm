@@ -1,14 +1,19 @@
-module Pages.Progressive exposing (..)
-
-
+module Pages.Progressive exposing (Progressive, FontSize, calculateProgressive)
 
 type alias Progressive =
-    { big: Float
-    , medium: Float
-    , small: Float
+    { bigGap: Float
+    , mediumGap: Float
+    , smallGap: Float
     , viewportWidth : Float
     , designTeamWidthMediumFont : Float
     , percentageWidthToUse : Float    
+    , fontSize: FontSize
+    }
+
+type alias FontSize =
+    { big: Float
+    , medium: Float
+    , small: Float    
     }
 
 -- Pixel widths, with one character spare, measured using https://codepen.io/jasesmith/pen/eBeoNz
@@ -20,38 +25,66 @@ type alias Progressive =
 calculateProgressive : Float -> Progressive
 calculateProgressive viewportWidth =
     if viewportWidth <= 600 then
-        { big = 12
-        , medium = 5
-        , small = 3  
+        { bigGap = 12
+        , mediumGap = 5
+        , smallGap = 3  
         , viewportWidth = viewportWidth
         -- 14px font 
         , designTeamWidthMediumFont = 141  
         , percentageWidthToUse = 95
+        , fontSize = calculateFontSize viewportWidth
         }
     else if viewportWidth <= 1200 then
-        { big = 18
-        , medium = 8
-        , small = 5    
+        { bigGap = 18
+        , mediumGap = 8
+        , smallGap = 5    
         , viewportWidth = viewportWidth
         -- 19px font
         , designTeamWidthMediumFont = 191  
         , percentageWidthToUse = 80
+        , fontSize = calculateFontSize viewportWidth
         }
     else if viewportWidth <= 1800 then
-        { big = 24
-        , medium = 10
-        , small = 6    
+        { bigGap = 24
+        , mediumGap = 10
+        , smallGap = 6    
         , viewportWidth = viewportWidth
         -- 25px font
         , designTeamWidthMediumFont = 252  
         , percentageWidthToUse = 60
+        , fontSize = calculateFontSize viewportWidth
         }
     else 
-        { big = 30
-        , medium = 13
-        , small = 8    
+        { bigGap = 30
+        , mediumGap = 13
+        , smallGap = 8    
         , viewportWidth = viewportWidth
         -- 32px font
         , designTeamWidthMediumFont = 322 
         , percentageWidthToUse = 60
+        , fontSize = calculateFontSize viewportWidth
         }
+
+calculateFontSize: Float -> FontSize
+calculateFontSize width =
+    if width <= 600 then
+        { big = 24
+        , medium = 14
+        , small = 12    
+        }
+    else if width <= 1200 then
+        { big = 29
+        , medium = 19
+        , small = 15    
+        }
+    else if width <= 1800 then
+        { big = 34
+        , medium = 25
+        , small = 18    
+        }
+    else 
+        { big = 48
+        , medium = 32
+        , small = 24    
+        }
+

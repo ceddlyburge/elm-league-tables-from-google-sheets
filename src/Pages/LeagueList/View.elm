@@ -40,8 +40,8 @@ leagueTitle progressive league =
     el 
         LeagueListLeagueTitle 
         [ 
-            padding progressive.medium
-            , spacing progressive.small
+            padding progressive.mediumGap
+            , spacing progressive.smallGap
             , width (percent progressive.percentageWidthToUse)
             , class "data-test-league"
             , center
