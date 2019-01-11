@@ -9,7 +9,7 @@ import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueTable exposing (LeagueTable)
 import Models.Team exposing (..)
-import Pages.Gaps exposing (..)
+import Pages.Progressive exposing (..)
 import Pages.MaybeResponse exposing (..)
 import Pages.Page exposing (..)
 import Pages.HeaderBar exposing (..) 
@@ -17,8 +17,8 @@ import Pages.HeaderBarItem exposing (..)
 import Pages.ResponsiveColumn exposing (..)
 
 
-page : String -> WebData LeagueTable -> Device -> Page
-page leagueTitle response device =
+page : String -> WebData LeagueTable -> Progressive -> Page
+page leagueTitle response progressive =
     Page
         ( SingleHeader <| 
             HeaderBar 
@@ -26,31 +26,30 @@ page leagueTitle response device =
                 , ResultsFixturesHeaderButton <| IndividualSheetRequestForResultsFixtures leagueTitle ] 
                 (Maybe.withDefault "" (decodeUri leagueTitle))
                 [ RefreshHeaderButton <| IndividualSheetRequest leagueTitle ] )
-        ( maybeResponse response (leagueTableElement device) )
+        ( maybeResponse response (leagueTableElement progressive) )
 
 
-leagueTableElement : Device -> LeagueTable -> Element Styles Variations Msg
-leagueTableElement device leagueTable =
+leagueTableElement : Progressive -> LeagueTable -> Element Styles Variations Msg
+leagueTableElement progressive leagueTable =
     let
-        gaps = gapsForDevice device
         columns = respondedColumns 
-            device.width 
-            gaps.medium 
-            gaps.small  
-            (allColumns device)
+            progressive.viewportWidth 
+            progressive.mediumGap 
+            progressive.smallGap  
+            (allColumns progressive.viewportWidth)
     in
         column None [ class "data-test-teams" ]
         (
-            [ headerRow columns device gaps ]
+            [ headerRow columns progressive ]
             ++ 
-            (List.map (teamRow columns device gaps) leagueTable.teams)
+            (List.map (teamRow columns progressive) leagueTable.teams)
         )
 
-headerRow : List Column -> Device -> Gaps -> Element Styles Variations Msg
-headerRow tableColumns device gaps = 
+headerRow : List Column -> Progressive -> Element Styles Variations Msg
+headerRow tableColumns progressive = 
     row 
         LeagueTableHeaderRow 
-        [ padding gaps.medium, spacing gaps.small, center ] 
+        [ padding progressive.mediumGap, spacing progressive.smallGap, center ] 
         (List.map headerCell tableColumns)
 
 headerCell : Column -> Element Styles Variations Msg
@@ -60,11 +59,11 @@ headerCell column =
         [ width (px column.width), class column.cssClass ] 
         (text column.title)
 
-teamRow : List Column -> Device -> Gaps -> Team -> Element Styles Variations Msg
-teamRow tableColumns device gaps team = 
+teamRow : List Column -> Progressive -> Team -> Element Styles Variations Msg
+teamRow tableColumns progressive team = 
     row 
         LeagueTableTeamRow 
-        [ padding gaps.medium, spacing gaps.small, center, class "data-test-team" ] 
+        [ padding progressive.mediumGap, spacing progressive.smallGap, center, class "data-test-team" ] 
         (List.map (teamCell team) tableColumns)
 
 teamCell : Team -> Column -> Element Styles Variations Msg
@@ -75,9 +74,9 @@ teamCell team column=
         (text <| column.value team)
 
 -- Pixel widths, with one character spare, measured using https://codepen.io/jasesmith/pen/eBeoNz
-allColumns : Device -> List Column
-allColumns device =
-    if device.width <= 600 then
+allColumns : Float -> List Column
+allColumns viewportWidth =
+    if viewportWidth <= 600 then
         -- 12px font (font size is from LeagueStyleElements)
         [     position       el        ""     21  8
             , team           multiline "Team" 100 9
@@ -90,7 +89,7 @@ allColumns device =
             , goalDifference el        "GD"   21  5
             , points         el        "Pts"  26  7
         ]
-    else if device.width <= 1200 then
+    else if viewportWidth <= 1200 then
         -- 15px font (from LeagueStyleElements)
         [     position       el        ""                26  8
             , team           multiline "Team"            150 9
@@ -103,7 +102,7 @@ allColumns device =
             , goalDifference multiline "Goal Difference" 83  5
             , points         el        "Points"          53  7
         ]
-    else if device.width <= 1800 then
+    else if viewportWidth <= 1800 then
         -- 18px font (from LeagueStyleElements)
         [     position       el        ""                31  8
             , team           multiline "Team"            200 9

@@ -24,7 +24,7 @@ individualSheetResponse : Model -> WebData LeagueGames -> String -> ( Model, Cmd
 individualSheetResponse  model response leagueTitle =
     ( 
         { model | leagueTable = RemoteData.map calculateLeagueTable response }
-        , newUrl <| toUrl <| Route.LeagueTableRoute leagueTitle
+        , newUrl <| toUrl <| model.route
     )
 
 fetchLeagueGames : String -> Config -> Cmd Msg

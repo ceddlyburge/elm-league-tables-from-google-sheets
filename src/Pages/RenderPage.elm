@@ -11,51 +11,55 @@ import Msg exposing (..)
 import Pages.Page exposing (..)
 import Pages.HeaderBar exposing (..)
 import Pages.HeaderBarItem exposing (..)
-import Pages.Gaps exposing (..)
+import Pages.Progressive exposing (..)
 
-renderPage: Device -> Page -> Html Msg
-renderPage device page =
-    let
-        gaps = gapsForDevice device
-    in
-        body 
-            device
-            gaps  
-            [
-                renderHeaderBar gaps page.header
-                , page.body
-            ]
+renderPage: Progressive -> Page -> Html Msg
+renderPage progressive page =
+    body 
+        progressive  
+        [
+            renderHeaderBar progressive page.header
+            , page.body
+        ]
 
-renderHeaderBar: Gaps -> PageHeader -> Element.Element Styles variation Msg
-renderHeaderBar gaps pageHeader = 
+body: Progressive -> List (Element Styles variation msg) -> Html msg
+body progressive elements = 
+    Element.layout (stylesheet progressive.fontSize) <|         
+        column 
+            Body 
+            [ width (percent 100), spacing progressive.mediumGap, center ]
+            elements
+
+renderHeaderBar: Progressive -> PageHeader -> Element.Element Styles variation Msg
+renderHeaderBar progressive pageHeader = 
     case pageHeader of
         SingleHeader headerBar ->
-            renderMainHeaderBar gaps headerBar
+            renderMainHeaderBar progressive headerBar
         DoubleHeader headerBar subHeaderBar ->
-            renderMainAndSubHeaderBar gaps headerBar subHeaderBar
+            renderMainAndSubHeaderBar progressive headerBar subHeaderBar
 
-renderMainAndSubHeaderBar: Gaps -> HeaderBar -> SubHeaderBar -> Element.Element Styles variation Msg
-renderMainAndSubHeaderBar gaps headerBar subHeaderBar =
+renderMainAndSubHeaderBar: Progressive -> HeaderBar -> SubHeaderBar -> Element.Element Styles variation Msg
+renderMainAndSubHeaderBar progressive headerBar subHeaderBar =
     column 
         Title
         [ width (percent 100) ]
-        [ renderMainHeaderBar gaps headerBar
-          , renderSubHeaderBar gaps subHeaderBar ]
+        [ renderMainHeaderBar progressive headerBar
+          , renderSubHeaderBar progressive subHeaderBar ]
 
 
-renderMainHeaderBar: Gaps -> HeaderBar -> Element.Element Styles variation Msg
-renderMainHeaderBar gaps headerBar = 
+renderMainHeaderBar: Progressive -> HeaderBar -> Element.Element Styles variation Msg
+renderMainHeaderBar progressive headerBar = 
     heading
-        gaps
+        progressive
         (List.map renderHeaderBarItem headerBar.leftItems
             ++ [ title headerBar.title ]
             ++ List.map renderHeaderBarItem headerBar.rightItems)
 
-renderSubHeaderBar: Gaps -> SubHeaderBar -> Element.Element Styles variation Msg
-renderSubHeaderBar gaps subHeaderBar = 
+renderSubHeaderBar: Progressive -> SubHeaderBar -> Element.Element Styles variation Msg
+renderSubHeaderBar progressive subHeaderBar = 
     el 
         SubTitle 
-        [ width (percent 100), padding gaps.medium, verticalCenter ]
+        [ width (percent 100), padding progressive.mediumGap, verticalCenter ]
         (text subHeaderBar.title)
 
 renderHeaderBarItem: HeaderBarItem -> Element.Element Styles variation Msg
@@ -70,23 +74,15 @@ renderHeaderBarItem headerBarItem =
         BackHeaderButton msg ->
             el TitleButton [ onClick msg ] backIcon
 
-body: Device -> Gaps -> List (Element Styles variation msg) -> Html msg
-body device gaps elements = 
-    Element.layout (stylesheet device) <|         
-        column 
-            Body 
-            [ width (percent 100), spacing gaps.big, center ]
-            elements
-
-heading: Gaps -> List (Element Styles variation msg) -> Element.Element Styles variation msg
-heading gaps elements = 
+heading: Progressive -> List (Element Styles variation msg) -> Element.Element Styles variation msg
+heading progressive elements = 
     row 
         Title 
-        [ width (percent 100), padding gaps.big, verticalCenter, center ] 
+        [ width (percent 100), padding progressive.bigGap, verticalCenter, center ] 
         [
             row 
                 None 
-                [ center, spacing gaps.big, width (percent 100) ]
+                [ center, spacing progressive.bigGap, width (percent 100) ]
                 elements
         ]
 

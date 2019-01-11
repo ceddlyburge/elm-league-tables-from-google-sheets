@@ -5,25 +5,27 @@ import Element.Attributes exposing (..)
 import RemoteData exposing (WebData)
 import Http exposing (decodeUri)
 
-import Date.Format exposing (..)
-import Pages.Gaps exposing (..)
+import Date exposing (..)
+import Date.Extra exposing (..)
+import Pages.Progressive exposing (..)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
-import Models.LeagueGames exposing (LeagueGames)
+import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 import Models.Game exposing (Game)
+import Models.ResultsFixtures exposing (ResultsFixtures)
 import Pages.MaybeResponse exposing (..)
 import Pages.Page exposing (..)
 import Pages.HeaderBar exposing (..) 
 import Pages.HeaderBarItem exposing (..)
 
 
-page : String -> WebData LeagueGames -> Device -> Page
-page leagueTitle response device =
+page : String -> WebData ResultsFixtures -> Progressive -> Page
+page leagueTitle response progessive =
     Page
         ( DoubleHeader  
             (headerBar leagueTitle)
             (SubHeaderBar "Results / Fixtures"))
-        ( maybeResponse response (fixturesResultsElement device) )
+        ( maybeResponse response (fixturesResultsElement progessive) )
 
 headerBar: String -> HeaderBar
 headerBar leagueTitle = 
@@ -32,63 +34,120 @@ headerBar leagueTitle =
         (Maybe.withDefault "" (decodeUri leagueTitle))
         [ RefreshHeaderButton <| IndividualSheetRequestForResultsFixtures leagueTitle ]
 
-fixturesResultsElement : Device -> LeagueGames -> Element Styles variation Msg
-fixturesResultsElement device leagueGames =
-    let
-        gaps = gapsForDevice device
-    in
-        column 
-            None 
-            [ rowWidth device, class "data-test-games" ]
-            (List.map (gameRow device gaps) leagueGames.games)
+fixturesResultsElement : Progressive -> ResultsFixtures -> Element Styles variation Msg
+fixturesResultsElement progressive resultsFixtures =
+    column 
+        None 
+        [ class "data-test-dates"
+        , width <| percent 100
+        , center 
+        ]
+        (List.map (day progressive) resultsFixtures.days)
 
-gameRow : Device -> Gaps -> Game -> Element Styles variation Msg
-gameRow device gaps game =
-    -- do something about LeagueTableTeamRow
+day : Progressive -> LeagueGamesForDay -> Element Styles variation Msg
+day progressive leagueGamesForDay =
+    column 
+        None 
+        [ padding progressive.mediumGap
+        , spacing progressive.mediumGap
+        , dayWidth progressive
+        , class <| "data-test-day data-test-date-" ++ (dateClassNamePart leagueGamesForDay.date)
+        ]
+        [ dayHeader leagueGamesForDay.date
+        , dayResultsFixtures progressive leagueGamesForDay
+        ] 
+
+dayHeader : Maybe Date -> Element Styles variation Msg
+dayHeader maybeDate =
+    el 
+        ResultFixtureDayHeader 
+        [ class "data-test-dayHeader" ] 
+        (text <| dateDisplay maybeDate)
+
+dayResultsFixtures : Progressive -> LeagueGamesForDay -> Element Styles variation Msg
+dayResultsFixtures progressive leagueGamesForDay =
+    column 
+        None 
+        [ width <| percent 100
+        , spacing progressive.smallGap
+        ]
+        (List.map (gameRow progressive) leagueGamesForDay.games)
+
+gameRow : Progressive -> Game -> Element Styles variation Msg
+gameRow progressive game =
     row 
-        LeagueTableTeamRow 
-        [ padding gaps.medium, spacing gaps.small, center, class "data-test-game" ] 
+        ResultFixtureRow 
+        [ padding 0
+        , spacing progressive.mediumGap
+        , center
+        , class "data-test-game"
+        , width <| percent 100 ] 
         [ 
-            paragraph ResultFixtureHome [ alignRight, teamWidth device, class "data-test-homeTeamName" ] [text game.homeTeamName]
+            paragraph 
+                ResultFixtureHome 
+                [ alignRight, teamWidth progressive, class "data-test-homeTeamName" ] 
+                [ text game.homeTeamName ]
             , row 
                 None 
-                [ scoreSlashDateWidth device ] 
-                ( scoreSlashDate game )
-            , paragraph ResultFixtureAway [ alignLeft, teamWidth device, class "data-test-awayTeamName" ] [ text game.awayTeamName ]
+                [ ] 
+                ( scoreSlashTime game )
+            , paragraph 
+                ResultFixtureAway 
+                [ alignLeft, teamWidth progressive, class "data-test-awayTeamName" ] 
+                [ text game.awayTeamName ]
         ]
 
-scoreSlashDate : Game -> List (Element Styles variation Msg)
-scoreSlashDate game =
+scoreSlashTime : Game -> List (Element Styles variation Msg)
+scoreSlashTime game =
     case (game.homeTeamGoals, game.awayTeamGoals) of
         (Just homeTeamGoals, Just awayTeamGoals) ->
             [ 
-                el ResultFixtureHome [ alignRight, width (percent 35), class "data-test-homeTeamGoals" ] (text (toString homeTeamGoals) )
-                , el None [ width (percent 30)] empty
-                , el ResultFixtureAway [ alignLeft, width (percent 35), class "data-test-awayTeamGoals" ] (text (toString awayTeamGoals) )
+                el 
+                    ResultFixtureScore 
+                    [ alignRight, class "data-test-homeTeamGoals" ] 
+                    (text <| toString homeTeamGoals)
+                , el 
+                    ResultFixtureScore 
+                    [ ] 
+                    (text " - ")
+                , el 
+                    ResultFixtureScore 
+                    [ alignLeft, class "data-test-awayTeamGoals" ] 
+                    (text <| toString awayTeamGoals)
             ]
         (_, _) ->
             [ 
-                el ResultFixtureDate [ verticalCenter, width (percent 100) , class "data-test-datePlayed" ] (text <| Maybe.withDefault "" (Maybe.map formatDate game.datePlayed) )
+                el 
+                    ResultFixtureTime 
+                    [ verticalCenter, class "data-test-datePlayed" ] 
+                    (text <| timeDisplay game.datePlayed)
             ]
             
+dateClassNamePart: Maybe Date -> String
+dateClassNamePart maybeDate = 
+    maybeDate
+    |> Maybe.map (Date.Extra.toFormattedString "yyyy-MM-dd") 
+    |> Maybe.withDefault "unscheduled"
 
-rowWidth: Device -> Element.Attribute variation msg
-rowWidth device = 
-    if device.phone then
-        width (percent 95)
-    else
-        width (px 800)
+dateDisplay: Maybe Date -> String
+dateDisplay maybeDate = 
+    maybeDate
+    |> Maybe.map (Date.Extra.toFormattedString "MMMM d, yyyy") 
+    |> Maybe.withDefault "Unscheduled"
 
-teamWidth: Device -> Element.Attribute variation msg
-teamWidth device = 
-    if device.phone then
-        width (percent 35)
-    else
-        width (px 300)
+timeDisplay: Maybe Date -> String
+timeDisplay maybeDate = 
+    maybeDate
+    |> Maybe.map (Date.Extra.toFormattedString "HH:mm")
+    |> Maybe.withDefault " - "
 
-scoreSlashDateWidth: Device -> Element.Attribute variation msg
-scoreSlashDateWidth device = 
-    if device.phone then
-        width (percent 30)
-    else
-        width (px 200)
+dayWidth: Progressive -> Element.Attribute variation msg
+dayWidth progressive = 
+    if progressive.designTeamWidthMediumFont * 2.5 < progressive.viewportWidth * 0.8 then 
+        width <| percent 80
+    else 
+        width <| percent 100
+    
+teamWidth: Progressive -> Element.Attribute variation msg
+teamWidth progressive = 
+    width <| fillPortion 50
