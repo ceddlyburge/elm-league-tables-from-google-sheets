@@ -1,4 +1,4 @@
-module LeagueListView exposing (multipleLeagues)
+module LeagueListViewTest exposing (multipleLeagues)
 
 import RemoteData exposing (WebData)
 import Test exposing (..)

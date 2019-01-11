@@ -1,4 +1,4 @@
-module ResultsFixturesViewForUnplayedGameWithNoDate exposing (..)
+module ResultsFixturesViewForUnplayedGameWithNoDateTest  exposing (..)
 
 import Test exposing (..)
 import Test.Html.Query as Query

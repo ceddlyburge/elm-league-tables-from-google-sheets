@@ -1,4 +1,4 @@
-module LeagueListUpdate exposing (..)
+module LeagueListUpdateTest exposing (..)
 
 import Http exposing (..)
 import Test exposing (..)

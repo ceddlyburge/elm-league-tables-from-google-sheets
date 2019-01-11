@@ -1,4 +1,4 @@
-module ResultsFixturesUpdate exposing (..)
+module ResultsFixturesUpdateTest exposing (..)
 
 import Test exposing (..)
 import Expect

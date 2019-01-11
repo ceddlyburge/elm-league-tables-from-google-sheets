@@ -1,4 +1,4 @@
-module LeagueTableView exposing (..)
+module LeagueTableViewTest exposing (..)
 
 import Test exposing (..)
 import Test.Html.Query as Query
