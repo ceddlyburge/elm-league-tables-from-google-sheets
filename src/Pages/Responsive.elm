@@ -5,9 +5,9 @@ type alias Responsive =
     , mediumGap: Float
     , smallGap: Float
     , viewportWidth : Float
+    , fontSize: FontSize
     , designTeamWidthMediumFont : Float
     , percentageWidthToUse : Float    
-    , fontSize: FontSize
     }
 
 type alias FontSize =
@@ -29,63 +29,52 @@ calculateResponsive viewportWidth =
         , mediumGap = 5
         , smallGap = 3  
         , viewportWidth = viewportWidth
-        -- 14px font 
-        , designTeamWidthMediumFont = 141  
         , percentageWidthToUse = 95
-        , fontSize = calculateFontSize viewportWidth
+        , fontSize = 
+            { big = 24
+            , medium = 14
+            , small = 12    
+            }
+        , designTeamWidthMediumFont = 141  
         }
     else if viewportWidth <= 1200 then
         { bigGap = 18
         , mediumGap = 8
         , smallGap = 5    
         , viewportWidth = viewportWidth
-        -- 19px font
+        , fontSize = 
+            { big = 29
+            , medium = 19
+            , small = 15    
+            }
         , designTeamWidthMediumFont = 191  
         , percentageWidthToUse = 80
-        , fontSize = calculateFontSize viewportWidth
         }
     else if viewportWidth <= 1800 then
         { bigGap = 24
         , mediumGap = 10
         , smallGap = 6    
         , viewportWidth = viewportWidth
-        -- 25px font
+        , fontSize = 
+            { big = 34
+            , medium = 25
+            , small = 18    
+            }
         , designTeamWidthMediumFont = 252  
         , percentageWidthToUse = 60
-        , fontSize = calculateFontSize viewportWidth
         }
     else 
         { bigGap = 30
         , mediumGap = 13
         , smallGap = 8    
         , viewportWidth = viewportWidth
-        -- 32px font
+        , fontSize = 
+            { big = 48
+            , medium = 32
+            , small = 24    
+            }
         , designTeamWidthMediumFont = 322 
         , percentageWidthToUse = 60
-        , fontSize = calculateFontSize viewportWidth
-        }
-
-calculateFontSize: Float -> FontSize
-calculateFontSize width =
-    if width <= 600 then
-        { big = 24
-        , medium = 14
-        , small = 12    
-        }
-    else if width <= 1200 then
-        { big = 29
-        , medium = 19
-        , small = 15    
-        }
-    else if width <= 1800 then
-        { big = 34
-        , medium = 25
-        , small = 18    
-        }
-    else 
-        { big = 48
-        , medium = 32
-        , small = 24    
         }
 
 vanillaResponsive : Responsive
