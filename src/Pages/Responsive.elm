@@ -1,6 +1,6 @@
-module Pages.Progressive exposing (Progressive, FontSize, calculateProgressive, vanillaProgressive)
+module Pages.Responsive exposing (Responsive, FontSize, calculateResponsive, vanillaResponsive)
 
-type alias Progressive =
+type alias Responsive =
     { bigGap: Float
     , mediumGap: Float
     , smallGap: Float
@@ -22,8 +22,8 @@ type alias FontSize =
 -- longer than this can wrap or display an ellipsis. If pages need to wrap at shorter widths then
 -- that is ok too, it is a guide, not a rule
 
-calculateProgressive : Float -> Progressive
-calculateProgressive viewportWidth =
+calculateResponsive : Float -> Responsive
+calculateResponsive viewportWidth =
     if viewportWidth <= 600 then
         { bigGap = 12
         , mediumGap = 5
@@ -88,6 +88,6 @@ calculateFontSize width =
         , small = 24    
         }
 
-vanillaProgressive : Progressive
-vanillaProgressive =
-    calculateProgressive 1024.0 
+vanillaResponsive : Responsive
+vanillaResponsive =
+    calculateResponsive 1024.0 

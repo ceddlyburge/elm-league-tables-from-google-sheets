@@ -7,7 +7,7 @@ import Http exposing (decodeUri)
 
 import Date exposing (..)
 import Date.Extra exposing (..)
-import Pages.Progressive exposing (..)
+import Pages.Responsive exposing (..)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
@@ -19,7 +19,7 @@ import Pages.HeaderBar exposing (..)
 import Pages.HeaderBarItem exposing (..)
 
 
-page : String -> WebData ResultsFixtures -> Progressive -> Page
+page : String -> WebData ResultsFixtures -> Responsive -> Page
 page leagueTitle response progessive =
     Page
         ( DoubleHeader  
@@ -34,27 +34,27 @@ headerBar leagueTitle =
         (Maybe.withDefault "" (decodeUri leagueTitle))
         [ RefreshHeaderButton <| IndividualSheetRequestForResultsFixtures leagueTitle ]
 
-fixturesResultsElement : Progressive -> ResultsFixtures -> Element Styles variation Msg
-fixturesResultsElement progressive resultsFixtures =
+fixturesResultsElement : Responsive -> ResultsFixtures -> Element Styles variation Msg
+fixturesResultsElement responsive resultsFixtures =
     column 
         None 
         [ class "data-test-dates"
         , width <| percent 100
         , center 
         ]
-        (List.map (day progressive) resultsFixtures.days)
+        (List.map (day responsive) resultsFixtures.days)
 
-day : Progressive -> LeagueGamesForDay -> Element Styles variation Msg
-day progressive leagueGamesForDay =
+day : Responsive -> LeagueGamesForDay -> Element Styles variation Msg
+day responsive leagueGamesForDay =
     column 
         None 
-        [ padding progressive.mediumGap
-        , spacing progressive.mediumGap
-        , dayWidth progressive
+        [ padding responsive.mediumGap
+        , spacing responsive.mediumGap
+        , dayWidth responsive
         , class <| "data-test-day data-test-date-" ++ (dateClassNamePart leagueGamesForDay.date)
         ]
         [ dayHeader leagueGamesForDay.date
-        , dayResultsFixtures progressive leagueGamesForDay
+        , dayResultsFixtures responsive leagueGamesForDay
         ] 
 
 dayHeader : Maybe Date -> Element Styles variation Msg
@@ -64,28 +64,28 @@ dayHeader maybeDate =
         [ class "data-test-dayHeader" ] 
         (text <| dateDisplay maybeDate)
 
-dayResultsFixtures : Progressive -> LeagueGamesForDay -> Element Styles variation Msg
-dayResultsFixtures progressive leagueGamesForDay =
+dayResultsFixtures : Responsive -> LeagueGamesForDay -> Element Styles variation Msg
+dayResultsFixtures responsive leagueGamesForDay =
     column 
         None 
         [ width <| percent 100
-        , spacing progressive.smallGap
+        , spacing responsive.smallGap
         ]
-        (List.map (gameRow progressive) leagueGamesForDay.games)
+        (List.map (gameRow responsive) leagueGamesForDay.games)
 
-gameRow : Progressive -> Game -> Element Styles variation Msg
-gameRow progressive game =
+gameRow : Responsive -> Game -> Element Styles variation Msg
+gameRow responsive game =
     row 
         ResultFixtureRow 
         [ padding 0
-        , spacing progressive.mediumGap
+        , spacing responsive.mediumGap
         , center
         , class "data-test-game"
         , width <| percent 100 ] 
         [ 
             paragraph 
                 ResultFixtureHome 
-                [ alignRight, teamWidth progressive, class "data-test-homeTeamName" ] 
+                [ alignRight, teamWidth responsive, class "data-test-homeTeamName" ] 
                 [ text game.homeTeamName ]
             , row 
                 None 
@@ -93,7 +93,7 @@ gameRow progressive game =
                 ( scoreSlashTime game )
             , paragraph 
                 ResultFixtureAway 
-                [ alignLeft, teamWidth progressive, class "data-test-awayTeamName" ] 
+                [ alignLeft, teamWidth responsive, class "data-test-awayTeamName" ] 
                 [ text game.awayTeamName ]
         ]
 
@@ -141,13 +141,13 @@ timeDisplay maybeDate =
     |> Maybe.map (Date.Extra.toFormattedString "HH:mm")
     |> Maybe.withDefault " - "
 
-dayWidth: Progressive -> Element.Attribute variation msg
-dayWidth progressive = 
-    if progressive.designTeamWidthMediumFont * 2.5 < progressive.viewportWidth * 0.8 then 
+dayWidth: Responsive -> Element.Attribute variation msg
+dayWidth responsive = 
+    if responsive.designTeamWidthMediumFont * 2.5 < responsive.viewportWidth * 0.8 then 
         width <| percent 80
     else 
         width <| percent 100
     
-teamWidth: Progressive -> Element.Attribute variation msg
-teamWidth progressive = 
+teamWidth: Responsive -> Element.Attribute variation msg
+teamWidth responsive = 
     width <| fillPortion 50

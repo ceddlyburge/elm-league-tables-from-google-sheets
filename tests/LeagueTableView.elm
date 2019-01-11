@@ -10,7 +10,7 @@ import Pages.RenderPage exposing (..)
 import Models.Team exposing (Team)
 import Models.LeagueTable exposing (LeagueTable)
 import Msg exposing (..)
-import Pages.Progressive exposing (..)
+import Pages.Responsive exposing (..)
 
 oneTeam : Test
 oneTeam =
@@ -80,6 +80,6 @@ teamElement  =
 html : Query.Single Msg.Msg
 html  =
     renderPage 
-        vanillaProgressive
-        (page "" (RemoteData.Success (LeagueTable "" [ Team 1 "Castle" 1 1 0 0 3 6 4 2 ]))  vanillaProgressive)
+        vanillaResponsive
+        (page "" (RemoteData.Success (LeagueTable "" [ Team 1 "Castle" 1 1 0 0 3 6 4 2 ]))  vanillaResponsive)
     |> Query.fromHtml

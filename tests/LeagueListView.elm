@@ -9,7 +9,7 @@ import Fuzz exposing (list, string)
 import Pages.LeagueList.View exposing (..)
 import Pages.RenderPage exposing (..)
 import Models.LeagueSummary exposing (LeagueSummary)
-import Pages.Progressive exposing (..)
+import Pages.Responsive exposing (..)
 
 
 multipleLeagues : Test
@@ -17,8 +17,8 @@ multipleLeagues =
     fuzz (list string) "Displays multiple leagues correctly" <|
         \leagueTitles ->
                 renderPage 
-                    vanillaProgressive
-                    (page (leagueListResponse leagueTitles) vanillaProgressive)
+                    vanillaResponsive
+                    (page (leagueListResponse leagueTitles) vanillaResponsive)
                 |> Query.fromHtml
                 |> Query.has (List.map text leagueTitles)
 

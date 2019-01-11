@@ -11,55 +11,55 @@ import Msg exposing (..)
 import Pages.Page exposing (..)
 import Pages.HeaderBar exposing (..)
 import Pages.HeaderBarItem exposing (..)
-import Pages.Progressive exposing (..)
+import Pages.Responsive exposing (..)
 
-renderPage: Progressive -> Page -> Html Msg
-renderPage progressive page =
+renderPage: Responsive -> Page -> Html Msg
+renderPage responsive page =
     body 
-        progressive  
+        responsive  
         [
-            renderHeaderBar progressive page.header
+            renderHeaderBar responsive page.header
             , page.body
         ]
 
-body: Progressive -> List (Element Styles variation msg) -> Html msg
-body progressive elements = 
-    Element.layout (stylesheet progressive.fontSize) <|         
+body: Responsive -> List (Element Styles variation msg) -> Html msg
+body responsive elements = 
+    Element.layout (stylesheet responsive.fontSize) <|         
         column 
             Body 
-            [ width (percent 100), spacing progressive.mediumGap, center ]
+            [ width (percent 100), spacing responsive.mediumGap, center ]
             elements
 
-renderHeaderBar: Progressive -> PageHeader -> Element.Element Styles variation Msg
-renderHeaderBar progressive pageHeader = 
+renderHeaderBar: Responsive -> PageHeader -> Element.Element Styles variation Msg
+renderHeaderBar responsive pageHeader = 
     case pageHeader of
         SingleHeader headerBar ->
-            renderMainHeaderBar progressive headerBar
+            renderMainHeaderBar responsive headerBar
         DoubleHeader headerBar subHeaderBar ->
-            renderMainAndSubHeaderBar progressive headerBar subHeaderBar
+            renderMainAndSubHeaderBar responsive headerBar subHeaderBar
 
-renderMainAndSubHeaderBar: Progressive -> HeaderBar -> SubHeaderBar -> Element.Element Styles variation Msg
-renderMainAndSubHeaderBar progressive headerBar subHeaderBar =
+renderMainAndSubHeaderBar: Responsive -> HeaderBar -> SubHeaderBar -> Element.Element Styles variation Msg
+renderMainAndSubHeaderBar responsive headerBar subHeaderBar =
     column 
         Title
         [ width (percent 100) ]
-        [ renderMainHeaderBar progressive headerBar
-          , renderSubHeaderBar progressive subHeaderBar ]
+        [ renderMainHeaderBar responsive headerBar
+          , renderSubHeaderBar responsive subHeaderBar ]
 
 
-renderMainHeaderBar: Progressive -> HeaderBar -> Element.Element Styles variation Msg
-renderMainHeaderBar progressive headerBar = 
+renderMainHeaderBar: Responsive -> HeaderBar -> Element.Element Styles variation Msg
+renderMainHeaderBar responsive headerBar = 
     heading
-        progressive
+        responsive
         (List.map renderHeaderBarItem headerBar.leftItems
             ++ [ title headerBar.title ]
             ++ List.map renderHeaderBarItem headerBar.rightItems)
 
-renderSubHeaderBar: Progressive -> SubHeaderBar -> Element.Element Styles variation Msg
-renderSubHeaderBar progressive subHeaderBar = 
+renderSubHeaderBar: Responsive -> SubHeaderBar -> Element.Element Styles variation Msg
+renderSubHeaderBar responsive subHeaderBar = 
     el 
         SubTitle 
-        [ width (percent 100), padding progressive.mediumGap, verticalCenter ]
+        [ width (percent 100), padding responsive.mediumGap, verticalCenter ]
         (text subHeaderBar.title)
 
 renderHeaderBarItem: HeaderBarItem -> Element.Element Styles variation Msg
@@ -74,15 +74,15 @@ renderHeaderBarItem headerBarItem =
         BackHeaderButton msg ->
             el TitleButton [ onClick msg ] backIcon
 
-heading: Progressive -> List (Element Styles variation msg) -> Element.Element Styles variation msg
-heading progressive elements = 
+heading: Responsive -> List (Element Styles variation msg) -> Element.Element Styles variation msg
+heading responsive elements = 
     row 
         Title 
-        [ width (percent 100), padding progressive.bigGap, verticalCenter, center ] 
+        [ width (percent 100), padding responsive.bigGap, verticalCenter, center ] 
         [
             row 
                 None 
-                [ center, spacing progressive.bigGap, width (percent 100) ]
+                [ center, spacing responsive.bigGap, width (percent 100) ]
                 elements
         ]
 
