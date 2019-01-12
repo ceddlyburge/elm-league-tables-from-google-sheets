@@ -1,11 +1,17 @@
 module Pages.Responsive exposing (Responsive, FontSize, calculateResponsive, vanillaResponsive)
 
+-- Pixel widths, with one character spare, measured using https://codepen.io/jasesmith/pen/eBeoNz
 type alias Responsive =
     { bigGap: Float
     , mediumGap: Float
     , smallGap: Float
+    , viewportWidth : Float
     , pageWidth : Float
     , fontSize: FontSize
+    -- designTeamWidths are the width that a team should ideally be able to be displayed on one line,
+    -- "Blackwater_Bandits" is used as the text for this theoretical long team name. Team names 
+    -- longer than this can wrap or display an ellipsis. If pages need to wrap at shorter widths then
+    -- that is ok too, it is a guide, not a rule
     , designTeamWidthMediumFont : Float
     -- if the content is essentiallyl portrait, try and extend out to this percentage width
     , designPortraitPercentageWidth : Float    
@@ -17,18 +23,13 @@ type alias FontSize =
     , small: Float    
     }
 
--- Pixel widths, with one character spare, measured using https://codepen.io/jasesmith/pen/eBeoNz
--- designTeamWidths are the width that a team should ideally be able to be displayed on one line,
--- "Blackwater_Bandits" is used as the text for this theoretical long team name. Team names 
--- longer than this can wrap or display an ellipsis. If pages need to wrap at shorter widths then
--- that is ok too, it is a guide, not a rule
-
 calculateResponsive : Float -> Responsive
 calculateResponsive viewportWidth =
     if viewportWidth <= 600 then
         { bigGap = 12
         , mediumGap = 5
         , smallGap = 3  
+        , viewportWidth = viewportWidth
         , pageWidth = calculatePageWidth viewportWidth
         , fontSize = 
             { big = 24
@@ -42,6 +43,7 @@ calculateResponsive viewportWidth =
         { bigGap = 18
         , mediumGap = 8
         , smallGap = 5    
+        , viewportWidth = viewportWidth
         , pageWidth = calculatePageWidth viewportWidth
         , fontSize = 
             { big = 29
@@ -55,6 +57,7 @@ calculateResponsive viewportWidth =
         { bigGap = 24
         , mediumGap = 10
         , smallGap = 6    
+        , viewportWidth = viewportWidth
         , pageWidth = calculatePageWidth viewportWidth
         , fontSize = 
             { big = 34
@@ -68,6 +71,7 @@ calculateResponsive viewportWidth =
         { bigGap = 30
         , mediumGap = 13
         , smallGap = 8    
+        , viewportWidth = viewportWidth
         , pageWidth = calculatePageWidth viewportWidth
         , fontSize = 
             { big = 48

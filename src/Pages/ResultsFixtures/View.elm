@@ -25,13 +25,13 @@ page leagueTitle response progessive =
         ( DoubleHeader  
             (headerBar leagueTitle)
             (SubHeaderBar "Results / Fixtures"))
-        ( maybeResponse response (fixturesResultsElement progessive) )
+        ( maybeResponse response <| fixturesResultsElement progessive )
 
 headerBar: String -> HeaderBar
 headerBar leagueTitle = 
     HeaderBar 
         [ BackHeaderButton <| IndividualSheetRequest leagueTitle ] 
-        (Maybe.withDefault "" (decodeUri leagueTitle))
+        (Maybe.withDefault "" <| decodeUri leagueTitle)
         [ RefreshHeaderButton <| IndividualSheetRequestForResultsFixtures leagueTitle ]
 
 fixturesResultsElement : Responsive -> ResultsFixtures -> Element Styles variation Msg

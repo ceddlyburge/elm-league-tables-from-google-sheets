@@ -27,12 +27,24 @@ body responsive elements =
     Element.layout (stylesheet responsive.fontSize) <|         
         column 
             Body 
-            [ width <| px responsive.pageWidth
+            [ width <| bodyWidth responsive
             , spacingXY 0 responsive.mediumGap
             , center 
             , Element.Attributes.class "data-class-body"
             ]
             elements
+
+-- 100% normally works better, as it takes into account a vertical scroll bar if there is one. 
+-- If you just set a pixel width, it will be wider than the available width if there is a 
+-- vertical scroll bar, and then yout get an annoying horizontal scroll bar as well.
+-- If 100% is too small, then we can just use a percent value, as there is going to be a 
+-- horizontal scroll bar anyway
+bodyWidth : Responsive -> Length
+bodyWidth responsive = 
+    if responsive.pageWidth > responsive.viewportWidth then
+        px responsive.pageWidth
+    else
+        percent 100
 
 renderHeaderBar: Responsive -> PageHeader -> Element.Element Styles variation Msg
 renderHeaderBar responsive pageHeader = 
