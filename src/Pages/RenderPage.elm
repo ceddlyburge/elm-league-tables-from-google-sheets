@@ -27,7 +27,11 @@ body responsive elements =
     Element.layout (stylesheet responsive.fontSize) <|         
         column 
             Body 
-            [ width (percent 100), spacing responsive.mediumGap, center ]
+            [ width <| px responsive.pageWidth
+            , spacingXY 0 responsive.mediumGap
+            , center 
+            , Element.Attributes.class "data-class-body"
+            ]
             elements
 
 renderHeaderBar: Responsive -> PageHeader -> Element.Element Styles variation Msg
@@ -42,7 +46,7 @@ renderMainAndSubHeaderBar: Responsive -> HeaderBar -> SubHeaderBar -> Element.El
 renderMainAndSubHeaderBar responsive headerBar subHeaderBar =
     column 
         Title
-        [ width (percent 100) ]
+        [ width <| percent 100 ]
         [ renderMainHeaderBar responsive headerBar
           , renderSubHeaderBar responsive subHeaderBar ]
 
@@ -59,7 +63,9 @@ renderSubHeaderBar: Responsive -> SubHeaderBar -> Element.Element Styles variati
 renderSubHeaderBar responsive subHeaderBar = 
     el 
         SubTitle 
-        [ width (percent 100), padding responsive.mediumGap, verticalCenter ]
+        [ width <| percent 100
+        , padding responsive.mediumGap
+        , verticalCenter ]
         (text subHeaderBar.title)
 
 renderHeaderBarItem: HeaderBarItem -> Element.Element Styles variation Msg
@@ -78,13 +84,14 @@ heading: Responsive -> List (Element Styles variation msg) -> Element.Element St
 heading responsive elements = 
     row 
         Title 
-        [ width (percent 100), padding responsive.bigGap, verticalCenter, center ] 
-        [
-            row 
-                None 
-                [ center, spacing responsive.bigGap, width (percent 100) ]
-                elements
-        ]
+        [ width <| percent 100
+        , padding responsive.bigGap
+        , spacing responsive.bigGap
+        , verticalCenter
+        , center
+        , Element.Attributes.class "data-class-heading"
+        ] 
+        elements
 
 title: String -> Element.Element Styles variation msg
 title titleText = 

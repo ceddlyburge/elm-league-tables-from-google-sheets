@@ -42,7 +42,7 @@ leagueTitle responsive league =
         [ 
             padding responsive.mediumGap
             , spacing responsive.smallGap
-            , width (percent responsive.percentageWidthToUse)
+            , width <| percent responsive.designPortraitPercentageWidth
             , class "data-test-league"
             , center
             , onClick <| IndividualSheetRequest league.title

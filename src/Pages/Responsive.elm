@@ -4,10 +4,11 @@ type alias Responsive =
     { bigGap: Float
     , mediumGap: Float
     , smallGap: Float
-    , viewportWidth : Float
+    , pageWidth : Float
     , fontSize: FontSize
     , designTeamWidthMediumFont : Float
-    , percentageWidthToUse : Float    
+    -- if the content is essentiallyl portrait, try and extend out to this percentage width
+    , designPortraitPercentageWidth : Float    
     }
 
 type alias FontSize =
@@ -28,54 +29,61 @@ calculateResponsive viewportWidth =
         { bigGap = 12
         , mediumGap = 5
         , smallGap = 3  
-        , viewportWidth = viewportWidth
-        , percentageWidthToUse = 95
+        , pageWidth = calculatePageWidth viewportWidth
         , fontSize = 
             { big = 24
             , medium = 14
             , small = 12    
             }
         , designTeamWidthMediumFont = 141  
+        , designPortraitPercentageWidth = 95
         }
     else if viewportWidth <= 1200 then
         { bigGap = 18
         , mediumGap = 8
         , smallGap = 5    
-        , viewportWidth = viewportWidth
+        , pageWidth = calculatePageWidth viewportWidth
         , fontSize = 
             { big = 29
             , medium = 19
             , small = 15    
             }
         , designTeamWidthMediumFont = 191  
-        , percentageWidthToUse = 80
+        , designPortraitPercentageWidth = 60
         }
     else if viewportWidth <= 1800 then
         { bigGap = 24
         , mediumGap = 10
         , smallGap = 6    
-        , viewportWidth = viewportWidth
+        , pageWidth = calculatePageWidth viewportWidth
         , fontSize = 
             { big = 34
             , medium = 25
             , small = 18    
             }
         , designTeamWidthMediumFont = 252  
-        , percentageWidthToUse = 60
+        , designPortraitPercentageWidth = 60
         }
     else 
         { bigGap = 30
         , mediumGap = 13
         , smallGap = 8    
-        , viewportWidth = viewportWidth
+        , pageWidth = calculatePageWidth viewportWidth
         , fontSize = 
             { big = 48
             , medium = 32
             , small = 24    
             }
         , designTeamWidthMediumFont = 322 
-        , percentageWidthToUse = 60
+        , designPortraitPercentageWidth = 60
         }
+
+calculatePageWidth : Float -> Float
+calculatePageWidth viewportWidth =
+    if viewportWidth < 200 then
+        200
+    else
+        viewportWidth
 
 vanillaResponsive : Responsive
 vanillaResponsive =

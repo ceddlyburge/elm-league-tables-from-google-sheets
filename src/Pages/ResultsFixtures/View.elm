@@ -143,7 +143,7 @@ timeDisplay maybeDate =
 
 dayWidth: Responsive -> Element.Attribute variation msg
 dayWidth responsive = 
-    if responsive.designTeamWidthMediumFont * 2.5 < responsive.viewportWidth * 0.8 then 
+    if responsive.designTeamWidthMediumFont * 2.5 < responsive.pageWidth * 0.8 then 
         width <| percent 80
     else 
         width <| percent 100

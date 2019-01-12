@@ -33,10 +33,10 @@ leagueTableElement : Responsive -> LeagueTable -> Element Styles Variations Msg
 leagueTableElement responsive leagueTable =
     let
         columns = respondedColumns 
-            responsive.viewportWidth 
+            responsive.pageWidth 
             responsive.mediumGap 
             responsive.smallGap  
-            (allColumns responsive.viewportWidth)
+            (allColumns responsive.pageWidth)
     in
         column None [ class "data-test-teams" ]
         (
