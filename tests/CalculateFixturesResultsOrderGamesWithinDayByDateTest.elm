@@ -1,4 +1,4 @@
-module CalculateFixturesResultsOrderGamesWithinDayByDate exposing (..)
+module CalculateFixturesResultsOrderGamesWithinDayByDateTest exposing (..)
 
 import Date exposing (..)
 import Date.Extra exposing (..)

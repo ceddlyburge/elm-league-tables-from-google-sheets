@@ -5,7 +5,7 @@ import Style exposing (..)
 import Style.Border as Border
 import Style.Color as Color
 import Style.Font as Font
-import Pages.Progressive exposing (FontSize)
+import Pages.Responsive exposing (FontSize)
 
 -- I didn't really want to use this, but I couldn't get a type definition to work without it
 -- I should have documented which one this was, so I can do further investigation, or to 

@@ -1,4 +1,4 @@
-module ResultsFixturesViewForPlayedGame exposing (..)
+module ResultsFixturesViewForPlayedGameTest exposing (..)
 
 import Test exposing (..)
 import Test.Html.Query as Query

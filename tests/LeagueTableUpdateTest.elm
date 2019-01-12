@@ -1,4 +1,4 @@
-module LeagueTableUpdate exposing (..)
+module LeagueTableUpdateTest exposing (..)
 
 import Test exposing (..)
 import Expect

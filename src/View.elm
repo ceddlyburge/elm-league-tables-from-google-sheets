@@ -10,27 +10,27 @@ import Pages.LeagueTable.View exposing (..)
 import Pages.ResultsFixtures.View exposing (..)
 import Pages.Page exposing (..)
 import Pages.RenderPage exposing (..)
-import Pages.Progressive exposing (..)
+import Pages.Responsive exposing (..)
 
 
 view : Model -> Html Msg
 view model =
     let
-        progressive = calculateProgressive <| toFloat model.device.width
+        responsive = calculateResponsive <| toFloat model.device.width
     in
-        renderPage progressive <| page model progressive
+        renderPage responsive <| page model responsive
 
-page : Model -> Progressive -> Page
-page model progressive =
+page : Model -> Responsive -> Page
+page model responsive =
     case model.route of
         Route.LeagueListRoute ->
-            Pages.LeagueList.View.page model.leagues progressive
+            Pages.LeagueList.View.page model.leagues responsive
         Route.LeagueTableRoute leagueTitle ->
-            Pages.LeagueTable.View.page leagueTitle model.leagueTable progressive
+            Pages.LeagueTable.View.page leagueTitle model.leagueTable responsive
         Route.ResultsFixturesRoute leagueTitle ->
-            Pages.ResultsFixtures.View.page leagueTitle model.resultsFixtures progressive
+            Pages.ResultsFixtures.View.page leagueTitle model.resultsFixtures responsive
         Route.NotFoundRoute ->
-            Pages.LeagueList.View.page model.leagues progressive -- return 404 later
+            Pages.LeagueList.View.page model.leagues responsive -- return 404 later
 
 -- notFoundView : Html msg
 -- notFoundView =

@@ -9,7 +9,7 @@ import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueTable exposing (LeagueTable)
 import Models.Team exposing (..)
-import Pages.Progressive exposing (..)
+import Pages.Responsive exposing (..)
 import Pages.MaybeResponse exposing (..)
 import Pages.Page exposing (..)
 import Pages.HeaderBar exposing (..) 
@@ -17,8 +17,8 @@ import Pages.HeaderBarItem exposing (..)
 import Pages.ResponsiveColumn exposing (..)
 
 
-page : String -> WebData LeagueTable -> Progressive -> Page
-page leagueTitle response progressive =
+page : String -> WebData LeagueTable -> Responsive -> Page
+page leagueTitle response responsive =
     Page
         ( SingleHeader <| 
             HeaderBar 
@@ -26,30 +26,30 @@ page leagueTitle response progressive =
                 , ResultsFixturesHeaderButton <| IndividualSheetRequestForResultsFixtures leagueTitle ] 
                 (Maybe.withDefault "" (decodeUri leagueTitle))
                 [ RefreshHeaderButton <| IndividualSheetRequest leagueTitle ] )
-        ( maybeResponse response (leagueTableElement progressive) )
+        ( maybeResponse response (leagueTableElement responsive) )
 
 
-leagueTableElement : Progressive -> LeagueTable -> Element Styles Variations Msg
-leagueTableElement progressive leagueTable =
+leagueTableElement : Responsive -> LeagueTable -> Element Styles Variations Msg
+leagueTableElement responsive leagueTable =
     let
         columns = respondedColumns 
-            progressive.viewportWidth 
-            progressive.mediumGap 
-            progressive.smallGap  
-            (allColumns progressive.viewportWidth)
+            responsive.pageWidth 
+            responsive.mediumGap 
+            responsive.smallGap  
+            (allColumns responsive.pageWidth)
     in
         column None [ class "data-test-teams" ]
         (
-            [ headerRow columns progressive ]
+            [ headerRow columns responsive ]
             ++ 
-            (List.map (teamRow columns progressive) leagueTable.teams)
+            (List.map (teamRow columns responsive) leagueTable.teams)
         )
 
-headerRow : List Column -> Progressive -> Element Styles Variations Msg
-headerRow tableColumns progressive = 
+headerRow : List Column -> Responsive -> Element Styles Variations Msg
+headerRow tableColumns responsive = 
     row 
         LeagueTableHeaderRow 
-        [ padding progressive.mediumGap, spacing progressive.smallGap, center ] 
+        [ padding responsive.mediumGap, spacing responsive.smallGap, center ] 
         (List.map headerCell tableColumns)
 
 headerCell : Column -> Element Styles Variations Msg
@@ -59,11 +59,11 @@ headerCell column =
         [ width (px column.width), class column.cssClass ] 
         (text column.title)
 
-teamRow : List Column -> Progressive -> Team -> Element Styles Variations Msg
-teamRow tableColumns progressive team = 
+teamRow : List Column -> Responsive -> Team -> Element Styles Variations Msg
+teamRow tableColumns responsive team = 
     row 
         LeagueTableTeamRow 
-        [ padding progressive.mediumGap, spacing progressive.smallGap, center, class "data-test-team" ] 
+        [ padding responsive.mediumGap, spacing responsive.smallGap, center, class "data-test-team" ] 
         (List.map (teamCell team) tableColumns)
 
 teamCell : Team -> Column -> Element Styles Variations Msg
