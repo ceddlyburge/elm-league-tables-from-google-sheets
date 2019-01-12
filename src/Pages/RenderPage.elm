@@ -95,7 +95,7 @@ heading responsive elements =
 
 title: String -> Element.Element Styles variation msg
 title titleText = 
-    el Title [ width fill ] (text titleText)
+    paragraph Title [ width fill ] [text titleText]
 
 
 backIcon : Element style variation msg
