@@ -13,6 +13,7 @@ decodeSheetToGames : Decoder (List Game)
 decodeSheetToGames =
     decodeSheetToMaybeGames
     |> Json.Decode.map (List.filterMap identity)
+    |> Json.Decode.map (List.filter validTeamNames)
 
 decodeSheetToMaybeGames : Decoder (List (Maybe Game))
 decodeSheetToMaybeGames =
@@ -30,9 +31,9 @@ decodeRowToGame row =
                 (
                     succeed 
                         Game
-                        |> andMap (index 0 string)
+                        |> andMap (Json.Decode.map String.trim (index 0 string))
                         |> andMap (index 1 (maybe parseInt))
-                        |> andMap (index 3 string) -- this is on purpose
+                        |> andMap (Json.Decode.map String.trim (index 3 string)) -- index 3 is on purpose
                         |> andMap (index 2 (maybe parseInt))
                         |> andMap (withDefault Nothing (index 4 (maybe date)))
                         |> andMap (withDefault "" (index 5 string))
@@ -42,3 +43,7 @@ decodeRowToGame row =
                         |> andMap (withDefault "" (index 9 string))
                         |> Json.Decode.map Just
                 )
+
+validTeamNames : Game -> Bool
+validTeamNames game =
+    game.homeTeamName /= "" && game.awayTeamName /= ""

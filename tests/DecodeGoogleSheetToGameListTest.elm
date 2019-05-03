@@ -25,7 +25,7 @@ decodeJustEnoughColumnsSpreadsheetIdResponse =
         \() ->
             justEnoughColumnsSpreadsheetValuesResponse 
                 |> decodeString (decodeSheetToLeagueGames "Regional Div 1")
-                |> Expect.equal (Ok (LeagueGames "Regional Div 1" [Game "" Nothing "" Nothing Nothing "" "" "" "" "" ]))
+                |> Expect.equal (Ok (LeagueGames "Regional Div 1" [Game "Castle" Nothing "Meridian" Nothing Nothing "" "" "" "" "" ]))
 
 decodeNotEnoughColumnsSpreadsheetIdResponse : Test
 decodeNotEnoughColumnsSpreadsheetIdResponse =
@@ -36,6 +36,13 @@ decodeNotEnoughColumnsSpreadsheetIdResponse =
                 |> isError
                 |> Expect.equal False 
 
+decodeBlankTeamName : Test
+decodeBlankTeamName =
+    test "Decoding ignores games with blank team names, instead of returning an error or creating a game with blank team names" <|
+        \() ->
+            blankTeamNameSpreadsheetValuesResponse 
+                |> decodeString (decodeSheetToLeagueGames "Regional Div 1")
+                |> Expect.equal (Ok (LeagueGames "Regional Div 1" [ ])) 
 
 isError : Result error value -> Bool
 isError result =
@@ -46,7 +53,7 @@ isError result =
 -- This is a cut down response from the test spreadsheet, at https://sheets.googleapis.com/v4/spreadsheets/1Ai9H6Pfe1LPsOcksN6EF03-z-gO1CkNp8P1Im37N3TE/values/Regional%20Div%201?key=<thekey>
 spreadsheetValuesResponse : String
 spreadsheetValuesResponse =
-    spreadsheetValuesHeader ++
+  createSpreadsheetValuesResponse
     """
     [
       "Castle",
@@ -61,32 +68,45 @@ spreadsheetValuesResponse =
       "good game"
     ]
     """
-    ++ spreadsheetValuesFooter
 
 justEnoughColumnsSpreadsheetValuesResponse : String
 justEnoughColumnsSpreadsheetValuesResponse =
-  spreadsheetValuesHeader ++
-  """
-  [
-    "",
-    "",
-    "",
-    ""
-  ]
-  """
-  ++ spreadsheetValuesFooter
+  createSpreadsheetValuesResponse
+    """
+    [
+      "Castle",
+      "",
+      "",
+      "Meridian"
+    ]
+    """
 
 notEnoughColumnsSpreadsheetValuesResponse : String
 notEnoughColumnsSpreadsheetValuesResponse =
-  spreadsheetValuesHeader ++
-  """
-  [
-    "Castle",
-    "",
-    ""
-  ]
-  """
-  ++ spreadsheetValuesFooter
+  createSpreadsheetValuesResponse
+    """
+    [
+      "Castle",
+      "",
+      ""
+    ]
+    """
+
+blankTeamNameSpreadsheetValuesResponse : String
+blankTeamNameSpreadsheetValuesResponse =
+  createSpreadsheetValuesResponse
+    """
+    [
+      "Castle",
+      "1",
+      "3",
+      ""
+    ]
+    """
+
+createSpreadsheetValuesResponse : String -> String
+createSpreadsheetValuesResponse rows =
+  spreadsheetValuesHeader ++ rows ++ spreadsheetValuesFooter
 
 spreadsheetValuesHeader : String
 spreadsheetValuesHeader =
