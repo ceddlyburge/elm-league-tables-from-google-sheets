@@ -17,10 +17,6 @@ expectFirstDay: (Maybe LeagueGamesForDay -> Expectation) -> ResultsFixtures -> E
 expectFirstDay expect resultsFixtures =
     expect (List.head resultsFixtures.days)
 
-vanillaGame : Game
-vanillaGame = 
-    Game "" Nothing "" Nothing Nothing "" "" "" "" "" 
-
 unscheduledGame: Game
 unscheduledGame = 
     Game "" Nothing "" Nothing Nothing "" "" "" "" ""
