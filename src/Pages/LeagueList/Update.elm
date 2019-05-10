@@ -1,4 +1,4 @@
-module Pages.LeagueList.Update exposing (showLeagueList, refreshLeagueList,  allSheetSummaryResponse)
+module Pages.LeagueList.Update exposing (showLeagueList, refreshLeagueList, allSheetSummaryResponse)
 
 import Navigation exposing (newUrl)
 import RemoteData exposing (WebData)

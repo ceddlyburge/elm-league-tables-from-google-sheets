@@ -14,6 +14,7 @@ parseLocation location =
         Nothing ->
             Route.NotFoundRoute
 
+-- This doesn't encode the strings, which is a shame, and means that it won't always match what happens in the browser
 toUrl : Route -> String
 toUrl route =
     case route of

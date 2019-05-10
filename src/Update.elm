@@ -49,7 +49,10 @@ update msg model =
             let
                 route = parseLocation location
             in
-                -- If we are already on the page, then don't do anything (otherwise there will be an infinite loop)
+                -- If we are already on the page, then don't do anything (otherwise there will be an infinite loop).
+                -- toUrl doesn't encode at the moment, so this can mean that this function executes twice. The first
+                -- time with the unencoded version, then with the version from the browser. This is hard to fix, I 
+                -- think because I am still on elm 0.18 and so can't install the packages that do the encoding.
                 if ((toUrl route) == (toUrl model.route)) then
                     ( model, Cmd.none )
                 else 
