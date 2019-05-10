@@ -11,7 +11,8 @@ import Navigation exposing (Location)
 type Msg
     = 
     -- league List
-    AllSheetSummaryRequest
+    ShowLeagueList
+    | RefreshLeagueList
     | AllSheetSummaryResponse (WebData (List LeagueSummary))
     -- LeagueTable
     | IndividualSheetRequest String

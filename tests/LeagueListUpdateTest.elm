@@ -10,6 +10,7 @@ import Update exposing (update)
 import Msg exposing (..)
 import Models.Model exposing (Model, vanillaModel)
 import Models.LeagueSummary exposing (LeagueSummary)
+import Models.Route as Route exposing (Route)
 
 apiError : Test
 apiError =
@@ -21,6 +22,21 @@ apiError =
                 update (AllSheetSummaryResponse response) vanillaModel
                 |> getModel
                 |> Expect.equal { vanillaModel | leagues = response }
+
+cachesAPiResult : Test
+cachesAPiResult =
+    test "Only calls the api if the results isn't already available in the model" <|
+        \() ->
+            let 
+                model = 
+                    { vanillaModel | 
+                        leagues = RemoteData.Success []
+                        , route = Route.LeagueListRoute }
+            in 
+                update 
+                    ShowLeagueList 
+                    model
+                |> Expect.equal ( model, Cmd.none )
 
 apiSuccess : Test
 apiSuccess =

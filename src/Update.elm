@@ -4,7 +4,7 @@ import Element exposing (classifyDevice)
 import Msg exposing (..)
 import Models.Model exposing (Model)
 import Models.Route as Route exposing (Route)
-import Pages.LeagueList.Update exposing (allSheetSummaryRequest, allSheetSummaryResponse)
+import Pages.LeagueList.Update exposing (..)
 import Pages.LeagueTable.Update exposing (individualSheetRequest, individualSheetResponse)
 import Pages.ResultsFixtures.Update exposing (individualSheetRequestForResultsFixtures, individualSheetResponseForResultsFixtures)
 import Routing exposing (..)
@@ -16,8 +16,11 @@ update msg model =
             ( model, Cmd.none )
 
         -- League List
-        AllSheetSummaryRequest ->
-            allSheetSummaryRequest model
+        ShowLeagueList  ->
+            showLeagueList model
+
+        RefreshLeagueList  ->
+            refreshLeagueList model
 
         AllSheetSummaryResponse response ->
             allSheetSummaryResponse model response
@@ -52,7 +55,7 @@ update msg model =
                 else 
                     case route of
                         Route.LeagueListRoute ->
-                            update AllSheetSummaryRequest model
+                            update ShowLeagueList model
                         Route.LeagueTableRoute leagueTitle ->
                             update (IndividualSheetRequest leagueTitle) model 
                         Route.ResultsFixturesRoute leagueTitle ->

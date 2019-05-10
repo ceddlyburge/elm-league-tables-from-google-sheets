@@ -22,7 +22,7 @@ page response responsive =
             HeaderBar 
                 [ HeaderButtonSizedSpace ] 
                 "Leagues" 
-                [ RefreshHeaderButton AllSheetSummaryRequest ] )
+                [ RefreshHeaderButton RefreshLeagueList ] )
         ( maybeResponse response <| leagueList responsive )
 
 leagueList: Responsive -> List LeagueSummary -> Element Styles variation Msg
