@@ -16,7 +16,7 @@ oneGame : Test
 oneGame =
     test "setLeagueGames" <|
         \() ->
-            update (IndividualSheetResponseForResultsFixtures "" anyLeagueGames) vanillaModel
+            update (IndividualSheetResponse "" anyLeagueGames) vanillaModel
             |> \(model, msg) -> model
             |> Expect.all 
                 [ expectLeagueGames anyLeagueGames

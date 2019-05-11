@@ -5,8 +5,9 @@ import Msg exposing (..)
 import Models.Model exposing (Model)
 import Models.Route as Route exposing (Route)
 import Pages.LeagueList.Update exposing (..)
-import Pages.LeagueTable.Update exposing (individualSheetRequest, individualSheetResponse)
-import Pages.ResultsFixtures.Update exposing (individualSheetRequestForResultsFixtures, individualSheetResponseForResultsFixtures)
+import Pages.LeagueTable.Update exposing (individualSheetRequest)
+import Pages.ResultsFixtures.Update exposing (individualSheetRequestForResultsFixtures)
+import Pages.UpdateHelpers exposing (individualSheetResponse)
 import Routing exposing (..)
 import Navigation exposing (Location)
 
@@ -37,9 +38,6 @@ update msg model =
         IndividualSheetRequestForResultsFixtures leagueTitle ->
             individualSheetRequestForResultsFixtures leagueTitle model
 
-        IndividualSheetResponseForResultsFixtures leagueTitle response ->
-            individualSheetResponseForResultsFixtures model response leagueTitle
-        
         -- responsiveness
         SetScreenSize size ->
             ({ model | device = classifyDevice size }, Cmd.none)

@@ -19,7 +19,6 @@ type Msg
     | IndividualSheetResponse String (WebData LeagueGames)
     -- Fixtures / Results
     | IndividualSheetRequestForResultsFixtures String
-    | IndividualSheetResponseForResultsFixtures String (WebData LeagueGames)
     -- routing
     | OnLocationChange Location
     -- responsiveness
