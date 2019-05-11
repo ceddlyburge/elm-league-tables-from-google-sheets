@@ -26,7 +26,7 @@ showLeagueList model =
 
 refreshLeagueList : Model -> ( Model, Cmd Msg )
 refreshLeagueList model =
-    ( { model | leagues = RemoteData.Loading}
+    ( { model | leagues = RemoteData.Loading }
       , fetchLeagueSummaries model.config AllSheetSummaryResponse )
 
 allSheetSummaryResponse: Model -> WebData (List LeagueSummary) -> ( Model, Cmd Msg )

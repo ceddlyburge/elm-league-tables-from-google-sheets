@@ -45,6 +45,7 @@ update msg model =
 
         -- routing
         OnLocationChange location ->
+            -- split this out in to a new function
             -- this relies on the other update cases to actually set the route in the model, probably not the best idea
             let
                 route = parseLocation location
@@ -52,7 +53,7 @@ update msg model =
                 -- If we are already on the page, then don't do anything (otherwise there will be an infinite loop).
                 -- toUrl doesn't encode at the moment, so this can mean that this function executes twice. The first
                 -- time with the unencoded version, then with the version from the browser. This is hard to fix, I 
-                -- think because I am still on elm 0.18 and so can't install the packages that do the encoding.
+                -- think because I am still on elm 0.18 and so can't install the packages that do the encoding. 
                 if ((toUrl route) == (toUrl model.route)) then
                     ( model, Cmd.none )
                 else 
