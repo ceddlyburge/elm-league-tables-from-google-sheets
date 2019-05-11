@@ -8,6 +8,7 @@ import Pages.LeagueList.Update exposing (..)
 import Pages.LeagueTable.Update exposing (individualSheetRequest, individualSheetResponse)
 import Pages.ResultsFixtures.Update exposing (individualSheetRequestForResultsFixtures, individualSheetResponseForResultsFixtures)
 import Routing exposing (..)
+import Navigation exposing (Location)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -45,27 +46,41 @@ update msg model =
 
         -- routing
         OnLocationChange location ->
-            -- split this out in to a new function
-            -- this relies on the other update cases to actually set the route in the model, probably not the best idea
+            updateFromLocation model location
+
+
+updateFromLocation : Model -> Location -> ( Model, Cmd Msg )
+updateFromLocation model location =
+    let
+        route = parseLocation location
+    in
+        updateFromRoute model location route
+        |> stopInfiniteLoop model route  
+
+
+updateFromRoute : Model -> Location -> Route -> ( Model, Cmd Msg )
+updateFromRoute model location route =
+    case route of
+        Route.LeagueListRoute ->
+            update ShowLeagueList model
+        Route.LeagueTableRoute leagueTitle ->
+            update (IndividualSheetRequest leagueTitle) model 
+        Route.ResultsFixturesRoute leagueTitle ->
+            update (IndividualSheetRequestForResultsFixtures leagueTitle) model 
+        Route.NotFoundRoute ->
             let
-                route = parseLocation location
+                _ = Debug.log "Route not found" location
             in
-                -- If we are already on the page, then don't do anything (otherwise there will be an infinite loop).
-                -- toUrl doesn't encode at the moment, so this can mean that this function executes twice. The first
-                -- time with the unencoded version, then with the version from the browser. This is hard to fix, I 
-                -- think because I am still on elm 0.18 and so can't install the packages that do the encoding. 
-                if ((toUrl route) == (toUrl model.route)) then
-                    ( model, Cmd.none )
-                else 
-                    case route of
-                        Route.LeagueListRoute ->
-                            update ShowLeagueList model
-                        Route.LeagueTableRoute leagueTitle ->
-                            update (IndividualSheetRequest leagueTitle) model 
-                        Route.ResultsFixturesRoute leagueTitle ->
-                            update (IndividualSheetRequestForResultsFixtures leagueTitle) model 
-                        Route.NotFoundRoute ->
-                            let
-                                _ = Debug.log "Route not found" location
-                            in
-                                ( model, Cmd.none )            
+                ( model, Cmd.none )            
+
+
+stopInfiniteLoop : Model -> Route -> ( Model, Cmd Msg ) -> ( Model, Cmd Msg )
+stopInfiniteLoop originalModel route ( model, cmd ) =
+    -- If we are already on the page, then don't do anything (otherwise there will be an infinite loop).
+    -- toUrl doesn't encode at the moment, so this can mean that this function executes twice. The first
+    -- time with the unencoded version, then with the version from the browser. This is hard to fix, I 
+    -- think because I am still on elm 0.18 and so can't install the packages that do the encoding. 
+    if ((toUrl route) == (toUrl originalModel.route)) then
+        ( originalModel, Cmd.none )
+    else 
+        ( model, cmd )
