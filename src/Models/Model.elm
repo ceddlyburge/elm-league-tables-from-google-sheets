@@ -1,5 +1,6 @@
 module Models.Model exposing (..)
 
+import Dict exposing (Dict)
 import RemoteData exposing (WebData)
 
 import Models.LeagueSummary exposing (LeagueSummary)
@@ -15,7 +16,7 @@ type alias Model =
     { config: Config
     , route: Route
     , leagues: WebData (List LeagueSummary)
-    , leagueTable: WebData (LeagueTable)
+    , leagueTables: Dict String (WebData LeagueTable)
     , leagueGames: WebData (LeagueGames)
     , resultsFixtures: WebData (ResultsFixtures)
     , device: Device
@@ -27,7 +28,7 @@ vanillaModel =
         (Config "" "") 
         Route.NotFoundRoute 
         RemoteData.NotAsked 
-        RemoteData.NotAsked 
+        Dict.empty
         RemoteData.NotAsked 
         RemoteData.NotAsked 
         (classifyDevice <| Window.Size 1024 768)

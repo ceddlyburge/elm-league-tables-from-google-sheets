@@ -1,5 +1,6 @@
 module Pages.UpdateHelpers exposing (individualSheetResponse, showRouteRequiringIndividualSheetApi)
 
+import Dict exposing (Dict)
 import Navigation exposing (newUrl)
 import RemoteData exposing (WebData)
 
@@ -18,7 +19,7 @@ showRouteRequiringIndividualSheetApi leagueTitle route model =
     ( { model | 
             leagueGames = RemoteData.Loading
             , resultsFixtures = RemoteData.Loading
-            , leagueTable = RemoteData.Loading
+            , leagueTables = Dict.insert leagueTitle RemoteData.Loading model.leagueTables
             , route = route 
       }
     , fetchLeagueGames leagueTitle model.config )
@@ -36,7 +37,7 @@ individualSheetResponse  model response leagueTitle =
     ( 
         { model | 
             leagueGames = response
-            , leagueTable = RemoteData.map calculateLeagueTable response
+            , leagueTables = Dict.insert leagueTitle (RemoteData.map calculateLeagueTable response) model.leagueTables
             , resultsFixtures = RemoteData.map calculateResultsFixtures response }
         , newUrl <| toUrl <| model.route
     )

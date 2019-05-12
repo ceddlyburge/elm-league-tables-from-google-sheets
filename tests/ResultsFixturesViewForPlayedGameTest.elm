@@ -8,7 +8,7 @@ import Date.Extra exposing (..)
 
 import Msg exposing (..)
 import ResultsFixturesViewHelpers exposing (..)
-import TestHelpers exposing (..)
+import Models.Game exposing (vanillaGame)
 
 onePlayedGame : Test
 onePlayedGame =

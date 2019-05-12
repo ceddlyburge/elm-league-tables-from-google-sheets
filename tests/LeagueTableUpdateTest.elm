@@ -1,35 +1,59 @@
 module LeagueTableUpdateTest exposing (..)
 
+import Dict exposing (Dict)
 import Test exposing (..)
 import Expect
 import RemoteData exposing (WebData)
 import Update exposing (update)
 import Msg exposing (..)
 import Models.Model exposing (Model, vanillaModel)
-import Models.LeagueTable exposing (LeagueTable)
-import Models.Game exposing (Game)
+import Models.Game exposing (Game, vanillaGame)
 import Models.LeagueGames exposing (LeagueGames)
-import Models.Team exposing (Team)
+import Models.LeagueTable exposing (LeagueTable)
+import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
 
 apiSuccess : Test
-apiSuccess =
-    test "Returns model and Leagues on success" <|
+apiSuccess = 
+    test "Calculates league table on success and adds to league table dictionary" <|
         \() ->
-            update (IndividualSheetResponse "" (RemoteData.Success (LeagueGames "Regional Div 1" [ game ]))) vanillaModel
-            |> \(model, msg) -> model.leagueTable
-            |> Expect.equal leagueTable
+            update 
+                (successResponseForGame leagueTitle game) 
+                vanillaModel
+            |> \(model, msg) -> model.leagueTables
+            |> Expect.equal 
+                (Dict.singleton 
+                    leagueTitle
+                    (calculatedLeagueTableRemoteData game)
+                )
+
+leagueTitle : String                
+leagueTitle =
+    "Regional Div 1"
 
 game: Game
 game = 
-    Game "Castle" (Just 3) "Meridian" (Just 1) Nothing "1, 6, 4" "2" "Green 3, Yellow 5" "Red 14" "good game"
+    { vanillaGame | 
+        homeTeamName = "Castle",
+        homeTeamGoals = Just 3, 
+        awayTeamGoals = Just 1,
+        awayTeamName = "Meridian"
+    }
 
-leagueTable: WebData LeagueTable
-leagueTable = 
+successResponseForGame : String -> Game -> Msg
+successResponseForGame leagueTitle game = 
+    IndividualSheetResponse 
+        leagueTitle 
+        (RemoteData.Success 
+            (LeagueGames 
+                leagueTitle
+                [ game ]
+            )
+        ) 
+
+calculatedLeagueTableRemoteData: Game -> WebData LeagueTable
+calculatedLeagueTableRemoteData game = 
     RemoteData.Success 
-        (LeagueTable 
-            "Regional Div 1" 
-            [ 
-                Team 1 "Castle" 1 1 0 0 3 3 1 2
-                , Team 2 "Meridian" 1 0 0 1 0 1 3 -2
-            ]
-        )
+        (calculateLeagueTable 
+            (LeagueGames leagueTitle [ game ])
+        ) 
+    

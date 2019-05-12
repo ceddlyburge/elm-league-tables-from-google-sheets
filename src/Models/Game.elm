@@ -1,4 +1,4 @@
-module Models.Game exposing (Game)
+module Models.Game exposing (Game, vanillaGame)
 
 import Date exposing (..)
 
@@ -14,3 +14,7 @@ type alias Game =
     , awayCards : String
     , notes : String
     }
+
+vanillaGame : Game
+vanillaGame = 
+    Game "" Nothing "" Nothing Nothing "" "" "" "" "" 

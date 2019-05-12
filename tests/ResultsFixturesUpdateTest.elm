@@ -7,9 +7,9 @@ import RemoteData exposing (WebData)
 import Update exposing (update)
 import Msg exposing (..)
 import Models.Model exposing (Model, vanillaModel)
+import Models.Game exposing (vanillaGame)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.ResultsFixtures exposing (ResultsFixtures)
-import TestHelpers exposing (..)
 import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
 
 oneGame : Test
