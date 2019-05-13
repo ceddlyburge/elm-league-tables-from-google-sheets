@@ -17,9 +17,8 @@ import Models.Route as Route exposing (Route)
 showRouteRequiringIndividualSheetApi : String -> Route -> Model -> ( Model, Cmd Msg )
 showRouteRequiringIndividualSheetApi leagueTitle route model =
     ( { model | 
-            leagueGames = RemoteData.Loading
-            , resultsFixtures = RemoteData.Loading
-            , leagueTables = Dict.insert leagueTitle RemoteData.Loading model.leagueTables
+            leagueTables = Dict.insert leagueTitle RemoteData.Loading model.leagueTables
+            , resultsFixturess = Dict.insert leagueTitle RemoteData.Loading model.resultsFixturess
             , route = route 
       }
     , fetchLeagueGames leagueTitle model.config )
@@ -36,8 +35,8 @@ individualSheetResponse : Model -> WebData LeagueGames -> String -> ( Model, Cmd
 individualSheetResponse  model response leagueTitle =
     ( 
         { model | 
-            leagueGames = response
-            , leagueTables = Dict.insert leagueTitle (RemoteData.map calculateLeagueTable response) model.leagueTables
-            , resultsFixtures = RemoteData.map calculateResultsFixtures response }
+            leagueTables = Dict.insert leagueTitle (RemoteData.map calculateLeagueTable response) model.leagueTables
+            , resultsFixturess = Dict.insert leagueTitle (RemoteData.map calculateResultsFixtures response) model.resultsFixturess
+        }
         , newUrl <| toUrl <| model.route
     )

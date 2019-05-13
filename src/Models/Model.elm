@@ -5,7 +5,6 @@ import RemoteData exposing (WebData)
 
 import Models.LeagueSummary exposing (LeagueSummary)
 import Models.LeagueTable exposing (LeagueTable)
-import Models.LeagueGames exposing (LeagueGames)
 import Models.ResultsFixtures exposing (ResultsFixtures)
 import Models.Config exposing (Config)
 import Models.Route as Route exposing (Route)
@@ -17,8 +16,7 @@ type alias Model =
     , route: Route
     , leagues: WebData (List LeagueSummary)
     , leagueTables: Dict String (WebData LeagueTable)
-    , leagueGames: WebData (LeagueGames)
-    , resultsFixtures: WebData (ResultsFixtures)
+    , resultsFixturess: Dict String (WebData ResultsFixtures)
     , device: Device
     }
 
@@ -29,6 +27,5 @@ vanillaModel =
         Route.NotFoundRoute 
         RemoteData.NotAsked 
         Dict.empty
-        RemoteData.NotAsked 
-        RemoteData.NotAsked 
+        Dict.empty
         (classifyDevice <| Window.Size 1024 768)

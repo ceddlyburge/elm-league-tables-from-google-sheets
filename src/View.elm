@@ -14,6 +14,7 @@ import Pages.Page exposing (..)
 import Pages.RenderPage exposing (..)
 import Pages.Responsive exposing (..)
 import Models.LeagueTable exposing (LeagueTable)
+import Models.ResultsFixtures exposing (ResultsFixtures)
 
 
 view : Model -> Html Msg
@@ -32,13 +33,18 @@ page model responsive =
         Route.LeagueTableRoute leagueTitle ->
             Pages.LeagueTable.View.page leagueTitle (getLeagueTable leagueTitle model) responsive
         Route.ResultsFixturesRoute leagueTitle ->
-            Pages.ResultsFixtures.View.page leagueTitle model.resultsFixtures responsive
+            Pages.ResultsFixtures.View.page leagueTitle (getResultsFixtures leagueTitle model) responsive
         Route.NotFoundRoute ->
             Pages.LeagueList.View.page model.leagues responsive -- return 404 later
 
-getLeagueTable : String -> Model -> WebData (LeagueTable)
+getLeagueTable : String -> Model -> WebData LeagueTable
 getLeagueTable leagueTitle model =
     Dict.get leagueTitle model.leagueTables
+    |> Maybe.withDefault RemoteData.NotAsked
+
+getResultsFixtures : String -> Model -> WebData ResultsFixtures
+getResultsFixtures leagueTitle model =
+    Dict.get leagueTitle model.resultsFixturess
     |> Maybe.withDefault RemoteData.NotAsked
 
 -- notFoundView : Html msg

@@ -1,5 +1,6 @@
 module ResultsFixturesUpdateTest exposing (..)
 
+import Dict exposing (Dict)
 import Test exposing (..)
 import Expect
 import Expect exposing (Expectation)
@@ -9,29 +10,24 @@ import Msg exposing (..)
 import Models.Model exposing (Model, vanillaModel)
 import Models.Game exposing (vanillaGame)
 import Models.LeagueGames exposing (LeagueGames)
-import Models.ResultsFixtures exposing (ResultsFixtures)
 import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
 
 oneGame : Test
 oneGame =
-    test "setLeagueGames" <|
+    test "Calculates results / fixtures on success and adds to league table dictionary" <|
         \() ->
-            update (IndividualSheetResponse "" anyLeagueGames) vanillaModel
-            |> \(model, msg) -> model
-            |> Expect.all 
-                [ expectLeagueGames anyLeagueGames
-                , expectResultsFixtures <| RemoteData.map calculateResultsFixtures anyLeagueGames
-                ]
+            update (IndividualSheetResponse leagueTitle <| RemoteData.Success leagueGames) vanillaModel
+            |> \(model, msg) -> model.resultsFixturess
+            |> Expect.equal
+                (Dict.singleton 
+                    leagueTitle
+                    (RemoteData.Success <| calculateResultsFixtures leagueGames)
+                )                
 
+leagueTitle : String                
+leagueTitle =
+    "Regional Div 1"
 
-anyLeagueGames: WebData LeagueGames
-anyLeagueGames = 
-    RemoteData.Success ( LeagueGames "Div 1" [ vanillaGame ] )
-
-expectLeagueGames: WebData LeagueGames -> Model -> Expectation
-expectLeagueGames expectedLeagueGames model =
-    Expect.equal expectedLeagueGames model.leagueGames
-
-expectResultsFixtures: WebData ResultsFixtures -> Model -> Expectation
-expectResultsFixtures expectedResultsFixtures model =
-    Expect.equal expectedResultsFixtures model.resultsFixtures
+leagueGames: LeagueGames
+leagueGames = 
+     LeagueGames leagueTitle [ vanillaGame ]
