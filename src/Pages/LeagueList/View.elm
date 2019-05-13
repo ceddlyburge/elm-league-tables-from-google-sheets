@@ -45,7 +45,7 @@ leagueTitle responsive league =
             , width <| percent responsive.designPortraitPercentageWidth
             , class "data-test-league"
             , center
-            , onClick <| IndividualSheetRequest league.title
+            , onClick <| ShowLeagueTable league.title
         ] 
         (paragraph None [] [ text league.title ] )
  

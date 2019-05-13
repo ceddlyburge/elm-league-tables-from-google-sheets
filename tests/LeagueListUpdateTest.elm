@@ -38,8 +38,8 @@ callsApi =
                     leagues = RemoteData.Loading
                     , route = Route.LeagueListRoute }
 
-cachesAPiResult : Test
-cachesAPiResult =
+cachesApiResult : Test
+cachesApiResult =
     test "Only calls the api if the results isn't already available in the model" <|
         \() ->
             let 
@@ -52,6 +52,24 @@ cachesAPiResult =
                     ShowLeagueList 
                     model
                 |> Expect.equal ( model, Cmd.none )
+
+
+refreshesAPi : Test
+refreshesAPi =
+    test "Calls the APi if asked to, even if the data already exists" <|
+        \() ->
+            let 
+                model = 
+                    { vanillaModel | 
+                        leagues = RemoteData.Success []
+                        , route = Route.LeagueListRoute }
+            in 
+                update 
+                    RefreshLeagueList 
+                    model
+                |> getModel
+                |> Expect.equal { model | leagues = RemoteData.Loading }
+
 
 apiSuccess : Test
 apiSuccess =

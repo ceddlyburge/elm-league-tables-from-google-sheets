@@ -14,11 +14,12 @@ type Msg
     ShowLeagueList
     | RefreshLeagueList
     | AllSheetSummaryResponse (WebData (List LeagueSummary))
-    -- LeagueTable
-    | IndividualSheetRequest String
+    -- Fixtures / Results, LeagueTable
+    | ShowLeagueTable String
+    | RefreshLeagueTable String
+    | ShowResultsFixtures String
+    | RefreshResultsFixtures String
     | IndividualSheetResponse String (WebData LeagueGames)
-    -- Fixtures / Results
-    | IndividualSheetRequestForResultsFixtures String
     -- routing
     | OnLocationChange Location
     -- responsiveness

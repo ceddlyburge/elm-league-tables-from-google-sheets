@@ -1,4 +1,8 @@
-module Pages.UpdateHelpers exposing (individualSheetResponse, showRouteRequiringIndividualSheetApi)
+module Pages.UpdateHelpers exposing (
+    individualSheetResponse
+    , showRouteRequiringIndividualSheetApi
+    , refreshRouteRequiringIndividualSheetApi
+    )
 
 import Dict exposing (Dict)
 import Navigation exposing (newUrl)
@@ -19,15 +23,19 @@ showRouteRequiringIndividualSheetApi leagueTitle route model =
     if (Dict.member leagueTitle model.leagueTables == False
         || Dict.member leagueTitle model.resultsFixturess == False)
     then  
-        ( { model | 
-                leagueTables = Dict.insert leagueTitle RemoteData.Loading model.leagueTables
-                , resultsFixturess = Dict.insert leagueTitle RemoteData.Loading model.resultsFixturess
-                , route = route 
-        }
-        , fetchLeagueGames leagueTitle model.config )
+        refreshRouteRequiringIndividualSheetApi leagueTitle route model
     else 
         ( { model | route = route }, Cmd.none )
 
+
+refreshRouteRequiringIndividualSheetApi : String -> Route -> Model -> ( Model, Cmd Msg )
+refreshRouteRequiringIndividualSheetApi leagueTitle route model =
+    ( { model | 
+            leagueTables = Dict.insert leagueTitle RemoteData.Loading model.leagueTables
+            , resultsFixturess = Dict.insert leagueTitle RemoteData.Loading model.resultsFixturess
+            , route = route 
+    }
+    , fetchLeagueGames leagueTitle model.config )
 
 fetchLeagueGames : String -> Config -> Cmd Msg
 fetchLeagueGames leagueTitle config =

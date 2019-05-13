@@ -5,8 +5,8 @@ import Msg exposing (..)
 import Models.Model exposing (Model)
 import Models.Route as Route exposing (Route)
 import Pages.LeagueList.Update exposing (..)
-import Pages.LeagueTable.Update exposing (individualSheetRequest)
-import Pages.ResultsFixtures.Update exposing (individualSheetRequestForResultsFixtures)
+import Pages.LeagueTable.Update exposing (showLeagueTable, refreshLeagueTable)
+import Pages.ResultsFixtures.Update exposing (showResultsFixtures, refreshResultsFixtures)
 import Pages.UpdateHelpers exposing (individualSheetResponse)
 import Routing exposing (..)
 import Navigation exposing (Location)
@@ -27,17 +27,22 @@ update msg model =
         AllSheetSummaryResponse response ->
             allSheetSummaryResponse model response
 
-        -- League Table
-        IndividualSheetRequest leagueTitle ->
-            individualSheetRequest leagueTitle model
+        -- Fixtures / Results, League Table
+        ShowLeagueTable leagueTitle ->
+            showLeagueTable leagueTitle model
+
+        RefreshLeagueTable leagueTitle ->
+            refreshLeagueTable leagueTitle model
+
+        ShowResultsFixtures leagueTitle ->
+            showResultsFixtures leagueTitle model
+
+        RefreshResultsFixtures leagueTitle ->
+            refreshResultsFixtures leagueTitle model
 
         IndividualSheetResponse leagueTitle response ->
             individualSheetResponse model response leagueTitle
         
-        -- Fixtures / Results
-        IndividualSheetRequestForResultsFixtures leagueTitle ->
-            individualSheetRequestForResultsFixtures leagueTitle model
-
         -- responsiveness
         SetScreenSize size ->
             ({ model | device = classifyDevice size }, Cmd.none)
@@ -62,9 +67,9 @@ updateFromRoute model location route =
         Route.LeagueListRoute ->
             update ShowLeagueList model
         Route.LeagueTableRoute leagueTitle ->
-            update (IndividualSheetRequest leagueTitle) model 
+            update (ShowLeagueTable leagueTitle) model 
         Route.ResultsFixturesRoute leagueTitle ->
-            update (IndividualSheetRequestForResultsFixtures leagueTitle) model 
+            update (ShowResultsFixtures leagueTitle) model 
         Route.NotFoundRoute ->
             let
                 _ = Debug.log "Route not found" location

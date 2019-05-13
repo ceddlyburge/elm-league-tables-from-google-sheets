@@ -35,7 +35,7 @@ callsApi =
     test "Calls the APi if the results arent already available in the model" <|
         \() ->
             update 
-                (IndividualSheetRequest leagueTitle)
+                (ShowLeagueTable leagueTitle)
                 vanillaModel
             |> getModel
             |> Expect.equal 
@@ -44,8 +44,8 @@ callsApi =
                     , resultsFixturess = Dict.singleton leagueTitle RemoteData.Loading
                     , route = Route.LeagueTableRoute leagueTitle }
 
-cachesAPiResult : Test
-cachesAPiResult =
+cachesApiResult : Test
+cachesApiResult =
     test "Only calls the api if the results isn't already available in the model" <|
         \() ->
             let 
@@ -53,12 +53,35 @@ cachesAPiResult =
                     { vanillaModel | 
                         leagueTables = Dict.singleton leagueTitle (RemoteData.Success vanillaLeagueTable)
                         , resultsFixturess = Dict.singleton leagueTitle (RemoteData.Success vanillaResultsFixtures)
-                        , route = Route.LeagueTableRoute leagueTitle }
+                    }
             in 
                 update 
-                    (IndividualSheetRequest leagueTitle)
+                    (ShowLeagueTable leagueTitle)
                     model
-                |> Expect.equal ( model, Cmd.none )
+                |> Expect.equal ( { model | route = Route.LeagueTableRoute leagueTitle }, Cmd.none )
+
+
+refreshesApi : Test
+refreshesApi =
+    test "Calls the APi if asked to, even if the data already exists" <|
+        \() ->
+            let 
+                model = 
+                    { vanillaModel | 
+                        leagueTables = Dict.singleton leagueTitle (RemoteData.Success vanillaLeagueTable)
+                        , resultsFixturess = Dict.singleton leagueTitle (RemoteData.Success vanillaResultsFixtures)
+                    }
+            in 
+                update 
+                    (RefreshLeagueTable leagueTitle)
+                    model
+                |> getModel
+                |> Expect.equal 
+                    { model | 
+                        leagueTables = Dict.singleton leagueTitle RemoteData.Loading
+                        , resultsFixturess = Dict.singleton leagueTitle RemoteData.Loading
+                        , route = Route.LeagueTableRoute leagueTitle }
+
 
 leagueTitle : String                
 leagueTitle =
