@@ -16,12 +16,17 @@ import Models.Route as Route exposing (Route)
 
 showRouteRequiringIndividualSheetApi : String -> Route -> Model -> ( Model, Cmd Msg )
 showRouteRequiringIndividualSheetApi leagueTitle route model =
-    ( { model | 
-            leagueTables = Dict.insert leagueTitle RemoteData.Loading model.leagueTables
-            , resultsFixturess = Dict.insert leagueTitle RemoteData.Loading model.resultsFixturess
-            , route = route 
-      }
-    , fetchLeagueGames leagueTitle model.config )
+    if (Dict.member leagueTitle model.leagueTables == False
+        || Dict.member leagueTitle model.resultsFixturess == False)
+    then  
+        ( { model | 
+                leagueTables = Dict.insert leagueTitle RemoteData.Loading model.leagueTables
+                , resultsFixturess = Dict.insert leagueTitle RemoteData.Loading model.resultsFixturess
+                , route = route 
+        }
+        , fetchLeagueGames leagueTitle model.config )
+    else 
+        ( { model | route = route }, Cmd.none )
 
 
 fetchLeagueGames : String -> Config -> Cmd Msg
