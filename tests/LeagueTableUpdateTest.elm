@@ -41,7 +41,7 @@ callsApi =
             |> Expect.equal 
                 { vanillaModel | 
                     leagueTables = Dict.singleton leagueTitle RemoteData.Loading
-                    , resultsFixturess = Dict.singleton leagueTitle RemoteData.Loading
+                    , resultsFixtures = Dict.singleton leagueTitle RemoteData.Loading
                     , route = Route.LeagueTableRoute leagueTitle }
 
 cachesApiResult : Test
@@ -52,7 +52,7 @@ cachesApiResult =
                 model = 
                     { vanillaModel | 
                         leagueTables = Dict.singleton leagueTitle (RemoteData.Success vanillaLeagueTable)
-                        , resultsFixturess = Dict.singleton leagueTitle (RemoteData.Success vanillaResultsFixtures)
+                        , resultsFixtures = Dict.singleton leagueTitle (RemoteData.Success vanillaResultsFixtures)
                     }
             in 
                 update 
@@ -69,7 +69,7 @@ refreshesApi =
                 model = 
                     { vanillaModel | 
                         leagueTables = Dict.singleton leagueTitle (RemoteData.Success vanillaLeagueTable)
-                        , resultsFixturess = Dict.singleton leagueTitle (RemoteData.Success vanillaResultsFixtures)
+                        , resultsFixtures = Dict.singleton leagueTitle (RemoteData.Success vanillaResultsFixtures)
                     }
             in 
                 update 
@@ -79,7 +79,7 @@ refreshesApi =
                 |> Expect.equal 
                     { model | 
                         leagueTables = Dict.singleton leagueTitle RemoteData.Loading
-                        , resultsFixturess = Dict.singleton leagueTitle RemoteData.Loading
+                        , resultsFixtures = Dict.singleton leagueTitle RemoteData.Loading
                         , route = Route.LeagueTableRoute leagueTitle }
 
 

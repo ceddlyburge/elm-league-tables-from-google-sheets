@@ -21,7 +21,7 @@ import Models.Route as Route exposing (Route)
 showRouteRequiringIndividualSheetApi : String -> Route -> Model -> ( Model, Cmd Msg )
 showRouteRequiringIndividualSheetApi leagueTitle route model =
     if (Dict.member leagueTitle model.leagueTables == False
-        || Dict.member leagueTitle model.resultsFixturess == False)
+        || Dict.member leagueTitle model.resultsFixtures == False)
     then  
         refreshRouteRequiringIndividualSheetApi leagueTitle route model
     else 
@@ -32,7 +32,7 @@ refreshRouteRequiringIndividualSheetApi : String -> Route -> Model -> ( Model, C
 refreshRouteRequiringIndividualSheetApi leagueTitle route model =
     ( { model | 
             leagueTables = Dict.insert leagueTitle RemoteData.Loading model.leagueTables
-            , resultsFixturess = Dict.insert leagueTitle RemoteData.Loading model.resultsFixturess
+            , resultsFixtures = Dict.insert leagueTitle RemoteData.Loading model.resultsFixtures
             , route = route 
     }
     , fetchLeagueGames leagueTitle model.config )
@@ -49,7 +49,7 @@ individualSheetResponse  model response leagueTitle =
     ( 
         { model | 
             leagueTables = Dict.insert leagueTitle (RemoteData.map calculateLeagueTable response) model.leagueTables
-            , resultsFixturess = Dict.insert leagueTitle (RemoteData.map calculateResultsFixtures response) model.resultsFixturess
+            , resultsFixtures = Dict.insert leagueTitle (RemoteData.map calculateResultsFixtures response) model.resultsFixtures
         }
         , newUrl <| toUrl <| model.route
     )

@@ -44,7 +44,7 @@ getLeagueTable leagueTitle model =
 
 getResultsFixtures : String -> Model -> WebData ResultsFixtures
 getResultsFixtures leagueTitle model =
-    Dict.get leagueTitle model.resultsFixturess
+    Dict.get leagueTitle model.resultsFixtures
     |> Maybe.withDefault RemoteData.NotAsked
 
 -- notFoundView : Html msg
