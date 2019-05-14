@@ -1,7 +1,7 @@
 module Models.Route exposing (..)
 
 type Route
-    = LeagueListRoute
-    | LeagueTableRoute String -- change String to LeagueId later
-    | ResultsFixturesRoute String -- change String to LeagueId later
-    | NotFoundRoute
+    = LeagueList
+    | LeagueTable String -- change String to LeagueId later
+    | ResultsFixtures String -- change String to LeagueId later
+    | NotFound

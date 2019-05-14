@@ -24,7 +24,7 @@ vanillaModel : Model
 vanillaModel =
     Model 
         (Config "" "") 
-        Route.NotFoundRoute 
+        Route.NotFound 
         RemoteData.NotAsked 
         Dict.empty
         Dict.empty

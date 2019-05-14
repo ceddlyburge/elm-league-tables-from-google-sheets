@@ -64,13 +64,13 @@ updateFromLocation model location =
 updateFromRoute : Model -> Location -> Route -> ( Model, Cmd Msg )
 updateFromRoute model location route =
     case route of
-        Route.LeagueListRoute ->
+        Route.LeagueList ->
             update ShowLeagueList model
-        Route.LeagueTableRoute leagueTitle ->
+        Route.LeagueTable leagueTitle ->
             update (ShowLeagueTable leagueTitle) model 
-        Route.ResultsFixturesRoute leagueTitle ->
+        Route.ResultsFixtures leagueTitle ->
             update (ShowResultsFixtures leagueTitle) model 
-        Route.NotFoundRoute ->
+        Route.NotFound ->
             let
                 _ = Debug.log "Route not found" location
             in

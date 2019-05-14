@@ -13,7 +13,7 @@ import GoogleSheet.Api exposing (fetchLeagueSummaries)
 showLeagueList : Model -> ( Model, Cmd Msg )
 showLeagueList model =
     let
-        modelWithRoute = { model | route = Route.LeagueListRoute }
+        modelWithRoute = { model | route = Route.LeagueList }
     in
         case model.leagues of
             RemoteData.Success _ ->

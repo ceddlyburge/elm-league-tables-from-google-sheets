@@ -28,13 +28,13 @@ view model =
 page : Model -> Responsive -> Page
 page model responsive =
     case model.route of
-        Route.LeagueListRoute ->
+        Route.LeagueList ->
             Pages.LeagueList.View.page model.leagues responsive
-        Route.LeagueTableRoute leagueTitle ->
+        Route.LeagueTable leagueTitle ->
             Pages.LeagueTable.View.page leagueTitle (getLeagueTable leagueTitle model) responsive
-        Route.ResultsFixturesRoute leagueTitle ->
+        Route.ResultsFixtures leagueTitle ->
             Pages.ResultsFixtures.View.page leagueTitle (getResultsFixtures leagueTitle model) responsive
-        Route.NotFoundRoute ->
+        Route.NotFound ->
             Pages.LeagueList.View.page model.leagues responsive -- return 404 later
 
 getLeagueTable : String -> Model -> WebData LeagueTable

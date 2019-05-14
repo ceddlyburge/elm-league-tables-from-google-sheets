@@ -9,12 +9,12 @@ showLeagueTable : String -> Model -> ( Model, Cmd Msg )
 showLeagueTable leagueTitle model  =
     showRouteRequiringIndividualSheetApi 
         leagueTitle 
-        (Route.LeagueTableRoute leagueTitle)
+        (Route.LeagueTable leagueTitle)
         model 
 
 refreshLeagueTable : String -> Model -> ( Model, Cmd Msg )
 refreshLeagueTable leagueTitle model  =
     refreshRouteRequiringIndividualSheetApi 
         leagueTitle 
-        (Route.LeagueTableRoute leagueTitle)
+        (Route.LeagueTable leagueTitle)
         model 

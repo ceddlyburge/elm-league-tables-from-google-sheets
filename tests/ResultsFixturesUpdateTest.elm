@@ -41,7 +41,7 @@ callsApi =
                 { vanillaModel | 
                     leagueTables = Dict.singleton leagueTitle RemoteData.Loading
                     , resultsFixtures = Dict.singleton leagueTitle RemoteData.Loading
-                    , route = Route.ResultsFixturesRoute leagueTitle }
+                    , route = Route.ResultsFixtures leagueTitle }
 
 cachesAPiResult : Test
 cachesAPiResult =
@@ -57,7 +57,7 @@ cachesAPiResult =
                 update 
                     (ShowResultsFixtures leagueTitle)
                     model
-                |> Expect.equal ( { model | route = Route.ResultsFixturesRoute leagueTitle }, Cmd.none )
+                |> Expect.equal ( { model | route = Route.ResultsFixtures leagueTitle }, Cmd.none )
 
 refreshesApi : Test
 refreshesApi =
@@ -78,7 +78,7 @@ refreshesApi =
                     { model | 
                         leagueTables = Dict.singleton leagueTitle RemoteData.Loading
                         , resultsFixtures = Dict.singleton leagueTitle RemoteData.Loading
-                        , route = Route.ResultsFixturesRoute leagueTitle }
+                        , route = Route.ResultsFixtures leagueTitle }
 
 leagueTitle : String                
 leagueTitle =

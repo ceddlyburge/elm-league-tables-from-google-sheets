@@ -36,7 +36,7 @@ callsApi =
             |> Expect.equal 
                 { vanillaModel | 
                     leagues = RemoteData.Loading
-                    , route = Route.LeagueListRoute }
+                    , route = Route.LeagueList }
 
 cachesApiResult : Test
 cachesApiResult =
@@ -46,7 +46,7 @@ cachesApiResult =
                 model = 
                     { vanillaModel | 
                         leagues = RemoteData.Success []
-                        , route = Route.LeagueListRoute }
+                        , route = Route.LeagueList }
             in 
                 update 
                     ShowLeagueList 
@@ -62,7 +62,7 @@ refreshesAPi =
                 model = 
                     { vanillaModel | 
                         leagues = RemoteData.Success []
-                        , route = Route.LeagueListRoute }
+                        , route = Route.LeagueList }
             in 
                 update 
                     RefreshLeagueList 

@@ -12,30 +12,30 @@ parseLocation location =
             route
 
         Nothing ->
-            Route.NotFoundRoute
+            Route.NotFound
 
 -- This doesn't encode the strings, which is a shame, and means that it won't always match what happens in the browser
 toUrl : Route -> String
 toUrl route =
     case route of
-        Route.LeagueListRoute ->
+        Route.LeagueList ->
             "/"
 
-        Route.LeagueTableRoute leagueTitle ->
+        Route.LeagueTable leagueTitle ->
             "/league/" ++ leagueTitle
         
-        Route.ResultsFixturesRoute leagueTitle ->
+        Route.ResultsFixtures leagueTitle ->
             "/results-fixtures/" ++ leagueTitle
         
-        Route.NotFoundRoute ->
+        Route.NotFound ->
             "404"
 
 -- need to test this
 matchers : Parser (Route -> a) a
 matchers =
     oneOf
-        [ map Route.LeagueListRoute top
-        , map Route.LeagueListRoute (s "index.html")
-        , map Route.LeagueTableRoute (s "league" </> string)
-        , map Route.ResultsFixturesRoute (s "results-fixtures" </> string)
+        [ map Route.LeagueList top
+        , map Route.LeagueList (s "index.html")
+        , map Route.LeagueTable (s "league" </> string)
+        , map Route.ResultsFixtures (s "results-fixtures" </> string)
         ]

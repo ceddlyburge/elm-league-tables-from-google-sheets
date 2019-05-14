@@ -9,12 +9,12 @@ showResultsFixtures : String -> Model -> ( Model, Cmd Msg )
 showResultsFixtures leagueTitle model  =
     showRouteRequiringIndividualSheetApi 
         leagueTitle 
-        (Route.ResultsFixturesRoute leagueTitle)
+        (Route.ResultsFixtures leagueTitle)
         model 
 
 refreshResultsFixtures : String -> Model -> ( Model, Cmd Msg )
 refreshResultsFixtures leagueTitle model  =
     refreshRouteRequiringIndividualSheetApi 
         leagueTitle 
-        (Route.ResultsFixturesRoute leagueTitle)
+        (Route.ResultsFixtures leagueTitle)
         model 
