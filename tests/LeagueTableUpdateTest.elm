@@ -58,7 +58,8 @@ cachesApiResult =
                 update 
                     (ShowLeagueTable leagueTitle)
                     model
-                |> Expect.equal ( { model | route = Route.LeagueTable leagueTitle }, Cmd.none )
+                |> getModel
+                |> Expect.equal { model | route = Route.LeagueTable leagueTitle }
 
 
 refreshesApi : Test

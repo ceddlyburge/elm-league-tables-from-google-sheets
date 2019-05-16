@@ -5,7 +5,6 @@ module Pages.UpdateHelpers exposing (
     )
 
 import Dict exposing (Dict)
-import Navigation exposing (newUrl)
 import RemoteData exposing (WebData)
 
 import Models.Model exposing (Model)
@@ -15,7 +14,6 @@ import Msg exposing (..)
 import GoogleSheet.Api exposing (fetchIndividualSheet)
 import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
 import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
-import Routing exposing (toUrl)
 import Models.Route as Route exposing (Route)
 
 showRouteRequiringIndividualSheetApi : String -> Route -> Model -> ( Model, Cmd Msg )
@@ -51,5 +49,5 @@ individualSheetResponse  model response leagueTitle =
             leagueTables = Dict.insert leagueTitle (RemoteData.map calculateLeagueTable response) model.leagueTables
             , resultsFixtures = Dict.insert leagueTitle (RemoteData.map calculateResultsFixtures response) model.resultsFixtures
         }
-        , newUrl <| toUrl <| model.route
+        , Cmd.none
     )

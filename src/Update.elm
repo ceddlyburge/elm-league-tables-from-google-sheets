@@ -9,10 +9,27 @@ import Pages.LeagueTable.Update exposing (showLeagueTable, refreshLeagueTable)
 import Pages.ResultsFixtures.Update exposing (showResultsFixtures, refreshResultsFixtures)
 import Pages.UpdateHelpers exposing (individualSheetResponse)
 import Routing exposing (..)
-import Navigation exposing (Location)
+import Navigation exposing (Location, newUrl)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
+    updatewithoutBrowserHistory msg model
+    |> addBrowserHistory msg model
+
+addBrowserHistory : Msg -> Model -> (Model, Cmd Msg) -> ( Model, Cmd Msg )
+addBrowserHistory oldMsg oldModel ( newModel, newMsg ) =
+    case oldMsg of
+        OnLocationChange _ ->
+            (newModel, newMsg) 
+        _ ->
+            if (newModel.route == oldModel.route) then
+                (newModel, newMsg) 
+            else 
+                (newModel, Cmd.batch [ newMsg, newModel.route |> toUrl |> newUrl] )
+
+
+updatewithoutBrowserHistory : Msg -> Model -> ( Model, Cmd Msg )
+updatewithoutBrowserHistory msg model =
     case msg of
         NoOp ->
             ( model, Cmd.none )
@@ -65,11 +82,11 @@ updateFromRoute : Model -> Location -> Route -> ( Model, Cmd Msg )
 updateFromRoute model location route =
     case route of
         Route.LeagueList ->
-            update ShowLeagueList model
+            updatewithoutBrowserHistory ShowLeagueList model
         Route.LeagueTable leagueTitle ->
-            update (ShowLeagueTable leagueTitle) model 
+            updatewithoutBrowserHistory (ShowLeagueTable leagueTitle) model 
         Route.ResultsFixtures leagueTitle ->
-            update (ShowResultsFixtures leagueTitle) model 
+            updatewithoutBrowserHistory (ShowResultsFixtures leagueTitle) model 
         Route.NotFound ->
             let
                 _ = Debug.log "Route not found" location
@@ -80,10 +97,7 @@ updateFromRoute model location route =
 stopInfiniteLoop : Model -> Route -> ( Model, Cmd Msg ) -> ( Model, Cmd Msg )
 stopInfiniteLoop originalModel route ( model, cmd ) =
     -- If we are already on the page, then don't do anything (otherwise there will be an infinite loop).
-    -- toUrl doesn't encode at the moment, so this can mean that this function executes twice. The first
-    -- time with the unencoded version, then with the version from the browser. This is hard to fix, I 
-    -- think because I am still on elm 0.18 and so can't install the packages that do the encoding. 
-    if ((toUrl route) == (toUrl originalModel.route)) then
+    if (toUrl route == toUrl originalModel.route) then
         ( originalModel, Cmd.none )
     else 
         ( model, cmd )
