@@ -4,7 +4,7 @@ import Test exposing (..)
 import Date exposing (..)
 import Expect
 import Json.Decode exposing (decodeString)
-import Models.Game exposing (Game)
+import Models.Game exposing (Game, vanillaGame)
 import Models.LeagueGames exposing (LeagueGames)
 import GoogleSheet.DecodeGoogleSheetToGameList exposing (decodeSheetToLeagueGames)
 
@@ -43,6 +43,14 @@ decodeBlankTeamName =
             blankTeamNameSpreadsheetValuesResponse 
                 |> decodeString (decodeSheetToLeagueGames "Regional Div 1")
                 |> Expect.equal (Ok (LeagueGames "Regional Div 1" [ ])) 
+
+trimWhitespaceFromTeamNames : Test
+trimWhitespaceFromTeamNames =
+    test "Trims whitespace from team names" <|
+        \() ->
+            teamNamesWithWhitespaceSpreadsheetValuesResponse 
+                |> decodeString (decodeSheetToLeagueGames "Regional Div 1")
+                |> Expect.equal (Ok (LeagueGames "Regional Div 1" [ { vanillaGame | homeTeamName = "Castle", awayTeamName = "Meridian"} ]))
 
 isError : Result error value -> Bool
 isError result =
@@ -101,6 +109,18 @@ blankTeamNameSpreadsheetValuesResponse =
       "1",
       "3",
       ""
+    ]
+    """
+
+teamNamesWithWhitespaceSpreadsheetValuesResponse : String
+teamNamesWithWhitespaceSpreadsheetValuesResponse =
+  createSpreadsheetValuesResponse
+    """
+    [
+      "Castle ",
+      "",
+      "",
+      " Meridian"
     ]
     """
 

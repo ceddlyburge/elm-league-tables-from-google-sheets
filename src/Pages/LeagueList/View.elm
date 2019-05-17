@@ -22,7 +22,7 @@ page response responsive =
             HeaderBar 
                 [ HeaderButtonSizedSpace ] 
                 "Leagues" 
-                [ RefreshHeaderButton AllSheetSummaryRequest ] )
+                [ RefreshHeaderButton RefreshLeagueList ] )
         ( maybeResponse response <| leagueList responsive )
 
 leagueList: Responsive -> List LeagueSummary -> Element Styles variation Msg
@@ -45,7 +45,7 @@ leagueTitle responsive league =
             , width <| percent responsive.designPortraitPercentageWidth
             , class "data-test-league"
             , center
-            , onClick <| IndividualSheetRequest league.title
+            , onClick <| ShowLeagueTable league.title
         ] 
         (paragraph None [] [ text league.title ] )
  

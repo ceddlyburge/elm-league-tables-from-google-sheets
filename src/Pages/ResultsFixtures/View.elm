@@ -30,9 +30,9 @@ page leagueTitle response progessive =
 headerBar: String -> HeaderBar
 headerBar leagueTitle = 
     HeaderBar 
-        [ BackHeaderButton <| IndividualSheetRequest leagueTitle ] 
+        [ BackHeaderButton <| ShowLeagueTable leagueTitle ] 
         (Maybe.withDefault "" <| decodeUri leagueTitle)
-        [ RefreshHeaderButton <| IndividualSheetRequestForResultsFixtures leagueTitle ]
+        [ RefreshHeaderButton <| RefreshResultsFixtures leagueTitle ]
 
 fixturesResultsElement : Responsive -> ResultsFixtures -> Element Styles variation Msg
 fixturesResultsElement responsive resultsFixtures =

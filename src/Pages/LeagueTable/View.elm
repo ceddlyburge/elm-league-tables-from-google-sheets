@@ -22,10 +22,10 @@ page leagueTitle response responsive =
     Page
         ( SingleHeader <| 
             HeaderBar 
-                [ BackHeaderButton AllSheetSummaryRequest
-                , ResultsFixturesHeaderButton <| IndividualSheetRequestForResultsFixtures leagueTitle ] 
+                [ BackHeaderButton ShowLeagueList
+                , ResultsFixturesHeaderButton <| ShowResultsFixtures leagueTitle ] 
                 (Maybe.withDefault "" (decodeUri leagueTitle))
-                [ RefreshHeaderButton <| IndividualSheetRequest leagueTitle ] )
+                [ RefreshHeaderButton <| RefreshLeagueTable leagueTitle ] )
         ( maybeResponse response (leagueTableElement responsive) )
 
 

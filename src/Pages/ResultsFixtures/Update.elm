@@ -1,40 +1,20 @@
-module Pages.ResultsFixtures.Update exposing (individualSheetRequestForResultsFixtures, individualSheetResponseForResultsFixtures)
-
-import Navigation exposing (newUrl)
-import RemoteData exposing (WebData)
+module Pages.ResultsFixtures.Update exposing (showResultsFixtures, refreshResultsFixtures)
 
 import Msg exposing (..)
 import Models.Model exposing (Model)
-import Models.LeagueGames exposing (LeagueGames)
-import Models.Config exposing (Config)
 import Models.Route as Route exposing (Route)
-import Routing exposing (toUrl)
-import GoogleSheet.Api exposing (fetchIndividualSheet)
-import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
+import Pages.UpdateHelpers exposing (showRouteRequiringIndividualSheetApi, refreshRouteRequiringIndividualSheetApi)
 
-individualSheetRequestForResultsFixtures : String -> Model -> ( Model, Cmd Msg )
-individualSheetRequestForResultsFixtures leagueTitle model  =
-    ( { model | 
-            leagueGames = RemoteData.Loading
-            , resultsFixtures = RemoteData.Loading
-            , route = Route.ResultsFixturesRoute leagueTitle
-       }
-       , fetchLeagueGames leagueTitle model.config )
-
-individualSheetResponseForResultsFixtures : Model -> WebData LeagueGames -> String -> ( Model, Cmd Msg )
-individualSheetResponseForResultsFixtures  model response leagueTitle =
-    -- probably define a new shared function that takes the model and returns the newUrl with the route in the model
-    -- this will reduce duplication and make it impossible to mismatch the change in urls
-    ( 
-        { model | 
-            leagueGames = response
-            , resultsFixtures = RemoteData.map calculateResultsFixtures response }
-        , newUrl <| toUrl <| model.route
-    )
-
-fetchLeagueGames : String -> Config -> Cmd Msg
-fetchLeagueGames leagueTitle config =
-    fetchIndividualSheet 
+showResultsFixtures : String -> Model -> ( Model, Cmd Msg )
+showResultsFixtures leagueTitle model  =
+    showRouteRequiringIndividualSheetApi 
         leagueTitle 
-        config 
-        (IndividualSheetResponseForResultsFixtures leagueTitle)
+        (Route.ResultsFixtures leagueTitle)
+        model 
+
+refreshResultsFixtures : String -> Model -> ( Model, Cmd Msg )
+refreshResultsFixtures leagueTitle model  =
+    refreshRouteRequiringIndividualSheetApi 
+        leagueTitle 
+        (Route.ResultsFixtures leagueTitle)
+        model 

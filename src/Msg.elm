@@ -11,14 +11,15 @@ import Navigation exposing (Location)
 type Msg
     = 
     -- league List
-    AllSheetSummaryRequest
+    ShowLeagueList
+    | RefreshLeagueList
     | AllSheetSummaryResponse (WebData (List LeagueSummary))
-    -- LeagueTable
-    | IndividualSheetRequest String
+    -- Fixtures / Results, LeagueTable
+    | ShowLeagueTable String
+    | RefreshLeagueTable String
+    | ShowResultsFixtures String
+    | RefreshResultsFixtures String
     | IndividualSheetResponse String (WebData LeagueGames)
-    -- Fixtures / Results
-    | IndividualSheetRequestForResultsFixtures String
-    | IndividualSheetResponseForResultsFixtures String (WebData LeagueGames)
     -- routing
     | OnLocationChange Location
     -- responsiveness

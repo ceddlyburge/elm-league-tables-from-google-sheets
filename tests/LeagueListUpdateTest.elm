@@ -10,6 +10,7 @@ import Update exposing (update)
 import Msg exposing (..)
 import Models.Model exposing (Model, vanillaModel)
 import Models.LeagueSummary exposing (LeagueSummary)
+import Models.Route as Route exposing (Route)
 
 apiError : Test
 apiError =
@@ -21,6 +22,54 @@ apiError =
                 update (AllSheetSummaryResponse response) vanillaModel
                 |> getModel
                 |> Expect.equal { vanillaModel | leagues = response }
+
+-- this doesn't completely test that the api call gets make, but it would be strange code
+-- that set leagues to RemoteData.Loading without also calling the Api
+callsApi : Test
+callsApi =
+    test "Calls the APi if the results arent already available in the model" <|
+        \() ->
+            update 
+                ShowLeagueList 
+                vanillaModel
+            |> getModel
+            |> Expect.equal 
+                { vanillaModel | 
+                    leagues = RemoteData.Loading
+                    , route = Route.LeagueList }
+
+cachesApiResult : Test
+cachesApiResult =
+    test "Only calls the api if the results isn't already available in the model" <|
+        \() ->
+            let 
+                model = 
+                    { vanillaModel | 
+                        leagues = RemoteData.Success []
+                        , route = Route.LeagueList }
+            in 
+                update 
+                    ShowLeagueList 
+                    model
+                |> Expect.equal ( model, Cmd.none )
+
+
+refreshesAPi : Test
+refreshesAPi =
+    test "Calls the APi if asked to, even if the data already exists" <|
+        \() ->
+            let 
+                model = 
+                    { vanillaModel | 
+                        leagues = RemoteData.Success []
+                        , route = Route.LeagueList }
+            in 
+                update 
+                    RefreshLeagueList 
+                    model
+                |> getModel
+                |> Expect.equal { model | leagues = RemoteData.Loading }
+
 
 apiSuccess : Test
 apiSuccess =

@@ -112,7 +112,7 @@ title titleText =
 
 backIcon : Element style variation msg
 backIcon =
-    Html.span [ Html.Attributes.class "fas fa-arrow-alt-circle-left" ] []
+    Html.span [ Html.Attributes.class "data-test-back fas fa-arrow-alt-circle-left" ] []
         |> Element.html
 
 refreshIcon : Element style variation msg

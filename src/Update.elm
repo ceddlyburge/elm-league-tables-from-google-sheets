@@ -4,37 +4,61 @@ import Element exposing (classifyDevice)
 import Msg exposing (..)
 import Models.Model exposing (Model)
 import Models.Route as Route exposing (Route)
-import Pages.LeagueList.Update exposing (allSheetSummaryRequest, allSheetSummaryResponse)
-import Pages.LeagueTable.Update exposing (individualSheetRequest, individualSheetResponse)
-import Pages.ResultsFixtures.Update exposing (individualSheetRequestForResultsFixtures, individualSheetResponseForResultsFixtures)
+import Pages.LeagueList.Update exposing (..)
+import Pages.LeagueTable.Update exposing (showLeagueTable, refreshLeagueTable)
+import Pages.ResultsFixtures.Update exposing (showResultsFixtures, refreshResultsFixtures)
+import Pages.UpdateHelpers exposing (individualSheetResponse)
 import Routing exposing (..)
+import Navigation exposing (Location, newUrl)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
+    updatewithoutBrowserHistory msg model
+    |> addBrowserHistory msg model
+
+addBrowserHistory : Msg -> Model -> (Model, Cmd Msg) -> ( Model, Cmd Msg )
+addBrowserHistory oldMsg oldModel ( newModel, newMsg ) =
+    case oldMsg of
+        OnLocationChange _ ->
+            (newModel, newMsg) 
+        _ ->
+            if (newModel.route == oldModel.route) then
+                (newModel, newMsg) 
+            else 
+                (newModel, Cmd.batch [ newMsg, newModel.route |> toUrl |> newUrl] )
+
+
+updatewithoutBrowserHistory : Msg -> Model -> ( Model, Cmd Msg )
+updatewithoutBrowserHistory msg model =
     case msg of
         NoOp ->
             ( model, Cmd.none )
 
         -- League List
-        AllSheetSummaryRequest ->
-            allSheetSummaryRequest model
+        ShowLeagueList  ->
+            showLeagueList model
+
+        RefreshLeagueList  ->
+            refreshLeagueList model
 
         AllSheetSummaryResponse response ->
             allSheetSummaryResponse model response
 
-        -- League Table
-        IndividualSheetRequest leagueTitle ->
-            individualSheetRequest leagueTitle model
+        -- Fixtures / Results, League Table
+        ShowLeagueTable leagueTitle ->
+            showLeagueTable leagueTitle model
+
+        RefreshLeagueTable leagueTitle ->
+            refreshLeagueTable leagueTitle model
+
+        ShowResultsFixtures leagueTitle ->
+            showResultsFixtures leagueTitle model
+
+        RefreshResultsFixtures leagueTitle ->
+            refreshResultsFixtures leagueTitle model
 
         IndividualSheetResponse leagueTitle response ->
             individualSheetResponse model response leagueTitle
-        
-        -- Fixtures / Results
-        IndividualSheetRequestForResultsFixtures leagueTitle ->
-            individualSheetRequestForResultsFixtures leagueTitle model
-
-        IndividualSheetResponseForResultsFixtures leagueTitle response ->
-            individualSheetResponseForResultsFixtures model response leagueTitle
         
         -- responsiveness
         SetScreenSize size ->
@@ -42,23 +66,38 @@ update msg model =
 
         -- routing
         OnLocationChange location ->
-            -- this relies on the other update cases to actually set the route in the model, probably not the best idea
+            updateFromLocation model location
+
+
+updateFromLocation : Model -> Location -> ( Model, Cmd Msg )
+updateFromLocation model location =
+    let
+        route = parseLocation location
+    in
+        updateFromRoute model location route
+        |> stopInfiniteLoop model route  
+
+
+updateFromRoute : Model -> Location -> Route -> ( Model, Cmd Msg )
+updateFromRoute model location route =
+    case route of
+        Route.LeagueList ->
+            updatewithoutBrowserHistory ShowLeagueList model
+        Route.LeagueTable leagueTitle ->
+            updatewithoutBrowserHistory (ShowLeagueTable leagueTitle) model 
+        Route.ResultsFixtures leagueTitle ->
+            updatewithoutBrowserHistory (ShowResultsFixtures leagueTitle) model 
+        Route.NotFound ->
             let
-                route = parseLocation location
+                _ = Debug.log "Route not found" location
             in
-                -- If we are already on the page, then don't do anything (otherwise there will be an infinite loop)
-                if ((toUrl route) == (toUrl model.route)) then
-                    ( model, Cmd.none )
-                else 
-                    case route of
-                        Route.LeagueListRoute ->
-                            update AllSheetSummaryRequest model
-                        Route.LeagueTableRoute leagueTitle ->
-                            update (IndividualSheetRequest leagueTitle) model 
-                        Route.ResultsFixturesRoute leagueTitle ->
-                            update (IndividualSheetRequestForResultsFixtures leagueTitle) model 
-                        Route.NotFoundRoute ->
-                            let
-                                _ = Debug.log "Route not found" location
-                            in
-                                ( model, Cmd.none )            
+                ( model, Cmd.none )            
+
+
+stopInfiniteLoop : Model -> Route -> ( Model, Cmd Msg ) -> ( Model, Cmd Msg )
+stopInfiniteLoop originalModel route ( model, cmd ) =
+    -- If we are already on the page, then don't do anything (otherwise there will be an infinite loop).
+    if (toUrl route == toUrl originalModel.route) then
+        ( originalModel, Cmd.none )
+    else 
+        ( model, cmd )
