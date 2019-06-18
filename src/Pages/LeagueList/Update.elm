@@ -7,8 +7,6 @@ import Models.Model exposing (Model)
 import Models.LeagueSummary exposing (LeagueSummary)
 import Models.Route as Route exposing (Route)
 import GoogleSheet.Api exposing (fetchLeagueSummaries)
-import Ports exposing (..)
-import Models.Animation as Animation exposing (Animation(..))
 
 showLeagueList : Model -> ( Model, Cmd Msg )
 showLeagueList model =
@@ -31,15 +29,5 @@ refreshLeagueList model =
 
 allSheetSummaryResponse: Model -> WebData (List LeagueSummary) -> ( Model, Cmd Msg )
 allSheetSummaryResponse model response = 
-    ( { model | 
-        leagues = response
-        , leagueListAnimation = createAnimation response }
-    , RemoteData.toMaybe response
-        |> Maybe.map storeLeagues
-        |> Maybe.withDefault Cmd.none )
+    ( { model | leagues = response }, Cmd.none )
 
-createAnimation: WebData a -> Animation
-createAnimation response =
-    RemoteData.toMaybe response
-    |> Maybe.map (\_ -> SuccessfulFetch 0)
-    |> Maybe.withDefault (FailedFetch 0)
