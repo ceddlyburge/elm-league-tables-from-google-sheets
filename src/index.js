@@ -10,10 +10,10 @@ var app = Main.embed(document.getElementById('root'), {
 
 registerServiceWorker();
 
-app.ports.storeLeagues.subscribe(function(leagues) {
-    if (leagues.length > 0) {
-        var leaguesJson = JSON.stringify(leagues);
-        localStorage.setItem('leagues', leaguesJson);
-        console.log("Saved state: ", leaguesJson);
-    }
-});
+// app.ports.storeLeagues.subscribe(function(leagues) {
+//     if (leagues.length > 0) {
+//         var leaguesJson = JSON.stringify(leagues);
+//         localStorage.setItem('leagues', leaguesJson);
+//         console.log("Saved state: ", leaguesJson);
+//     }
+// });
