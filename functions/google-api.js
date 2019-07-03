@@ -1,31 +1,14 @@
 // from https://github.com/depadiernos/token-hider-inator
 const axios = require("axios")
-//const qs = require("qs")
 
 export function handler(event, context, callback) {
-  // apply our function to the queryStringParameters and assign it to a variable
-  //const API_PARAMS = qs.stringify(event.queryStringParameters)
-  // Get env var values defined in our Netlify site UI
-  //const { API_TOKEN, API_URL } = process.env
-  // In this example, the API Key needs to be passed in the params with a key of key.
-  // We're assuming that the ApiParams var will contain the initial ?
-  //const URL = `https://sheets.googleapis.com/v4/spreadsheets/1DeqpunDFihCDghs_5JeqSASCTxF8vUsaYQfwVrrWaDM/values/Div 1?key=AIzaSyCjcd6FnVIYZX1VqTtpaLP1HcEiN2vQbao` 
-
-  //console.log(process.env)
   const { ELM_APP_GOOGLE_SHEET, ELM_APP_GOOGLE_API_KEY } = process.env 
-  //console.log(event.queryStringParameters.leagueTitle)
   const URL = `https://sheets.googleapis.com/v4/spreadsheets/${ELM_APP_GOOGLE_SHEET}/values/${event.queryStringParameters.leagueTitle}?key=${ELM_APP_GOOGLE_API_KEY}` 
-  //`${API_URL}?${API_PARAMS}&key=${API_TOKEN}`
 
+  console.log(event)
+  console.log(context)
 
-  // Let's log some stuff we already have.
-  //console.log("Injecting token to", API_URL);
-  //console.log("logging event.....", event)
-  //console.log("Constructed URL is ...", URL)
-
-   // Here's a function we'll use to define how our response will look like when we call callback
   const pass = (body) => {
-    //console.log(body)
     callback( null, {
       statusCode: 200,
       headers: { 
@@ -39,13 +22,23 @@ export function handler(event, context, callback) {
 
   const get = () => {
     console.log("Perform the API call to ", URL)
-    axios.get(URL)
+    const newHeaders = {
+        "Accept": "application/json",
+        "Host": "sheets.googleapis.com",
+        "accept": "application/json",
+        "host": "sheets.googleapis.com",
+    }
+    const headers = {...event.headers, ...newHeaders}
+    console.log(headers)
+    axios.get(URL, {
+      headers: headers
+    })
     .then((response) =>
       {
         pass(response.data)
       }
     )
-    .catch(err => pass(err))
+    .catch(pass)
   }
   if(event.httpMethod == 'GET'){
     get()
@@ -53,13 +46,6 @@ export function handler(event, context, callback) {
 };
 
 // exports.handler = (event, context, callback) => {
-//   // "event" has informatiom about the path, body, headers etc of the request
-//   console.log('event', event)
-//   // "context" has information about the lambda environment and user details
-//   console.log('context', context)
-
-//   http.request
-
 //   // The "callback" ends the execution of the function and returns a reponse back to the caller
 //   return callback(null, {
 //     statusCode: 200,
