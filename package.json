@@ -9,19 +9,17 @@
     "url": "https://github.com/ceddlyburge/elm-league-table-from-sheet"
   },
   "scripts": {
-    "start": "elm-app start",
     "postinstall": "npm run globalinstall -g && npm run elminstall",
     "globalinstall": "npm install create-elm-app -g && npm install elm-github-install -g",
     "elminstall": "elm-package install -y && cd tests && elm-package install -y && cd .. && cd EndToEndTests && elm-install",
     "test": "elm-test && cd EndToEndTests && bash end-to-end-tests.sh",
-    "build": "elm-app build",
     "netlifybuild": "npm run globalinstall && elm-package install -y && npm run build",
-    "start2": "npm-run-all --parallel start2:app start2:server",
-    "start2:app": "npm run start",
-    "start2:server": "netlify-lambda serve functions --config ./webpack.functions.js",
-    "build2": "npm-run-all --parallel build2:**",
-    "build2:app": "react-scripts build",
-    "build2:functions": "netlify-lambda build functions -c ./webpack.config.js"
+    "start": "npm-run-all --parallel start:app start:server",
+    "start:app": "elm-app start",
+    "start:server": "netlify-lambda serve functions --config ./webpack.functions.js",
+    "build": "npm-run-all --parallel build:**",
+    "build:app": "react-scripts build",
+    "build:functions": "netlify-lambda build functions -c ./webpack.config.js"
   },
   "devDependencies": {
     "create-elm-app": "^1.10.4",
