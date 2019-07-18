@@ -14,20 +14,17 @@
     "elminstall": "elm-package install -y && cd tests && elm-package install -y && cd .. && cd EndToEndTests && elm-install",
     "test": "elm-test && cd EndToEndTests && bash end-to-end-tests.sh",
     "netlifybuild": "npm run globalinstall && elm-package install -y && npm run build",
-    "start": "npm-run-all --parallel start:app start:server",
     "start:app": "elm-app start",
     "start:server": "netlify-lambda serve functions --config ./webpack.functions.js",
-    "build": "npm-run-all --parallel build:app build:functions",
+    "build": "npm run build:app && npm run build:functions",
     "build:app": "elm-app build",
     "build:functions": "netlify-lambda build functions"
   },
   "devDependencies": {
     "elm-spec": "^1.1.2",
-    "netlify-lambda": "^1.4.13",
-    "npm-run-all": "^4.1.5"
+    "netlify-lambda": "^1.4.13"
   },
   "dependencies": {
-    "axios": "^0.19.0",
-    "create-elm-app": "1.10.4"
+    "axios": "^0.19.0"
   }
 }
