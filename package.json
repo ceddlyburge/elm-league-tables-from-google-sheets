@@ -10,7 +10,7 @@
   },
   "scripts": {
     "postinstall": "npm run globalinstall -g && npm run elminstall",
-    "globalinstall": "npm install create-elm-app@1.10.4 -g && npm install elm-github-install -g",
+    "globalinstall": "npm install elm-github-install -g",
     "elminstall": "elm-package install -y && cd tests && elm-package install -y && cd .. && cd EndToEndTests && elm-install",
     "test": "elm-app test && cd EndToEndTests && bash end-to-end-tests.sh",
     "netlifybuild": "npm run globalinstall && elm-package install -y && npm run build",
@@ -22,7 +22,8 @@
   },
   "devDependencies": {
     "elm-spec": "^1.1.2",
-    "netlify-lambda": "^1.4.13"
+    "netlify-lambda": "^1.4.13",
+	"create-elm-app": "1.10.4"
   },
   "dependencies": {
     "axios": "^0.19.0"
