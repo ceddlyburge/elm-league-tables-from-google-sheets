@@ -11,19 +11,14 @@ import GoogleSheet.DecodeGoogleSheetToGameList exposing (..)
 
 fetchLeagueSummaries : Config -> ((WebData (List LeagueSummary)) -> msg) -> Cmd msg
 fetchLeagueSummaries config msg =
-    Http.get ("https://sheets.googleapis.com/v4/spreadsheets/" ++ config.googleSheet ++ "?key=" ++ config.googleApiKey) decodeAllSheetSummaryToLeagueSummaries
+    Http.get (config.netlifyFunctionsServer ++ "/.netlify/functions/google-api") decodeAllSheetSummaryToLeagueSummaries
     |> RemoteData.sendRequest
     |> Cmd.map msg
 
 fetchIndividualSheet : String -> Config -> ((WebData LeagueGames) -> msg) -> Cmd msg
 fetchIndividualSheet leagueTitle config msg =
     Http.get 
-        ("https://sheets.googleapis.com/v4/spreadsheets/" ++ 
-            config.googleSheet ++ 
-            "/values/" ++ 
-            leagueTitle ++ 
-            "?key=" ++ 
-            config.googleApiKey) 
+        (config.netlifyFunctionsServer ++ "/.netlify/functions/google-api?leagueTitle=" ++ leagueTitle)
         (decodeSheetToLeagueGames leagueTitle)
     |> RemoteData.sendRequest
     |> Cmd.map msg

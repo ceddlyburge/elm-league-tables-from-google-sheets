@@ -13,7 +13,7 @@ specs =
       context "with HTTP mocks"
         [ http
           [ { method = "GET"
-            , url = "https://sheets.googleapis.com/v4/spreadsheets/spreadSheetId?key=googleApiKey"
+            , url = "http://testhost/.netlify/functions/google-api"
             , response = { status = 200, body = spreadsheetIdResponseDiv1Div2 }
             }
           ]
@@ -36,6 +36,6 @@ main =
     { subscriptions = \_ -> Sub.none
     , update = update
     , view = view
-    , init = \_ -> { vanillaModel | config = Config "spreadSheetId" "googleApiKey" }
+    , init = \_ -> { vanillaModel | config = Config "http://testhost" }
     } specs
 
