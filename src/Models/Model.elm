@@ -23,7 +23,7 @@ type alias Model =
 vanillaModel : Model
 vanillaModel =
     Model 
-        (Config "" "") 
+        (Config "") 
         Route.NotFound 
         RemoteData.NotAsked 
         Dict.empty
