@@ -9,6 +9,7 @@ import Fuzz exposing (list, string)
 import Pages.LeagueList.View exposing (..)
 import Pages.RenderPage exposing (..)
 import Models.LeagueSummary exposing (LeagueSummary)
+import Models.Config exposing ( Config, vanillaConfig )
 import Pages.Responsive exposing (..)
 
 
@@ -18,7 +19,7 @@ multipleLeagues =
         \leagueTitles ->
                 renderPage 
                     vanillaResponsive
-                    (page (leagueListResponse leagueTitles) vanillaResponsive)
+                    (page vanillaConfig (leagueListResponse leagueTitles) vanillaResponsive)
                 |> Query.fromHtml
                 |> Query.has (List.map text leagueTitles)
 

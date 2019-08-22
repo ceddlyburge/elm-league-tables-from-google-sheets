@@ -6,7 +6,7 @@ import RemoteData exposing (WebData)
 import Models.LeagueSummary exposing (LeagueSummary)
 import Models.LeagueTable exposing (LeagueTable)
 import Models.ResultsFixtures exposing (ResultsFixtures)
-import Models.Config exposing (Config)
+import Models.Config exposing (Config, vanillaConfig)
 import Models.Route as Route exposing (Route)
 import Element exposing (Device, classifyDevice)
 import Window exposing (size)
@@ -23,7 +23,7 @@ type alias Model =
 vanillaModel : Model
 vanillaModel =
     Model 
-        (Config "") 
+        vanillaConfig 
         Route.NotFound 
         RemoteData.NotAsked 
         Dict.empty
