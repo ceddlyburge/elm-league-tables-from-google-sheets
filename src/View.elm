@@ -35,7 +35,7 @@ page model responsive =
         Route.ResultsFixtures leagueTitle ->
             Pages.ResultsFixtures.View.page leagueTitle (getResultsFixtures leagueTitle model) responsive
         Route.NotFound ->
-            Pages.LeagueList.View.page model.leagues responsive -- return 404 later
+            Pages.LeagueList.View.page model.config model.leagues responsive -- return 404 later
 
 getLeagueTable : String -> Model -> WebData LeagueTable
 getLeagueTable leagueTitle model =
