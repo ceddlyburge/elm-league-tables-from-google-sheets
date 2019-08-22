@@ -29,7 +29,7 @@ page : Model -> Responsive -> Page
 page model responsive =
     case model.route of
         Route.LeagueList ->
-            Pages.LeagueList.View.page model.leagues responsive
+            Pages.LeagueList.View.page model.config model.leagues responsive
         Route.LeagueTable leagueTitle ->
             Pages.LeagueTable.View.page leagueTitle (getLeagueTable leagueTitle model) responsive
         Route.ResultsFixtures leagueTitle ->

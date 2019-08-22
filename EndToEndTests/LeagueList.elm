@@ -19,7 +19,11 @@ specs =
           ]
         ,it "displays available leagues"
         [ steps.click ".data-test-refresh"
-          , assert.containsText
+        , assert.containsText
+          { selector = ".data-test-title"
+          , text = "Test Title"
+          }
+        , assert.containsText
           { selector = ".data-test-leagues .data-test-league:first-Child"
           , text = "Regional Div 1"
           }
@@ -36,6 +40,6 @@ main =
     { subscriptions = \_ -> Sub.none
     , update = update
     , view = view
-    , init = \_ -> { vanillaModel | config = Config "http://testhost" "League Tables" }
+    , init = \_ -> { vanillaModel | config = Config "http://testhost" "Test Title" }
     } specs
 

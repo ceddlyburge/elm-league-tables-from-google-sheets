@@ -15,13 +15,13 @@ import Pages.HeaderBar exposing ( .. )
 import Pages.HeaderBarItem exposing (..)
 
 
-page : WebData (List LeagueSummary) -> Responsive -> Page
-page response responsive =
+page : Config -> WebData (List LeagueSummary) -> Responsive -> Page
+page config response responsive =
     Page
         ( SingleHeader <| 
             HeaderBar 
                 [ HeaderButtonSizedSpace ] 
-                "Leagues" 
+                config.applicationTitle
                 [ RefreshHeaderButton RefreshLeagueList ] )
         ( maybeResponse response <| leagueList responsive )
 
