@@ -6,7 +6,6 @@ import RemoteData exposing (WebData)
 
 import Msg exposing (..)
 import Models.Model exposing ( Model )
-import Models.Config exposing ( Config )
 import Models.Route as Route exposing ( Route )
 import Pages.LeagueList.View exposing (..)
 import Pages.LeagueTable.View exposing (..)
