@@ -2,5 +2,10 @@ module Models.Config exposing (..)
 
 
 type alias Config =
-    { netlifyFunctionsServer : String
+    { netlifyFunctionsServer: String
+    , applicationTitle: String
     }
+
+vanillaConfig : Config
+vanillaConfig =
+    Config "" "" 
