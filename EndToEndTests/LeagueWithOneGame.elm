@@ -117,5 +117,5 @@ main =
     { subscriptions = \_ -> Sub.none
     , update = update
     , view = view
-    , init = \_ -> { vanillaModel | config = Config "http://testhost" }
+    , init = \_ -> { vanillaModel | config = Config "http://testhost" "" }
     } specs
