@@ -19,7 +19,7 @@
     "build": "npm run build:app && npm run build:functions",
     "build:app": "elm-app build",
     "build:functions": "netlify-lambda build functions",
-    "cypress:run": "cypress run",
+    "cypress:run": "cypress run --record",
     "cypress:test": "start-server-and-test start:app http://localhost:3000 cypress:run"  
   },
   "devDependencies": {
