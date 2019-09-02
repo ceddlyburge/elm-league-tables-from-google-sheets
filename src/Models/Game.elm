@@ -2,6 +2,7 @@ module Models.Game exposing (Game, vanillaGame)
 
 import Date exposing (..)
 
+-- should standardise on homeTeamBlah or homeBlah here
 type alias Game =
     { homeTeamName : String
     -- homeTeamGoals and awayTeamGoals are considered necessary in the spreadsheet
@@ -10,7 +11,7 @@ type alias Game =
     , awayTeamName : String
     , awayTeamGoals : Maybe Int
     , datePlayed : Maybe Date
-    -- homeTeamGoals and awayTeamGoals are list of goals (currently just a string
+    -- homeTeamGoals and awayTeamGoals are lists of goals (currently just a string
     -- that represents the name of the scorer). They are options. This creates 
     -- the potential for a disconnect between the number of items in the list 
     -- and the number of goals. I think this is Ok, we could add something to the

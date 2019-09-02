@@ -6,7 +6,7 @@ import Fuzz exposing (Fuzzer, intRange)
 import Expect
 
 import Models.LeagueTable exposing (LeagueTable)
-import Models.Game exposing (Game)
+import Models.Game exposing (vanillaGame)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.Team exposing (Team)
 import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
@@ -32,7 +32,7 @@ game castleGoals meridianGoals =
         , awayTeamGoals = (Just castleGoals)
         , datePlayed = (Just <| Date.fromTime 1)
     }
-    
+
 leagueTable: Int -> Int -> Int -> Int -> LeagueTable
 leagueTable castleGoals meridianGoals castleGoalDifference meridianGoalDifference = 
     LeagueTable 
