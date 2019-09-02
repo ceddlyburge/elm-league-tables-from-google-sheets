@@ -1,0 +1,25 @@
+{
+    "range": "'Regional Div 1'!A1:Z1000",
+    "majorDimension": "ROWS",
+    "values": [
+        [
+            "Home Team",
+            "Home Score",
+            "Away Score",
+            "Away Team",
+            "Date Played",
+            "Home Scorers",
+            "Away Scorers",
+            "Home Cards",
+            "Away Cards",
+            "Notes"
+        ],
+        [
+            "Castle",
+            "",
+            "",
+            "Meridian",
+            "2018-06-04"
+        ]
+    ]
+}
