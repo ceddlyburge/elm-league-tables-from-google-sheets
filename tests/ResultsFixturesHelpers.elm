@@ -19,11 +19,11 @@ expectFirstDay expect resultsFixtures =
 
 unscheduledGame: Game
 unscheduledGame = 
-    Game "" Nothing "" Nothing Nothing "" "" "" "" ""
+    Game "" Nothing "" Nothing Nothing [] "" "" "" "" ""
     
 scheduledGame: Date -> Game
 scheduledGame date = 
-    Game "" Nothing "" Nothing (Just date) "" "" "" "" ""
+    Game "" Nothing "" Nothing (Just date) [] "" "" "" "" ""
 
 dateTimeInFebruary : Fuzzer Date
 dateTimeInFebruary =

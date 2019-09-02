@@ -8,6 +8,7 @@ type alias Game =
     , awayTeamName : String
     , awayTeamGoals : Maybe Int
     , datePlayed : Maybe Date
+    , homeGoals : List String
     , homeScorers : String
     , awayScorers : String
     , homeCards : String
@@ -17,4 +18,4 @@ type alias Game =
 
 vanillaGame : Game
 vanillaGame = 
-    Game "" Nothing "" Nothing Nothing "" "" "" "" "" 
+    Game "" Nothing "" Nothing Nothing [] "" "" "" "" "" 

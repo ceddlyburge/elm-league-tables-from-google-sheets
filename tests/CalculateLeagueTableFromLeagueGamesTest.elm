@@ -25,7 +25,7 @@ oneGame =
 
 game: Int -> Int -> Game
 game castleGoals meridianGoals = 
-    Game "Meridian" (Just meridianGoals) "Castle" (Just castleGoals) (Just <| Date.fromTime 1) "1, 6, 4" "2" "Green 3, Yellow 5" "Red 14" "good game"
+    Game "Meridian" (Just meridianGoals) "Castle" (Just castleGoals) (Just <| Date.fromTime 1) [] "" "" "" "" ""
 
 leagueTable: Int -> Int -> Int -> Int -> LeagueTable
 leagueTable castleGoals meridianGoals castleGoalDifference meridianGoalDifference = 
