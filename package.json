@@ -9,7 +9,7 @@
     "url": "https://github.com/ceddlyburge/elm-league-table-from-sheet"
   },
   "scripts": {
-    "test": "elm-app test",
+    "test": "cypress:test && elm-app test",
     "cypress:test": "start-server-and-test start:app http://localhost:3000 cypress:run",
     "cypress:run": "cypress run --record",
     "start:app": "elm-app start",

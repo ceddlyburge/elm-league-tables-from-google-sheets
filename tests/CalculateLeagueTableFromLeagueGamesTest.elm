@@ -25,8 +25,14 @@ oneGame =
 
 game: Int -> Int -> Game
 game castleGoals meridianGoals = 
-    Game "Meridian" (Just meridianGoals) "Castle" (Just castleGoals) (Just <| Date.fromTime 1) [] "" "" "" "" ""
-
+    { vanillaGame | 
+        homeTeamName = "Meridian"
+        , homeTeamGoals = (Just meridianGoals)
+        , awayTeamName = "Castle"
+        , awayTeamGoals = (Just castleGoals)
+        , datePlayed = (Just <| Date.fromTime 1)
+    }
+    
 leagueTable: Int -> Int -> Int -> Int -> LeagueTable
 leagueTable castleGoals meridianGoals castleGoalDifference meridianGoalDifference = 
     LeagueTable 

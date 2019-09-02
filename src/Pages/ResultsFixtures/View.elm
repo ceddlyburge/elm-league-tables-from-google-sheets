@@ -82,19 +82,34 @@ gameRow responsive game =
         , center
         , class "data-test-game"
         , width <| percent 100 ] 
-        [ 
-            paragraph 
+        [ column
+            ResultFixtureHome
+            [ teamWidth responsive ]
+            [ paragraph 
                 ResultFixtureHome 
-                [ alignRight, teamWidth responsive, class "data-test-homeTeamName" ] 
+                [ alignRight, class "data-test-homeTeamName" ] 
                 [ text game.homeTeamName ]
-            , row 
-                None 
-                [ ] 
-                ( scoreSlashTime game )
             , paragraph 
+                ResultFixtureGoals 
+                [ alignRight, class "data-test-homeTeamGoalScorers" ] 
+                [ text (String.join ", " game.homeGoals) ]
+            ]
+        , row 
+            None 
+            [ ] 
+            ( scoreSlashTime game )
+        , column 
+            ResultFixtureAway 
+            [ teamWidth responsive ]
+            [ paragraph 
                 ResultFixtureAway 
-                [ alignLeft, teamWidth responsive, class "data-test-awayTeamName" ] 
+                [ alignLeft, class "data-test-awayTeamName" ] 
                 [ text game.awayTeamName ]
+            , paragraph 
+                ResultFixtureGoals 
+                [ alignLeft, class "data-test-awayTeamGoalScorers" ] 
+                [ text (String.join ", " game.awayGoals) ]
+            ]
         ]
 
 scoreSlashTime : Game -> List (Element Styles variation Msg)

@@ -36,13 +36,19 @@ decodeRowToGame row =
                         |> andMap (Json.Decode.map String.trim (index 3 string)) -- index 3 is on purpose
                         |> andMap (index 2 (maybe parseInt))
                         |> andMap (withDefault Nothing (index 4 (maybe date)))
-                        |> andMap (withDefault "" (index 5 string))
-                        |> andMap (withDefault "" (index 6 string))
+                        |> andMap (Json.Decode.map parseGoals (withDefault "" (index 5 string)))
+                        |> andMap (Json.Decode.map parseGoals (withDefault "" (index 6 string)))
                         |> andMap (withDefault "" (index 7 string))
                         |> andMap (withDefault "" (index 8 string))
                         |> andMap (withDefault "" (index 9 string))
                         |> Json.Decode.map Just
                 )
+
+parseGoals : String -> List String
+parseGoals goalsCsv =
+    goalsCsv
+    |> String.split ","
+    |> List.map String.trim
 
 validTeamNames : Game -> Bool
 validTeamNames game =

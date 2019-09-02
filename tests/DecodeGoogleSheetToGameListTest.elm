@@ -27,8 +27,8 @@ decodeSpreadsheetIdResponse =
                           "Meridian" 
                           (Just 1) 
                           (Result.toMaybe (Date.fromString "2018-06-04")) 
-                          ["Cedd", "Cedd", "Chad"]
-                          "1, 6, 4" "2" 
+                          ["Cedd", "Lisa", "Barry"]
+                          ["Nobody"]
                           "Green 3, Yellow 5" 
                           "Red 14" 
                           "good game" 
@@ -98,7 +98,7 @@ spreadsheetValuesResponse =
       "1",
       "Meridian",
       "2018-06-04",
-      "Cedd, Cedd , Chad",
+      "Cedd, Lisa , Barry",
       "Nobody",
       "Green 3, Yellow 5",
       "Red 14",

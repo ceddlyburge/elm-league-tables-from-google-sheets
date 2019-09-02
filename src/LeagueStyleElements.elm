@@ -28,6 +28,7 @@ type Styles
     | ResultFixtureRow
     | ResultFixtureHome
     | ResultFixtureAway
+    | ResultFixtureGoals
     | ResultFixtureScore
     | ResultFixtureTime
 
@@ -47,6 +48,7 @@ colors :
     , secondary4 : Color.Color
     , secondary2 : Color.Color
     , text : Color.Color
+    , supplementaryText : Color.Color
     , titleText : Color.Color
     , subTitleText : Color.Color
     , heading1 : Color.Color
@@ -62,6 +64,7 @@ colors =
     , secondary4 = Color.rgba 35 63 98 1.0
     , secondary2 = Color.rgba 139 162 190 1.0
     , text = Color.rgba 79 108 142 1.0 -- secondary 3
+    , supplementaryText = Color.rgba 150 109 44 1.0 -- secondary-2-3
     , titleText = Color.rgba 4 38 45 1.0 -- primary 5
     , subTitleText = Color.rgba 7 25 48 1.0 -- primary 5
     , heading1 = Color.rgba 35 63 98 1.0 -- secondary 4
@@ -138,6 +141,10 @@ stylesheet fontSize =
             ]
         , style ResultFixtureAway
             [ 
+            ]
+        , style ResultFixtureGoals
+            [ Font.size fontSize.small
+            , Color.text colors.supplementaryText
             ]
         , style ResultFixtureScore
             [ Font.bold

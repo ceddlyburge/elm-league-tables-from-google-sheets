@@ -50,4 +50,25 @@ describe('The Results / Fixtures Page', function() {
 		cy.get('.data-test-awayTeamName').contains('Nomad')
 	})
   })
+
+  it('shows scorers', function() {
+	cy.server() 
+    
+	cy.route(
+	  'GET',      
+	  '/.netlify/functions/google-api?leagueTitle=Regional Div 1',
+	  'fixture:one-result-three-fixtures.json'
+	)
+
+	cy.visit('/results-fixtures/Regional%20Div%201') 
+	
+	// only played games should have scorers, even if scorers are entered
+	cy.get('.data-test-dates .data-test-date-2018-06-04 .data-test-game:nth-Child(1) .data-test-homeTeamGoalScorers').contains('Will, Johnnie, Lisa')
+
+	cy.get('.data-test-dates .data-test-date-2018-06-04 .data-test-game:nth-Child(2)').within(() => {
+		cy.get('.data-test-homeTeamGoalScorers').contains('Cedd, Cedd')
+		cy.get('.data-test-awayTeamGoalScorers').contains('Chad')
+	})
+  })
+  
 })
