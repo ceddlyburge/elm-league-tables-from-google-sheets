@@ -4,7 +4,7 @@ describe('The League Table Page', function() {
     
 	cy.route(
 	  'GET',      
-	  '/.netlify/functions/google-api?leagueTitle=Regional%20Div%201',
+	  '/.netlify/functions/google-api?leagueTitle=Regional Div 1',
 	  'fixture:one-played-game.json'
 	)
 
@@ -14,8 +14,30 @@ describe('The League Table Page', function() {
 	// I think I'll test the navigation separately
 	cy.visit('/league/Regional%20Div%201') 
 	
-	// need to work out cypress selectors at this point
-	cy.contains('Regional Div 1')
-	cy.contains('Regional Div 2')
+	cy.get('.data-test-teams .data-test-team:nth-Child(2)').within(() => {
+			cy.get('.data-test-position').contains('1')
+			cy.get('.data-test-name').contains('Castle')
+			cy.get('.data-test-gamesPlayed').contains('1')
+			cy.get('.data-test-won').contains('1')
+			cy.get('.data-test-drawn').contains('0')
+			cy.get('.data-test-lost').contains('0')
+			cy.get('.data-test-points').contains('3')
+			cy.get('.data-test-goalsFor').contains('3')
+			cy.get('.data-test-goalsAgainst').contains('0')
+			cy.get('.data-test-goalDifference').contains('3')
+	})
+	
+	cy.get('.data-test-teams .data-test-team:nth-Child(3)').within(() => {
+			cy.get('.data-test-position').contains('2')
+			cy.get('.data-test-name').contains('Meridian')
+			cy.get('.data-test-gamesPlayed').contains('1')
+			cy.get('.data-test-won').contains('0')
+			cy.get('.data-test-drawn').contains('0')
+			cy.get('.data-test-lost').contains('1')
+			cy.get('.data-test-points').contains('0')
+			cy.get('.data-test-goalsFor').contains('0')
+			cy.get('.data-test-goalsAgainst').contains('3')
+			cy.get('.data-test-goalDifference').contains('-3')
+	})
   })
 })
