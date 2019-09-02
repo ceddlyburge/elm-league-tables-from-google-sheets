@@ -5,6 +5,8 @@ install:
  - node --version
  - npm --version
  - npm install
+cache:
+    - '%USERPROFILE%\AppData\Local\Cypress\Cache'
 build_script:
  - npm run build
 test_script:
