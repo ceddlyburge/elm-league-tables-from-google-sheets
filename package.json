@@ -20,9 +20,10 @@
     "build:functions": "netlify-lambda build functions"
   },
   "devDependencies": {
-    "elm-spec": "^1.1.2",
+    "create-elm-app": "1.10.4",
+    "cypress": "^3.4.1",
     "netlify-lambda": "^1.4.13",
-    "create-elm-app": "1.10.4"
+    "start-server-and-test": "^1.10.0"
   },
   "dependencies": {
     "axios": "^0.19.0"
