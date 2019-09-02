@@ -59,6 +59,6 @@ dayElement =
         , homeTeamGoals = Just 3
         , homeGoals = " Cedd, Lisa ,Barry"
         , awayTeamName = "Meridian"
-        , homeGoals = "Chad,Pog "
+        , awayGoals = "Chad,Pog "
         , awayTeamGoals = Just 2 }
     |> Query.find [ Test.Html.Selector.class "data-test-day" ]
