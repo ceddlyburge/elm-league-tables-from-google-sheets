@@ -57,8 +57,8 @@ dayElement =
         datePlayed = Just <| Date.Extra.fromCalendarDate 2006 Mar 23
         , homeTeamName = "Castle"
         , homeTeamGoals = Just 3
-        , homeGoals = " Cedd, Lisa ,Barry"
+        , homeGoals = [ "Cedd" , "Lisa", "Barry" ]
         , awayTeamName = "Meridian"
-        , awayGoals = "Chad,Pog "
+        , awayGoals = [ "Chad", "Pog" ]
         , awayTeamGoals = Just 2 }
     |> Query.find [ Test.Html.Selector.class "data-test-day" ]
