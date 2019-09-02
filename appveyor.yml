@@ -1,7 +1,12 @@
+environment:
+  CYPRESS_RECORD_KEY:
+    secure: 65ltm15zTNHI/+9C2xyhXncZbnbqzLNofhEDRWp6VE9Hm3xD6lTzQhxFIUnCwJYV
 install:
  - node --version
  - npm --version
  - npm install
+cache:
+    - '%USERPROFILE%\AppData\Local\Cypress\Cache'
 build_script:
  - npm run build
 test_script:
