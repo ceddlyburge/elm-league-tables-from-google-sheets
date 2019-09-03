@@ -36,8 +36,8 @@ decodeRowToGame row =
                         |> andMap (Json.Decode.map String.trim (index 3 string)) -- index 3 is on purpose
                         |> andMap (index 2 (maybe parseInt))
                         |> andMap (withDefault Nothing (index 4 (maybe date)))
-                        |> andMap (Json.Decode.map parseGoals (withDefault "" (index 5 string)))
-                        |> andMap (Json.Decode.map parseGoals (withDefault "" (index 6 string)))
+                        |> andMap (withDefault [] (Json.Decode.map parseGoals (index 5 string)))
+                        |> andMap (withDefault [] (Json.Decode.map parseGoals (index 6 string)))
                         |> andMap (withDefault "" (index 7 string))
                         |> andMap (withDefault "" (index 8 string))
                         |> andMap (withDefault "" (index 9 string))
