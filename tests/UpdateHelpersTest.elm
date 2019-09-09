@@ -13,8 +13,25 @@ import Models.LeagueTable exposing (..)
 import Models.ResultsFixtures exposing (..)
 import Models.Route as Route exposing (Route)
 import Pages.UpdateHelpers exposing (..)
+import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
+import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
+import Calculations.PlayersFromLeagueGames exposing (calculatePlayers)
 
--- I am missing a test for individualSheetResponse
+apiSuccess : Test
+apiSuccess = 
+    test "Calculates everything on success and adds to model" <|
+        \() ->
+            individualSheetResponse 
+                vanillaModel
+                (RemoteData.Success leagueGames)
+                leagueTitle
+            |> getModel
+            |> Expect.equal 
+                    { vanillaModel | 
+                        leagueTables = Dict.singleton leagueTitle (RemoteData.Success <| calculateLeagueTable leagueGames)
+                        , resultsFixtures = Dict.singleton leagueTitle (RemoteData.Success <| calculateResultsFixtures leagueGames)
+                        , players = Dict.singleton leagueTitle (RemoteData.Success <| calculatePlayers leagueGames.games)
+                    }
 
 -- This only tests one Route, should maybe extend it to test others
 -- It also only tests with a vanilla model, as opposed to a partially
