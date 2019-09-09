@@ -14,6 +14,7 @@ import Msg exposing (..)
 import GoogleSheet.Api exposing (fetchIndividualSheet)
 import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
 import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
+import Calculations.PlayersFromLeagueGames exposing (calculatePlayers)
 import Models.Route as Route exposing (Route)
 
 showRouteRequiringIndividualSheetApi : String -> Route -> Model -> ( Model, Cmd Msg )
@@ -31,6 +32,7 @@ refreshRouteRequiringIndividualSheetApi leagueTitle route model =
     ( { model | 
             leagueTables = Dict.insert leagueTitle RemoteData.Loading model.leagueTables
             , resultsFixtures = Dict.insert leagueTitle RemoteData.Loading model.resultsFixtures
+            , players = Dict.insert leagueTitle RemoteData.Loading model.players
             , route = route 
     }
     , fetchLeagueGames leagueTitle model.config )
@@ -48,6 +50,7 @@ individualSheetResponse  model response leagueTitle =
         { model | 
             leagueTables = Dict.insert leagueTitle (RemoteData.map calculateLeagueTable response) model.leagueTables
             , resultsFixtures = Dict.insert leagueTitle (RemoteData.map calculateResultsFixtures response) model.resultsFixtures
+            , players = Dict.insert leagueTitle (RemoteData.map calculatePlayers response) model.players
         }
         , Cmd.none
     )
