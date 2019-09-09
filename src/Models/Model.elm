@@ -18,7 +18,7 @@ type alias Model =
     , leagues: WebData (List LeagueSummary)
     , leagueTables: Dict String (WebData LeagueTable)
     , resultsFixtures: Dict String (WebData ResultsFixtures)
-    , players: Dict String (WebData Player)
+    , players: Dict String (WebData (List Player))
     , device: Device
     }
 

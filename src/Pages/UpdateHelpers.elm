@@ -10,6 +10,7 @@ import RemoteData exposing (WebData)
 import Models.Model exposing (Model)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.Config exposing (Config)
+import Models.Player exposing (Player)
 import Msg exposing (..)
 import GoogleSheet.Api exposing (fetchIndividualSheet)
 import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
@@ -50,7 +51,11 @@ individualSheetResponse  model response leagueTitle =
         { model | 
             leagueTables = Dict.insert leagueTitle (RemoteData.map calculateLeagueTable response) model.leagueTables
             , resultsFixtures = Dict.insert leagueTitle (RemoteData.map calculateResultsFixtures response) model.resultsFixtures
-            , players = Dict.insert leagueTitle (RemoteData.map calculatePlayers response) model.players
+            , players = Dict.insert leagueTitle (RemoteData.map calculatePlayersFromLeagueGames response) model.players
         }
         , Cmd.none
     )
+
+calculatePlayersFromLeagueGames: LeagueGames -> List Player
+calculatePlayersFromLeagueGames leagueGames = 
+    calculatePlayers leagueGames.games

@@ -41,6 +41,7 @@ callsApi =
                 { vanillaModel | 
                     leagueTables = Dict.singleton leagueTitle RemoteData.Loading
                     , resultsFixtures = Dict.singleton leagueTitle RemoteData.Loading
+                    , players = Dict.singleton leagueTitle RemoteData.Loading
                     , route = Route.ResultsFixtures leagueTitle }
 
 cachesAPiResult : Test
@@ -69,6 +70,7 @@ refreshesApi =
                     { vanillaModel | 
                         leagueTables = Dict.singleton leagueTitle (RemoteData.Success vanillaLeagueTable)
                         , resultsFixtures = Dict.singleton leagueTitle (RemoteData.Success vanillaResultsFixtures)
+                        , players = Dict.singleton leagueTitle (RemoteData.Success [])
                     }
             in 
                 update 
@@ -79,6 +81,7 @@ refreshesApi =
                     { model | 
                         leagueTables = Dict.singleton leagueTitle RemoteData.Loading
                         , resultsFixtures = Dict.singleton leagueTitle RemoteData.Loading
+                        , players = Dict.singleton leagueTitle RemoteData.Loading
                         , route = Route.ResultsFixtures leagueTitle }
 
 leagueTitle : String                
