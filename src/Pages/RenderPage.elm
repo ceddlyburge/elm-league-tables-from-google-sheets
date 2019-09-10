@@ -89,6 +89,8 @@ renderHeaderBarItem headerBarItem =
             el TitleButton [ Element.Attributes.class "data-test-refresh", onClick msg ] refreshIcon
         ResultsFixturesHeaderButton msg ->
             el TitleButton [ onClick msg ] resultsFixturesIcon
+        TopScorersHeaderButton msg ->
+            el TitleButton [ onClick msg ] topScorersIcon
         BackHeaderButton msg ->
             el TitleButton [ onClick msg ] backIcon
 
@@ -126,5 +128,10 @@ refreshIcon =
 
 resultsFixturesIcon : Element style variation msg
 resultsFixturesIcon =
-    Html.span [ Html.Attributes.class "data-test-resultsAndFixtures DecodeGoogleSheetToGameList fas fa-calendar-alt" ] []
+    Html.span [ Html.Attributes.class "data-test-resultsAndFixtures fas fa-calendar-alt" ] []
+        |> Element.html
+
+topScorersIcon : Element style variation msg
+topScorersIcon =
+    Html.span [ Html.Attributes.class "data-test-topScorers fas fa-futbol" ] []
         |> Element.html

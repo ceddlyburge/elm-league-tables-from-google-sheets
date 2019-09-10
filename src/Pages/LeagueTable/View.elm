@@ -23,7 +23,8 @@ page leagueTitle response responsive =
         ( SingleHeader <| 
             HeaderBar 
                 [ BackHeaderButton ShowLeagueList
-                , ResultsFixturesHeaderButton <| ShowResultsFixtures leagueTitle ] 
+                , ResultsFixturesHeaderButton <| ShowResultsFixtures leagueTitle
+                , TopScorersHeaderButton <| ShowTopScorers leagueTitle ] 
                 (Maybe.withDefault "" (decodeUri leagueTitle))
                 [ RefreshHeaderButton <| RefreshLeagueTable leagueTitle ] )
         ( maybeResponse response (leagueTableElement responsive) )
