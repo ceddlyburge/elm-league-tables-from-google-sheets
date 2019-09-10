@@ -12,6 +12,10 @@ import Pages.UpdateHelpers exposing (individualSheetResponse)
 import Routing exposing (..)
 import Navigation exposing (Location, newUrl)
 
+
+-- This module has no unit tests, but its quite simple stuff, and mostly well checked
+-- by the transpiler, and I don't think writing tests would bring much benefit
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     updatewithoutBrowserHistory msg model

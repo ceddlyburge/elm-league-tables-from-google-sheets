@@ -10,11 +10,13 @@ import Models.Route as Route exposing ( Route )
 import Pages.LeagueList.View exposing (..)
 import Pages.LeagueTable.View exposing (..)
 import Pages.ResultsFixtures.View exposing (..)
+import Pages.TopScorers.View exposing (..)
 import Pages.Page exposing (..)
 import Pages.RenderPage exposing (..)
 import Pages.Responsive exposing (..)
 import Models.LeagueTable exposing (LeagueTable)
 import Models.ResultsFixtures exposing (ResultsFixtures)
+import Models.Player exposing (Player)
 
 
 view : Model -> Html Msg
@@ -49,9 +51,9 @@ getResultsFixtures leagueTitle model =
     Dict.get leagueTitle model.resultsFixtures
     |> Maybe.withDefault RemoteData.NotAsked
 
-getTopScorers : String -> Model -> WebData Players
+getTopScorers : String -> Model -> WebData (List Player)
 getTopScorers leagueTitle model =
-    Dict.get leagueTitle model.topScorers
+    Dict.get leagueTitle model.players
     |> Maybe.withDefault RemoteData.NotAsked
 
 -- notFoundView : Html msg
