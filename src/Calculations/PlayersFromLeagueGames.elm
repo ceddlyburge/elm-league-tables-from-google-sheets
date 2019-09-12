@@ -19,6 +19,7 @@ calculatePlayers games =
     |> List.foldl incrementGoals Dict.empty
     |> Dict.map (\playerIdTuple goals -> Player (fromTuple playerIdTuple) goals)
     |> Dict.values
+    |> List.filter hasPlayerName
     |> List.sortWith (by .goalCount DESC |> andThen playerName ASC |> andThen teamName ASC)
 
 
@@ -44,3 +45,7 @@ addScorers game scorers =
 addScorer: String -> String ->  PlayerId
 addScorer teamName playerName =
     PlayerId teamName playerName
+
+hasPlayerName: Player -> Bool
+hasPlayerName player =
+    String.trim (playerName player) /= ""

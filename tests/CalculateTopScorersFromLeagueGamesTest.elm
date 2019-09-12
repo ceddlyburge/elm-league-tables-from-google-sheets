@@ -57,6 +57,15 @@ multipleGames =
                 , Player (PlayerId "Battersea" "Chad") 1 
                 ]
 
+removeBlanks : Test
+removeBlanks =
+    test  "Remove players with blank or whitespace names" <|
+        \() ->
+            calculatePlayers 
+                [ game "Castle" ["", "\t"] "Meridian" [" ", "\r\n"] ]
+            |> Expect.equal 
+                []
+
 game: String -> List String -> String -> List String -> Game
 game homeTeamName homeTeamGoals awayTeamName awayTeamGoals = 
     { vanillaGame | 
