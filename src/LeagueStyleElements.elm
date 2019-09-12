@@ -31,6 +31,9 @@ type Styles
     | ResultFixtureGoals
     | ResultFixtureScore
     | ResultFixtureTime
+    | TopScorerPlayerName
+    | TopScorerTeamName
+    | TopScorerGoalCount
 
 sansSerif : List Font
 sansSerif =
@@ -151,5 +154,17 @@ stylesheet fontSize =
             ]
         , style ResultFixtureTime
             [ Font.bold
+            ]
+        , style TopScorerPlayerName
+            [ Font.size fontSize.big
+            ]
+        , style TopScorerTeamName
+            [ Font.size fontSize.medium
+            , Color.text colors.supplementaryText
+            ]
+        , style TopScorerGoalCount
+            [ Font.size fontSize.big
+            , Font.alignRight
+            , Color.text colors.supplementaryText
             ]
         ]

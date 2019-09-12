@@ -13,6 +13,11 @@ type alias Responsive =
     -- longer than this can wrap or display an ellipsis. If pages need to wrap at shorter widths then
     -- that is ok too, it is a guide, not a rule
     , designTeamWidthMediumFont : Float
+    -- designTeamWidths are the width that a team should ideally be able to be displayed on one line,
+    -- "Anne Claire Chiffelou" is used as the text for this theoretical long team name. Names 
+    -- longer than this can wrap or display an ellipsis. If pages need to wrap at shorter widths then
+    -- that is ok too, it is a guide, not a rule
+    , designPlayerNamePixelWidthBigFont : Float
     -- if the content is essentiallyl portrait, try and extend out to this percentage width
     , designPortraitPercentageWidth : Float    
     }
@@ -37,6 +42,7 @@ calculateResponsive viewportWidth =
             , small = 12    
             }
         , designTeamWidthMediumFont = 141  
+        , designPlayerNamePixelWidthBigFont = 250  
         , designPortraitPercentageWidth = 95
         }
     else if viewportWidth <= 1200 then
@@ -51,6 +57,7 @@ calculateResponsive viewportWidth =
             , small = 15    
             }
         , designTeamWidthMediumFont = 191  
+        , designPlayerNamePixelWidthBigFont = 300  
         , designPortraitPercentageWidth = 60
         }
     else if viewportWidth <= 1800 then
@@ -65,6 +72,7 @@ calculateResponsive viewportWidth =
             , small = 18    
             }
         , designTeamWidthMediumFont = 252  
+        , designPlayerNamePixelWidthBigFont = 350  
         , designPortraitPercentageWidth = 60
         }
     else 
@@ -79,6 +87,7 @@ calculateResponsive viewportWidth =
             , small = 24    
             }
         , designTeamWidthMediumFont = 322 
+        , designPlayerNamePixelWidthBigFont = 500  
         , designPortraitPercentageWidth = 60
         }
 
