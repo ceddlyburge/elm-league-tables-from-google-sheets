@@ -19,7 +19,7 @@ oneTeam =
         test "resultsFixtures" <|
             \_ ->
                 html
-                |> Query.has [ class "data-test-resultsAndFixtures" ]
+                |> Query.has [ class "data-test-results-fixtures" ]
         , test "position" <|
             \_ ->
                 teamElement
