@@ -13,8 +13,12 @@ import Calculations.SortBy exposing (..)
 -- and provide functions to sort that list for the various atributes.
 -- For now though, there is only one use case, so store the sorted 
 -- list.
-calculatePlayers: List Game -> List Player
+calculatePlayers: List Game -> Players
 calculatePlayers games =
+    Players False (calculatePlayerList games)
+
+calculatePlayerList: List Game -> List Player
+calculatePlayerList games =
     listScorers games 
     |> List.foldl incrementGoals Dict.empty
     |> Dict.map (\playerIdTuple goals -> Player (fromTuple playerIdTuple) goals)

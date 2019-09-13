@@ -10,7 +10,7 @@ import RemoteData exposing (WebData)
 import Models.Model exposing (Model)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.Config exposing (Config)
-import Models.Player exposing (Player)
+import Models.Player exposing (Players)
 import Msg exposing (..)
 import GoogleSheet.Api exposing (fetchIndividualSheet)
 import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
@@ -56,6 +56,6 @@ individualSheetResponse  model response leagueTitle =
         , Cmd.none
     )
 
-calculatePlayersFromLeagueGames: LeagueGames -> List Player
+calculatePlayersFromLeagueGames: LeagueGames -> Players
 calculatePlayersFromLeagueGames leagueGames = 
     calculatePlayers leagueGames.games

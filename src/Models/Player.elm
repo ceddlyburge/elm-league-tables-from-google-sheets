@@ -10,6 +10,11 @@ type alias Player =
     , goalCount : Int
     }
 
+type alias Players =
+    { namedPlayerDataAvailable : Bool
+    , players : List Player
+    }
+
 toTuple: PlayerId -> (String, String)
 toTuple playerId =
     (playerId.teamName, playerId.playerName)
@@ -36,3 +41,7 @@ vanillaPlayerId =
 vanillaPlayer : Player
 vanillaPlayer = 
     Player vanillaPlayerId 0
+
+vanillaPlayers : Players
+vanillaPlayers = 
+    Players False []

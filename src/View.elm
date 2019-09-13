@@ -16,7 +16,7 @@ import Pages.RenderPage exposing (..)
 import Pages.Responsive exposing (..)
 import Models.LeagueTable exposing (LeagueTable)
 import Models.ResultsFixtures exposing (ResultsFixtures)
-import Models.Player exposing (Player)
+import Models.Player exposing (..)
 
 
 view : Model -> Html Msg
@@ -51,7 +51,7 @@ getResultsFixtures leagueTitle model =
     Dict.get leagueTitle model.resultsFixtures
     |> Maybe.withDefault RemoteData.NotAsked
 
-getTopScorers : String -> Model -> WebData (List Player)
+getTopScorers : String -> Model -> WebData Players
 getTopScorers leagueTitle model =
     Dict.get leagueTitle model.players
     |> Maybe.withDefault RemoteData.NotAsked

@@ -15,7 +15,7 @@ import Pages.HeaderBar exposing (..)
 import Pages.HeaderBarItem exposing (..)
 
 
-page : String -> WebData (List Player) -> Responsive -> Page
+page : String -> WebData Players -> Responsive -> Page
 page leagueTitle response progessive =
     Page
         ( DoubleHeader  
@@ -30,7 +30,7 @@ headerBar leagueTitle =
         (Maybe.withDefault "" <| decodeUri leagueTitle)
         [ RefreshHeaderButton <| RefreshTopScorers leagueTitle ]
 
-topScorersElement : Responsive -> List Player -> Element Styles variation Msg
+topScorersElement : Responsive -> Players -> Element Styles variation Msg
 topScorersElement responsive players =
     column 
         None 
@@ -40,7 +40,7 @@ topScorersElement responsive players =
         , padding responsive.bigGap
         , spacing responsive.bigGap
         ] 
-        (List.map (topScorer responsive) players)
+        (List.map (topScorer responsive) players.players)
 
 topScorer : Responsive -> Player -> Element Styles variation Msg
 topScorer responsive player =

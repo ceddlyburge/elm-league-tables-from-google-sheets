@@ -11,6 +11,7 @@ import Models.Game exposing (vanillaGame)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.LeagueTable exposing (..)
 import Models.ResultsFixtures exposing (..)
+import Models.Player exposing (..)
 import Models.Route as Route exposing (Route)
 import Pages.UpdateHelpers exposing (..)
 import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
@@ -62,7 +63,7 @@ cachesAPiResult =
                     { vanillaModel | 
                         leagueTables = Dict.singleton leagueTitle (RemoteData.Success vanillaLeagueTable)
                         , resultsFixtures = Dict.singleton leagueTitle (RemoteData.Success vanillaResultsFixtures)
-                        , players = Dict.singleton leagueTitle (RemoteData.Success [])
+                        , players = Dict.singleton leagueTitle (RemoteData.Success vanillaPlayers)
                     }
             in 
                 showRouteRequiringIndividualSheetApi
@@ -81,7 +82,7 @@ refreshesApi =
                     { vanillaModel | 
                         leagueTables = Dict.singleton leagueTitle (RemoteData.Success vanillaLeagueTable)
                         , resultsFixtures = Dict.singleton leagueTitle (RemoteData.Success vanillaResultsFixtures)
-                        , players = Dict.singleton leagueTitle (RemoteData.Success [])
+                        , players = Dict.singleton leagueTitle (RemoteData.Success vanillaPlayers)
                     }
             in 
                 refreshRouteRequiringIndividualSheetApi

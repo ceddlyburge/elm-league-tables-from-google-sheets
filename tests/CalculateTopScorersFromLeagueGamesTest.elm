@@ -14,6 +14,7 @@ orderByGoalCount =
         \() ->
             calculatePlayers 
                 [ game "Castle" ["Cedd", "Cedd"] "Meridian" ["Chad"] ]
+            |> .players
             |> Expect.equal 
                 [ Player (PlayerId "Castle" "Cedd") 2
                 , Player (PlayerId "Meridian" "Chad") 1 
@@ -25,6 +26,7 @@ orderByGoalCountThenPlayerName =
         \() ->
             calculatePlayers 
                 [ game "Castle" ["Chad"] "Meridian" ["Cedd"] ]
+            |> .players
             |> Expect.equal 
                 [ Player (PlayerId "Meridian" "Cedd") 1 
                 , Player (PlayerId "Castle" "Chad") 1
@@ -36,6 +38,7 @@ orderByGoalCountThenPlayerNameThenTeamName =
         \() ->
             calculatePlayers 
                 [ game "Meridian" ["Cedd"] "Castle" ["Cedd"] ]
+            |> .players
             |> Expect.equal 
                 [ Player (PlayerId "Castle" "Cedd") 1
                 , Player (PlayerId "Meridian" "Cedd") 1 
@@ -50,6 +53,7 @@ multipleGames =
                 , game "Castle" ["Cedd", "Cedd", "Barry"] "Battersea" ["Chad"]  
                 , game "Castle" [] "Meridian" ["Chad"]  
                 ]
+            |> .players
             |> Expect.equal 
                 [ Player (PlayerId "Castle" "Cedd") 3
                 , Player (PlayerId "Meridian" "Chad") 2 
@@ -63,6 +67,7 @@ removeBlanks =
         \() ->
             calculatePlayers 
                 [ game "Castle" ["", "\t"] "Meridian" [" ", "\r\n"] ]
+            |> .players
             |> Expect.equal 
                 []
 
