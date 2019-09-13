@@ -4,6 +4,7 @@ import Dict exposing (..)
 import Models.Game exposing (Game)
 import Models.Player exposing (..)
 import Calculations.SortBy exposing (..)
+import Char
 
 -- Its annoying that I can't using PlayerId as a key to the Dict
 -- and instead have to convert it to a tuple
@@ -15,7 +16,12 @@ import Calculations.SortBy exposing (..)
 -- list.
 calculatePlayers: List Game -> Players
 calculatePlayers games =
-    Players False (calculatePlayerList games)
+    let
+        playerList = calculatePlayerList games
+    in
+        Players 
+            (calculateNamedPlayersAvailable playerList)
+            playerList
 
 calculatePlayerList: List Game -> List Player
 calculatePlayerList games =
@@ -53,3 +59,20 @@ addScorer teamName playerName =
 hasPlayerName: Player -> Bool
 hasPlayerName player =
     String.trim (playerName player) /= ""
+
+
+calculateNamedPlayersAvailable: List Player -> Bool
+calculateNamedPlayersAvailable playerList =
+    List.any isNamed playerList
+
+
+isNamed: Player -> Bool
+isNamed player =
+    String.any isAlpha player.playerId.playerName
+
+
+-- this function exists in Char module in elm 0.19, so can remove when upgradr
+isAlpha: Char -> Bool
+isAlpha char =
+    Char.isUpper char || Char.isLower char
+

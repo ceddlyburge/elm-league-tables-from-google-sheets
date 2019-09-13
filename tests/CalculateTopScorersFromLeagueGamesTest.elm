@@ -71,6 +71,26 @@ removeBlanks =
             |> Expect.equal 
                 []
 
+anonymousPlayers : Test
+anonymousPlayers =
+    test  "Players without alphabetic characters in their name are not 'named'" <|
+        \() ->
+            calculatePlayers 
+                [ game "Castle" ["1", " 2"] "Meridian" ["3 ", "?"] ]
+            |> .namedPlayerDataAvailable
+            |> Expect.equal 
+                False
+
+namedPlayers : Test
+namedPlayers =
+    test  "A player is 'named' if they have alphabetic characters in their name" <|
+        \() ->
+            calculatePlayers 
+                [ game "Castle" ["c"] "Meridian" [] ]
+            |> .namedPlayerDataAvailable
+            |> Expect.equal 
+                True
+
 game: String -> List String -> String -> List String -> Game
 game homeTeamName homeTeamGoals awayTeamName awayTeamGoals = 
     { vanillaGame | 
