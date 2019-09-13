@@ -81,5 +81,5 @@ html : Query.Single Msg.Msg
 html  =
     renderPage 
         vanillaResponsive
-        (page "" (RemoteData.Success (LeagueTable "" [ Team 1 "Castle" 1 1 0 0 3 6 4 2 ]))  vanillaResponsive)
+        (page "" (RemoteData.Success (LeagueTable "" [ Team 1 "Castle" 1 1 0 0 3 6 4 2 ]))  vanillaResponsive False)
     |> Query.fromHtml

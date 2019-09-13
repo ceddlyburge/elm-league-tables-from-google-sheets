@@ -17,14 +17,14 @@ import Pages.HeaderBarItem exposing (..)
 import Pages.ResponsiveColumn exposing (..)
 
 
-page : String -> WebData LeagueTable -> Responsive -> Page
-page leagueTitle response responsive =
+page : String -> WebData LeagueTable -> Responsive -> Bool -> Page
+page leagueTitle response responsive namedPlayerDataAvailable =
     Page
         ( SingleHeader <| 
             HeaderBar 
                 [ BackHeaderButton ShowLeagueList
                 , ResultsFixturesHeaderButton <| ShowResultsFixtures leagueTitle
-                , TopScorersHeaderButton <| ShowTopScorers leagueTitle ] 
+                , TopScorersHeaderButton (ShowTopScorers leagueTitle) namedPlayerDataAvailable ] 
                 (Maybe.withDefault "" (decodeUri leagueTitle))
                 [ RefreshHeaderButton <| RefreshLeagueTable leagueTitle ] )
         ( maybeResponse response (leagueTableElement responsive) )

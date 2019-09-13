@@ -89,10 +89,17 @@ renderHeaderBarItem headerBarItem =
             el TitleButton [ Element.Attributes.class "data-test-refresh", onClick msg ] refreshIcon
         ResultsFixturesHeaderButton msg ->
             el TitleButton [ onClick msg ] resultsFixturesIcon
-        TopScorersHeaderButton msg ->
-            el TitleButton [ onClick msg ] topScorersIcon
+        TopScorersHeaderButton msg namedPlayerDataAvailable ->
+            topScorerHeaderBarItem msg namedPlayerDataAvailable --el TitleButton [ onClick msg ] topScorersIcon
         BackHeaderButton msg ->
             el TitleButton [ onClick msg ] backIcon
+
+topScorerHeaderBarItem: Msg -> Bool -> Element.Element Styles variation Msg
+topScorerHeaderBarItem msg namedPlayerDataAvailable = 
+    if namedPlayerDataAvailable == True then
+         el TitleButton [ onClick msg ] topScorersIcon
+    else
+        paragraph None [] []
 
 heading: Responsive -> List (Element Styles variation msg) -> Element.Element Styles variation msg
 heading responsive elements = 

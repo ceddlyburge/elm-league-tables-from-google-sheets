@@ -25,7 +25,7 @@ view model =
         responsive = calculateResponsive <| toFloat model.device.width
     in
         page model responsive
-        |> renderPage responsive    
+        |> renderPage responsive
 
 page : Model -> Responsive -> Page
 page model responsive =
@@ -33,13 +33,24 @@ page model responsive =
         Route.LeagueList ->
             Pages.LeagueList.View.page model.config model.leagues responsive
         Route.LeagueTable leagueTitle ->
-            Pages.LeagueTable.View.page leagueTitle (getLeagueTable leagueTitle model) responsive
+            Pages.LeagueTable.View.page leagueTitle (getLeagueTable leagueTitle model) responsive (namedPlayerDataAvailable leagueTitle model)
         Route.ResultsFixtures leagueTitle ->
             Pages.ResultsFixtures.View.page leagueTitle (getResultsFixtures leagueTitle model) responsive
         Route.TopScorers leagueTitle ->
             Pages.TopScorers.View.page leagueTitle (getTopScorers leagueTitle model) responsive
         Route.NotFound ->
             Pages.LeagueList.View.page model.config model.leagues responsive -- return 404 later
+
+namedPlayerDataAvailable : String -> Model -> Bool
+namedPlayerDataAvailable leagueTitle model =
+    let
+        players = getTopScorers leagueTitle model    
+    in
+        case players of
+            RemoteData.Success players ->
+                players.namedPlayerDataAvailable
+            _ ->
+                False
 
 getLeagueTable : String -> Model -> WebData LeagueTable
 getLeagueTable leagueTitle model =
