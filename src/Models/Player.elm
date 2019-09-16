@@ -1,4 +1,7 @@
+-- Should expose less things here, probably make some of the types opaque
 module Models.Player exposing (..)
+
+import Models.RealName exposing (..)
 
 type alias PlayerId =
     { teamName : String
@@ -8,6 +11,7 @@ type alias PlayerId =
 type alias Player =
     { playerId : PlayerId
     , goalCount : Int
+    , realName: RealName
     }
 
 type alias Players =
@@ -25,10 +29,16 @@ fromTuple (teamName, playerName) =
     PlayerId teamName playerName
 
 
+player: PlayerId -> Int -> Player
+player playerId goalCount =
+    Player
+        playerId
+        goalCount
+        (hasRealName playerId.playerName)
+
 playerName : Player -> String
 playerName player = 
     player.playerId.playerName
-
 
 teamName : Player -> String
 teamName player = 
@@ -40,7 +50,7 @@ vanillaPlayerId =
 
 vanillaPlayer : Player
 vanillaPlayer = 
-    Player vanillaPlayerId 0
+    Player vanillaPlayerId 0 NoName
 
 vanillaPlayers : Players
 vanillaPlayers = 

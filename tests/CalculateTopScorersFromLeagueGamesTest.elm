@@ -16,8 +16,8 @@ orderByGoalCount =
                 [ game "Castle" ["Cedd", "Cedd"] "Meridian" ["Chad"] ]
             |> .players
             |> Expect.equal 
-                [ Player (PlayerId "Castle" "Cedd") 2
-                , Player (PlayerId "Meridian" "Chad") 1 
+                [ player (PlayerId "Castle" "Cedd") 2
+                , player (PlayerId "Meridian" "Chad") 1 
                 ]
 
 orderByGoalCountThenPlayerName : Test
@@ -28,8 +28,8 @@ orderByGoalCountThenPlayerName =
                 [ game "Castle" ["Chad"] "Meridian" ["Cedd"] ]
             |> .players
             |> Expect.equal 
-                [ Player (PlayerId "Meridian" "Cedd") 1 
-                , Player (PlayerId "Castle" "Chad") 1
+                [ player (PlayerId "Meridian" "Cedd") 1 
+                , player (PlayerId "Castle" "Chad") 1
                 ]
 
 orderByGoalCountThenPlayerNameThenTeamName : Test
@@ -40,8 +40,8 @@ orderByGoalCountThenPlayerNameThenTeamName =
                 [ game "Meridian" ["Cedd"] "Castle" ["Cedd"] ]
             |> .players
             |> Expect.equal 
-                [ Player (PlayerId "Castle" "Cedd") 1
-                , Player (PlayerId "Meridian" "Cedd") 1 
+                [ player (PlayerId "Castle" "Cedd") 1
+                , player (PlayerId "Meridian" "Cedd") 1 
                 ]
 
 multipleGames : Test
@@ -55,10 +55,10 @@ multipleGames =
                 ]
             |> .players
             |> Expect.equal 
-                [ Player (PlayerId "Castle" "Cedd") 3
-                , Player (PlayerId "Meridian" "Chad") 2 
-                , Player (PlayerId "Castle" "Barry") 1 
-                , Player (PlayerId "Battersea" "Chad") 1 
+                [ player (PlayerId "Castle" "Cedd") 3
+                , player (PlayerId "Meridian" "Chad") 2 
+                , player (PlayerId "Castle" "Barry") 1 
+                , player (PlayerId "Battersea" "Chad") 1 
                 ]
 
 removeBlanks : Test

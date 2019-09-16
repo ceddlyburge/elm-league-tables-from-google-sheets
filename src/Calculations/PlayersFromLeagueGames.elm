@@ -3,6 +3,7 @@ module Calculations.PlayersFromLeagueGames exposing (calculatePlayers)
 import Dict exposing (..)
 import Models.Game exposing (Game)
 import Models.Player exposing (..)
+import Models.RealName exposing (..)
 import Calculations.SortBy exposing (..)
 import Char
 
@@ -27,9 +28,9 @@ calculatePlayerList: List Game -> List Player
 calculatePlayerList games =
     listScorers games 
     |> List.foldl incrementGoals Dict.empty
-    |> Dict.map (\playerIdTuple goals -> Player (fromTuple playerIdTuple) goals)
+    |> Dict.map (\playerIdTuple goals -> player (fromTuple playerIdTuple) goals)
     |> Dict.values
-    |> List.filter hasPlayerName
+    |> List.filter hasRealName
     |> List.sortWith (by .goalCount DESC |> andThen playerName ASC |> andThen teamName ASC)
 
 
@@ -56,9 +57,9 @@ addScorer: String -> String ->  PlayerId
 addScorer teamName playerName =
     PlayerId teamName playerName
 
-hasPlayerName: Player -> Bool
-hasPlayerName player =
-    String.trim (playerName player) /= ""
+hasRealName: Player -> Bool
+hasRealName player =
+    Models.RealName.toBool player.realName
 
 
 calculateNamedPlayersAvailable: List Player -> Bool
