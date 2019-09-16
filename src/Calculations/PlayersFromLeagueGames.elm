@@ -21,7 +21,7 @@ calculatePlayers games =
         playerList = calculatePlayerList games
     in
         Players 
-            (calculateNamedPlayersAvailable playerList)
+            (List.any hasRealName playerList)
             playerList
 
 calculatePlayerList: List Game -> List Player
@@ -56,24 +56,3 @@ addScorers game scorers =
 addScorer: String -> String ->  PlayerId
 addScorer teamName playerName =
     PlayerId teamName playerName
-
-hasRealName: Player -> Bool
-hasRealName player =
-    Models.RealName.toBool player.realName
-
-
-calculateNamedPlayersAvailable: List Player -> Bool
-calculateNamedPlayersAvailable playerList =
-    List.any isNamed playerList
-
-
-isNamed: Player -> Bool
-isNamed player =
-    String.any isAlpha player.playerId.playerName
-
-
--- this function exists in Char module in elm 0.19, so can remove when upgradr
-isAlpha: Char -> Bool
-isAlpha char =
-    Char.isUpper char || Char.isLower char
-

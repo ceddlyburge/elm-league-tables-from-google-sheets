@@ -34,7 +34,7 @@ player playerId goalCount =
     Player
         playerId
         goalCount
-        (hasRealName playerId.playerName)
+        (fromString playerId.playerName)
 
 playerName : Player -> String
 playerName player = 
@@ -43,6 +43,10 @@ playerName player =
 teamName : Player -> String
 teamName player = 
     player.playerId.teamName
+
+hasRealName: Player -> Bool
+hasRealName player =
+    Models.RealName.toBool player.realName
 
 vanillaPlayerId : PlayerId
 vanillaPlayerId = 
