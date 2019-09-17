@@ -21,7 +21,7 @@ apiError =
             in 
                 update (AllSheetSummaryResponse response) vanillaModel
                 |> getModel
-                |> Expect.equal { vanillaModel | leagues = response }
+                |> Expect.equal { vanillaModel | leagueSummaries = response }
 
 -- this doesn't completely test that the api call gets make, but it would be strange code
 -- that set leagues to RemoteData.Loading without also calling the Api
@@ -35,7 +35,7 @@ callsApi =
             |> getModel
             |> Expect.equal 
                 { vanillaModel | 
-                    leagues = RemoteData.Loading
+                    leagueSummaries = RemoteData.Loading
                     , route = Route.LeagueList }
 
 cachesApiResult : Test
@@ -45,7 +45,7 @@ cachesApiResult =
             let 
                 model = 
                     { vanillaModel | 
-                        leagues = RemoteData.Success []
+                        leagueSummaries = RemoteData.Success []
                         , route = Route.LeagueList }
             in 
                 update 
@@ -61,14 +61,14 @@ refreshesAPi =
             let 
                 model = 
                     { vanillaModel | 
-                        leagues = RemoteData.Success []
+                        leagueSummaries = RemoteData.Success []
                         , route = Route.LeagueList }
             in 
                 update 
                     RefreshLeagueList 
                     model
                 |> getModel
-                |> Expect.equal { model | leagues = RemoteData.Loading }
+                |> Expect.equal { model | leagueSummaries = RemoteData.Loading }
 
 
 apiSuccess : Test
@@ -80,7 +80,8 @@ apiSuccess =
             in 
                 update (AllSheetSummaryResponse response) vanillaModel
                 |> getModel
-                |> Expect.equal { vanillaModel | leagues = response }  
+                |> Expect.equal { vanillaModel | leagueSummaries = response }  
+
 
 getModel : (Model, Cmd Msg) -> Model
 getModel (model, cmd) = 

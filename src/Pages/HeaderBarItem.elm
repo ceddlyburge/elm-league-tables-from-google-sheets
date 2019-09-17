@@ -6,6 +6,7 @@ type HeaderBarItem =
     HeaderButtonSizedSpace
     | RefreshHeaderButton Msg
     | ResultsFixturesHeaderButton Msg
+    | TopScorersHeaderButton Msg Bool 
     | BackHeaderButton Msg
     
 

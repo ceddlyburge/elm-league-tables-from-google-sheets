@@ -8,7 +8,10 @@ import RemoteData exposing (WebData)
 import Pages.LeagueTable.View exposing (..)
 import Pages.RenderPage exposing (..)
 import Models.Team exposing (Team)
+import Models.League exposing (League)
 import Models.LeagueTable exposing (LeagueTable)
+import Models.ResultsFixtures exposing (vanillaResultsFixtures)
+import Models.Player exposing (vanillaPlayers)
 import Msg exposing (..)
 import Pages.Responsive exposing (..)
 
@@ -19,7 +22,7 @@ oneTeam =
         test "resultsFixtures" <|
             \_ ->
                 html
-                |> Query.has [ class "data-test-resultsAndFixtures" ]
+                |> Query.has [ class "data-test-results-fixtures" ]
         , test "position" <|
             \_ ->
                 teamElement
@@ -81,5 +84,18 @@ html : Query.Single Msg.Msg
 html  =
     renderPage 
         vanillaResponsive
-        (page "" (RemoteData.Success (LeagueTable "" [ Team 1 "Castle" 1 1 0 0 3 6 4 2 ]))  vanillaResponsive)
+        (page 
+            "" 
+            (RemoteData.Success 
+                (League 
+                    "" 
+                    (LeagueTable 
+                        "" 
+                        [ Team 1 "Castle" 1 1 0 0 3 6 4 2 ]
+                    ) 
+                    vanillaResultsFixtures 
+                    vanillaPlayers
+                )
+            )  
+            vanillaResponsive)
     |> Query.fromHtml

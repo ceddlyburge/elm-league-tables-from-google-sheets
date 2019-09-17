@@ -5,7 +5,7 @@ import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, intRange, list)
 import Date.Extra exposing (..)
 
-import Models.Game exposing (Game)
+import Models.Game exposing (Game, vanillaGame)
 import Models.ResultsFixtures exposing (ResultsFixtures)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 
@@ -19,11 +19,11 @@ expectFirstDay expect resultsFixtures =
 
 unscheduledGame: Game
 unscheduledGame = 
-    Game "" Nothing "" Nothing Nothing "" "" "" "" ""
+    vanillaGame
     
 scheduledGame: Date -> Game
 scheduledGame date = 
-    Game "" Nothing "" Nothing (Just date) "" "" "" "" ""
+    { vanillaGame | datePlayed = Just date }
 
 dateTimeInFebruary : Fuzzer Date
 dateTimeInFebruary =

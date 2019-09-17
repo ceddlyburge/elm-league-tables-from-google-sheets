@@ -7,9 +7,14 @@ import Models.Route as Route exposing (Route)
 import Pages.LeagueList.Update exposing (..)
 import Pages.LeagueTable.Update exposing (showLeagueTable, refreshLeagueTable)
 import Pages.ResultsFixtures.Update exposing (showResultsFixtures, refreshResultsFixtures)
+import Pages.TopScorers.Update exposing (showTopScorers, refreshTopScorers)
 import Pages.UpdateHelpers exposing (individualSheetResponse)
 import Routing exposing (..)
 import Navigation exposing (Location, newUrl)
+
+
+-- This module has no unit tests, but its quite simple stuff, and mostly well checked
+-- by the transpiler, and I don't think writing tests would bring much benefit
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -57,6 +62,12 @@ updatewithoutBrowserHistory msg model =
         RefreshResultsFixtures leagueTitle ->
             refreshResultsFixtures leagueTitle model
 
+        ShowTopScorers leagueTitle ->
+            showTopScorers leagueTitle model
+
+        RefreshTopScorers leagueTitle ->
+            refreshTopScorers leagueTitle model
+
         IndividualSheetResponse leagueTitle response ->
             individualSheetResponse model response leagueTitle
         
@@ -87,6 +98,8 @@ updateFromRoute model location route =
             updatewithoutBrowserHistory (ShowLeagueTable leagueTitle) model 
         Route.ResultsFixtures leagueTitle ->
             updatewithoutBrowserHistory (ShowResultsFixtures leagueTitle) model 
+        Route.TopScorers leagueTitle ->
+            updatewithoutBrowserHistory (ShowTopScorers leagueTitle) model 
         Route.NotFound ->
             let
                 _ = Debug.log "Route not found" location

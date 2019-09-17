@@ -10,11 +10,14 @@ import Models.Route as Route exposing ( Route )
 import Pages.LeagueList.View exposing (..)
 import Pages.LeagueTable.View exposing (..)
 import Pages.ResultsFixtures.View exposing (..)
+import Pages.TopScorers.View exposing (..)
 import Pages.Page exposing (..)
 import Pages.RenderPage exposing (..)
 import Pages.Responsive exposing (..)
+import Models.League exposing (League)
 import Models.LeagueTable exposing (LeagueTable)
 import Models.ResultsFixtures exposing (ResultsFixtures)
+import Models.Player exposing (..)
 
 
 view : Model -> Html Msg
@@ -23,29 +26,47 @@ view model =
         responsive = calculateResponsive <| toFloat model.device.width
     in
         page model responsive
-        |> renderPage responsive    
+        |> renderPage responsive
 
 page : Model -> Responsive -> Page
 page model responsive =
     case model.route of
         Route.LeagueList ->
-            Pages.LeagueList.View.page model.config model.leagues responsive
+            Pages.LeagueList.View.page model.config model.leagueSummaries responsive
         Route.LeagueTable leagueTitle ->
-            Pages.LeagueTable.View.page leagueTitle (getLeagueTable leagueTitle model) responsive
+            Pages.LeagueTable.View.page leagueTitle (getLeague leagueTitle model) responsive
         Route.ResultsFixtures leagueTitle ->
-            Pages.ResultsFixtures.View.page leagueTitle (getResultsFixtures leagueTitle model) responsive
+            Pages.ResultsFixtures.View.page leagueTitle (RemoteData.map .resultsFixtures (getLeague leagueTitle model)) responsive
+        Route.TopScorers leagueTitle ->
+            Pages.TopScorers.View.page leagueTitle (RemoteData.map .players (getLeague leagueTitle model)) responsive
         Route.NotFound ->
-            Pages.LeagueList.View.page model.config model.leagues responsive -- return 404 later
+            Pages.LeagueList.View.page model.config model.leagueSummaries responsive -- return 404 later
 
-getLeagueTable : String -> Model -> WebData LeagueTable
-getLeagueTable leagueTitle model =
-    Dict.get leagueTitle model.leagueTables
+-- namedPlayerDataAvailable : String -> Model -> Bool
+-- namedPlayerDataAvailable leagueTitle model =
+--     let
+--         players = getTopScorers leagueTitle model    
+--     in
+--         case players of
+--             RemoteData.Success players ->
+--                 players.namedPlayerDataAvailable
+--             _ ->
+--                 False
+
+getLeague : String -> Model -> WebData League
+getLeague leagueTitle model =
+    Dict.get leagueTitle model.leagues
     |> Maybe.withDefault RemoteData.NotAsked
 
-getResultsFixtures : String -> Model -> WebData ResultsFixtures
-getResultsFixtures leagueTitle model =
-    Dict.get leagueTitle model.resultsFixtures
-    |> Maybe.withDefault RemoteData.NotAsked
+-- getResultsFixtures : String -> Model -> WebData ResultsFixtures
+-- getResultsFixtures leagueTitle model =
+--     Dict.get leagueTitle model.resultsFixtures
+--     |> Maybe.withDefault RemoteData.NotAsked
+
+-- getTopScorers : String -> Model -> WebData Players
+-- getTopScorers leagueTitle model =
+--     Dict.get leagueTitle model.players
+--     |> Maybe.withDefault RemoteData.NotAsked
 
 -- notFoundView : Html msg
 -- notFoundView =

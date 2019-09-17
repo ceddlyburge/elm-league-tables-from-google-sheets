@@ -28,6 +28,9 @@ toUrl route =
         Route.ResultsFixtures leagueTitle ->
             "/results-fixtures/" ++ Http.encodeUri leagueTitle
         
+        Route.TopScorers leagueTitle -> 
+            "/top-scorers/" ++ Http.encodeUri leagueTitle
+
         Route.NotFound ->
             "404"
 
@@ -39,6 +42,7 @@ matchers =
         , map Route.LeagueList (s "index.html")
         , map Route.LeagueTable (s "league" </> (map urlDecode string))
         , map Route.ResultsFixtures (s "results-fixtures" </> (map urlDecode string))
+        , map Route.TopScorers (s "top-scorers" </> (map urlDecode string))
         ]
 
 urlDecode: String -> String

@@ -9,7 +9,7 @@
     "url": "https://github.com/ceddlyburge/elm-league-table-from-sheet"
   },
   "scripts": {
-    "test": "npm run cypress:test && elm-app test",
+    "test": "elm-app test",
     "cypress:test": "start-server-and-test start:app http://localhost:3000 cypress:run",
     "cypress:run": "cypress run --record",
     "start:app": "elm-app start",
@@ -23,7 +23,8 @@
     "create-elm-app": "1.10.4",
     "cypress": "^3.4.1",
     "netlify-lambda": "^1.4.13",
-    "start-server-and-test": "^1.10.0"
+    "start-server-and-test": "^1.10.0",
+    "dotenv-webpack": "^1.7.0"
   },
   "dependencies": {
     "axios": "^0.19.0"

@@ -13,11 +13,28 @@ import GoogleSheet.DecodeGoogleSheetToGameList exposing (decodeSheetToLeagueGame
 -- Seems like a faff though, I might come back to it later.
 decodeSpreadsheetIdResponse : Test
 decodeSpreadsheetIdResponse =
-    test "Sets League.Title from title property of google sheet / tab" <|
+    test "Decodes all properties of Game" <|
         \() ->
             spreadsheetValuesResponse 
                 |> decodeString (decodeSheetToLeagueGames "Regional Div 1")
-                |> Expect.equal (Ok (LeagueGames "Regional Div 1" [Game "Castle" (Just 3) "Meridian" (Just 1) (Result.toMaybe (Date.fromString "2018-06-04")) "1, 6, 4" "2" "Green 3, Yellow 5" "Red 14" "good game" ]))
+                |> Expect.equal (
+                    Ok (
+                      LeagueGames 
+                        "Regional Div 1" 
+                        [Game 
+                          "Castle" 
+                          (Just 3) 
+                          "Meridian" 
+                          (Just 1) 
+                          (Result.toMaybe (Date.fromString "2018-06-04")) 
+                          ["Cedd", "Lisa", "Barry"]
+                          ["Nobody"]
+                          "Green 3, Yellow 5" 
+                          "Red 14" 
+                          "good game" 
+                        ]
+                    )
+                  )
 
 decodeJustEnoughColumnsSpreadsheetIdResponse : Test
 decodeJustEnoughColumnsSpreadsheetIdResponse =
@@ -25,7 +42,13 @@ decodeJustEnoughColumnsSpreadsheetIdResponse =
         \() ->
             justEnoughColumnsSpreadsheetValuesResponse 
                 |> decodeString (decodeSheetToLeagueGames "Regional Div 1")
-                |> Expect.equal (Ok (LeagueGames "Regional Div 1" [Game "Castle" Nothing "Meridian" Nothing Nothing "" "" "" "" "" ]))
+                |> Expect.equal 
+                  (Ok 
+                    (LeagueGames 
+                      "Regional Div 1" 
+                      [{ vanillaGame | homeTeamName = "Castle", awayTeamName = "Meridian"}]
+                    )
+                  )
 
 decodeNotEnoughColumnsSpreadsheetIdResponse : Test
 decodeNotEnoughColumnsSpreadsheetIdResponse =
@@ -50,7 +73,13 @@ trimWhitespaceFromTeamNames =
         \() ->
             teamNamesWithWhitespaceSpreadsheetValuesResponse 
                 |> decodeString (decodeSheetToLeagueGames "Regional Div 1")
-                |> Expect.equal (Ok (LeagueGames "Regional Div 1" [ { vanillaGame | homeTeamName = "Castle", awayTeamName = "Meridian"} ]))
+                |> Expect.equal (
+                    Ok (
+                      LeagueGames 
+                        "Regional Div 1" 
+                        [ { vanillaGame | homeTeamName = "Castle", awayTeamName = "Meridian"} ]
+                    )
+                  )
 
 isError : Result error value -> Bool
 isError result =
@@ -69,8 +98,8 @@ spreadsheetValuesResponse =
       "1",
       "Meridian",
       "2018-06-04",
-      "1, 6, 4",
-      "2",
+      "Cedd, Lisa , Barry",
+      "Nobody",
       "Green 3, Yellow 5",
       "Red 14",
       "good game"

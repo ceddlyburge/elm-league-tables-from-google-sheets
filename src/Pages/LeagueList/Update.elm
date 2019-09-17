@@ -13,7 +13,7 @@ showLeagueList model =
     let
         modelWithRoute = { model | route = Route.LeagueList }
     in
-        case model.leagues of
+        case model.leagueSummaries of
             RemoteData.Success _ ->
                 (modelWithRoute, Cmd.none)
             RemoteData.Loading ->
@@ -24,10 +24,10 @@ showLeagueList model =
 
 refreshLeagueList : Model -> ( Model, Cmd Msg )
 refreshLeagueList model =
-    ( { model | leagues = RemoteData.Loading }
+    ( { model | leagueSummaries = RemoteData.Loading }
       , fetchLeagueSummaries model.config AllSheetSummaryResponse )
 
 allSheetSummaryResponse: Model -> WebData (List LeagueSummary) -> ( Model, Cmd Msg )
 allSheetSummaryResponse model response = 
-    ( { model | leagues = response }, Cmd.none )
+    ( { model | leagueSummaries = response }, Cmd.none )
 
