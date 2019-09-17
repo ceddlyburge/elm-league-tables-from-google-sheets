@@ -8,15 +8,11 @@ import RemoteData exposing (WebData)
 import Msg exposing (..)
 import Models.Model exposing (Model, vanillaModel)
 import Models.Game exposing (vanillaGame)
+import Models.League as League exposing (..)
 import Models.LeagueGames exposing (LeagueGames)
-import Models.LeagueTable exposing (..)
-import Models.ResultsFixtures exposing (..)
-import Models.Player exposing (..)
 import Models.Route as Route exposing (Route)
 import Pages.UpdateHelpers exposing (..)
-import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
-import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
-import Calculations.PlayersFromLeagueGames exposing (calculatePlayers)
+import Calculations.LeagueFromLeagueGames exposing (calculateLeague)
 
 apiSuccess : Test
 apiSuccess = 
@@ -29,9 +25,10 @@ apiSuccess =
             |> getModel
             |> Expect.equal 
                     { vanillaModel | 
-                        leagueTables = Dict.singleton leagueTitle (RemoteData.Success <| calculateLeagueTable leagueGames)
-                        , resultsFixtures = Dict.singleton leagueTitle (RemoteData.Success <| calculateResultsFixtures leagueGames)
-                        , players = Dict.singleton leagueTitle (RemoteData.Success <| calculatePlayers leagueGames.games)
+                        leagues = 
+                            Dict.singleton 
+                                leagueTitle
+                                (RemoteData.Success <| calculateLeague leagueGames)
                     }
 
 -- This only tests one Route, should maybe extend it to test others
@@ -49,9 +46,7 @@ callsApi =
             |> getModel
             |> Expect.equal 
                 { vanillaModel | 
-                    leagueTables = Dict.singleton leagueTitle RemoteData.Loading
-                    , resultsFixtures = Dict.singleton leagueTitle RemoteData.Loading
-                    , players = Dict.singleton leagueTitle RemoteData.Loading
+                    leagues = Dict.singleton leagueTitle RemoteData.Loading
                     , route = Route.ResultsFixtures leagueTitle }
 
 cachesAPiResult : Test
@@ -61,9 +56,7 @@ cachesAPiResult =
             let 
                 model = 
                     { vanillaModel | 
-                        leagueTables = Dict.singleton leagueTitle (RemoteData.Success vanillaLeagueTable)
-                        , resultsFixtures = Dict.singleton leagueTitle (RemoteData.Success vanillaResultsFixtures)
-                        , players = Dict.singleton leagueTitle (RemoteData.Success vanillaPlayers)
+                        leagues = Dict.singleton leagueTitle (RemoteData.Success League.vanilla)
                     }
             in 
                 showRouteRequiringIndividualSheetApi
@@ -80,9 +73,7 @@ refreshesApi =
             let 
                 model = 
                     { vanillaModel | 
-                        leagueTables = Dict.singleton leagueTitle (RemoteData.Success vanillaLeagueTable)
-                        , resultsFixtures = Dict.singleton leagueTitle (RemoteData.Success vanillaResultsFixtures)
-                        , players = Dict.singleton leagueTitle (RemoteData.Success vanillaPlayers)
+                        leagues = Dict.singleton leagueTitle (RemoteData.Success League.vanilla)
                     }
             in 
                 refreshRouteRequiringIndividualSheetApi
@@ -92,9 +83,7 @@ refreshesApi =
                 |> getModel
                 |> Expect.equal 
                     { model | 
-                        leagueTables = Dict.singleton leagueTitle RemoteData.Loading
-                        , resultsFixtures = Dict.singleton leagueTitle RemoteData.Loading
-                        , players = Dict.singleton leagueTitle RemoteData.Loading
+                        leagues = Dict.singleton leagueTitle RemoteData.Loading
                         , route = Route.TopScorers leagueTitle }
 
 leagueTitle : String                

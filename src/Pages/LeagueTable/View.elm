@@ -8,6 +8,7 @@ import Http exposing (decodeUri)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueTable exposing (LeagueTable)
+import Models.League exposing (League)
 import Models.Team exposing (..)
 import Pages.Responsive exposing (..)
 import Pages.MaybeResponse exposing (..)
@@ -17,18 +18,24 @@ import Pages.HeaderBarItem exposing (..)
 import Pages.ResponsiveColumn exposing (..)
 
 
-page : String -> WebData LeagueTable -> Responsive -> Bool -> Page
-page leagueTitle response responsive namedPlayerDataAvailable =
+page : String -> WebData League -> Responsive -> Page
+page leagueTitle response responsive =
     Page
         ( SingleHeader <| 
             HeaderBar 
                 [ BackHeaderButton ShowLeagueList
                 , ResultsFixturesHeaderButton <| ShowResultsFixtures leagueTitle
-                , TopScorersHeaderButton (ShowTopScorers leagueTitle) namedPlayerDataAvailable ] 
+                , TopScorersHeaderButton (ShowTopScorers leagueTitle) (namedPlayerDataAvailable response) ] 
                 (Maybe.withDefault "" (decodeUri leagueTitle))
                 [ RefreshHeaderButton <| RefreshLeagueTable leagueTitle ] )
-        ( maybeResponse response (leagueTableElement responsive) )
+        ( maybeResponse (RemoteData.map .table response) (leagueTableElement responsive) )
 
+
+namedPlayerDataAvailable : WebData League -> Bool
+namedPlayerDataAvailable leagueResponse =
+    RemoteData.map (\l -> l.players.namedPlayerDataAvailable) leagueResponse
+    |> RemoteData.toMaybe
+    |> Maybe.withDefault False
 
 leagueTableElement : Responsive -> LeagueTable -> Element Styles Variations Msg
 leagueTableElement responsive leagueTable =
