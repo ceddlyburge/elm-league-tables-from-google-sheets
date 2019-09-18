@@ -91,7 +91,7 @@ gameRow responsive game =
                 [ text game.homeTeamName ]
             , paragraph 
                 ResultFixtureGoals 
-                [ alignRight, class "data-test-homeTeamGoalCountcorers" ] 
+                [ alignRight, class "data-test-homeTeamGoals" ] 
                 [ text (String.join ", " (homeTeamGoalsWithRealPlayerNames game)) ]
             ]
         , row 
@@ -107,7 +107,7 @@ gameRow responsive game =
                 [ text game.awayTeamName ]
             , paragraph 
                 ResultFixtureGoals 
-                [ alignLeft, class "data-test-awayTeamGoalCountcorers" ] 
+                [ alignLeft, class "data-test-awayTeamGoals" ] 
                 [ text (String.join ", " (awayTeamGoalsWithRealPlayerNames game)) ]
             ]
         ]
