@@ -11,7 +11,7 @@ import Pages.Responsive exposing (..)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
-import Models.Game exposing (Game)
+import Models.Game exposing (..)
 import Models.ResultsFixtures exposing (ResultsFixtures)
 import Pages.MaybeResponse exposing (..)
 import Pages.Page exposing (..)
@@ -92,7 +92,7 @@ gameRow responsive game =
             , paragraph 
                 ResultFixtureGoals 
                 [ alignRight, class "data-test-homeTeamGoalCountcorers" ] 
-                [ text (String.join ", " game.homeTeamGoals) ]
+                [ text (String.join ", " (homeTeamGoalsWithRealPlayerNames game)) ]
             ]
         , row 
             None 
@@ -108,7 +108,7 @@ gameRow responsive game =
             , paragraph 
                 ResultFixtureGoals 
                 [ alignLeft, class "data-test-awayTeamGoalCountcorers" ] 
-                [ text (String.join ", " game.awayTeamGoals) ]
+                [ text (String.join ", " (awayTeamGoalsWithRealPlayerNames game)) ]
             ]
         ]
 

@@ -3,9 +3,7 @@ module Calculations.PlayersFromLeagueGames exposing (calculatePlayers)
 import Dict exposing (..)
 import Models.Game exposing (Game)
 import Models.Player exposing (..)
-import Models.RealName exposing (..)
 import Calculations.SortBy exposing (..)
-import Char
 
 -- Its annoying that I can't using PlayerId as a key to the Dict
 -- and instead have to convert it to a tuple

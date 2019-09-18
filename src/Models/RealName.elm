@@ -21,6 +21,11 @@ toBool realName =
         _ ->
             False
 
+hasRealName: String -> Bool
+hasRealName name = 
+    fromString name 
+    |> toBool
+
 -- this function exists in Char module in elm 0.19, so can remove when upgradr
 isAlpha: Char -> Bool
 isAlpha char =

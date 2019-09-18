@@ -1,8 +1,12 @@
-module Models.Game exposing (Game, vanillaGame)
+module Models.Game exposing (..)
 
 import Date exposing (..)
+import Models.RealName as RealName exposing (..)
 
--- should standardise on homeTeamBlah or homeBlah here
+-- This type is what the google spreadsheet is decoded to, and is used
+-- in results fixtures. It might be better to separate these two uses,
+-- which would allow the minor smell of homeTeamGoalsWithRealPlayerNames
+-- to be fixed
 type alias Game =
     { homeTeamName : String
     -- homeTeamGoalCount and awayTeamGoalCount are considered necessary in the spreadsheet
@@ -28,3 +32,12 @@ type alias Game =
 vanillaGame : Game
 vanillaGame = 
     Game "" Nothing "" Nothing Nothing [] [] "" "" "" 
+
+
+homeTeamGoalsWithRealPlayerNames: Game -> List String
+homeTeamGoalsWithRealPlayerNames game = 
+    List.filter RealName.hasRealName game.homeTeamGoals
+
+awayTeamGoalsWithRealPlayerNames: Game -> List String
+awayTeamGoalsWithRealPlayerNames game = 
+    List.filter RealName.hasRealName game.awayTeamGoals
