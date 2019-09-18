@@ -50,8 +50,8 @@ listScorers games =
 addScorers: Game -> List PlayerId -> List PlayerId
 addScorers game scorers =
     scorers 
-    ++ List.map (addScorer game.homeTeamName) game.homeGoals
-    ++ List.map (addScorer game.awayTeamName) game.awayGoals
+    ++ List.map (addScorer game.homeTeamName) game.homeTeamGoals
+    ++ List.map (addScorer game.awayTeamName) game.awayTeamGoals
 
 addScorer: String -> String ->  PlayerId
 addScorer teamName playerName =

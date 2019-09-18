@@ -27,9 +27,9 @@ game: Int -> Int -> Game
 game castleGoals meridianGoals = 
     { vanillaGame | 
         homeTeamName = "Meridian"
-        , homeTeamGoals = (Just meridianGoals)
+        , homeTeamGoalCount = (Just meridianGoals)
         , awayTeamName = "Castle"
-        , awayTeamGoals = (Just castleGoals)
+        , awayTeamGoalCount = (Just castleGoals)
         , datePlayed = (Just <| Date.fromTime 1)
     }
 

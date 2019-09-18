@@ -24,25 +24,25 @@ onePlayedGame =
                 dayElement
                 |> Query.find [ Test.Html.Selector.class "data-test-homeTeamName" ]
                 |> Query.has [ Test.Html.Selector.text "Castle"]
-        , test "homeTeamGoalScorers" <|
+        , test "homeTeamGoalCountcorers" <|
             \_ ->
                 dayElement
-                |> Query.find [ Test.Html.Selector.class "data-test-homeTeamGoalScorers" ]
+                |> Query.find [ Test.Html.Selector.class "data-test-homeTeamGoalCountcorers" ]
                 |> Query.has [ Test.Html.Selector.text "Cedd, Lisa, Barry"]
-        , test "homeTeamGoals" <|
+        , test "homeTeamGoalCount" <|
             \_ ->
                 dayElement
-                |> Query.find [ Test.Html.Selector.class "data-test-homeTeamGoals" ]
+                |> Query.find [ Test.Html.Selector.class "data-test-homeTeamGoalCount" ]
                 |> Query.has [ Test.Html.Selector.text "3"]
-        , test "awayTeamGoalScorers" <|
+        , test "awayTeamGoalCountcorers" <|
             \_ ->
                 dayElement
-                |> Query.find [ Test.Html.Selector.class "data-test-awayTeamGoalScorers" ]
+                |> Query.find [ Test.Html.Selector.class "data-test-awayTeamGoalCountcorers" ]
                 |> Query.has [ Test.Html.Selector.text "Chad, Pog"]
-        , test "awayTeamGoals" <|
+        , test "awayTeamGoalCount" <|
             \_ ->
                 dayElement
-                |> Query.find [ Test.Html.Selector.class "data-test-awayTeamGoals" ]
+                |> Query.find [ Test.Html.Selector.class "data-test-awayTeamGoalCount" ]
                 |> Query.has [ Test.Html.Selector.text "2"]
         , test "awayTeamName" <|
             \_ ->
@@ -56,9 +56,9 @@ dayElement =
     html { vanillaGame | 
         datePlayed = Just <| Date.Extra.fromCalendarDate 2006 Mar 23
         , homeTeamName = "Castle"
-        , homeTeamGoals = Just 3
-        , homeGoals = [ "Cedd" , "Lisa", "Barry" ]
+        , homeTeamGoalCount = Just 3
+        , homeTeamGoals = [ "Cedd" , "Lisa", "Barry" ]
         , awayTeamName = "Meridian"
-        , awayGoals = [ "Chad", "Pog" ]
-        , awayTeamGoals = Just 2 }
+        , awayTeamGoals = [ "Chad", "Pog" ]
+        , awayTeamGoalCount = Just 2 }
     |> Query.find [ Test.Html.Selector.class "data-test-day" ]
