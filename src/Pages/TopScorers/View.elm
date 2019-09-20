@@ -46,19 +46,25 @@ topScorer : Responsive -> Player -> Element Styles variation Msg
 topScorer responsive player =
     column
         None
-        [ spacing responsive.smallGap ]
+        [ spacing responsive.smallGap
+        , class "data-test-top-scorer" ]
         [ row
             None
             [ spacing responsive.bigGap
             ] 
             [ paragraph 
                 TopScorerPlayerName 
-                [ minWidth <| px responsive.designPlayerNamePixelWidthBigFont ] 
+                [ minWidth <| px responsive.designPlayerNamePixelWidthBigFont
+                , class "data-test-top-scorer-player-name" ] 
                 [ text <| playerName player ]
             , el 
                 TopScorerGoalCount 
-                [ verticalCenter ] 
+                [ verticalCenter
+                , class "data-test-top-scorer-goal-count" ] 
                 (text <| toString player.goalCount)
             ]
-        , paragraph TopScorerTeamName [] [ text <| teamName player ]    
+        , paragraph 
+            TopScorerTeamName 
+            [ class "data-test-top-scorer-team-name" ] 
+            [ text <| teamName player ]    
         ]
