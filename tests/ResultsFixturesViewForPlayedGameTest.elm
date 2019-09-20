@@ -24,20 +24,20 @@ onePlayedGame =
                 dayElement
                 |> Query.find [ Test.Html.Selector.class "data-test-homeTeamName" ]
                 |> Query.has [ Test.Html.Selector.text "Castle"]
-        , test "homeTeamGoalCountcorers" <|
+        , test "homeTeamGoals" <|
             \_ ->
                 dayElement
-                |> Query.find [ Test.Html.Selector.class "data-test-homeTeamGoalCountcorers" ]
+                |> Query.find [ Test.Html.Selector.class "data-test-homeTeamGoals" ]
                 |> Query.has [ Test.Html.Selector.text "Cedd, Lisa, Barry"]
         , test "homeTeamGoalCount" <|
             \_ ->
                 dayElement
                 |> Query.find [ Test.Html.Selector.class "data-test-homeTeamGoalCount" ]
                 |> Query.has [ Test.Html.Selector.text "3"]
-        , test "awayTeamGoalCountcorers" <|
+        , test "awayTeamGoals" <|
             \_ ->
                 dayElement
-                |> Query.find [ Test.Html.Selector.class "data-test-awayTeamGoalCountcorers" ]
+                |> Query.find [ Test.Html.Selector.class "data-test-awayTeamGoals" ]
                 |> Query.has [ Test.Html.Selector.text "Chad, Pog"]
         , test "awayTeamGoalCount" <|
             \_ ->
