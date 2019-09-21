@@ -59,9 +59,9 @@ gameWon teamName game =
 
 homeWon: Game -> Int
 homeWon game =
-    case (game.homeTeamGoals, game.awayTeamGoals) of
-        (Just homeTeamGoals, Just awayTeamGoals) ->
-            if homeTeamGoals > awayTeamGoals then
+    case (game.homeTeamGoalCount, game.awayTeamGoalCount) of
+        (Just homeTeamGoalCount, Just awayTeamGoalCount) ->
+            if homeTeamGoalCount > awayTeamGoalCount then
                 1
             else    
                 0
@@ -70,9 +70,9 @@ homeWon game =
 
 awayWon: Game -> Int
 awayWon game =
-    case (game.homeTeamGoals, game.awayTeamGoals) of
-        (Just homeTeamGoals, Just awayTeamGoals) ->
-            if homeTeamGoals < awayTeamGoals then
+    case (game.homeTeamGoalCount, game.awayTeamGoalCount) of
+        (Just homeTeamGoalCount, Just awayTeamGoalCount) ->
+            if homeTeamGoalCount < awayTeamGoalCount then
                 1
             else    
                 0
@@ -94,9 +94,9 @@ gameDrawn teamName game =
 
 homeDrawn: Game -> Int
 homeDrawn game =
-    case (game.homeTeamGoals, game.awayTeamGoals) of
-        (Just homeTeamGoals, Just awayTeamGoals) ->
-            if homeTeamGoals == awayTeamGoals then
+    case (game.homeTeamGoalCount, game.awayTeamGoalCount) of
+        (Just homeTeamGoalCount, Just awayTeamGoalCount) ->
+            if homeTeamGoalCount == awayTeamGoalCount then
                 1
             else    
                 0
@@ -105,9 +105,9 @@ homeDrawn game =
 
 awayDrawn: Game -> Int
 awayDrawn game =
-    case (game.homeTeamGoals, game.awayTeamGoals) of
-        (Just homeTeamGoals, Just awayTeamGoals) ->
-            if homeTeamGoals == awayTeamGoals then
+    case (game.homeTeamGoalCount, game.awayTeamGoalCount) of
+        (Just homeTeamGoalCount, Just awayTeamGoalCount) ->
+            if homeTeamGoalCount == awayTeamGoalCount then
                 1
             else    
                 0
@@ -129,9 +129,9 @@ gameLost teamName game =
 
 homeLost: Game -> Int
 homeLost game =
-    case (game.homeTeamGoals, game.awayTeamGoals) of
-        (Just homeTeamGoals, Just awayTeamGoals) ->
-            if homeTeamGoals < awayTeamGoals then
+    case (game.homeTeamGoalCount, game.awayTeamGoalCount) of
+        (Just homeTeamGoalCount, Just awayTeamGoalCount) ->
+            if homeTeamGoalCount < awayTeamGoalCount then
                 1
             else    
                 0
@@ -140,9 +140,9 @@ homeLost game =
 
 awayLost: Game -> Int
 awayLost game =
-    case (game.homeTeamGoals, game.awayTeamGoals) of
-        (Just homeTeamGoals, Just awayTeamGoals) ->
-            if homeTeamGoals > awayTeamGoals then
+    case (game.homeTeamGoalCount, game.awayTeamGoalCount) of
+        (Just homeTeamGoalCount, Just awayTeamGoalCount) ->
+            if homeTeamGoalCount > awayTeamGoalCount then
                 1
             else    
                 0
@@ -164,11 +164,11 @@ gamePoints teamName game =
 
 homePoints: Game -> Int
 homePoints game =
-    case (game.homeTeamGoals, game.awayTeamGoals) of
-        (Just homeTeamGoals, Just awayTeamGoals) ->
-            if homeTeamGoals > awayTeamGoals then
+    case (game.homeTeamGoalCount, game.awayTeamGoalCount) of
+        (Just homeTeamGoalCount, Just awayTeamGoalCount) ->
+            if homeTeamGoalCount > awayTeamGoalCount then
                 3
-            else if homeTeamGoals < awayTeamGoals then
+            else if homeTeamGoalCount < awayTeamGoalCount then
                 0
             else    
                 1
@@ -177,11 +177,11 @@ homePoints game =
 
 awayPoints: Game -> Int
 awayPoints game =
-    case (game.homeTeamGoals, game.awayTeamGoals) of
-        (Just homeTeamGoals, Just awayTeamGoals) ->
-            if homeTeamGoals > awayTeamGoals then
+    case (game.homeTeamGoalCount, game.awayTeamGoalCount) of
+        (Just homeTeamGoalCount, Just awayTeamGoalCount) ->
+            if homeTeamGoalCount > awayTeamGoalCount then
                 0
-            else if homeTeamGoals < awayTeamGoals then
+            else if homeTeamGoalCount < awayTeamGoalCount then
                 3
             else    
                 1
@@ -194,7 +194,7 @@ gamesPlayed games teamName =
 
 gameGamesPlayed: String -> Game -> Int
 gameGamesPlayed teamName game =
-    case (game.homeTeamGoals, game.awayTeamGoals) of
+    case (game.homeTeamGoalCount, game.awayTeamGoalCount) of
         (Just _, Just _) ->
             if teamName == game.homeTeamName then
                 1
@@ -212,9 +212,9 @@ goalsAgainst games teamName =
 gameGoalsAgainst: String -> Game -> Int
 gameGoalsAgainst teamName game =
     if teamName == game.homeTeamName then
-        Maybe.withDefault 0 game.awayTeamGoals
+        Maybe.withDefault 0 game.awayTeamGoalCount
     else if teamName == game.awayTeamName then
-        Maybe.withDefault 0 game.homeTeamGoals
+        Maybe.withDefault 0 game.homeTeamGoalCount
     else    
         0
 
@@ -225,9 +225,9 @@ goalsFor games teamName =
 gameGoalsFor: String -> Game -> Int
 gameGoalsFor teamName game =
     if teamName == game.homeTeamName then
-        Maybe.withDefault 0 game.homeTeamGoals
+        Maybe.withDefault 0 game.homeTeamGoalCount
     else if teamName == game.awayTeamName then
-        Maybe.withDefault 0 game.awayTeamGoals
+        Maybe.withDefault 0 game.awayTeamGoalCount
     else    
         0
 
