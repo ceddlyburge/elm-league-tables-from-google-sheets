@@ -14,8 +14,8 @@
     "cypress:run": "cypress run --record",
     "start:app": "elm-app start",
     "start:server": "netlify-lambda serve functions --config ./webpack.functions.js",
-    "netlifybuild": "bash download-favicon.sh && bash rewrite-application-title.sh && elm-package install -y && npm run build",
-    "build": "npm run test && npm run build:app && npm run build:functions",
+    "netlifybuild": "bash download-favicon.sh && bash rewrite-application-title.sh && elm-package install -y && elm-app tes && npm run build",
+    "build": "npm run build:app && npm run build:functions",
     "build:app": "elm-app build",
     "build:functions": "netlify-lambda build functions"
   },
