@@ -11,7 +11,7 @@ import Pages.Responsive exposing (..)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
-import Models.Game exposing (Game)
+import Models.Game exposing (..)
 import Models.ResultsFixtures exposing (ResultsFixtures)
 import Pages.MaybeResponse exposing (..)
 import Pages.Page exposing (..)
@@ -91,8 +91,8 @@ gameRow responsive game =
                 [ text game.homeTeamName ]
             , paragraph 
                 ResultFixtureGoals 
-                [ alignRight, class "data-test-homeTeamGoalScorers" ] 
-                [ text (String.join ", " game.homeGoals) ]
+                [ alignRight, class "data-test-homeTeamGoals" ] 
+                [ text (String.join ", " (homeTeamGoalsWithRealPlayerNames game)) ]
             ]
         , row 
             None 
@@ -107,28 +107,28 @@ gameRow responsive game =
                 [ text game.awayTeamName ]
             , paragraph 
                 ResultFixtureGoals 
-                [ alignLeft, class "data-test-awayTeamGoalScorers" ] 
-                [ text (String.join ", " game.awayGoals) ]
+                [ alignLeft, class "data-test-awayTeamGoals" ] 
+                [ text (String.join ", " (awayTeamGoalsWithRealPlayerNames game)) ]
             ]
         ]
 
 scoreSlashTime : Game -> List (Element Styles variation Msg)
 scoreSlashTime game =
-    case (game.homeTeamGoals, game.awayTeamGoals) of
-        (Just homeTeamGoals, Just awayTeamGoals) ->
+    case (game.homeTeamGoalCount, game.awayTeamGoalCount) of
+        (Just homeTeamGoalCount, Just awayTeamGoalCount) ->
             [ 
                 el 
                     ResultFixtureScore 
-                    [ alignRight, class "data-test-homeTeamGoals" ] 
-                    (text <| toString homeTeamGoals)
+                    [ alignRight, class "data-test-homeTeamGoalCount" ] 
+                    (text <| toString homeTeamGoalCount)
                 , el 
                     ResultFixtureScore 
                     [ ] 
                     (text " - ")
                 , el 
                     ResultFixtureScore 
-                    [ alignLeft, class "data-test-awayTeamGoals" ] 
-                    (text <| toString awayTeamGoals)
+                    [ alignLeft, class "data-test-awayTeamGoalCount" ] 
+                    (text <| toString awayTeamGoalCount)
             ]
         (_, _) ->
             [ 

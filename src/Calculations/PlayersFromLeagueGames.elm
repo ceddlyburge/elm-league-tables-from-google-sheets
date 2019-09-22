@@ -3,9 +3,7 @@ module Calculations.PlayersFromLeagueGames exposing (calculatePlayers)
 import Dict exposing (..)
 import Models.Game exposing (Game)
 import Models.Player exposing (..)
-import Models.RealName exposing (..)
 import Calculations.SortBy exposing (..)
-import Char
 
 -- Its annoying that I can't using PlayerId as a key to the Dict
 -- and instead have to convert it to a tuple
@@ -50,8 +48,8 @@ listScorers games =
 addScorers: Game -> List PlayerId -> List PlayerId
 addScorers game scorers =
     scorers 
-    ++ List.map (addScorer game.homeTeamName) game.homeGoals
-    ++ List.map (addScorer game.awayTeamName) game.awayGoals
+    ++ List.map (addScorer game.homeTeamName) game.homeTeamGoals
+    ++ List.map (addScorer game.awayTeamName) game.awayTeamGoals
 
 addScorer: String -> String ->  PlayerId
 addScorer teamName playerName =

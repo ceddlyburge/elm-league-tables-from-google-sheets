@@ -92,10 +92,10 @@ namedPlayers =
                 True
 
 game: String -> List String -> String -> List String -> Game
-game homeTeamName homeTeamGoals awayTeamName awayTeamGoals = 
+game homeTeamName homeTeamGoalCount awayTeamName awayTeamGoalCount = 
     { vanillaGame | 
         homeTeamName = homeTeamName
-        , homeGoals = homeTeamGoals
+        , homeTeamGoals = homeTeamGoalCount
         , awayTeamName = awayTeamName
-        , awayGoals = awayTeamGoals
+        , awayTeamGoals = awayTeamGoalCount
     }
