@@ -10,4 +10,4 @@ cache:
 build_script:
  - npm run build
 test_script:
- - npm test
+ - npm run test-record

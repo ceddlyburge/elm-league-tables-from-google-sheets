@@ -9,9 +9,12 @@
     "url": "https://github.com/ceddlyburge/elm-league-table-from-sheet"
   },
   "scripts": {
+    "test-record": "elm-app test && npm run cypress:test-record",
     "test": "elm-app test && npm run cypress:test",
+    "cypress:test-record": "start-server-and-test start:app http://localhost:3000 cypress:run-record",
     "cypress:test": "start-server-and-test start:app http://localhost:3000 cypress:run",
-    "cypress:run": "cypress run --record",
+    "cypress:run-record": "cypress run --record",
+    "cypress:run": "cypress run",
     "start:app": "elm-app start",
     "start:server": "netlify-lambda serve functions --config ./webpack.functions.js",
     "netlifybuild": "npm i cypress && bash download-favicon.sh && bash rewrite-application-title.sh && elm-package install -y && npm test && npm run build",
