@@ -4,7 +4,8 @@ import Element exposing (classifyDevice)
 import Models.Model exposing (Model)
 import Models.Route as Route exposing (Route)
 import Msg exposing (..)
-import Navigation exposing (Location, newUrl)
+--import Navigation exposing (Location, newUrl)
+import Url exposing (Url, pushUrl)
 import Pages.LeagueList.Update exposing (..)
 import Pages.LeagueTable.Update exposing (refreshLeagueTable, showLeagueTable)
 import Pages.ResultsFixtures.Update exposing (refreshResultsFixtures, showResultsFixtures)
@@ -35,7 +36,7 @@ addBrowserHistory oldMsg oldModel ( newModel, newMsg ) =
                 ( newModel, newMsg )
 
             else
-                ( newModel, Cmd.batch [ newMsg, newModel.route |> toUrl |> newUrl ] )
+                ( newModel, Cmd.batch [ newMsg, newModel.route |> toUrl |> pushUrl ] )
 
 
 updatewithoutBrowserHistory : Msg -> Model -> ( Model, Cmd Msg )
