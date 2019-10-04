@@ -18,8 +18,7 @@
             "elm-community/json-extra": "4.1.0",
             "elm-community/list-extra": "8.2.2",
             "krisajenkins/remotedata": "5.0.0",
-            "mdgriffith/style-elements": "5.0.1",
-            "justinmimbs/elm-date-extra": "3.0.0"
+            "mdgriffith/style-elements": "5.0.1"
         },
         "indirect": {
             "Skinney/murmur3": "2.0.8",
