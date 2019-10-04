@@ -2,14 +2,15 @@ module Routing exposing (parseLocation, toUrl)
 
 import Http
 import Models.Route as Route exposing (Route)
-import Navigation exposing (Location)
+import Url exposing (..)
 import String exposing (join, split)
-import UrlParser exposing (..)
+import Url.Parser exposing (..)
+import Url.Builder exposing (..)
 
 
-parseLocation : Location -> Route
+parseLocation : Url -> Route
 parseLocation location =
-    case parsePath matchers location of
+    case parse matchers location of
         Just route ->
             route
 
@@ -24,13 +25,16 @@ toUrl route =
             "/"
 
         Route.LeagueTable leagueTitle ->
-            "/league/" ++ Http.encodeUri leagueTitle
+            -- "/league/" ++ Http.encodeUri leagueTitle
+            absolute [ "league", leagueTitle ] []
 
         Route.ResultsFixtures leagueTitle ->
-            "/results-fixtures/" ++ Http.encodeUri leagueTitle
+            -- "/results-fixtures/" ++ Http.encodeUri leagueTitle
+            absolute [ "results-fixtures", leagueTitle ] []
 
         Route.TopScorers leagueTitle ->
-            "/top-scorers/" ++ Http.encodeUri leagueTitle
+            -- "/top-scorers/" ++ Http.encodeUri leagueTitle
+            absolute [ "top-scorers", leagueTitle ] []
 
         Route.NotFound ->
             "404"
@@ -45,18 +49,22 @@ matchers =
     oneOf
         [ map Route.LeagueList top
         , map Route.LeagueList (s "index.html")
-        , map Route.LeagueTable (s "league" </> map urlDecode string)
-        , map Route.ResultsFixtures (s "results-fixtures" </> map urlDecode string)
-        , map Route.TopScorers (s "top-scorers" </> map urlDecode string)
+        --, map Route.LeagueTable (s "league" </> map urlDecode Url.Parser.string)
+        --, map Route.ResultsFixtures (s "results-fixtures" </> map urlDecode Url.Parser.string)
+        --, map Route.TopScorers (s "top-scorers" </> map urlDecode Url.Parser.string)
+        -- i think url.parse now does the decoding automatically
+        , map Route.LeagueTable (s "league" </> Url.Parser.string)
+        , map Route.ResultsFixtures (s "results-fixtures" </> Url.Parser.string)
+        , map Route.TopScorers (s "top-scorers" </> Url.Parser.string)
         ]
 
 
-urlDecode : String -> String
-urlDecode encoded =
-    encoded
-        |> Http.decodeUri
-        |> Maybe.withDefault
-            (partialUrlDecode encoded)
+-- urlDecode : String -> String
+-- urlDecode encoded =
+--     encoded
+--         |> Http.decodeUri
+--         |> Maybe.withDefault
+--             (partialUrlDecode encoded)
 
 
 
