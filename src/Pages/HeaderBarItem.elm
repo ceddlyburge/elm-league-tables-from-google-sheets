@@ -1,13 +1,11 @@
-module Pages.HeaderBarItem exposing ( HeaderBarItem(..) )
+module Pages.HeaderBarItem exposing (HeaderBarItem(..))
 
 import Msg exposing (..)
 
-type HeaderBarItem =
-    HeaderButtonSizedSpace
+
+type HeaderBarItem
+    = HeaderButtonSizedSpace
     | RefreshHeaderButton Msg
     | ResultsFixturesHeaderButton Msg
-    | TopScorersHeaderButton Msg Bool 
+    | TopScorersHeaderButton Msg Bool
     | BackHeaderButton Msg
-    
-
-

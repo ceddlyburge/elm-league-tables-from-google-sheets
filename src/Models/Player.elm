@@ -1,61 +1,73 @@
 -- Should expose less things here, probably make some of the types opaque
+
+
 module Models.Player exposing (..)
 
 import Models.RealName exposing (..)
+
 
 type alias PlayerId =
     { teamName : String
     , playerName : String
     }
 
+
 type alias Player =
     { playerId : PlayerId
     , goalCount : Int
-    , realName: RealName
+    , realName : RealName
     }
+
 
 type alias Players =
     { namedPlayerDataAvailable : Bool
     , players : List Player
     }
 
-toTuple: PlayerId -> (String, String)
+
+toTuple : PlayerId -> ( String, String )
 toTuple playerId =
-    (playerId.teamName, playerId.playerName)
+    ( playerId.teamName, playerId.playerName )
 
 
-fromTuple: (String, String) -> PlayerId
-fromTuple (teamName, playerName) =
+fromTuple : ( String, String ) -> PlayerId
+fromTuple ( teamName, playerName ) =
     PlayerId teamName playerName
 
 
-player: PlayerId -> Int -> Player
+player : PlayerId -> Int -> Player
 player playerId goalCount =
     Player
         playerId
         goalCount
         (fromString playerId.playerName)
 
+
 playerName : Player -> String
-playerName player = 
+playerName player =
     player.playerId.playerName
 
+
 teamName : Player -> String
-teamName player = 
+teamName player =
     player.playerId.teamName
 
-hasRealName: Player -> Bool
+
+hasRealName : Player -> Bool
 hasRealName player =
     Models.RealName.toBool player.realName
 
+
 vanillaPlayerId : PlayerId
-vanillaPlayerId = 
+vanillaPlayerId =
     PlayerId "" ""
 
+
 vanillaPlayer : Player
-vanillaPlayer = 
+vanillaPlayer =
     Player vanillaPlayerId 0 NoName
 
+
 vanillaPlayers : Players
-vanillaPlayers = 
+vanillaPlayers =
     Players False []

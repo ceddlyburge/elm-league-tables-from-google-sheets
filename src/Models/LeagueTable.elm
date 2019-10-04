@@ -8,6 +8,7 @@ type alias LeagueTable =
     , teams : List Team
     }
 
+
 vanillaLeagueTable : LeagueTable
-vanillaLeagueTable = 
+vanillaLeagueTable =
     LeagueTable "" []

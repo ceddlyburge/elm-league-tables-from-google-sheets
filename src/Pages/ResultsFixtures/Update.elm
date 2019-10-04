@@ -1,20 +1,22 @@
-module Pages.ResultsFixtures.Update exposing (showResultsFixtures, refreshResultsFixtures)
+module Pages.ResultsFixtures.Update exposing (refreshResultsFixtures, showResultsFixtures)
 
-import Msg exposing (..)
 import Models.Model exposing (Model)
 import Models.Route as Route exposing (Route)
-import Pages.UpdateHelpers exposing (showRouteRequiringIndividualSheetApi, refreshRouteRequiringIndividualSheetApi)
+import Msg exposing (..)
+import Pages.UpdateHelpers exposing (refreshRouteRequiringIndividualSheetApi, showRouteRequiringIndividualSheetApi)
+
 
 showResultsFixtures : String -> Model -> ( Model, Cmd Msg )
-showResultsFixtures leagueTitle model  =
-    showRouteRequiringIndividualSheetApi 
-        leagueTitle 
+showResultsFixtures leagueTitle model =
+    showRouteRequiringIndividualSheetApi
+        leagueTitle
         (Route.ResultsFixtures leagueTitle)
-        model 
+        model
+
 
 refreshResultsFixtures : String -> Model -> ( Model, Cmd Msg )
-refreshResultsFixtures leagueTitle model  =
-    refreshRouteRequiringIndividualSheetApi 
-        leagueTitle 
+refreshResultsFixtures leagueTitle model =
+    refreshRouteRequiringIndividualSheetApi
+        leagueTitle
         (Route.ResultsFixtures leagueTitle)
-        model 
+        model

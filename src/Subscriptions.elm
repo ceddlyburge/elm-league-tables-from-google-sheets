@@ -1,8 +1,8 @@
 module Subscriptions exposing (subscriptions)
 
-import Window exposing (resizes)
 import Models.Model exposing (..)
 import Msg exposing (..)
+import Window exposing (resizes)
 
 
 subscriptions : Model -> Sub Msg
