@@ -7,7 +7,8 @@ import Models.League exposing (League)
 import Models.LeagueSummary exposing (LeagueSummary)
 import Models.Route as Route exposing (Route)
 import RemoteData exposing (WebData)
-import Window exposing (size)
+--import Window exposing (size)
+import Browser.Events exposing (onResize)
 
 
 type alias Model =
@@ -26,4 +27,4 @@ vanillaModel =
         Route.NotFound
         RemoteData.NotAsked
         Dict.empty
-        (classifyDevice <| Window.Size 1024 768)
+        (classifyDevice <| onResize 1024 768)

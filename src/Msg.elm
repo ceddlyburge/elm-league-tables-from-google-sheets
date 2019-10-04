@@ -4,7 +4,8 @@ import Models.LeagueGames exposing (LeagueGames)
 import Models.LeagueSummary exposing (LeagueSummary)
 import Navigation exposing (Location)
 import RemoteData exposing (WebData)
-import Window exposing (size)
+--import Window exposing (size)
+import Browser.Events exposing (onResize)
 
 
 type Msg
@@ -23,6 +24,6 @@ type Msg
       -- routing
     | OnLocationChange Location
       -- responsiveness
-    | SetScreenSize Window.Size
+    | SetScreenSize onResize
       --
     | NoOp
