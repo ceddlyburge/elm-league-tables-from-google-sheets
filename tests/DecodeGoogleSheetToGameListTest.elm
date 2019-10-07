@@ -1,7 +1,9 @@
 module DecodeGoogleSheetToGameListTest exposing (..)
 
 import Test exposing (..)
-import Date exposing (..)
+-- import Date exposing (..)
+import Time exposing (..)
+import Time.Extra exposing (..)
 import Expect
 import Json.Decode exposing (decodeString)
 import Models.Game exposing (Game, vanillaGame)
@@ -26,7 +28,7 @@ decodeSpreadsheetIdResponse =
                           (Just 3) 
                           "Meridian" 
                           (Just 1) 
-                          (Result.toMaybe (Date.fromString "2018-06-04")) 
+                          (Just (Time.Extra.partsToPosix utc (Parts 2018 Jun 4 0 0 0 0))) --(Result.toMaybe (Iso8601.toTime "2018-06-04")) 
                           ["Cedd", "Lisa", "Barry"]
                           ["Nobody"]
                           "Green 3, Yellow 5" 

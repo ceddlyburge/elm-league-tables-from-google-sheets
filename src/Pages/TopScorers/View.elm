@@ -67,7 +67,7 @@ topScorer responsive player =
                 [ verticalCenter
                 , class "data-test-top-scorer-goal-count"
                 ]
-                (text <| toString player.goalCount)
+                (text <| String.fromInt player.goalCount)
             ]
         , paragraph
             TopScorerTeamName

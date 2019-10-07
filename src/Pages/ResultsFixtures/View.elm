@@ -1,7 +1,8 @@
 module Pages.ResultsFixtures.View exposing (page)
 
-import Date exposing (..)
-import Date.Extra exposing (..)
+-- import Date exposing (..)
+-- import Date.Extra exposing (..)
+import Time exposing (..)
 import Element exposing (..)
 import Element.Attributes exposing (..)
 import Http exposing (decodeUri)
@@ -127,7 +128,7 @@ scoreSlashTime game =
             [ el
                 ResultFixtureScore
                 [ alignRight, class "data-test-homeTeamGoalCount" ]
-                (text <| toString homeTeamGoalCount)
+                (text <| String.fromInt homeTeamGoalCount)
             , el
                 ResultFixtureScore
                 []
@@ -135,7 +136,7 @@ scoreSlashTime game =
             , el
                 ResultFixtureScore
                 [ alignLeft, class "data-test-awayTeamGoalCount" ]
-                (text <| toString awayTeamGoalCount)
+                (text <| String.fromInt awayTeamGoalCount)
             ]
 
         ( _, _ ) ->
@@ -149,21 +150,21 @@ scoreSlashTime game =
 dateClassNamePart : Maybe Date -> String
 dateClassNamePart maybeDate =
     maybeDate
-        |> Maybe.map (Date.Extra.toFormattedString "yyyy-MM-dd")
+        |> Maybe.map (Time.Extra.toFormattedString "yyyy-MM-dd")
         |> Maybe.withDefault "unscheduled"
 
 
 dateDisplay : Maybe Date -> String
 dateDisplay maybeDate =
     maybeDate
-        |> Maybe.map (Date.Extra.toFormattedString "MMMM d, yyyy")
+        |> Maybe.map (Time.Extra.toFormattedString "MMMM d, yyyy")
         |> Maybe.withDefault "Unscheduled"
 
 
 timeDisplay : Maybe Date -> String
 timeDisplay maybeDate =
     maybeDate
-        |> Maybe.map (Date.Extra.toFormattedString "HH:mm")
+        |> Maybe.map (Time.Extra.toFormattedString "HH:mm")
         |> Maybe.withDefault " - "
 
 

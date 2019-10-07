@@ -5,7 +5,8 @@ import Models.Model exposing (Model)
 import Models.Route as Route exposing (Route)
 import Msg exposing (..)
 --import Navigation exposing (Location, newUrl)
-import Url exposing (Url, pushUrl)
+import Url exposing (Url)
+import Browser.Navigation exposing (pushUrl)
 import Pages.LeagueList.Update exposing (..)
 import Pages.LeagueTable.Update exposing (refreshLeagueTable, showLeagueTable)
 import Pages.ResultsFixtures.Update exposing (refreshResultsFixtures, showResultsFixtures)
@@ -36,7 +37,8 @@ addBrowserHistory oldMsg oldModel ( newModel, newMsg ) =
                 ( newModel, newMsg )
 
             else
-                ( newModel, Cmd.batch [ newMsg, newModel.route |> toUrl |> pushUrl ] )
+                ( newModel, newMsg )
+                --( newModel, Cmd.batch [ newMsg, newModel.route |> toUrl |> pushUrl ] )
 
 
 updatewithoutBrowserHistory : Msg -> Model -> ( Model, Cmd Msg )
@@ -78,15 +80,15 @@ updatewithoutBrowserHistory msg model =
             individualSheetResponse model response leagueTitle
 
         -- responsiveness
-        SetScreenSize size ->
-            ( { model | device = classifyDevice size }, Cmd.none )
+        SetScreenSize width height ->
+            ( { model | device = classifyDevice { width = width, height = height } }, Cmd.none )
 
         -- routing
         OnLocationChange location ->
             updateFromLocation model location
 
 
-updateFromLocation : Model -> Location -> ( Model, Cmd Msg )
+updateFromLocation : Model -> Url -> ( Model, Cmd Msg )
 updateFromLocation model location =
     let
         route =
@@ -96,7 +98,7 @@ updateFromLocation model location =
         |> stopInfiniteLoop model route
 
 
-updateFromRoute : Model -> Location -> Route -> ( Model, Cmd Msg )
+updateFromRoute : Model -> Url -> Route -> ( Model, Cmd Msg )
 updateFromRoute model location route =
     case route of
         Route.LeagueList ->

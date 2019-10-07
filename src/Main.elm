@@ -12,7 +12,7 @@ import Browser exposing (..)
 --import Window exposing (size)
 
 
-init : Config -> Location -> ( Model, Cmd Msg )
+init : Config -> Url -> Key -> ( Model, Cmd Msg )
 init config location =
     let
         ( model, cmd ) =

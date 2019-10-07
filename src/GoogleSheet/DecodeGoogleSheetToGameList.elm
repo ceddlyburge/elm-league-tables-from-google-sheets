@@ -1,7 +1,7 @@
 module GoogleSheet.DecodeGoogleSheetToGameList exposing (decodeSheetToLeagueGames)
 
 import Json.Decode exposing (Decoder, Value, andThen, at, decodeString, index, int, list, maybe, string, succeed, value)
-import Json.Decode.Extra exposing (andMap, date, indexedList, optionalField, parseInt, withDefault)
+import Json.Decode.Extra exposing (andMap, indexedList, optionalField, parseInt, withDefault, datetime)
 import Models.Game exposing (Game)
 import Models.LeagueGames exposing (LeagueGames)
 
@@ -43,7 +43,7 @@ decodeRowToGame row =
                     |> andMap (Json.Decode.map String.trim (index 3 string))
                     -- index 3 is on purpose
                     |> andMap (index 2 (maybe parseInt))
-                    |> andMap (withDefault Nothing (index 4 (maybe date)))
+                    |> andMap (withDefault Nothing (index 4 (maybe datetime)))
                     |> andMap (withDefault [] (Json.Decode.map parseGoals (index 5 string)))
                     |> andMap (withDefault [] (Json.Decode.map parseGoals (index 6 string)))
                     |> andMap (withDefault "" (index 7 string))

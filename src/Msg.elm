@@ -8,7 +8,6 @@ import RemoteData exposing (WebData)
 --import Window exposing (size)
 import Browser.Events exposing (onResize)
 
-
 type Msg
     = -- league List
       ShowLeagueList
@@ -25,6 +24,7 @@ type Msg
       -- routing
     | OnLocationChange Url
       -- responsiveness
-    | SetScreenSize onResize
+    --| SetScreenSize Window.Size
+    | SetScreenSize Int Int
       --
     | NoOp

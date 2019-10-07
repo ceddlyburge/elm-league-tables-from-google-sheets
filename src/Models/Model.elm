@@ -7,12 +7,15 @@ import Models.League exposing (League)
 import Models.LeagueSummary exposing (LeagueSummary)
 import Models.Route as Route exposing (Route)
 import RemoteData exposing (WebData)
---import Window exposing (size)
+--import Window
 import Browser.Events exposing (onResize)
+import Browser.Navigation exposing (Key)
 
 
+-- probably have a modelwithoutkey and a model here ...
 type alias Model =
-    { config : Config
+    { --key: Key
+     config : Config
     , route : Route
     , leagueSummaries : WebData (List LeagueSummary)
     , leagues : Dict String (WebData League)
@@ -27,4 +30,4 @@ vanillaModel =
         Route.NotFound
         RemoteData.NotAsked
         Dict.empty
-        (classifyDevice <| onResize 1024 768)
+        (classifyDevice { width = 1024, height = 768 } )

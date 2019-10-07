@@ -1,7 +1,9 @@
 module Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
 
-import Date exposing (..)
-import Date.Extra exposing (..)
+-- import Date exposing (..)
+-- import Date.Extra exposing (..)
+import Time exposing (..)
+import Time.Extra exposing (..)
 import List.Gather exposing (..)
 import Models.Game exposing (Game)
 import Models.LeagueGames exposing (LeagueGames)
@@ -29,7 +31,7 @@ gameDatesEqual game1 game2 =
     maybeDatesEqual game1.datePlayed game2.datePlayed
 
 
-maybeDatesEqual : Maybe Date -> Maybe Date -> Bool
+maybeDatesEqual : Maybe Posix -> Maybe Posix -> Bool
 maybeDatesEqual maybeDate1 maybeDate2 =
     Maybe.map2 datesEqual maybeDate1 maybeDate2
         == Just True
@@ -37,19 +39,19 @@ maybeDatesEqual maybeDate1 maybeDate2 =
         == maybeDate2
 
 
-datesEqual : Date -> Date -> Bool
+datesEqual : Posix -> Posix -> Bool
 datesEqual date1 date2 =
-    Date.Extra.floor Day date1 == Date.Extra.floor Day date2
+    Time.Extra.floor Day utc date1 == Time.Extra.floor Day utc date2
 
 
 leagueGamesForDay : ( Game, List Game ) -> LeagueGamesForDay
 leagueGamesForDay ( firstGame, remainingGames ) =
     LeagueGamesForDay
-        (Maybe.map (Date.Extra.floor Day) firstGame.datePlayed)
+        (Maybe.map (Time.Extra.floor Day utc) firstGame.datePlayed)
         (List.sortWith gamesAscendingDate (firstGame :: remainingGames))
 
 
-dateOfFirstGame : List Game -> Maybe Date
+dateOfFirstGame : List Game -> Maybe Posix
 dateOfFirstGame games =
     Maybe.andThen .datePlayed (List.head games)
 
@@ -64,7 +66,7 @@ daysDescendingDate day1 day2 =
     compareMaybeDate day2.date day1.date
 
 
-compareMaybeDate : Maybe Date -> Maybe Date -> Order
+compareMaybeDate : Maybe Posix -> Maybe Posix -> Order
 compareMaybeDate date1 date2 =
     case ( date1, date2 ) of
         ( Nothing, Nothing ) ->
@@ -76,5 +78,5 @@ compareMaybeDate date1 date2 =
         ( Just _, Nothing ) ->
             GT
 
-        ( Just date1, Just date2 ) ->
-            Date.Extra.compare date1 date2
+        ( Just dateOne, Just dateTwo ) ->
+            compare (posixToMillis  dateOne) (posixToMillis dateTwo)

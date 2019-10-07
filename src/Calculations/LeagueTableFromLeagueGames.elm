@@ -68,7 +68,7 @@ unpositionedTeam games teamName =
 
 won : List Game -> String -> Int
 won games teamName =
-    List.foldl (\won totalWon -> totalWon + won) 0 (List.map (\game -> gameWon teamName game) games)
+    List.foldl (\current total -> total + current) 0 (List.map (\game -> gameWon teamName game) games)
 
 
 gameWon : String -> Game -> Int
@@ -113,7 +113,8 @@ awayWon game =
 
 drawn : List Game -> String -> Int
 drawn games teamName =
-    List.foldl (\drawn totalDrawn -> totalDrawn + drawn) 0 (List.map (\game -> gameDrawn teamName game) games)
+    -- could turn this in to a function (aggregateIntegers or something)
+    List.foldl (\current total -> total + current) 0 (List.map (\game -> gameDrawn teamName game) games)
 
 
 gameDrawn : String -> Game -> Int
@@ -158,7 +159,7 @@ awayDrawn game =
 
 lost : List Game -> String -> Int
 lost games teamName =
-    List.foldl (\lost totalLost -> totalLost + lost) 0 (List.map (\game -> gameLost teamName game) games)
+    List.foldl (\current total -> total + current) 0 (List.map (\game -> gameLost teamName game) games)
 
 
 gameLost : String -> Game -> Int

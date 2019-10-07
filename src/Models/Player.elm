@@ -31,8 +31,8 @@ toTuple playerId =
 
 
 fromTuple : ( String, String ) -> PlayerId
-fromTuple ( teamName, playerName ) =
-    PlayerId teamName playerName
+fromTuple ( aTeamName, aPlayerName ) =
+    PlayerId aTeamName aPlayerName
 
 
 player : PlayerId -> Int -> Player
@@ -44,18 +44,18 @@ player playerId goalCount =
 
 
 playerName : Player -> String
-playerName player =
-    player.playerId.playerName
+playerName aPlayer =
+    aPlayer.playerId.playerName
 
 
 teamName : Player -> String
-teamName player =
-    player.playerId.teamName
+teamName aPlayer =
+    aPlayer.playerId.teamName
 
 
 hasRealName : Player -> Bool
-hasRealName player =
-    Models.RealName.toBool player.realName
+hasRealName aPlayer =
+    Models.RealName.toBool aPlayer.realName
 
 
 vanillaPlayerId : PlayerId

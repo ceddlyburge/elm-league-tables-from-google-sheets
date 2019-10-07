@@ -1,6 +1,7 @@
 module Models.Game exposing (..)
 
-import Date exposing (..)
+-- import Date exposing (..)
+import Time exposing (..)
 import Models.RealName as RealName exposing (..)
 
 
@@ -19,7 +20,7 @@ type alias Game =
     , homeTeamGoalCount : Maybe Int
     , awayTeamName : String
     , awayTeamGoalCount : Maybe Int
-    , datePlayed : Maybe Date
+    , datePlayed : Maybe Posix
 
     -- homeTeamGoalCount and awayTeamGoalCount are lists of goals (currently just a string
     -- that represents the name of the scorer). They are options. This creates
