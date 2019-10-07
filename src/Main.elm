@@ -1,24 +1,22 @@
 module Main exposing (..)
 
 import Models.Config exposing (Config)
-import Models.Model exposing (Model, vanillaModel)
+import Models.Model exposing (ModelAndKey, vanillaModel)
 import Msg exposing (Msg)
---import Navigation exposing (Location)
 import Subscriptions
 import Task exposing (perform)
 import Update exposing (update)
 import View exposing (view)
 import Browser exposing (..)
---import Window exposing (size)
 
 
-init : Config -> Url -> Key -> ( Model, Cmd Msg )
-init config location =
+init : Config -> Url -> Key -> ( ModelAndKey, Cmd Msg )
+init config location key =
     let
         ( model, cmd ) =
             update
                 (Msg.OnLocationChange location)
-                { vanillaModel | config = config }
+                { vanillaModelAndKey key | config = config }
     in
     ( model, Cmd.batch [ cmd, Task.perform Msg.SetScreenSize Window.size ] )
 
@@ -27,7 +25,7 @@ init config location =
 ---- PROGRAM ----
 
 
-main : Program Config Model Msg
+main : Program Config ModelAndKey Msg
 main =
     Browser.application Msg.OnLocationChange
         { init = init

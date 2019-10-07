@@ -7,15 +7,19 @@ import Models.League exposing (League)
 import Models.LeagueSummary exposing (LeagueSummary)
 import Models.Route as Route exposing (Route)
 import RemoteData exposing (WebData)
---import Window
 import Browser.Events exposing (onResize)
 import Browser.Navigation exposing (Key)
 
 
--- probably have a modelwithoutkey and a model here ...
+-- The business with the Key is really stupid, see
+-- https://github.com/elm-explorations/test/issues/24
+type alias ModelAndKey =
+    { key: Key
+    , model: Model
+    }
+
 type alias Model =
-    { --key: Key
-     config : Config
+    { config : Config
     , route : Route
     , leagueSummaries : WebData (List LeagueSummary)
     , leagues : Dict String (WebData League)
@@ -31,3 +35,7 @@ vanillaModel =
         RemoteData.NotAsked
         Dict.empty
         (classifyDevice { width = 1024, height = 768 } )
+
+vanillaModelAndKey : Key -> ModelAndKey
+vanillaModelAndKey key =
+    ModelAndKey key vanillaModel

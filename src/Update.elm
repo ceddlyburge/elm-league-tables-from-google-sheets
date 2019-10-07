@@ -1,12 +1,11 @@
-module Update exposing (update)
+module Update exposing (update, updatewithoutBrowserHistory)
 
 import Element exposing (classifyDevice)
-import Models.Model exposing (Model)
+import Models.Model exposing (Model, ModelAndKey)
 import Models.Route as Route exposing (Route)
 import Msg exposing (..)
---import Navigation exposing (Location, newUrl)
 import Url exposing (Url)
-import Browser.Navigation exposing (pushUrl)
+import Browser.Navigation exposing (pushUrl, Key)
 import Pages.LeagueList.Update exposing (..)
 import Pages.LeagueTable.Update exposing (refreshLeagueTable, showLeagueTable)
 import Pages.ResultsFixtures.Update exposing (refreshResultsFixtures, showResultsFixtures)
@@ -16,31 +15,22 @@ import Routing exposing (..)
 
 
 
--- This module has no unit tests, but its quite simple stuff, and mostly well checked
--- by the transpiler, and I don't think writing tests would bring much benefit
+-- At the moment, ModelAndKey can't be tested, due to the nonsense with pushUrl and Key
+-- https://github.com/elm-explorations/test/issues/24
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    updatewithoutBrowserHistory msg model
-        |> addBrowserHistory msg model
+update : Msg -> ModelAndKey -> ( ModelAndKey, Cmd Msg )
+update msg modelAndKey =
+    let
+        (newModel, newMsg) = 
+            updatewithoutBrowserHistory msg modelAndKey.model
+                |> addBrowserHistory msg modelAndKey.model modelAndKey.key
+    in
+        ( { modelAndKey | model = newModel }, newMsg )    
 
 
-addBrowserHistory : Msg -> Model -> ( Model, Cmd Msg ) -> ( Model, Cmd Msg )
-addBrowserHistory oldMsg oldModel ( newModel, newMsg ) =
-    case oldMsg of
-        OnLocationChange _ ->
-            ( newModel, newMsg )
-
-        _ ->
-            if newModel.route == oldModel.route then
-                ( newModel, newMsg )
-
-            else
-                ( newModel, newMsg )
-                --( newModel, Cmd.batch [ newMsg, newModel.route |> toUrl |> pushUrl ] )
-
-
+-- This should be a private function, but being as I can't test `update`, 
+-- I export this so it can be tested.
 updatewithoutBrowserHistory : Msg -> Model -> ( Model, Cmd Msg )
 updatewithoutBrowserHistory msg model =
     case msg of
@@ -86,6 +76,20 @@ updatewithoutBrowserHistory msg model =
         -- routing
         OnLocationChange location ->
             updateFromLocation model location
+
+
+addBrowserHistory : Msg -> Model ->  Key -> (Model, Cmd Msg) -> ( Model, Cmd Msg )
+addBrowserHistory oldMsg oldModel  key (newModel, newMsg) =
+    case oldMsg of
+        OnLocationChange _ ->
+            ( newModel, newMsg )
+
+        _ ->
+            if newModel.route == oldModel.route then
+                ( newModel, newMsg )
+
+            else
+                ( newModel, Cmd.batch [ newMsg, newModel.route |> toUrl |> pushUrl key ] )
 
 
 updateFromLocation : Model -> Url -> ( Model, Cmd Msg )
