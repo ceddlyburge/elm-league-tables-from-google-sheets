@@ -5,6 +5,7 @@ import Models.Model exposing (Model, ModelAndKey)
 import Models.Route as Route exposing (Route)
 import Msg exposing (..)
 import Url exposing (Url)
+import Browser exposing (UrlRequest(..))
 import Browser.Navigation exposing (pushUrl, Key)
 import Pages.LeagueList.Update exposing (..)
 import Pages.LeagueTable.Update exposing (refreshLeagueTable, showLeagueTable)
@@ -74,9 +75,16 @@ updatewithoutBrowserHistory msg model =
             ( { model | device = classifyDevice { width = width, height = height } }, Cmd.none )
 
         -- routing
-        OnLocationChange location ->
-            updateFromLocation model location
+        OnLocationChange url ->
+            updateFromLocation model url
 
+        OnUrlRequest urlRequest ->
+            case urlRequest of
+                Internal url ->
+                    updateFromLocation model url
+
+                External _ ->
+                    ( model, Cmd.none )
 
 addBrowserHistory : Msg -> Model ->  Key -> (Model, Cmd Msg) -> ( Model, Cmd Msg )
 addBrowserHistory oldMsg oldModel  key (newModel, newMsg) =

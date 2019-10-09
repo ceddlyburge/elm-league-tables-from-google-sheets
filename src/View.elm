@@ -4,7 +4,7 @@ import Dict exposing (Dict)
 import Html exposing (Html)
 import Models.League exposing (League)
 import Models.LeagueTable exposing (LeagueTable)
-import Models.Model exposing (Model)
+import Models.Model exposing (Model, ModelAndKey)
 import Models.Player exposing (..)
 import Models.ResultsFixtures exposing (ResultsFixtures)
 import Models.Route as Route exposing (Route)
@@ -17,15 +17,16 @@ import Pages.Responsive exposing (..)
 import Pages.ResultsFixtures.View exposing (..)
 import Pages.TopScorers.View exposing (..)
 import RemoteData exposing (WebData)
+import Browser exposing (Document)
 
 
-view : Model -> Html Msg
-view model =
+view : ModelAndKey -> Document Msg
+view modelAndKey =
     let
         responsive =
-            calculateResponsive <| toFloat model.device.width
+            calculateResponsive <| toFloat modelAndKey.model.device.width
     in
-    page model responsive
+    page modelAndKey.model responsive
         |> renderPage responsive
 
 

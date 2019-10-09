@@ -2,9 +2,9 @@ module Subscriptions exposing (subscriptions)
 
 import Models.Model exposing (..)
 import Msg exposing (..)
-import Window exposing (resizes)
+import Browser.Events exposing (onResize)
 
 
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    Sub.batch [ Window.resizes SetScreenSize ]
+subscriptions : ModelAndKey -> Sub Msg
+subscriptions _ =
+    onResize SetScreenSize

@@ -7,6 +7,7 @@ import Url exposing (Url)
 import RemoteData exposing (WebData)
 --import Window exposing (size)
 import Browser.Events exposing (onResize)
+import Browser exposing (UrlRequest)
 
 type Msg
     = -- league List
@@ -22,7 +23,8 @@ type Msg
     | RefreshTopScorers String
     | IndividualSheetResponse String (WebData LeagueGames)
       -- routing
-    | OnLocationChange Url
+    | OnLocationChange Url -- should change to onUrlChange
+    | OnUrlRequest UrlRequest
       -- responsiveness
     --| SetScreenSize Window.Size
     | SetScreenSize Int Int

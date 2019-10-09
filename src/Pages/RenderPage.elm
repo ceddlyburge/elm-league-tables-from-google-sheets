@@ -11,14 +11,18 @@ import Pages.HeaderBar exposing (..)
 import Pages.HeaderBarItem exposing (..)
 import Pages.Page exposing (..)
 import Pages.Responsive exposing (..)
+import Browser exposing (Document)
 
 
-renderPage : Responsive -> Page -> Html Msg
+renderPage : Responsive -> Page -> Document Msg
 renderPage responsive page =
-    body
-        responsive
-        [ renderHeaderBar responsive page.header
-        , page.body
+    Document
+        "League Tables"
+        [ body
+            responsive
+            [ renderHeaderBar responsive page.header
+            , page.body
+            ]
         ]
 
 
