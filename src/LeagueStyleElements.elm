@@ -51,36 +51,40 @@ sansSerif =
     , Font.font "sans-serif"
     ]
 
+ceddRgba: Float -> Float -> Float -> Float -> Style.Color
+ceddRgba r g b a =
+    rgba (r / 255) (g / 255) (b / 255) a
+
 
 colors :
-    { secondary5 : Color.Color
-    , secondary4 : Color.Color
-    , secondary2 : Color.Color
-    , text : Color.Color
-    , supplementaryText : Color.Color
-    , titleText : Color.Color
-    , subTitleText : Color.Color
-    , heading1 : Color.Color
-    , titleButton : Color.Color
-    , titleBackground : Color.Color
-    , subTitleBackground : Color.Color
-    , border : Color.Color
-    , transparent : Color.Color
+    { secondary5 : Style.Color
+    , secondary4 : Style.Color
+    , secondary2 : Style.Color
+    , text : Style.Color
+    , supplementaryText : Style.Color
+    , titleText : Style.Color
+    , subTitleText : Style.Color
+    , heading1 : Style.Color
+    , titleButton : Style.Color
+    , titleBackground : Style.Color
+    , subTitleBackground : Style.Color
+    , border : Style.Color
+    , transparent : Style.Color
     }
 colors =
-    { secondary5 = Color.rgba 7 25 48 1.0
-    , secondary4 = Color.rgba 35 63 98 1.0
-    , secondary2 = Color.rgba 139 162 190 1.0
-    , text = Color.rgba 79 108 142 1.0 -- secondary 3
-    , supplementaryText = Color.rgba 150 109 44 1.0 -- secondary-2-3
-    , titleText = Color.rgba 4 38 45 1.0 -- primary 5
-    , subTitleText = Color.rgba 7 25 48 1.0 -- primary 5
-    , heading1 = Color.rgba 35 63 98 1.0 -- secondary 4
-    , titleButton = Color.rgba 70 124 134 1.0 -- primary 3
-    , titleBackground = Color.rgba 130 174 182 1.0 -- primary 2
-    , subTitleBackground = Color.rgba 215 226 241 1.0 -- secondeay 2 - 1
-    , border = Color.rgba 215 227 241 1.0 -- secondary 1
-    , transparent = Color.rgba 255 255 255 0
+    { secondary5 = ceddRgba 7 25 48 1.0
+    , secondary4 = ceddRgba 35 63 98 1.0
+    , secondary2 = ceddRgba 139 162 190 1.0
+    , text = ceddRgba 79 108 142 1.0 -- secondary 3
+    , supplementaryText = ceddRgba 150 109 44 1.0 -- secondary-2-3
+    , titleText = ceddRgba 4 38 45 1.0 -- primary 5
+    , subTitleText = ceddRgba 7 25 48 1.0 -- primary 5
+    , heading1 = ceddRgba 35 63 98 1.0 -- secondary 4
+    , titleButton = ceddRgba 70 124 134 1.0 -- primary 3
+    , titleBackground = ceddRgba 130 174 182 1.0 -- primary 2
+    , subTitleBackground = ceddRgba 215 226 241 1.0 -- secondeay 2 - 1
+    , border = ceddRgba 215 227 241 1.0 -- secondary 1
+    , transparent = ceddRgba 255 255 255 0
     }
 
 
