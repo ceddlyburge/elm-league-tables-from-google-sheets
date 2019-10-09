@@ -73,19 +73,19 @@ headerCell column =
 
 
 teamRow : List Column -> Responsive -> Team -> Element Styles Variations Msg
-teamRow tableColumns responsive team =
+teamRow tableColumns responsive aTeam =
     row
         LeagueTableTeamRow
         [ padding responsive.mediumGap, spacing responsive.smallGap, center, class "data-test-team" ]
-        (List.map (teamCell team) tableColumns)
+        (List.map (teamCell aTeam) tableColumns)
 
 
 teamCell : Team -> Column -> Element Styles Variations Msg
-teamCell team column =
+teamCell aTeam column =
     column.element
         None
         [ width (px column.width), class column.cssClass ]
-        (text <| column.value team)
+        (text <| column.value aTeam)
 
 
 
