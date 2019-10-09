@@ -63,7 +63,7 @@ day responsive leagueGamesForDay =
         ]
 
 
-dayHeader : Maybe Date -> Element Styles variation Msg
+dayHeader : Maybe Posix -> Element Styles variation Msg
 dayHeader maybeDate =
     el
         ResultFixtureDayHeader
@@ -148,24 +148,24 @@ scoreSlashTime game =
             ]
 
 
-dateClassNamePart : Maybe Date -> String
+dateClassNamePart : Maybe Posix -> String
 dateClassNamePart maybeDate =
     maybeDate
-        |> Maybe.map (Time.Extra.toFormattedString "yyyy-MM-dd")
+        |> Maybe.map (dateFormatter utc)
         |> Maybe.withDefault "unscheduled"
 
 
-dateDisplay : Maybe Date -> String
+dateDisplay : Maybe Posix -> String
 dateDisplay maybeDate =
     maybeDate
-        |> Maybe.map (Time.Extra.toFormattedString "MMMM d, yyyy")
+        |> Maybe.map (dayFormatter utc)
         |> Maybe.withDefault "Unscheduled"
 
 
-timeDisplay : Maybe Date -> String
+timeDisplay : Maybe Posix -> String
 timeDisplay maybeDate =
     maybeDate
-        |> Maybe.map (Time.Extra.toFormattedString "HH:mm")
+        |> Maybe.map (timeFormatter utc)
         |> Maybe.withDefault " - "
 
 
@@ -181,3 +181,32 @@ dayWidth responsive =
 teamWidth : Responsive -> Element.Attribute variation msg
 teamWidth responsive =
     width <| fillPortion 50
+
+
+dateFormatter : Zone -> Posix -> String
+dateFormatter =
+    DateFormat.format
+        [ DateFormat.yearNumber
+        , DateFormat.text "-"
+        , DateFormat.monthNumber
+        , DateFormat.text "-"
+        , DateFormat.dayOfMonthNumber
+        ]
+
+dayFormatter : Zone -> Posix -> String
+dayFormatter =
+    DateFormat.format
+        [ DateFormat.monthNameFull
+        , DateFormat.text " "
+        , DateFormat.dayOfMonthSuffix
+        , DateFormat.text ", "
+        , DateFormat.yearNumber
+        ]
+
+timeFormatter : Zone -> Posix -> String
+timeFormatter =
+    DateFormat.format
+        [ DateFormat.hourNumber
+        , DateFormat.text ":"
+        , DateFormat.minuteNumber
+        ]
