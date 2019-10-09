@@ -2,7 +2,7 @@ module Pages.TopScorers.View exposing (page)
 
 import Element exposing (..)
 import Element.Attributes exposing (..)
-import Http exposing (decodeUri)
+--import Http exposing (decodeUri)
 import LeagueStyleElements exposing (..)
 import Models.Player exposing (..)
 import Msg exposing (..)
@@ -28,7 +28,7 @@ headerBar : String -> HeaderBar
 headerBar leagueTitle =
     HeaderBar
         [ BackHeaderButton <| ShowLeagueTable leagueTitle ]
-        (Maybe.withDefault "" <| decodeUri leagueTitle)
+        leagueTitle
         [ RefreshHeaderButton <| RefreshTopScorers leagueTitle ]
 
 

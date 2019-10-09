@@ -2,7 +2,7 @@ module Pages.LeagueTable.View exposing (page)
 
 import Element exposing (..)
 import Element.Attributes exposing (..)
-import Http exposing (decodeUri)
+--import Http exposing (decodeUri)
 import LeagueStyleElements exposing (..)
 import Models.League exposing (League)
 import Models.LeagueTable exposing (LeagueTable)
@@ -26,7 +26,7 @@ page leagueTitle response responsive =
                 , ResultsFixturesHeaderButton <| ShowResultsFixtures leagueTitle
                 , TopScorersHeaderButton (ShowTopScorers leagueTitle) (namedPlayerDataAvailable response)
                 ]
-                (Maybe.withDefault "" (decodeUri leagueTitle))
+                leagueTitle
                 [ RefreshHeaderButton <| RefreshLeagueTable leagueTitle ]
         )
         (maybeResponse (RemoteData.map .table response) (leagueTableElement responsive))

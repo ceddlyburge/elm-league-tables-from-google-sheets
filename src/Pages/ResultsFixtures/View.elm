@@ -5,7 +5,8 @@ module Pages.ResultsFixtures.View exposing (page)
 import Time exposing (..)
 import Element exposing (..)
 import Element.Attributes exposing (..)
-import Http exposing (decodeUri)
+import DateFormat
+--import Http exposing (decodeUri)
 import LeagueStyleElements exposing (..)
 import Models.Game exposing (..)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
@@ -33,7 +34,7 @@ headerBar : String -> HeaderBar
 headerBar leagueTitle =
     HeaderBar
         [ BackHeaderButton <| ShowLeagueTable leagueTitle ]
-        (Maybe.withDefault "" <| decodeUri leagueTitle)
+        leagueTitle
         [ RefreshHeaderButton <| RefreshResultsFixtures leagueTitle ]
 
 
