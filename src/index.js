@@ -8,13 +8,10 @@ Elm.Main.init(
         flags: {
             netlifyFunctionsServer: process.env.ELM_APP_NETLIFY_FUNCTIONS_SERVER || ""
             , applicationTitle: process.env.ELM_APP_APPLICATION_TITLE || "League Tables"
+            , windowWidth: window.innerWidth
+            , windowHeight: window.innerHeight
         }
     }
 );
-
-// var app = Elm.Main.embed(document.getElementById('root'), {
-//     netlifyFunctionsServer: process.env.ELM_APP_NETLIFY_FUNCTIONS_SERVER || ""
-//     , applicationTitle: process.env.ELM_APP_APPLICATION_TITLE || "League Tables"
-// });
 
 registerServiceWorker();

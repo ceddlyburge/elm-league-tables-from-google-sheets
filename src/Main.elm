@@ -1,5 +1,6 @@
 module Main exposing (..)
 
+import Element exposing (classifyDevice)
 import Models.Config exposing (Config)
 import Models.Model exposing (ModelAndKey, vanillaModelAndKey)
 import Msg exposing (Msg)
@@ -17,14 +18,18 @@ init config url key =
     let
         vanillamodelAndKey = vanillaModelAndKey key 
         vanillaModel = vanillamodelAndKey.model
-        vanillaModelWithConfig = { vanillaModel | config = config }
+        vanillaModelWithConfig = 
+            { 
+                vanillaModel | 
+                    config = config
+                    , device = (classifyDevice { width = config.windowWidth, height = config.windowHeight } ) 
+            }
         vanillaModelAndKeyWithConfig = { vanillamodelAndKey | model = vanillaModelWithConfig }
         ( model, cmd ) =
             update
                 (Msg.OnLocationChange url)
                 vanillaModelAndKeyWithConfig
     in
-        --( model, Cmd.batch [ cmd, Task.perform Msg.SetScreenSize 1024 768 ] )
         ( model, cmd )
 
 
