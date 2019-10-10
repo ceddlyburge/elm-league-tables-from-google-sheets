@@ -49,22 +49,18 @@ matchers =
     oneOf
         [ map Route.LeagueList top
         , map Route.LeagueList (s "index.html")
-        --, map Route.LeagueTable (s "league" </> map urlDecode Url.Parser.string)
-        --, map Route.ResultsFixtures (s "results-fixtures" </> map urlDecode Url.Parser.string)
-        --, map Route.TopScorers (s "top-scorers" </> map urlDecode Url.Parser.string)
-        -- i think url.parse now does the decoding automatically
-        , map Route.LeagueTable (s "league" </> Url.Parser.string)
-        , map Route.ResultsFixtures (s "results-fixtures" </> Url.Parser.string)
-        , map Route.TopScorers (s "top-scorers" </> Url.Parser.string)
+        , map Route.LeagueTable (s "league" </> map urlDecode Url.Parser.string)
+        , map Route.ResultsFixtures (s "results-fixtures" </> map urlDecode Url.Parser.string)
+        , map Route.TopScorers (s "top-scorers" </> map urlDecode Url.Parser.string)
         ]
 
 
--- urlDecode : String -> String
--- urlDecode encoded =
---     encoded
---         |> Http.decodeUri
---         |> Maybe.withDefault
---             (partialUrlDecode encoded)
+urlDecode : String -> String
+urlDecode encoded =
+    encoded
+        |> Url.percentDecode
+        |> Maybe.withDefault
+            (partialUrlDecode encoded)
 
 
 
