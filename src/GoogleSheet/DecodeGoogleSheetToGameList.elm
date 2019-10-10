@@ -4,7 +4,8 @@ import Json.Decode exposing (Decoder, Value, andThen, at, decodeString, index, i
 import Json.Decode.Extra exposing (andMap, indexedList, optionalField, parseInt, withDefault, datetime)
 import Models.Game exposing (Game)
 import Models.LeagueGames exposing (LeagueGames)
-
+import Iso8601 exposing (toTime)
+import Time exposing (Posix)
 
 decodeSheetToLeagueGames : String -> Decoder LeagueGames
 decodeSheetToLeagueGames leagueTitle =
@@ -58,7 +59,6 @@ parseGoals goalsCsv =
     goalsCsv
         |> String.split ","
         |> List.map String.trim
-
 
 validTeamNames : Game -> Bool
 validTeamNames game =

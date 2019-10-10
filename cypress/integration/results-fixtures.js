@@ -20,8 +20,8 @@ describe('The Results / Fixtures Page', function() {
 	cy.get('.data-test-dates .data-test-day:nth-Child(3)').should('have.class', 'data-test-date-unscheduled')
 	
 	// these assert the day titles / headers
-	cy.get('.data-test-date-2018-06-04 .data-test-dayHeader').contains('June 4, 2018')
-	cy.get('.data-test-date-2018-06-03 .data-test-dayHeader').contains('June 3, 2018')
+	cy.get('.data-test-date-2018-06-04 .data-test-dayHeader').contains('June 4th, 2018')
+	cy.get('.data-test-date-2018-06-03 .data-test-dayHeader').contains('June 3rd, 2018')
 	cy.get('.data-test-date-unscheduled .data-test-dayHeader').contains('Unscheduled')
 
 	// these assert the fixtures / results for each day

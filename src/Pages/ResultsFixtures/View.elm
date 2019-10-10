@@ -188,9 +188,9 @@ dateFormatter =
     DateFormat.format
         [ DateFormat.yearNumber
         , DateFormat.text "-"
-        , DateFormat.monthNumber
+        , DateFormat.monthFixed
         , DateFormat.text "-"
-        , DateFormat.dayOfMonthNumber
+        , DateFormat.dayOfMonthFixed
         ]
 
 dayFormatter : Zone -> Posix -> String

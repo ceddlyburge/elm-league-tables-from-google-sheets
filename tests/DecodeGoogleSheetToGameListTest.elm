@@ -99,7 +99,7 @@ spreadsheetValuesResponse =
       "3",
       "1",
       "Meridian",
-      "2018-06-04",
+      "2018-06-04T00:00:00",
       "Cedd, Lisa , Barry",
       "Nobody",
       "Green 3, Yellow 5",
