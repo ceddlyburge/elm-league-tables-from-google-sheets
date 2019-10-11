@@ -1,6 +1,6 @@
 module CalculateFixturesResultsUnscheduledGamesTest exposing (..)
 
-import Date exposing (..)
+import Time exposing (..)
 import Test exposing (..)
 import Fuzz exposing (Fuzzer, intRange, list)
 import Expect exposing (Expectation)
@@ -24,7 +24,7 @@ groupsUnscheduledGamesInNothingDay =
                         , expectFirstDay <| expectNumberOfGames numberOfGames
                     ]
 
-expectDate: Maybe Date -> Maybe LeagueGamesForDay -> Expectation
+expectDate: Maybe Posix -> Maybe LeagueGamesForDay -> Expectation
 expectDate expectedDate leagueGamesForDay =
     Expect.equal expectedDate (Maybe.andThen .date leagueGamesForDay)
 

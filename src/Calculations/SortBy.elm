@@ -1,5 +1,6 @@
 module Calculations.SortBy exposing (..)
 
+
 type Direction
     = ASC
     | DESC
@@ -32,4 +33,3 @@ andThen toCmp direction primary a b =
 
         ineq ->
             ineq
-

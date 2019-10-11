@@ -14,43 +14,52 @@ type alias Team =
     , goalDifference : Int
     }
 
-position: Team -> String
-position team = 
-    toString team.position
 
-name: Team -> String
-name team = 
+position : Team -> String
+position team =
+    String.fromInt team.position
+
+
+name : Team -> String
+name team =
     team.name
 
-gamesPlayed: Team -> String
-gamesPlayed team = 
-    toString team.gamesPlayed
 
-points: Team -> String
-points team = 
-    toString team.points
+gamesPlayed : Team -> String
+gamesPlayed team =
+    String.fromInt team.gamesPlayed
 
-goalsFor: Team -> String
-goalsFor team = 
-    toString team.goalsFor
 
-goalsAgainst: Team -> String
-goalsAgainst team = 
-    toString team.goalsAgainst
+points : Team -> String
+points team =
+    String.fromInt team.points
 
-goalDifference: Team -> String
-goalDifference team = 
-    toString team.goalDifference
 
-won: Team -> String
-won team = 
-    toString team.won
+goalsFor : Team -> String
+goalsFor team =
+    String.fromInt team.goalsFor
 
-drawn: Team -> String
-drawn team = 
-    toString team.drawn
 
-lost: Team -> String
-lost team = 
-    toString team.lost
+goalsAgainst : Team -> String
+goalsAgainst team =
+    String.fromInt team.goalsAgainst
 
+
+goalDifference : Team -> String
+goalDifference team =
+    String.fromInt team.goalDifference
+
+
+won : Team -> String
+won team =
+    String.fromInt team.won
+
+
+drawn : Team -> String
+drawn team =
+    String.fromInt team.drawn
+
+
+lost : Team -> String
+lost team =
+    String.fromInt team.lost

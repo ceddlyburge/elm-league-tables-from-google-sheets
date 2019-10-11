@@ -6,7 +6,7 @@ import Fuzz exposing (list, string)
 import Expect
 import RemoteData exposing (WebData)
 
-import Update exposing (update)
+import Update exposing (updatewithoutBrowserHistory)
 import Msg exposing (..)
 import Models.Model exposing (Model, vanillaModel)
 import Models.LeagueSummary exposing (LeagueSummary)
@@ -19,7 +19,7 @@ apiError =
             let 
                 response = RemoteData.Failure NetworkError
             in 
-                update (AllSheetSummaryResponse response) vanillaModel
+                updatewithoutBrowserHistory (AllSheetSummaryResponse response) vanillaModel
                 |> getModel
                 |> Expect.equal { vanillaModel | leagueSummaries = response }
 
@@ -29,7 +29,7 @@ callsApi : Test
 callsApi =
     test "Calls the APi if the results arent already available in the model" <|
         \() ->
-            update 
+            updatewithoutBrowserHistory 
                 ShowLeagueList 
                 vanillaModel
             |> getModel
@@ -48,7 +48,7 @@ cachesApiResult =
                         leagueSummaries = RemoteData.Success []
                         , route = Route.LeagueList }
             in 
-                update 
+                updatewithoutBrowserHistory 
                     ShowLeagueList 
                     model
                 |> Expect.equal ( model, Cmd.none )
@@ -64,7 +64,7 @@ refreshesAPi =
                         leagueSummaries = RemoteData.Success []
                         , route = Route.LeagueList }
             in 
-                update 
+                updatewithoutBrowserHistory 
                     RefreshLeagueList 
                     model
                 |> getModel
@@ -78,7 +78,7 @@ apiSuccess =
             let 
                 response = RemoteData.Success <| List.map LeagueSummary leagues
             in 
-                update (AllSheetSummaryResponse response) vanillaModel
+                updatewithoutBrowserHistory (AllSheetSummaryResponse response) vanillaModel
                 |> getModel
                 |> Expect.equal { vanillaModel | leagueSummaries = response }  
 

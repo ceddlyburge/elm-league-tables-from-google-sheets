@@ -1,5 +1,6 @@
 module Models.Route exposing (..)
 
+
 type Route
     = LeagueList
     | LeagueTable String -- change String to LeagueId later

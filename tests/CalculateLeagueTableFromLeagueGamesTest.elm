@@ -1,6 +1,7 @@
 module CalculateLeagueTableFromLeagueGamesTest exposing (..)
 
-import Date exposing (..)
+import Time exposing (..)
+import Time.Extra exposing (..)
 import Test exposing (..)
 import Fuzz exposing (Fuzzer, intRange)
 import Expect
@@ -30,7 +31,7 @@ game castleGoals meridianGoals =
         , homeTeamGoalCount = (Just meridianGoals)
         , awayTeamName = "Castle"
         , awayTeamGoalCount = (Just castleGoals)
-        , datePlayed = (Just <| Date.fromTime 1)
+        , datePlayed = (Just (Time.Extra.partsToPosix utc (Parts 1970 Jan 1 0 0 0 1)))
     }
 
 leagueTable: Int -> Int -> Int -> Int -> LeagueTable

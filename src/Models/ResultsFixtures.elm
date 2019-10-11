@@ -8,10 +8,10 @@ type alias ResultsFixtures =
     , days : List LeagueGamesForDay
     }
 
+
 vanillaResultsFixtures : ResultsFixtures
-vanillaResultsFixtures = 
-    ResultsFixtures 
+vanillaResultsFixtures =
+    ResultsFixtures
         ""
-        [ 
-            LeagueGamesForDay Nothing []
+        [ LeagueGamesForDay Nothing []
         ]

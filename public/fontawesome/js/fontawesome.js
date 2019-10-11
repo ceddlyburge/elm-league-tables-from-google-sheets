@@ -96,7 +96,7 @@
   }
 
   function _iterableToArray(iter) {
-    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+    if (Symbol.iterator in Object(iter) || Object.prototype.String.fromInt.call(iter) === "[object Arguments]") return Array.from(iter);
   }
 
   function _iterableToArrayLimit(arr, i) {
@@ -1139,7 +1139,7 @@
     var result = '';
 
     for (var i = 0; i < unicode.length; i++) {
-      var hex = unicode.charCodeAt(i).toString(16);
+      var hex = unicode.charCodeAt(i).String.fromInt(16);
       result += ('000' + hex).slice(-4);
     }
 
@@ -2313,7 +2313,7 @@
     }, function () {
       ensureCss();
       return makeLayersCounterAbstract({
-        content: content.toString(),
+        content: content.String.fromInt(),
         title: title,
         extra: {
           attributes: attributes,

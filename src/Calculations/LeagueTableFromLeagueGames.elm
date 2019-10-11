@@ -1,233 +1,309 @@
 module Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
 
-import List.Extra exposing (unique)
-
 import Calculations.SortBy exposing (..)
-import Models.LeagueTable exposing (LeagueTable)
+import List.Extra exposing (unique)
 import Models.Game exposing (Game)
 import Models.LeagueGames exposing (LeagueGames)
+import Models.LeagueTable exposing (LeagueTable)
 import Models.Team exposing (Team)
 
-calculateLeagueTable: LeagueGames -> LeagueTable
+
+calculateLeagueTable : LeagueGames -> LeagueTable
 calculateLeagueTable leagueGames =
     let
-        homeTeams = List.map (\game -> game.homeTeamName) leagueGames.games
-        awayTeams = List.map (\game -> game.awayTeamName) leagueGames.games
-        teamNames = List.append homeTeams awayTeams |> unique
-        goalsFor2 = List.map (goalsFor leagueGames.games) teamNames
-        goalsAgainst2 = List.map (goalsAgainst leagueGames.games) teamNames
-        gamesPlayed2 = List.map (gamesPlayed leagueGames.games) teamNames
-        points2 = List.map (points leagueGames.games) teamNames
-        unpositionedTeams = List.map (unpositionedTeam leagueGames.games) teamNames
-        sortedTeams = List.sortWith (by .points DESC |> andThen .goalDifference DESC |> andThen .goalsFor DESC) unpositionedTeams
-        positionedTeams = List.indexedMap positionedTeam sortedTeams
-    in
-        LeagueTable 
-            leagueGames.leagueTitle positionedTeams
+        homeTeams =
+            List.map (\game -> game.homeTeamName) leagueGames.games
 
-positionedTeam: Int -> Team -> Team
+        awayTeams =
+            List.map (\game -> game.awayTeamName) leagueGames.games
+
+        teamNames =
+            List.append homeTeams awayTeams |> unique
+
+        goalsFor2 =
+            List.map (goalsFor leagueGames.games) teamNames
+
+        goalsAgainst2 =
+            List.map (goalsAgainst leagueGames.games) teamNames
+
+        gamesPlayed2 =
+            List.map (gamesPlayed leagueGames.games) teamNames
+
+        points2 =
+            List.map (points leagueGames.games) teamNames
+
+        unpositionedTeams =
+            List.map (unpositionedTeam leagueGames.games) teamNames
+
+        sortedTeams =
+            List.sortWith (by .points DESC |> andThen .goalDifference DESC |> andThen .goalsFor DESC) unpositionedTeams
+
+        positionedTeams =
+            List.indexedMap positionedTeam sortedTeams
+    in
+    LeagueTable
+        leagueGames.leagueTitle
+        positionedTeams
+
+
+positionedTeam : Int -> Team -> Team
 positionedTeam position team =
     { team | position = position + 1 }
 
-unpositionedTeam: List Game -> String -> Team
+
+unpositionedTeam : List Game -> String -> Team
 unpositionedTeam games teamName =
-    Team 
-        0 
-        teamName 
-        (gamesPlayed games teamName) 
-        (won games teamName) 
-        (drawn games teamName) 
-        (lost games teamName) 
-        (points games teamName) 
-        (goalsFor games teamName) 
-        (goalsAgainst games teamName) 
-        ((goalsFor games teamName) - (goalsAgainst games teamName))
+    Team
+        0
+        teamName
+        (gamesPlayed games teamName)
+        (won games teamName)
+        (drawn games teamName)
+        (lost games teamName)
+        (points games teamName)
+        (goalsFor games teamName)
+        (goalsAgainst games teamName)
+        (goalsFor games teamName - goalsAgainst games teamName)
 
 
-won: List Game -> String -> Int
+won : List Game -> String -> Int
 won games teamName =
-    List.foldl (\won totalWon -> totalWon + won) 0 (List.map (\game -> gameWon teamName game) games)
+    List.foldl (\current total -> total + current) 0 (List.map (\game -> gameWon teamName game) games)
 
-gameWon: String -> Game -> Int
+
+gameWon : String -> Game -> Int
 gameWon teamName game =
     if teamName == game.homeTeamName then
         homeWon game
+
     else if teamName == game.awayTeamName then
         awayWon game
-    else    
+
+    else
         0
 
-homeWon: Game -> Int
+
+homeWon : Game -> Int
 homeWon game =
-    case (game.homeTeamGoalCount, game.awayTeamGoalCount) of
-        (Just homeTeamGoalCount, Just awayTeamGoalCount) ->
+    case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
+        ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->
             if homeTeamGoalCount > awayTeamGoalCount then
                 1
-            else    
+
+            else
                 0
-        (_, _) ->
+
+        ( _, _ ) ->
             0
 
-awayWon: Game -> Int
+
+awayWon : Game -> Int
 awayWon game =
-    case (game.homeTeamGoalCount, game.awayTeamGoalCount) of
-        (Just homeTeamGoalCount, Just awayTeamGoalCount) ->
+    case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
+        ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->
             if homeTeamGoalCount < awayTeamGoalCount then
                 1
-            else    
+
+            else
                 0
-        (_, _) ->
+
+        ( _, _ ) ->
             0
 
-drawn: List Game -> String -> Int
-drawn games teamName =
-    List.foldl (\drawn totalDrawn -> totalDrawn + drawn) 0 (List.map (\game -> gameDrawn teamName game) games)
 
-gameDrawn: String -> Game -> Int
+drawn : List Game -> String -> Int
+drawn games teamName =
+    -- could turn this in to a function (aggregateIntegers or something)
+    List.foldl (\current total -> total + current) 0 (List.map (\game -> gameDrawn teamName game) games)
+
+
+gameDrawn : String -> Game -> Int
 gameDrawn teamName game =
     if teamName == game.homeTeamName then
         homeDrawn game
+
     else if teamName == game.awayTeamName then
         awayDrawn game
-    else    
+
+    else
         0
 
-homeDrawn: Game -> Int
+
+homeDrawn : Game -> Int
 homeDrawn game =
-    case (game.homeTeamGoalCount, game.awayTeamGoalCount) of
-        (Just homeTeamGoalCount, Just awayTeamGoalCount) ->
+    case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
+        ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->
             if homeTeamGoalCount == awayTeamGoalCount then
                 1
-            else    
+
+            else
                 0
-        (_, _) ->
+
+        ( _, _ ) ->
             0
 
-awayDrawn: Game -> Int
+
+awayDrawn : Game -> Int
 awayDrawn game =
-    case (game.homeTeamGoalCount, game.awayTeamGoalCount) of
-        (Just homeTeamGoalCount, Just awayTeamGoalCount) ->
+    case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
+        ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->
             if homeTeamGoalCount == awayTeamGoalCount then
                 1
-            else    
+
+            else
                 0
-        (_, _) ->
+
+        ( _, _ ) ->
             0
 
-lost: List Game -> String -> Int
-lost games teamName =
-    List.foldl (\lost totalLost -> totalLost + lost) 0 (List.map (\game -> gameLost teamName game) games)
 
-gameLost: String -> Game -> Int
+lost : List Game -> String -> Int
+lost games teamName =
+    List.foldl (\current total -> total + current) 0 (List.map (\game -> gameLost teamName game) games)
+
+
+gameLost : String -> Game -> Int
 gameLost teamName game =
     if teamName == game.homeTeamName then
         homeLost game
+
     else if teamName == game.awayTeamName then
         awayLost game
-    else    
+
+    else
         0
 
-homeLost: Game -> Int
+
+homeLost : Game -> Int
 homeLost game =
-    case (game.homeTeamGoalCount, game.awayTeamGoalCount) of
-        (Just homeTeamGoalCount, Just awayTeamGoalCount) ->
+    case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
+        ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->
             if homeTeamGoalCount < awayTeamGoalCount then
                 1
-            else    
+
+            else
                 0
-        (_, _) ->
+
+        ( _, _ ) ->
             0
 
-awayLost: Game -> Int
+
+awayLost : Game -> Int
 awayLost game =
-    case (game.homeTeamGoalCount, game.awayTeamGoalCount) of
-        (Just homeTeamGoalCount, Just awayTeamGoalCount) ->
+    case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
+        ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->
             if homeTeamGoalCount > awayTeamGoalCount then
                 1
-            else    
+
+            else
                 0
-        (_, _) ->
+
+        ( _, _ ) ->
             0
 
-points: List Game -> String -> Int
+
+points : List Game -> String -> Int
 points games teamName =
     List.foldl (\gameGoals totalGoals -> totalGoals + gameGoals) 0 (List.map (\game -> gamePoints teamName game) games)
 
-gamePoints: String -> Game -> Int
+
+gamePoints : String -> Game -> Int
 gamePoints teamName game =
     if teamName == game.homeTeamName then
         homePoints game
+
     else if teamName == game.awayTeamName then
         awayPoints game
-    else    
+
+    else
         0
 
-homePoints: Game -> Int
+
+homePoints : Game -> Int
 homePoints game =
-    case (game.homeTeamGoalCount, game.awayTeamGoalCount) of
-        (Just homeTeamGoalCount, Just awayTeamGoalCount) ->
+    case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
+        ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->
             if homeTeamGoalCount > awayTeamGoalCount then
                 3
+
             else if homeTeamGoalCount < awayTeamGoalCount then
                 0
-            else    
+
+            else
                 1
-        (_, _) ->
+
+        ( _, _ ) ->
             0
 
-awayPoints: Game -> Int
+
+awayPoints : Game -> Int
 awayPoints game =
-    case (game.homeTeamGoalCount, game.awayTeamGoalCount) of
-        (Just homeTeamGoalCount, Just awayTeamGoalCount) ->
+    case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
+        ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->
             if homeTeamGoalCount > awayTeamGoalCount then
                 0
+
             else if homeTeamGoalCount < awayTeamGoalCount then
                 3
-            else    
+
+            else
                 1
-        (_, _) ->
+
+        ( _, _ ) ->
             0
 
-gamesPlayed: List Game -> String -> Int
+
+gamesPlayed : List Game -> String -> Int
 gamesPlayed games teamName =
     List.foldl (\gameGoals totalGoals -> totalGoals + gameGoals) 0 (List.map (\game -> gameGamesPlayed teamName game) games)
 
-gameGamesPlayed: String -> Game -> Int
+
+gameGamesPlayed : String -> Game -> Int
 gameGamesPlayed teamName game =
-    case (game.homeTeamGoalCount, game.awayTeamGoalCount) of
-        (Just _, Just _) ->
+    case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
+        ( Just _, Just _ ) ->
             if teamName == game.homeTeamName then
                 1
+
             else if teamName == game.awayTeamName then
                 1
-            else    
+
+            else
                 0
-        (_, _) ->
+
+        ( _, _ ) ->
             0
 
-goalsAgainst: List Game -> String -> Int
+
+goalsAgainst : List Game -> String -> Int
 goalsAgainst games teamName =
     List.foldl (\gameGoals totalGoals -> totalGoals + gameGoals) 0 (List.map (\game -> gameGoalsAgainst teamName game) games)
 
-gameGoalsAgainst: String -> Game -> Int
+
+gameGoalsAgainst : String -> Game -> Int
 gameGoalsAgainst teamName game =
     if teamName == game.homeTeamName then
         Maybe.withDefault 0 game.awayTeamGoalCount
+
     else if teamName == game.awayTeamName then
         Maybe.withDefault 0 game.homeTeamGoalCount
-    else    
+
+    else
         0
 
-goalsFor: List Game -> String -> Int
+
+goalsFor : List Game -> String -> Int
 goalsFor games teamName =
     List.foldl (\gameGoals totalGoals -> totalGoals + gameGoals) 0 (List.map (\game -> gameGoalsFor teamName game) games)
 
-gameGoalsFor: String -> Game -> Int
+
+gameGoalsFor : String -> Game -> Int
 gameGoalsFor teamName game =
     if teamName == game.homeTeamName then
         Maybe.withDefault 0 game.homeTeamGoalCount
+
     else if teamName == game.awayTeamName then
         Maybe.withDefault 0 game.awayTeamGoalCount
-    else    
-        0
 
+    else
+        0

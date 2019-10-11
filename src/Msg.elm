@@ -1,20 +1,20 @@
 module Msg exposing (..)
 
-import RemoteData exposing (WebData)
-import Window exposing (size)
-
-import Models.LeagueSummary exposing (LeagueSummary)
 import Models.LeagueGames exposing (LeagueGames)
-import Navigation exposing (Location)
-
+import Models.LeagueSummary exposing (LeagueSummary)
+--import Navigation exposing (Location)
+import Url exposing (Url)
+import RemoteData exposing (WebData)
+--import Window exposing (size)
+import Browser.Events exposing (onResize)
+import Browser exposing (UrlRequest)
 
 type Msg
-    = 
-    -- league List
-    ShowLeagueList
+    = -- league List
+      ShowLeagueList
     | RefreshLeagueList
     | AllSheetSummaryResponse (WebData (List LeagueSummary))
-    -- Fixtures / Results, LeagueTable, TopScorers
+      -- Fixtures / Results, LeagueTable, TopScorers
     | ShowLeagueTable String
     | RefreshLeagueTable String
     | ShowResultsFixtures String
@@ -22,9 +22,10 @@ type Msg
     | ShowTopScorers String
     | RefreshTopScorers String
     | IndividualSheetResponse String (WebData LeagueGames)
-    -- routing
-    | OnLocationChange Location
-    -- responsiveness
-    | SetScreenSize Window.Size
-    -- 
+      -- routing
+    | OnUrlChange Url
+    | OnUrlRequest UrlRequest
+      -- responsiveness
+    | SetScreenSize Int Int
+      --
     | NoOp

@@ -1,20 +1,22 @@
-module Pages.LeagueTable.Update exposing (showLeagueTable, refreshLeagueTable)
+module Pages.LeagueTable.Update exposing (refreshLeagueTable, showLeagueTable)
 
-import Msg exposing (..)
 import Models.Model exposing (Model)
 import Models.Route as Route exposing (Route)
-import Pages.UpdateHelpers exposing (showRouteRequiringIndividualSheetApi, refreshRouteRequiringIndividualSheetApi)
+import Msg exposing (..)
+import Pages.UpdateHelpers exposing (refreshRouteRequiringIndividualSheetApi, showRouteRequiringIndividualSheetApi)
+
 
 showLeagueTable : String -> Model -> ( Model, Cmd Msg )
-showLeagueTable leagueTitle model  =
-    showRouteRequiringIndividualSheetApi 
-        leagueTitle 
+showLeagueTable leagueTitle model =
+    showRouteRequiringIndividualSheetApi
+        leagueTitle
         (Route.LeagueTable leagueTitle)
-        model 
+        model
+
 
 refreshLeagueTable : String -> Model -> ( Model, Cmd Msg )
-refreshLeagueTable leagueTitle model  =
-    refreshRouteRequiringIndividualSheetApi 
-        leagueTitle 
+refreshLeagueTable leagueTitle model =
+    refreshRouteRequiringIndividualSheetApi
+        leagueTitle
         (Route.LeagueTable leagueTitle)
-        model 
+        model

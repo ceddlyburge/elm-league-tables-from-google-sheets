@@ -1,16 +1,17 @@
 module CalculateFixturesResultsFromLeagueGamesTest exposing (..)
 
-import Date exposing (..)
-import Date.Extra exposing (..)
+import Time exposing (..)
+import Time.Extra exposing (..)
 import Test exposing (..)
 import Fuzz exposing (Fuzzer, intRange, list)
 import Expect exposing (Expectation)
 
-import List.Gather exposing (..)
+import List.Extra exposing (gatherWith)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.ResultsFixtures exposing (ResultsFixtures)
 import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
 import ResultsFixturesHelpers exposing (..)
+
 
 groupsGamesByDay : Test
 groupsGamesByDay =
@@ -19,10 +20,10 @@ groupsGamesByDay =
             let
                 games = List.map scheduledGame dateTimes
                 groupedDates = 
-                    List.map (Date.Extra.floor Day) dateTimes
-                    |> List.sortWith Date.Extra.compare
+                    List.map (Time.Extra.floor Day utc) dateTimes
+                    |> List.sortWith comparePosix
                     |> List.reverse
-                    |> List.Gather.gatherWith (==)
+                    |> gatherWith (==)
             in    
                 calculateResultsFixtures (LeagueGames "Any League Title" games)
                 |> expectNumberOfGamesForDates 
@@ -32,7 +33,7 @@ groupsGamesByDay =
                             groupedDates)
 
 type alias GamesForDay =
-    { date: Maybe Date
+    { date: Maybe Posix
     , numberOfGames: Int 
     }
 

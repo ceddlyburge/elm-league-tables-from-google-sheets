@@ -17,19 +17,21 @@
     "cypress:run": "cypress run --config video=false",
     "start:app": "elm-app start",
     "start:server": "netlify-lambda serve functions --config ./webpack.functions.js",
-    "netlifybuild": "bash download-favicon.sh && bash rewrite-application-title.sh && elm-package install -y && elm-app test && npm run build",
+    "netlifybuild": "bash download-favicon.sh && bash rewrite-application-title.sh && elm-app test && npm run build",
     "build": "npm run build:app && npm run build:functions",
     "build:app": "elm-app build",
     "build:functions": "netlify-lambda build functions"
   },
   "devDependencies": {
-    "create-elm-app": "1.10.4",
+    "create-elm-app": "^3.2.2",
     "cypress": "^3.4.1",
+    "dotenv-webpack": "^1.7.0",
     "netlify-lambda": "^1.4.13",
-    "start-server-and-test": "^1.10.0",
-    "dotenv-webpack": "^1.7.0"
+    "start-server-and-test": "^1.10.0"
   },
   "dependencies": {
-    "axios": "^0.19.0"
+    "axios": "^0.19.0",
+    "elm": "^0.19.0",
+    "elm-format": "^0.8.2"
   }
 }
