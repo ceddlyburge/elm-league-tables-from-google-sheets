@@ -32,9 +32,6 @@
   "dependencies": {
     "axios": "^0.19.0",
     "elm": "^0.19.0",
-    "elm-format": "^0.8.2",
-    "elm-upgrade": "git+https://github.com/avh4/elm-upgrade.git",
-    "node-gyp": "^5.0.4",
-    "rebuild": "^0.1.2"
+    "elm-format": "^0.8.2"
   }
 }
