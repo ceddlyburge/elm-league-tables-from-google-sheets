@@ -1,10 +1,8 @@
 module Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
 
--- import Date exposing (..)
--- import Date.Extra exposing (..)
 import Time exposing (..)
 import Time.Extra exposing (..)
-import List.Gather exposing (..)
+import List.Extra exposing (gatherWith)
 import Models.Game exposing (Game)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
@@ -23,7 +21,7 @@ calculateResultsFixtures leagueGames =
 
 groupGamesByDate : List Game -> List ( Game, List Game )
 groupGamesByDate games =
-    List.Gather.gatherWith gameDatesEqual games
+    gatherWith gameDatesEqual games
 
 
 gameDatesEqual : Game -> Game -> Bool

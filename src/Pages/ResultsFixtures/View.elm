@@ -1,12 +1,9 @@
 module Pages.ResultsFixtures.View exposing (page)
 
--- import Date exposing (..)
--- import Date.Extra exposing (..)
 import Time exposing (..)
 import Element exposing (..)
 import Element.Attributes exposing (..)
 import DateFormat
---import Http exposing (decodeUri)
 import LeagueStyleElements exposing (..)
 import Models.Game exposing (..)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)

@@ -12,10 +12,6 @@ import Models.LeagueGames exposing (LeagueGames)
 import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
 import ResultsFixturesHelpers exposing (..)
 
-comparePosix: Posix -> Posix -> Order
-comparePosix date1 date2 =
-    compare (posixToMillis date1) (posixToMillis date2)
-
 
 orderDaysByDateDescending : Test
 orderDaysByDateDescending =

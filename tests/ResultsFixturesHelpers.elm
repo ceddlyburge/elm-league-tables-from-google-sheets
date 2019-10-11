@@ -1,7 +1,5 @@
 module ResultsFixturesHelpers exposing (..)
 
--- import Date exposing (..)
--- import Date.Extra exposing (..)
 import Time exposing (..)
 import Time.Extra exposing (..)
 import Expect exposing (Expectation)
@@ -10,6 +8,10 @@ import Fuzz exposing (Fuzzer, intRange, list)
 import Models.Game exposing (Game, vanillaGame)
 import Models.ResultsFixtures exposing (ResultsFixtures)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
+
+comparePosix: Posix -> Posix -> Order
+comparePosix date1 date2 =
+    compare (posixToMillis date1) (posixToMillis date2)
 
 expectDays: Int -> ResultsFixtures -> Expectation
 expectDays expectedNumberOfDays resultsFixtures =
@@ -31,7 +33,7 @@ dateTimeInFebruary : Fuzzer Posix
 dateTimeInFebruary =
     Fuzz.map2 
         (\days hours -> 
-            (Time.Extra.partsToPosix utc (Parts 2001 Feb 27 0 0 0 0)) -- fromCalendarDate 2001 Feb 27
+            (Time.Extra.partsToPosix utc (Parts 2001 Feb 27 0 0 0 0))
             |> Time.Extra.add Day days utc 
             |> Time.Extra.add Hour hours utc 
         )

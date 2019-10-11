@@ -1,6 +1,5 @@
 module CalculateLeagueTableFromLeagueGamesTest exposing (..)
 
--- import Date exposing (..)
 import Time exposing (..)
 import Time.Extra exposing (..)
 import Test exposing (..)

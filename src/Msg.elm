@@ -23,10 +23,9 @@ type Msg
     | RefreshTopScorers String
     | IndividualSheetResponse String (WebData LeagueGames)
       -- routing
-    | OnLocationChange Url -- should change to onUrlChange
+    | OnUrlChange Url
     | OnUrlRequest UrlRequest
       -- responsiveness
-    --| SetScreenSize Window.Size
     | SetScreenSize Int Int
       --
     | NoOp

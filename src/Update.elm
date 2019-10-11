@@ -75,7 +75,7 @@ updatewithoutBrowserHistory msg model =
             ( { model | device = classifyDevice { width = width, height = height } }, Cmd.none )
 
         -- routing
-        OnLocationChange url ->
+        OnUrlChange url ->
             updateFromLocation model url
 
         OnUrlRequest urlRequest ->
@@ -89,7 +89,7 @@ updatewithoutBrowserHistory msg model =
 addBrowserHistory : Msg -> Model ->  Key -> (Model, Cmd Msg) -> ( Model, Cmd Msg )
 addBrowserHistory oldMsg oldModel  key (newModel, newMsg) =
     case oldMsg of
-        OnLocationChange _ ->
+        OnUrlChange _ ->
             ( newModel, newMsg )
 
         _ ->

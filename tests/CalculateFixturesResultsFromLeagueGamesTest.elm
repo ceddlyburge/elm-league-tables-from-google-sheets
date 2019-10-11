@@ -1,22 +1,16 @@
 module CalculateFixturesResultsFromLeagueGamesTest exposing (..)
 
--- import Date exposing (..)
--- import Date.Extra exposing (..)
 import Time exposing (..)
 import Time.Extra exposing (..)
 import Test exposing (..)
 import Fuzz exposing (Fuzzer, intRange, list)
 import Expect exposing (Expectation)
 
-import List.Gather exposing (..)
+import List.Extra exposing (gatherWith)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.ResultsFixtures exposing (ResultsFixtures)
 import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
 import ResultsFixturesHelpers exposing (..)
-
-comparePosix: Posix -> Posix -> Order
-comparePosix date1 date2 =
-    compare (posixToMillis date1) (posixToMillis date2)
 
 
 groupsGamesByDay : Test
@@ -29,7 +23,7 @@ groupsGamesByDay =
                     List.map (Time.Extra.floor Day utc) dateTimes
                     |> List.sortWith comparePosix
                     |> List.reverse
-                    |> List.Gather.gatherWith (==)
+                    |> gatherWith (==)
             in    
                 calculateResultsFixtures (LeagueGames "Any League Title" games)
                 |> expectNumberOfGamesForDates 

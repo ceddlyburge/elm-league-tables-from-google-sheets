@@ -112,7 +112,6 @@ renderHeaderBarItem headerBarItem =
         TopScorersHeaderButton msg namedPlayerDataAvailable ->
             topScorerHeaderBarItem msg namedPlayerDataAvailable
 
-        --el TitleButton [ onClick msg ] topScorersIcon
         BackHeaderButton msg ->
             el TitleButton [ onClick msg ] backIcon
 

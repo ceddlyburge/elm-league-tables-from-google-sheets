@@ -27,7 +27,7 @@ init config url key =
         vanillaModelAndKeyWithConfig = { vanillamodelAndKey | model = vanillaModelWithConfig }
         ( model, cmd ) =
             update
-                (Msg.OnLocationChange url)
+                (Msg.OnUrlChange url)
                 vanillaModelAndKeyWithConfig
     in
         ( model, cmd )
@@ -44,6 +44,6 @@ main =
         , view = view
         , update = update
         , subscriptions = Subscriptions.subscriptions
-        , onUrlChange = Msg.OnLocationChange
+        , onUrlChange = Msg.OnUrlChange
         , onUrlRequest = Msg.OnUrlRequest
         }

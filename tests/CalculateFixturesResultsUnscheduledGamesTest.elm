@@ -1,6 +1,5 @@
 module CalculateFixturesResultsUnscheduledGamesTest exposing (..)
 
--- import Date exposing (..)
 import Time exposing (..)
 import Test exposing (..)
 import Fuzz exposing (Fuzzer, intRange, list)

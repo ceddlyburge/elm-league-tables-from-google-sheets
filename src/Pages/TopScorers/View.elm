@@ -2,7 +2,6 @@ module Pages.TopScorers.View exposing (page)
 
 import Element exposing (..)
 import Element.Attributes exposing (..)
---import Http exposing (decodeUri)
 import LeagueStyleElements exposing (..)
 import Models.Player exposing (..)
 import Msg exposing (..)

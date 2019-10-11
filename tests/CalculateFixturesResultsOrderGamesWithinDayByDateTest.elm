@@ -1,7 +1,5 @@
 module CalculateFixturesResultsOrderGamesWithinDayByDateTest exposing (..)
 
--- import Date exposing (..)
--- import Date.Extra exposing (..)
 import Time exposing (..)
 import Time.Extra exposing (..)
 import Test exposing (..)
@@ -13,10 +11,6 @@ import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
 import ResultsFixturesHelpers exposing (..)
 
-comparePosix: Posix -> Posix -> Order
-comparePosix date1 date2 =
-    compare (posixToMillis date1) (posixToMillis date2)
-
 orderGamesByTime : Test
 orderGamesByTime =
     fuzz (list dateTimeOnFebruaryFirst) "Games within a LeagueGamesForDay should be ordered by time" <|
@@ -24,7 +18,7 @@ orderGamesByTime =
             let
                 games = List.map scheduledGame timesInDay
                 sortedTimes = 
-                    List.sortWith comparePosix timesInDay -- Time.Extra.compare timesInDay 
+                    List.sortWith comparePosix timesInDay
                     |> List.map Just
             in    
                 calculateResultsFixtures (LeagueGames "Any League Title" games)
@@ -42,7 +36,7 @@ dateTimeOnFebruaryFirst : Fuzzer Posix
 dateTimeOnFebruaryFirst =
     Fuzz.map 
         (\hours -> 
-            (Time.Extra.partsToPosix utc (Parts 2001 Feb 1 0 0 0 0)) -- Time.Extra.fromCalendarDate 2001 Feb 1
+            (Time.Extra.partsToPosix utc (Parts 2001 Feb 1 0 0 0 0))
             |> Time.Extra.add Hour hours utc
         )
         (intRange 0 23)

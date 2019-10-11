@@ -1,6 +1,5 @@
 module LeagueStyleElements exposing (..)
 
---import Color
 import Pages.Responsive exposing (FontSize)
 import Style exposing (..)
 import Style.Border as Border
