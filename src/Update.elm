@@ -126,10 +126,10 @@ updateFromRoute model location route =
             updatewithoutBrowserHistory (ShowTopScorers leagueTitle) model
 
         Route.NotFound ->
-            let
-                _ =
-                    Debug.log "Route not found" location
-            in
+            -- let
+            --    _ =
+            --        Debug.log "Route not found" location
+            -- in
             ( model, Cmd.none )
 
 
