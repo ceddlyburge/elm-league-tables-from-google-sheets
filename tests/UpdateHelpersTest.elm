@@ -34,7 +34,7 @@ apiSuccess =
 -- This only tests one Route, should maybe extend it to test others
 -- It also only tests with a vanilla model, as opposed to a partially
 -- filled model. The code doesn't currently partially fill the model,
--- and cachesAPiResultschecks it a bit, so I think its ok.
+-- and cachesAPiResults checks it a bit, so I think its ok.
 callsApi : Test
 callsApi =
     test "Calls the APi if the results arent already available in the model" <|

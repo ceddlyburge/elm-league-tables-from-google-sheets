@@ -5,9 +5,8 @@ import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Pages.HeaderBar exposing (..)
 
+
 type alias Page =
-    {   header: PageHeader
-        , body: Element Styles Variations Msg
+    { header : PageHeader
+    , body : Element Styles Variations Msg
     }
-
-

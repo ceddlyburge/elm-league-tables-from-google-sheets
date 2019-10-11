@@ -14,6 +14,10 @@ describe('Inter page navigation', function() {
 	  'fixture:one-played-game.json'
 	)
 
+	// The 'contains' statements are chosen so that they will exist on the
+	// page in question, and won't exist on all other pages. This is important
+	// to make sure the test is testing the navigation properly, so bear this
+	// in mind if making changes
 	cy.visit('/') 
 	cy.contains('League Tables')
 	cy.get('.data-test-refresh').click()

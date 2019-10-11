@@ -3,8 +3,9 @@ module ResultsFixturesViewForPlayedGameTest exposing (..)
 import Test exposing (..)
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (text, class)
-import Date exposing (..)
-import Date.Extra exposing (..)
+-- import Date exposing (..)
+-- import Date.Extra exposing (..)
+import Time exposing (..)
 
 import Msg exposing (..)
 import ResultsFixturesViewHelpers exposing (..)
@@ -54,7 +55,7 @@ onePlayedGame =
 dayElement: Query.Single Msg
 dayElement =
     html { vanillaGame | 
-        datePlayed = Just <| Date.Extra.fromCalendarDate 2006 Mar 23
+        datePlayed = Just <| Time.Extra.fromCalendarDate 2006 Mar 23
         , homeTeamName = "Castle"
         , homeTeamGoalCount = Just 3
         , homeTeamGoals = [ "Cedd" , "Lisa", "Barry" ]

@@ -1,13 +1,14 @@
 module Calculations.LeagueFromLeagueGames exposing (calculateLeague)
 
-import Models.LeagueGames exposing (LeagueGames)
-import Models.League exposing (League)
 import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
-import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
 import Calculations.PlayersFromLeagueGames exposing (calculatePlayers)
+import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
+import Models.League exposing (League)
+import Models.LeagueGames exposing (LeagueGames)
 
-calculateLeague: LeagueGames -> League
-calculateLeague leagueGames = 
+
+calculateLeague : LeagueGames -> League
+calculateLeague leagueGames =
     League
         leagueGames.leagueTitle
         (calculateLeagueTable leagueGames)

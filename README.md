@@ -2,14 +2,22 @@ This project is bootstrapped with [Create Elm App](https://github.com/halfzebra/
 
 # Development
 
-- npm install
-- npm run start:server
-- npm run start:app
+- `npm install`
+- `npm run start:server`
+- `npm run start:app`
+
+- `elm-app test` will run the unit tests
+- `npm cypress open` will open the cypress test runner, for debugging / running the end to end tests interactively
+- `cypress run` will run the end to end tests
+- `npm test` will run the unit and the end to end tests
 
 # Building
 
 - npm install
 - npm run build
+
+[![Build status](https://ci.appveyor.com/api/projects/status/2a2vfr5dau7rquob?svg=true)](https://ci.appveyor.com/project/ceddlyburge/elm-league-tables-from-google-sheets)
+
 
 # Netlify Build
 
@@ -17,9 +25,17 @@ Netlify detects the package.json and runs npm install automatically. It caches t
 
 `npm run netlifybuild` is used on netlify, which sorts this problem out.
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/ff3ad710-5201-40bb-b9ef-0dd077dd8f4a/deploy-status)](https://app.netlify.com/sites/se-polo-2018/deploys)
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/a09c65ca-8139-4aa4-93f6-87da2ad62079/deploy-status)](https://app.netlify.com/sites/se-polo-2019/deploys)
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/34b6a5a7-0314-4cea-9284-f46d213986c5/deploy-status)](https://app.netlify.com/sites/league-tables-development/deploys)
+
 # Deployment
 
 There are various deployments of this code on Netlify, most of which deploy whenever there is a push to the master branch, or a pull request. You can create a new deployment using the button below. 
+
+The Netlify build process only runs the unit tests, so make sure the Appveyor build passes before merging in to master.
 
 You will need to create a (free) Netlify account if you haven't already got one, and you will need to enter the following things
 

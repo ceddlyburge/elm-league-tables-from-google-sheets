@@ -1,125 +1,151 @@
 module Pages.RenderPage exposing (renderPage)
 
-import Html exposing (Html)
 import Element exposing (..)
 import Element.Attributes exposing (..)
 import Element.Events exposing (onClick)
+import Html exposing (Html)
 import Html.Attributes exposing (class)
-
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
-import Pages.Page exposing (..)
 import Pages.HeaderBar exposing (..)
 import Pages.HeaderBarItem exposing (..)
+import Pages.Page exposing (..)
 import Pages.Responsive exposing (..)
+import Browser exposing (Document)
 
-renderPage: Responsive -> Page -> Html Msg
+
+renderPage : Responsive -> Page -> Document Msg
 renderPage responsive page =
-    body 
-        responsive  
-        [
-            renderHeaderBar responsive page.header
+    Document
+        "League Tables"
+        [ body
+            responsive
+            [ renderHeaderBar responsive page.header
             , page.body
+            ]
         ]
 
-body: Responsive -> List (Element Styles variation msg) -> Html msg
-body responsive elements = 
-    Element.layout (stylesheet responsive.fontSize) <|         
-        column 
-            Body 
+
+body : Responsive -> List (Element Styles variation msg) -> Html msg
+body responsive elements =
+    Element.layout (stylesheet responsive.fontSize) <|
+        column
+            Body
             [ width <| bodyWidth responsive
             , spacingXY 0 responsive.mediumGap
-            , center 
+            , center
             , Element.Attributes.class "data-class-body"
             ]
             elements
 
--- 100% normally works better, as it takes into account a vertical scroll bar if there is one. 
--- If you just set a pixel width, it will be wider than the available width if there is a 
+
+
+-- 100% normally works better, as it takes into account a vertical scroll bar if there is one.
+-- If you just set a pixel width, it will be wider than the available width if there is a
 -- vertical scroll bar, and then yout get an annoying horizontal scroll bar as well.
--- If 100% is too small, then we can just use a percent value, as there is going to be a 
+-- If 100% is too small, then we can just use a percent value, as there is going to be a
 -- horizontal scroll bar anyway
+
+
 bodyWidth : Responsive -> Length
-bodyWidth responsive = 
+bodyWidth responsive =
     if responsive.pageWidth > responsive.viewportWidth then
         px responsive.pageWidth
+
     else
         percent 100
 
-renderHeaderBar: Responsive -> PageHeader -> Element.Element Styles variation Msg
-renderHeaderBar responsive pageHeader = 
+
+renderHeaderBar : Responsive -> PageHeader -> Element.Element Styles variation Msg
+renderHeaderBar responsive pageHeader =
     case pageHeader of
         SingleHeader headerBar ->
             renderMainHeaderBar responsive headerBar
+
         DoubleHeader headerBar subHeaderBar ->
             renderMainAndSubHeaderBar responsive headerBar subHeaderBar
 
-renderMainAndSubHeaderBar: Responsive -> HeaderBar -> SubHeaderBar -> Element.Element Styles variation Msg
+
+renderMainAndSubHeaderBar : Responsive -> HeaderBar -> SubHeaderBar -> Element.Element Styles variation Msg
 renderMainAndSubHeaderBar responsive headerBar subHeaderBar =
-    column 
+    column
         Title
         [ width <| percent 100 ]
         [ renderMainHeaderBar responsive headerBar
-          , renderSubHeaderBar responsive subHeaderBar ]
+        , renderSubHeaderBar responsive subHeaderBar
+        ]
 
 
-renderMainHeaderBar: Responsive -> HeaderBar -> Element.Element Styles variation Msg
-renderMainHeaderBar responsive headerBar = 
+renderMainHeaderBar : Responsive -> HeaderBar -> Element.Element Styles variation Msg
+renderMainHeaderBar responsive headerBar =
     heading
         responsive
         (List.map renderHeaderBarItem headerBar.leftItems
             ++ [ title headerBar.title ]
-            ++ List.map renderHeaderBarItem headerBar.rightItems)
+            ++ List.map renderHeaderBarItem headerBar.rightItems
+        )
 
-renderSubHeaderBar: Responsive -> SubHeaderBar -> Element.Element Styles variation Msg
-renderSubHeaderBar responsive subHeaderBar = 
-    el 
-        SubTitle 
+
+renderSubHeaderBar : Responsive -> SubHeaderBar -> Element.Element Styles variation Msg
+renderSubHeaderBar responsive subHeaderBar =
+    el
+        SubTitle
         [ width <| percent 100
         , padding responsive.mediumGap
-        , verticalCenter ]
+        , verticalCenter
+        ]
         (text subHeaderBar.title)
 
-renderHeaderBarItem: HeaderBarItem -> Element.Element Styles variation Msg
+
+renderHeaderBarItem : HeaderBarItem -> Element.Element Styles variation Msg
 renderHeaderBarItem headerBarItem =
     case headerBarItem of
         HeaderButtonSizedSpace ->
-            el Hidden [ ] backIcon
+            el Hidden [] backIcon
+
         RefreshHeaderButton msg ->
             el TitleButton [ Element.Attributes.class "data-test-refresh", onClick msg ] refreshIcon
+
         ResultsFixturesHeaderButton msg ->
             el TitleButton [ onClick msg ] resultsFixturesIcon
+
         TopScorersHeaderButton msg namedPlayerDataAvailable ->
-            topScorerHeaderBarItem msg namedPlayerDataAvailable --el TitleButton [ onClick msg ] topScorersIcon
+            topScorerHeaderBarItem msg namedPlayerDataAvailable
+
         BackHeaderButton msg ->
             el TitleButton [ onClick msg ] backIcon
 
-topScorerHeaderBarItem: Msg -> Bool -> Element.Element Styles variation Msg
-topScorerHeaderBarItem msg namedPlayerDataAvailable = 
+
+topScorerHeaderBarItem : Msg -> Bool -> Element.Element Styles variation Msg
+topScorerHeaderBarItem msg namedPlayerDataAvailable =
     if namedPlayerDataAvailable == True then
-         el TitleButton [ onClick msg ] topScorersIcon
+        el TitleButton [ onClick msg ] topScorersIcon
+
     else
         paragraph None [] []
 
-heading: Responsive -> List (Element Styles variation msg) -> Element.Element Styles variation msg
-heading responsive elements = 
-    row 
-        Title 
+
+heading : Responsive -> List (Element Styles variation msg) -> Element.Element Styles variation msg
+heading responsive elements =
+    row
+        Title
         [ width <| percent 100
         , padding responsive.bigGap
         , spacing responsive.bigGap
         , verticalCenter
         , center
         , Element.Attributes.class "data-class-heading"
-        ] 
+        ]
         elements
 
-title: String -> Element.Element Styles variation msg
-title titleText = 
-    paragraph 
+
+title : String -> Element.Element Styles variation msg
+title titleText =
+    paragraph
         Title
         [ Element.Attributes.class "data-test-title"
-        , width fill ]
+        , width fill
+        ]
         [ text titleText ]
 
 
@@ -128,15 +154,18 @@ backIcon =
     Html.span [ Html.Attributes.class "data-test-back fas fa-arrow-alt-circle-left" ] []
         |> Element.html
 
+
 refreshIcon : Element style variation msg
 refreshIcon =
     Html.span [ Html.Attributes.class "fas fa-sync-alt" ] []
         |> Element.html
 
+
 resultsFixturesIcon : Element style variation msg
 resultsFixturesIcon =
     Html.span [ Html.Attributes.class "data-test-results-fixtures fas fa-calendar-alt" ] []
         |> Element.html
+
 
 topScorersIcon : Element style variation msg
 topScorersIcon =
