@@ -1,4 +1,4 @@
-module Pages.RenderPage exposing (renderPage)
+module Pages.RenderPage exposing (renderPage, renderTestablePage)
 
 import Element exposing (..)
 import Element.Attributes exposing (..)
@@ -18,13 +18,17 @@ renderPage : Responsive -> Page -> Document Msg
 renderPage responsive page =
     Document
         "League Tables"
-        [ body
-            responsive
-            [ renderHeaderBar responsive page.header
-            , page.body
-            ]
-        ]
+        [ renderTestablePage responsive page]
 
+
+-- This is an annoyance, but the html test package doesn't want to work with lists really
+renderTestablePage : Responsive -> Page -> Html Msg
+renderTestablePage responsive page =
+    body
+        responsive
+        [ renderHeaderBar responsive page.header
+        , page.body
+        ]
 
 body : Responsive -> List (Element Styles variation msg) -> Html msg
 body responsive elements =

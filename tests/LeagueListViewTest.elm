@@ -17,7 +17,7 @@ multipleLeagues : Test
 multipleLeagues =
     fuzz (list string) "Displays multiple leagues correctly" <|
         \leagueTitles ->
-                renderPage 
+                renderTestablePage 
                     vanillaResponsive
                     (page vanillaConfig (leagueListResponse leagueTitles) vanillaResponsive)
                 |> Query.fromHtml
