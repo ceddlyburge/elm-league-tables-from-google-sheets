@@ -3,9 +3,8 @@ module ResultsFixturesViewForPlayedGameTest exposing (..)
 import Test exposing (..)
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (text, class)
--- import Date exposing (..)
--- import Date.Extra exposing (..)
 import Time exposing (..)
+import Time.Extra exposing (..)
 
 import Msg exposing (..)
 import ResultsFixturesViewHelpers exposing (..)
@@ -19,7 +18,7 @@ onePlayedGame =
             \_ ->
                 dayElement
                 |> Query.find [ Test.Html.Selector.class "data-test-dayHeader" ]
-                |> Query.has [ Test.Html.Selector.text "March 23, 2006" ]
+                |> Query.has [ Test.Html.Selector.text "March 23rd, 2006" ]
         , test "homeTeamName" <|
             \_ ->
                 dayElement
@@ -55,7 +54,7 @@ onePlayedGame =
 dayElement: Query.Single Msg
 dayElement =
     html { vanillaGame | 
-        datePlayed = Just <| Time.Extra.fromCalendarDate 2006 Mar 23
+        datePlayed = Just <| (Time.Extra.Parts 2006 Mar 23 0 0 0 0 |> Time.Extra.partsToPosix utc)
         , homeTeamName = "Castle"
         , homeTeamGoalCount = Just 3
         , homeTeamGoals = [ "Cedd" , "Lisa", "Barry" ]
