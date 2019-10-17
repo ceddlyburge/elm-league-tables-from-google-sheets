@@ -82,7 +82,7 @@ teamElement  =
 
 html : Query.Single Msg.Msg
 html  =
-    renderPage 
+    renderTestablePage 
         vanillaResponsive
         (page 
             "" 

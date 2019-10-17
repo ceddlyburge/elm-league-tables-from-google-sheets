@@ -3,9 +3,8 @@ module ResultsFixturesViewForUnplayedGameTest exposing (..)
 import Test exposing (..)
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (text, class)
--- import Date exposing (..)
--- import Date.Extra exposing (..)
 import Time exposing (..)
+import Time.Extra exposing (..)
 
 import Msg exposing (..)
 import ResultsFixturesViewHelpers exposing (..)
@@ -26,7 +25,7 @@ oneUnplayedGame =
 dayElement: Query.Single Msg
 dayElement =
     html { vanillaGame | 
-        datePlayed = Just <| Time.Extra.fromParts 2006 Mar 23 10 20 0 0
+        datePlayed = Just (Time.Extra.Parts 2006 Mar 23 10 20 0 0 |> Time.Extra.partsToPosix utc)
         , homeTeamName = "Castle"
         , awayTeamName = "Meridian" }
     |> Query.find [ Test.Html.Selector.class "data-test-day" ]

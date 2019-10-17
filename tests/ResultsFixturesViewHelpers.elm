@@ -13,7 +13,7 @@ import Pages.Responsive exposing (..)
 
 html :  Game -> Query.Single Msg
 html game  =
-    renderPage 
+    renderTestablePage 
         vanillaResponsive
         (page "" (RemoteData.Success (ResultsFixtures "" [ LeagueGamesForDay game.datePlayed [ game ] ]))  vanillaResponsive)
     |> Query.fromHtml
