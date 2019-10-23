@@ -203,7 +203,7 @@ dayFormatter =
 timeFormatter : Zone -> Posix -> String
 timeFormatter =
     DateFormat.format
-        [ DateFormat.hourNumber
+        [ DateFormat.hourFixed
         , DateFormat.text ":"
-        , DateFormat.minuteNumber
+        , DateFormat.minuteFixed
         ]
