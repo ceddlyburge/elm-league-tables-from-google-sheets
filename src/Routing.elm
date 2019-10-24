@@ -25,15 +25,12 @@ toUrl route =
             "/"
 
         Route.LeagueTable leagueTitle ->
-            -- "/league/" ++ Http.encodeUri leagueTitle
             absolute [ "league", leagueTitle ] []
 
         Route.ResultsFixtures leagueTitle ->
-            -- "/results-fixtures/" ++ Http.encodeUri leagueTitle
             absolute [ "results-fixtures", leagueTitle ] []
 
         Route.TopScorers leagueTitle ->
-            -- "/top-scorers/" ++ Http.encodeUri leagueTitle
             absolute [ "top-scorers", leagueTitle ] []
 
         Route.NotFound ->
