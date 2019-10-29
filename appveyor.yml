@@ -13,3 +13,4 @@ build_script:
  - npm run build
 test_script:
  - npm run test-record
+ - codecov
