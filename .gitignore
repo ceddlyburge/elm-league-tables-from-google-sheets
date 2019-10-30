@@ -17,6 +17,9 @@ npm-debug.*
 # environment variables (hese contain the google api key, which is a bit sensitive)
 .env
 
+# coverage reports
+.coverage
+
 # cypress videos
 cypress/videos/
 cypress/screenshots/

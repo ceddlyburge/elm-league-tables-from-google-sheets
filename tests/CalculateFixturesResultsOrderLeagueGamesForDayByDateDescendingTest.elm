@@ -1,6 +1,5 @@
 module CalculateFixturesResultsOrderLeagueGamesForDayByDateDescendingTest exposing (..)
 
--- import Date.Extra exposing (..)
 import Time exposing (..)
 import Time.Extra exposing (..)
 import List.Extra exposing (..)
@@ -21,8 +20,8 @@ orderDaysByDateDescending =
                 games = unscheduledGame :: List.map scheduledGame dateTimes
                 descendingDates = 
                     List.map (Time.Extra.floor Day utc) dateTimes
-                    |> List.Extra.uniqueBy posixToMillis -- (Time.Extra.ordinalDay) -- this relies on the dates all being in the same year
-                    |> List.sortWith comparePosix -- Time.Extra.compare
+                    |> List.Extra.uniqueBy posixToMillis 
+                    |> List.sortWith comparePosix 
                     |> List.map Just
                     |> (::) Nothing
                     |> List.reverse

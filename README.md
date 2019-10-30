@@ -1,3 +1,6 @@
+[![codecov](https://codecov.io/gh/ceddlyburge/elm-league-tables-from-google-sheets/branch/master/graph/badge.svg)](https://codecov.io/gh/ceddlyburge/elm-league-tables-from-google-sheets)
+
+
 This project is bootstrapped with [Create Elm App](https://github.com/halfzebra/create-elm-app).
 
 # Development

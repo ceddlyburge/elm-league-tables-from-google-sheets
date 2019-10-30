@@ -13,3 +13,5 @@ build_script:
  - npm run build
 test_script:
  - npm run test-record
+ #- bash <(curl -s https://codecov.io/bash) -v -f .coverage/info.json
+ - npm run codecov
