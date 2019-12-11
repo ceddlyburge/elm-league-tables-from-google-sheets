@@ -2,7 +2,7 @@ module Pages.ResultsFixtures.View exposing (page)
 
 import Time exposing (..)
 import Element exposing (..)
-import Element.Attributes exposing (..)
+import Html.Attributes exposing (class)
 import DateFormat
 import LeagueStyleElements exposing (..)
 import Models.Game exposing (..)
@@ -14,6 +14,7 @@ import Pages.HeaderBarItem exposing (..)
 import Pages.MaybeResponse exposing (..)
 import Pages.Page exposing (..)
 import Pages.Responsive exposing (..)
+import Pages.ViewHelpers exposing (..)
 import RemoteData exposing (WebData)
 
 
@@ -35,112 +36,113 @@ headerBar leagueTitle =
         [ RefreshHeaderButton <| RefreshResultsFixtures leagueTitle ]
 
 
-fixturesResultsElement : Responsive -> ResultsFixtures -> Element Styles variation Msg
+fixturesResultsElement : Responsive -> ResultsFixtures -> Element msg
 fixturesResultsElement responsive resultsFixtures =
     column
-        None
-        [ class "data-test-dates"
-        , width <| percent 100
-        , center
+        --None
+        [ dataTestClass "dates"
+        , width <| fill
+        , centerX --center
         ]
         (List.map (day responsive) resultsFixtures.days)
 
 
-day : Responsive -> LeagueGamesForDay -> Element Styles variation Msg
+day : Responsive -> LeagueGamesForDay -> Element msg
 day responsive leagueGamesForDay =
     column
-        None
+        --None
         [ padding responsive.mediumGap
         , spacing responsive.mediumGap
         , dayWidth responsive
-        , class <| "data-test-day data-test-date-" ++ dateClassNamePart leagueGamesForDay.date
+        , htmlAttribute <| Html.Attributes.class <| "data-test-day data-test-date-" ++ dateClassNamePart leagueGamesForDay.date
         ]
         [ dayHeader leagueGamesForDay.date
         , dayResultsFixtures responsive leagueGamesForDay
         ]
 
 
-dayHeader : Maybe Posix -> Element Styles variation Msg
+dayHeader : Maybe Posix -> Element msg
 dayHeader maybeDate =
     el
-        ResultFixtureDayHeader
-        [ class "data-test-dayHeader" ]
+        --ResultFixtureDayHeader
+        [ dataTestClass "dayHeader" ]
         (text <| dateDisplay maybeDate)
 
 
-dayResultsFixtures : Responsive -> LeagueGamesForDay -> Element Styles variation Msg
+dayResultsFixtures : Responsive -> LeagueGamesForDay -> Element msg
 dayResultsFixtures responsive leagueGamesForDay =
     column
-        None
-        [ width <| percent 100
+        --None
+        [ width fill
         , spacing responsive.smallGap
         ]
         (List.map (gameRow responsive) leagueGamesForDay.games)
 
 
-gameRow : Responsive -> Game -> Element Styles variation Msg
+gameRow : Responsive -> Game -> Element msg
 gameRow responsive game =
     row
-        ResultFixtureRow
+        --ResultFixtureRow
         [ padding 0
         , spacing responsive.mediumGap
-        , center
-        , class "data-test-game"
-        , width <| percent 100
+        , centerX --center
+        , dataTestClass "game"
+        , width fill
         ]
         [ column
-            ResultFixtureHome
+            --ResultFixtureHome
             [ teamWidth responsive ]
             [ paragraph
-                ResultFixtureHome
-                [ alignRight, class "data-test-homeTeamName" ]
+                --ResultFixtureHome
+                [ alignRight, dataTestClass "homeTeamName" ]
                 [ text game.homeTeamName ]
             , paragraph
-                ResultFixtureGoals
-                [ alignRight, class "data-test-homeTeamGoals" ]
+                --ResultFixtureGoals
+                [ alignRight, dataTestClass "homeTeamGoals" ]
                 [ text (String.join ", " (homeTeamGoalsWithRealPlayerNames game)) ]
             ]
         , row
-            None
+            --None
             []
             (scoreSlashTime game)
         , column
-            ResultFixtureAway
+            --ResultFixtureAway
             [ teamWidth responsive ]
             [ paragraph
-                ResultFixtureAway
-                [ alignLeft, class "data-test-awayTeamName" ]
+                --ResultFixtureAway
+                [ alignLeft, dataTestClass "awayTeamName" ]
                 [ text game.awayTeamName ]
             , paragraph
-                ResultFixtureGoals
-                [ alignLeft, class "data-test-awayTeamGoals" ]
+                --ResultFixtureGoals
+                [ alignLeft, dataTestClass "awayTeamGoals" ]
                 [ text (String.join ", " (awayTeamGoalsWithRealPlayerNames game)) ]
             ]
         ]
 
 
-scoreSlashTime : Game -> List (Element Styles variation Msg)
+scoreSlashTime : Game -> List (Element msg)
 scoreSlashTime game =
     case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
         ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->
             [ el
-                ResultFixtureScore
-                [ alignRight, class "data-test-homeTeamGoalCount" ]
+                --ResultFixtureScore
+                [ alignRight, dataTestClass "homeTeamGoalCount" ]
                 (text <| String.fromInt homeTeamGoalCount)
             , el
-                ResultFixtureScore
+                --ResultFixtureScore
                 []
                 (text " - ")
             , el
-                ResultFixtureScore
-                [ alignLeft, class "data-test-awayTeamGoalCount" ]
+                --ResultFixtureScore
+                [ alignLeft, dataTestClass "awayTeamGoalCount" ]
                 (text <| String.fromInt awayTeamGoalCount)
             ]
 
         ( _, _ ) ->
             [ el
-                ResultFixtureTime
-                [ verticalCenter, class "data-test-datePlayed" ]
+                --ResultFixtureTime
+                [ centerY --verticalCenter
+                , dataTestClass "datePlayed" ]
                 (text <| timeDisplay game.datePlayed)
             ]
 
@@ -166,16 +168,16 @@ timeDisplay maybeDate =
         |> Maybe.withDefault " - "
 
 
-dayWidth : Responsive -> Element.Attribute variation msg
+dayWidth : Responsive -> Element.Attribute msg
 dayWidth responsive =
-    if responsive.designTeamWidthMediumFont * 2.5 < responsive.pageWidth * 0.8 then
-        width <| percent 80
+    if toFloat responsive.designTeamWidthMediumFont * 2.5 < (toFloat responsive.pageWidth) * 0.8 then
+        width <| fillPortion 80
 
     else
-        width <| percent 100
+        width fill
 
 
-teamWidth : Responsive -> Element.Attribute variation msg
+teamWidth : Responsive -> Element.Attribute msg
 teamWidth responsive =
     width <| fillPortion 50
 

@@ -1,7 +1,7 @@
 module Pages.TopScorers.View exposing (page)
 
 import Element exposing (..)
-import Element.Attributes exposing (..)
+-- import Element.Attributes exposing (..)
 import LeagueStyleElements exposing (..)
 import Models.Player exposing (..)
 import Msg exposing (..)
@@ -11,6 +11,7 @@ import Pages.MaybeResponse exposing (..)
 import Pages.Page exposing (..)
 import Pages.Responsive exposing (..)
 import RemoteData exposing (WebData)
+import Pages.ViewHelpers exposing (..)
 
 
 page : String -> WebData Players -> Responsive -> Page
@@ -31,25 +32,25 @@ headerBar leagueTitle =
         [ RefreshHeaderButton <| RefreshTopScorers leagueTitle ]
 
 
-topScorersElement : Responsive -> Players -> Element Styles variation Msg
+topScorersElement : Responsive -> Players -> Element msg
 topScorersElement responsive players =
     column
         None
-        [ width (percent 100)
-        , center
-        , class "data-test-top-scorers"
+        [ width fill
+        , centerX --center
+        , dataTestClass "top-scorers"
         , padding responsive.bigGap
         , spacing responsive.bigGap
         ]
         (List.map (topScorer responsive) players.players)
 
 
-topScorer : Responsive -> Player -> Element Styles variation Msg
+topScorer : Responsive -> Player -> Element msg
 topScorer responsive player =
     column
         None
         [ spacing responsive.smallGap
-        , class "data-test-top-scorer"
+        , dataTestClass "top-scorer"
         ]
         [ row
             None
@@ -58,18 +59,18 @@ topScorer responsive player =
             [ paragraph
                 TopScorerPlayerName
                 [ minWidth <| px responsive.designPlayerNamePixelWidthBigFont
-                , class "data-test-top-scorer-player-name"
+                , dataTestClass "top-scorer-player-name"
                 ]
                 [ text <| playerName player ]
             , el
                 TopScorerGoalCount
-                [ verticalCenter
-                , class "data-test-top-scorer-goal-count"
+                [ centerY --verticalCenter
+                , dataTestClass "top-scorer-goal-count"
                 ]
                 (text <| String.fromInt player.goalCount)
             ]
         , paragraph
             TopScorerTeamName
-            [ class "data-test-top-scorer-team-name" ]
+            [ dataTestClass "top-scorer-team-name" ]
             [ text <| teamName player ]
         ]

@@ -8,5 +8,5 @@ import Pages.HeaderBar exposing (..)
 
 type alias Page =
     { header : PageHeader
-    , body : Element Styles Variations Msg
+    , body : Element Msg
     }

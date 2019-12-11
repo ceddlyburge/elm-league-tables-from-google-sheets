@@ -1,11 +1,13 @@
 module LeagueStyleElements exposing (..)
 
 import Pages.Responsive exposing (FontSize)
-import Style exposing (..)
-import Style.Border as Border
-import Style.Color as Color
-import Style.Font as Font
-
+--import Style exposing (..)
+--import Style.Border as Border
+--import Style.Color as Color
+--import Style.Font as Font
+import Element.Border as Border
+import Element.Font as Font
+import Element exposing (Attribute, Color, rgba255)
 
 
 -- I didn't really want to use this, but I couldn't get a type definition to work without it
@@ -40,35 +42,36 @@ type Styles
     | TopScorerGoalCount
 
 
-sansSerif : List Font
-sansSerif =
-    [ Font.font "Source Sans Pro"
-    , Font.font "Trebuchet MS"
-    , Font.font "Lucida Grande"
-    , Font.font "Bitstream Vera Sans"
-    , Font.font "Helvetica Neue"
-    , Font.font "sans-serif"
-    ]
+sansSerifFontFamily : Attribute msg 
+sansSerifFontFamily =
+    Font.family
+        [ Font.typeface "Source Sans Pro"
+        , Font.typeface "Trebuchet MS"
+        , Font.typeface "Lucida Grande"
+        , Font.typeface "Bitstream Vera Sans"
+        , Font.typeface "Helvetica Neue"
+        , Font.sansSerif
+        ]
 
-ceddRgba: Float -> Float -> Float -> Float -> Style.Color
+ceddRgba: Int -> Int -> Int -> Float -> Color
 ceddRgba r g b a =
-    rgba (r / 255) (g / 255) (b / 255) a
+    rgba255 r g b a
 
 
 colors :
-    { secondary5 : Style.Color
-    , secondary4 : Style.Color
-    , secondary2 : Style.Color
-    , text : Style.Color
-    , supplementaryText : Style.Color
-    , titleText : Style.Color
-    , subTitleText : Style.Color
-    , heading1 : Style.Color
-    , titleButton : Style.Color
-    , titleBackground : Style.Color
-    , subTitleBackground : Style.Color
-    , border : Style.Color
-    , transparent : Style.Color
+    { secondary5 : Color
+    , secondary4 : Color
+    , secondary2 : Color
+    , text : Color
+    , supplementaryText : Color
+    , titleText : Color
+    , subTitleText : Color
+    , heading1 : Color
+    , titleButton : Color
+    , titleBackground : Color
+    , subTitleBackground : Color
+    , border : Color
+    , transparent : Color
     }
 colors =
     { secondary5 = ceddRgba 7 25 48 1.0
@@ -87,92 +90,92 @@ colors =
     }
 
 
-stylesheet : FontSize -> StyleSheet Styles variation
-stylesheet fontSize =
-    Style.styleSheet
-        [ style None []
-        , style Title
-            [ Color.background colors.titleBackground
-            , Font.size fontSize.big
-            , Font.center
-            , Color.text colors.titleText
-            ]
-        , style SubTitle
-            [ Color.background colors.subTitleBackground
-            , Font.size fontSize.medium
-            , Font.center
-            , Color.text colors.titleText
-            ]
-        , style Body [ Font.typeface sansSerif ]
-        , style Hidden
-            [ Color.background colors.transparent
-            , Color.text colors.transparent
-            ]
-        , style TitleButton
-            [ Color.background colors.titleBackground
-            , Color.text colors.titleButton
-            , cursor "pointer"
-            ]
-        , style UnhappyPathText
-            [ Font.size fontSize.medium
-            , Font.center
-            , Color.text colors.text
-            ]
-        , style LeagueListLeagueTitle
-            [ Font.size fontSize.medium
-            , Font.center
-            , Color.text colors.text
-            , Border.bottom 2
-            , Color.border colors.border
-            , cursor "pointer"
-            ]
-        , style LeagueTableHeaderRow
-            [ Font.size fontSize.small
-            , Color.text colors.text
-            , Border.bottom 2
-            , Color.border colors.border
-            ]
-        , style LeagueTableTeamRow
-            [ Font.size fontSize.small
-            , Color.text colors.text
-            , Border.bottom 2
-            , Color.border colors.border
-            ]
-        , style ResultFixtureDayHeader
-            [ Font.size fontSize.small
-            , Color.text colors.text
-            , Border.bottom 2
-            , Color.border colors.border
-            ]
-        , style ResultFixtureRow
-            [ Font.size fontSize.medium
-            , Color.text colors.text
-            ]
-        , style ResultFixtureHome
-            [ Font.alignRight
-            ]
-        , style ResultFixtureAway
-            []
-        , style ResultFixtureGoals
-            [ Font.size fontSize.small
-            , Color.text colors.supplementaryText
-            ]
-        , style ResultFixtureScore
-            [ Font.bold
-            ]
-        , style ResultFixtureTime
-            [ Font.bold
-            ]
-        , style TopScorerPlayerName
-            [ Font.size fontSize.big
-            ]
-        , style TopScorerTeamName
-            [ Font.size fontSize.medium
-            , Color.text colors.supplementaryText
-            ]
-        , style TopScorerGoalCount
-            [ Font.size fontSize.big
-            , Font.alignRight
-            , Color.text colors.supplementaryText
-            ]
-        ]
+-- stylesheet : FontSize -> StyleSheet Styles variation
+-- stylesheet fontSize =
+--     Style.styleSheet
+--         [ style None []
+--         , style Title
+--             [ Color.background colors.titleBackground
+--             , Font.size fontSize.big
+--             , Font.center
+--             , Color.text colors.titleText
+--             ]
+--         , style SubTitle
+--             [ Color.background colors.subTitleBackground
+--             , Font.size fontSize.medium
+--             , Font.center
+--             , Color.text colors.titleText
+--             ]
+--         , style Body [ Font.typeface sansSerif ]
+--         , style Hidden
+--             [ Color.background colors.transparent
+--             , Color.text colors.transparent
+--             ]
+--         , style TitleButton
+--             [ Color.background colors.titleBackground
+--             , Color.text colors.titleButton
+--             , cursor "pointer"
+--             ]
+--         , style UnhappyPathText
+--             [ Font.size fontSize.medium
+--             , Font.center
+--             , Color.text colors.text
+--             ]
+--         , style LeagueListLeagueTitle
+--             [ Font.size fontSize.medium
+--             , Font.center
+--             , Color.text colors.text
+--             , Border.bottom 2
+--             , Color.border colors.border
+--             , cursor "pointer"
+--             ]
+--         , style LeagueTableHeaderRow
+--             [ Font.size fontSize.small
+--             , Color.text colors.text
+--             , Border.bottom 2
+--             , Color.border colors.border
+--             ]
+--         , style LeagueTableTeamRow
+--             [ Font.size fontSize.small
+--             , Color.text colors.text
+--             , Border.bottom 2
+--             , Color.border colors.border
+--             ]
+--         , style ResultFixtureDayHeader
+--             [ Font.size fontSize.small
+--             , Color.text colors.text
+--             , Border.bottom 2
+--             , Color.border colors.border
+--             ]
+--         , style ResultFixtureRow
+--             [ Font.size fontSize.medium
+--             , Color.text colors.text
+--             ]
+--         , style ResultFixtureHome
+--             [ Font.alignRight
+--             ]
+--         , style ResultFixtureAway
+--             []
+--         , style ResultFixtureGoals
+--             [ Font.size fontSize.small
+--             , Color.text colors.supplementaryText
+--             ]
+--         , style ResultFixtureScore
+--             [ Font.bold
+--             ]
+--         , style ResultFixtureTime
+--             [ Font.bold
+--             ]
+--         , style TopScorerPlayerName
+--             [ Font.size fontSize.big
+--             ]
+--         , style TopScorerTeamName
+--             [ Font.size fontSize.medium
+--             , Color.text colors.supplementaryText
+--             ]
+--         , style TopScorerGoalCount
+--             [ Font.size fontSize.big
+--             , Font.alignRight
+--             , Color.text colors.supplementaryText
+--             ]
+--         ]

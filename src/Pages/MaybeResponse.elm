@@ -1,7 +1,7 @@
 module Pages.MaybeResponse exposing (maybeResponse)
 
 import Element exposing (..)
-import Element.Attributes exposing (..)
+-- import Element.Attributes exposing (..)
 import Html exposing (div)
 import Html.Attributes exposing (class)
 import Http exposing (..)
@@ -9,7 +9,7 @@ import LeagueStyleElements exposing (..)
 import RemoteData exposing (WebData)
 
 
-maybeResponse : WebData payload -> (payload -> Element Styles variation msg) -> Element Styles variation msg
+maybeResponse : WebData payload -> (payload -> Element msg) -> Element msg
 maybeResponse response success =
     case response of
         RemoteData.NotAsked ->
@@ -54,7 +54,7 @@ httpErrorMessage error =
 -- style-elements doesn't really support this, so using standard html / css
 
 
-loading : Element style variation msg
+loading : Element msg
 loading =
     Html.div
         [ Html.Attributes.class "loading" ]
@@ -69,6 +69,7 @@ loading =
         |> Element.html
 
 
-unhappyPathText : String -> Element Styles variation msg
+unhappyPathText : String -> Element msg
 unhappyPathText string =
-    paragraph UnhappyPathText [ width (percent 90) ] [ text string ]
+    -- need to style this in the way that UnhappyPathText used to do
+    paragraph [ width (fillPortion 90) ] [ text string ]

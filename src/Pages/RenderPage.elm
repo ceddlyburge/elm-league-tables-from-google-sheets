@@ -1,7 +1,7 @@
 module Pages.RenderPage exposing (renderPage, renderTestablePage)
 
 import Element exposing (..)
-import Element.Attributes exposing (..)
+--import Element.Attributes exposing (..)
 import Element.Events exposing (onClick)
 import Html exposing (Html)
 import Html.Attributes exposing (class)
@@ -11,7 +11,9 @@ import Pages.HeaderBar exposing (..)
 import Pages.HeaderBarItem exposing (..)
 import Pages.Page exposing (..)
 import Pages.Responsive exposing (..)
+import Pages.ViewHelpers exposing (..)
 import Browser exposing (Document)
+import Element.Font exposing (..)
 
 
 renderPage : Responsive -> Page -> Document Msg
@@ -30,15 +32,16 @@ renderTestablePage responsive page =
         , page.body
         ]
 
-body : Responsive -> List (Element Styles variation msg) -> Html msg
+body : Responsive -> List (Element msg) -> Html msg
 body responsive elements =
-    Element.layout (stylesheet responsive.fontSize) <|
+    Element.layout [] <| --(stylesheet responsive.fontSize) <|
         column
-            Body
-            [ width <| bodyWidth responsive
+            --Body
+            [ sansSerifFontFamily
+            , width <| bodyWidth responsive
             , spacingXY 0 responsive.mediumGap
-            , center
-            , Element.Attributes.class "data-class-body"
+            , centerX --center
+            , dataTestClass "body"
             ]
             elements
 
@@ -57,10 +60,10 @@ bodyWidth responsive =
         px responsive.pageWidth
 
     else
-        percent 100
+        fill
 
 
-renderHeaderBar : Responsive -> PageHeader -> Element.Element Styles variation Msg
+renderHeaderBar : Responsive -> PageHeader -> Element.Element Msg
 renderHeaderBar responsive pageHeader =
     case pageHeader of
         SingleHeader headerBar ->
@@ -70,17 +73,17 @@ renderHeaderBar responsive pageHeader =
             renderMainAndSubHeaderBar responsive headerBar subHeaderBar
 
 
-renderMainAndSubHeaderBar : Responsive -> HeaderBar -> SubHeaderBar -> Element.Element Styles variation Msg
+renderMainAndSubHeaderBar : Responsive -> HeaderBar -> SubHeaderBar -> Element.Element Msg
 renderMainAndSubHeaderBar responsive headerBar subHeaderBar =
     column
-        Title
-        [ width <| percent 100 ]
+        --Title
+        [ width fill ]
         [ renderMainHeaderBar responsive headerBar
         , renderSubHeaderBar responsive subHeaderBar
         ]
 
 
-renderMainHeaderBar : Responsive -> HeaderBar -> Element.Element Styles variation Msg
+renderMainHeaderBar : Responsive -> HeaderBar -> Element.Element Msg
 renderMainHeaderBar responsive headerBar =
     heading
         responsive
@@ -90,88 +93,101 @@ renderMainHeaderBar responsive headerBar =
         )
 
 
-renderSubHeaderBar : Responsive -> SubHeaderBar -> Element.Element Styles variation Msg
+renderSubHeaderBar : Responsive -> SubHeaderBar -> Element.Element msg
 renderSubHeaderBar responsive subHeaderBar =
     el
-        SubTitle
-        [ width <| percent 100
+        --SubTitle
+        [ width fill
         , padding responsive.mediumGap
-        , verticalCenter
+        , centerY --verticalCenter
         ]
         (text subHeaderBar.title)
 
 
-renderHeaderBarItem : HeaderBarItem -> Element.Element Styles variation Msg
+renderHeaderBarItem : HeaderBarItem -> Element.Element Msg
 renderHeaderBarItem headerBarItem =
     case headerBarItem of
         HeaderButtonSizedSpace ->
-            el Hidden [] backIcon
+            el 
+                --Hidden 
+                [] 
+                backIcon
 
         RefreshHeaderButton msg ->
-            el TitleButton [ Element.Attributes.class "data-test-refresh", onClick msg ] refreshIcon
+            el 
+                --TitleButton 
+                [ dataTestClass "refresh", onClick msg ] 
+                refreshIcon
 
         ResultsFixturesHeaderButton msg ->
-            el TitleButton [ onClick msg ] resultsFixturesIcon
+            el 
+                --TitleButton 
+                [ onClick msg ] 
+                resultsFixturesIcon
 
         TopScorersHeaderButton msg namedPlayerDataAvailable ->
             topScorerHeaderBarItem msg namedPlayerDataAvailable
 
         BackHeaderButton msg ->
-            el TitleButton [ onClick msg ] backIcon
+            el --TitleButton 
+                [ onClick msg ] 
+                backIcon
 
 
-topScorerHeaderBarItem : Msg -> Bool -> Element.Element Styles variation Msg
+topScorerHeaderBarItem : Msg -> Bool -> Element.Element Msg
 topScorerHeaderBarItem msg namedPlayerDataAvailable =
     if namedPlayerDataAvailable == True then
-        el TitleButton [ onClick msg ] topScorersIcon
+        el --TitleButton 
+            [ onClick msg ] 
+            topScorersIcon
 
     else
-        paragraph None [] []
+        paragraph [] []
 
 
-heading : Responsive -> List (Element Styles variation msg) -> Element.Element Styles variation msg
+heading : Responsive -> List (Element msg) -> Element.Element msg
 heading responsive elements =
     row
-        Title
-        [ width <| percent 100
+        --Title
+        [ width <| fill
         , padding responsive.bigGap
         , spacing responsive.bigGap
-        , verticalCenter
-        , center
-        , Element.Attributes.class "data-class-heading"
+        , centerY --verticalCenter
+        , centerX --center
+        , dataTestClass "heading"
         ]
         elements
 
 
-title : String -> Element.Element Styles variation msg
+title : String -> Element.Element msg
 title titleText =
     paragraph
-        Title
-        [ Element.Attributes.class "data-test-title"
+        --Title
+        [ dataTestClass "title"
         , width fill
         ]
         [ text titleText ]
 
 
-backIcon : Element style variation msg
+backIcon : Element msg
 backIcon =
-    Html.span [ Html.Attributes.class "data-test-back fas fa-arrow-alt-circle-left" ] []
+    Html.span [ Html.Attributes.class "back fas fa-arrow-alt-circle-left" ] []
         |> Element.html
 
 
-refreshIcon : Element style variation msg
+refreshIcon : Element msg
 refreshIcon =
     Html.span [ Html.Attributes.class "fas fa-sync-alt" ] []
         |> Element.html
 
 
-resultsFixturesIcon : Element style variation msg
+resultsFixturesIcon : Element msg
 resultsFixturesIcon =
-    Html.span [ Html.Attributes.class "data-test-results-fixtures fas fa-calendar-alt" ] []
+    Html.span [ Html.Attributes.class "results-fixtures fas fa-calendar-alt" ] []
         |> Element.html
 
 
-topScorersIcon : Element style variation msg
+topScorersIcon : Element msg
 topScorersIcon =
-    Html.span [ Html.Attributes.class "data-test-top-scorers fas fa-futbol" ] []
+    Html.span [ Html.Attributes.class "top-scorers fas fa-futbol" ] []
         |> Element.html

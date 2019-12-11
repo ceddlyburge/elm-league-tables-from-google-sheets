@@ -4,27 +4,27 @@ module Pages.Responsive exposing (FontSize, Responsive, calculateResponsive, van
 
 
 type alias Responsive =
-    { bigGap : Float
-    , mediumGap : Float
-    , smallGap : Float
-    , viewportWidth : Float
-    , pageWidth : Float
+    { bigGap : Int
+    , mediumGap : Int
+    , smallGap : Int
+    , viewportWidth : Int
+    , pageWidth : Int
     , fontSize : FontSize
 
     -- designTeamWidths are the width that a team should ideally be able to be displayed on one line,
     -- "Blackwater_Bandits" is used as the text for this theoretical long team name. Team names
     -- longer than this can wrap or display an ellipsis. If pages need to wrap at shorter widths then
     -- that is ok too, it is a guide, not a rule
-    , designTeamWidthMediumFont : Float
+    , designTeamWidthMediumFont : Int
 
     -- designTeamWidths are the width that a team should ideally be able to be displayed on one line,
     -- "Anne Claire Chiffelou" is used as the text for this theoretical long team name. Names
     -- longer than this can wrap or display an ellipsis. If pages need to wrap at shorter widths then
     -- that is ok too, it is a guide, not a rule
-    , designPlayerNamePixelWidthBigFont : Float
+    , designPlayerNamePixelWidthBigFont : Int
 
     -- if the content is essentiallyl portrait, try and extend out to this percentage width
-    , designPortraitPercentageWidth : Float
+    , designPortraitPercentageWidth : Int
     }
 
 
@@ -35,7 +35,7 @@ type alias FontSize =
     }
 
 
-calculateResponsive : Float -> Responsive
+calculateResponsive : Int -> Responsive
 calculateResponsive viewportWidth =
     if viewportWidth <= 600 then
         { bigGap = 12
@@ -102,7 +102,7 @@ calculateResponsive viewportWidth =
         }
 
 
-calculatePageWidth : Float -> Float
+calculatePageWidth : Int -> Int
 calculatePageWidth viewportWidth =
     if viewportWidth < 200 then
         200
@@ -113,4 +113,4 @@ calculatePageWidth viewportWidth =
 
 vanillaResponsive : Responsive
 vanillaResponsive =
-    calculateResponsive 1024.0
+    calculateResponsive 1024
