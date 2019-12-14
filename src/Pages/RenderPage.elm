@@ -183,11 +183,11 @@ refreshIcon =
 
 resultsFixturesIcon : Element msg
 resultsFixturesIcon =
-    Html.span [ Html.Attributes.class "results-fixtures fas fa-calendar-alt" ] []
+    Html.span [ Html.Attributes.class "data-test-results-fixtures fas fa-calendar-alt" ] []
         |> Element.html
 
 
 topScorersIcon : Element msg
 topScorersIcon =
-    Html.span [ Html.Attributes.class "top-scorers fas fa-futbol" ] []
+    Html.span [ Html.Attributes.class "data-test-top-scorers fas fa-futbol" ] []
         |> Element.html
