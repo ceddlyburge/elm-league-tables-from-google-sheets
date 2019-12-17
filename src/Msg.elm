@@ -6,7 +6,6 @@ import Models.LeagueSummary exposing (LeagueSummary)
 import Url exposing (Url)
 import RemoteData exposing (WebData)
 --import Window exposing (size)
-import Browser.Events exposing (onResize)
 import Browser exposing (UrlRequest)
 
 type Msg

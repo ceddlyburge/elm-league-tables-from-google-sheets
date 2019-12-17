@@ -72,7 +72,13 @@ updatewithoutBrowserHistory msg model =
 
         -- responsiveness
         SetScreenSize width height ->
-            ( { model | device = classifyDevice { width = width, height = height } }, Cmd.none )
+            ( { 
+                model | 
+                    device = classifyDevice { width = width, height = height }
+                    , viewportWidth = width
+                    , viewportHeight = height
+                }
+            , Cmd.none )
 
         -- routing
         OnUrlChange url ->

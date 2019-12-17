@@ -35,7 +35,7 @@ headerBar leagueTitle =
 topScorersElement : Responsive -> Players -> Element msg
 topScorersElement responsive players =
     column
-        None
+        --None
         [ width fill
         , centerX --center
         , dataTestClass "top-scorers"
@@ -48,29 +48,31 @@ topScorersElement responsive players =
 topScorer : Responsive -> Player -> Element msg
 topScorer responsive player =
     column
-        None
+        --None
         [ spacing responsive.smallGap
         , dataTestClass "top-scorer"
         ]
         [ row
-            None
+            --None
             [ spacing responsive.bigGap
             ]
             [ paragraph
-                TopScorerPlayerName
-                [ minWidth <| px responsive.designPlayerNamePixelWidthBigFont
+                --TopScorerPlayerName
+                [ --minWidth <| px responsive.designPlayerNamePixelWidthBigFont
+                width
+                    (fill |> minimum responsive.designPlayerNamePixelWidthBigFont)
                 , dataTestClass "top-scorer-player-name"
                 ]
                 [ text <| playerName player ]
             , el
-                TopScorerGoalCount
+                --TopScorerGoalCount
                 [ centerY --verticalCenter
                 , dataTestClass "top-scorer-goal-count"
                 ]
                 (text <| String.fromInt player.goalCount)
             ]
         , paragraph
-            TopScorerTeamName
+            --TopScorerTeamName
             [ dataTestClass "top-scorer-team-name" ]
             [ text <| teamName player ]
         ]

@@ -24,7 +24,7 @@ view : ModelAndKey -> Document Msg
 view modelAndKey =
     let
         responsive =
-            calculateResponsive <| toFloat modelAndKey.model.device.width
+            calculateResponsive modelAndKey.model.viewportWidth
     in
     page modelAndKey.model responsive
         |> renderPage responsive
