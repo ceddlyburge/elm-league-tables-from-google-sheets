@@ -1,23 +1,9 @@
 module LeagueStyleElements exposing (..)
 
 import Pages.Responsive exposing (FontSize)
---import Style exposing (..)
---import Style.Border as Border
---import Style.Color as Color
---import Style.Font as Font
 import Element.Border as Border
 import Element.Font as Font
 import Element exposing (Attribute, Color, rgba255)
-
-
--- I didn't really want to use this, but I couldn't get a type definition to work without it
--- I should have documented which one this was, so I can do further investigation, or to
--- know when I can delete this.
-
-
-type Variations
-    = NotApplicable
-
 
 type Styles
     = None

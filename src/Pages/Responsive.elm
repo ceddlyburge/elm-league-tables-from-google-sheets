@@ -29,9 +29,9 @@ type alias Responsive =
 
 
 type alias FontSize =
-    { big : Float
-    , medium : Float
-    , small : Float
+    { big : Int
+    , medium : Int
+    , small : Int
     }
 
 

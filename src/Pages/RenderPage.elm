@@ -1,10 +1,13 @@
 module Pages.RenderPage exposing (renderPage, renderTestablePage)
 
 import Element exposing (..)
---import Element.Attributes exposing (..)
 import Element.Events exposing (onClick)
+import Element.Background as Background
+import Element.Border as Border
+import Element.Font as Font
 import Html exposing (Html)
 import Html.Attributes exposing (class)
+import Styles exposing (..)
 import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Pages.HeaderBar exposing (..)
@@ -34,11 +37,10 @@ renderTestablePage responsive page =
 
 body : Responsive -> List (Element msg) -> Html msg
 body responsive elements =
-    Element.layout [] <| --(stylesheet responsive.fontSize) <|
-        column
-            --Body
-            [ sansSerifFontFamily
-            , width <| bodyWidth responsive
+    Element.layout 
+        [ sansSerifFontFamily ] 
+        <| column
+            [ width <| bodyWidth responsive
             , spacingXY 0 responsive.mediumGap
             , centerX --center
             , dataTestClass "body"
@@ -148,14 +150,14 @@ topScorerHeaderBarItem msg namedPlayerDataAvailable =
 heading : Responsive -> List (Element msg) -> Element.Element msg
 heading responsive elements =
     row
-        --Title
+        (Styles.mainHeaderBar responsive ++
         [ width <| fill
         , padding responsive.bigGap
         , spacing responsive.bigGap
-        , centerY --verticalCenter
-        , centerX --center
+        , centerY 
+        , centerX 
         , dataTestClass "heading"
-        ]
+        ])
         elements
 
 
