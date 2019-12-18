@@ -111,36 +111,34 @@ renderHeaderBarItem headerBarItem =
     case headerBarItem of
         HeaderButtonSizedSpace ->
             el 
-                --Hidden 
-                [] 
+                invisibleButTakesUpSpace 
                 backIcon
 
         RefreshHeaderButton msg ->
             el 
-                --TitleButton 
-                [ dataTestClass "refresh", onClick msg ] 
+                ( Styles.mainHeaderBarLink ++ 
+                [ dataTestClass "refresh", onClick msg ] )
                 refreshIcon
 
         ResultsFixturesHeaderButton msg ->
             el 
-                --TitleButton 
-                [ onClick msg ] 
+                ( Styles.mainHeaderBarLink ++ [ onClick msg ] )
                 resultsFixturesIcon
 
         TopScorersHeaderButton msg namedPlayerDataAvailable ->
             topScorerHeaderBarItem msg namedPlayerDataAvailable
 
         BackHeaderButton msg ->
-            el --TitleButton 
-                [ onClick msg ] 
+            el 
+                ( Styles.mainHeaderBarLink ++ [ onClick msg ] )
                 backIcon
 
 
 topScorerHeaderBarItem : Msg -> Bool -> Element.Element Msg
 topScorerHeaderBarItem msg namedPlayerDataAvailable =
     if namedPlayerDataAvailable == True then
-        el --TitleButton 
-            [ onClick msg ] 
+        el
+            ( Styles.mainHeaderBarLink ++ [ onClick msg ] )
             topScorersIcon
 
     else

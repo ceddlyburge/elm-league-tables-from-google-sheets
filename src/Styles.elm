@@ -15,6 +15,19 @@ mainHeaderBar responsive =
     , Font.color colors.titleText
     ]
 
+mainHeaderBarLink: List (Element.Attribute msg)
+mainHeaderBarLink = 
+    [ Background.color colors.titleBackground
+    , Font.color colors.titleButton
+    --, cursor "pointer"
+    ]
+
+invisibleButTakesUpSpace: List (Element.Attribute msg)
+invisibleButTakesUpSpace = 
+    [ Background.color colors.transparent
+    , Font.color colors.transparent
+    ]
+
 ceddRgba: Int -> Int -> Int -> Float -> Color
 ceddRgba r g b a =
     rgba255 r g b a
