@@ -4,7 +4,7 @@ import Pages.Responsive exposing (Responsive, FontSize)
 import Element.Border as Border
 import Element.Font as Font
 import Element.Background as Background
-import Element exposing (Attribute, Color, rgba255)
+import Element exposing (Attribute, Color, rgba255, pointer)
 
 
 mainHeaderBar: Responsive ->  List (Element.Attribute msg)
@@ -19,13 +19,28 @@ mainHeaderBarLink: List (Element.Attribute msg)
 mainHeaderBarLink = 
     [ Background.color colors.titleBackground
     , Font.color colors.titleButton
-    --, cursor "pointer"
+    , pointer
     ]
 
 invisibleButTakesUpSpace: List (Element.Attribute msg)
 invisibleButTakesUpSpace = 
     [ Background.color colors.transparent
     , Font.color colors.transparent
+    ]
+
+leagueListLeagueName: Responsive -> List (Element.Attribute msg)
+leagueListLeagueName responsive = 
+    [ Font.size responsive.fontSize.medium
+    , Font.center
+    , Font.color colors.text
+    , Border.widthEach
+        { bottom = 2
+        , left = 0
+        , right = 0
+        , top = 0
+        } 
+    , Border.color colors.border
+    , pointer
     ]
 
 ceddRgba: Int -> Int -> Int -> Float -> Color

@@ -1,7 +1,6 @@
 module Pages.LeagueList.View exposing (page)
 
 import Element exposing (..)
---import Element.Attributes exposing (..)
 import Element.Events exposing (onClick)
 import LeagueStyleElements exposing (..)
 import Models.Config exposing (Config)
@@ -14,6 +13,7 @@ import Pages.Page exposing (..)
 import Pages.Responsive exposing (..)
 import Pages.ViewHelpers exposing (..)
 import RemoteData exposing (WebData)
+import Styles exposing (..)
 
 
 page : Config -> WebData (List LeagueSummary) -> Responsive -> Page
@@ -31,7 +31,6 @@ page config response responsive =
 leagueList : Responsive -> List LeagueSummary -> Element Msg
 leagueList responsive leagueSummaries =
     column
-        --None
         [ width fill
         , dataTestClass "leagues"
         ]
@@ -41,12 +40,12 @@ leagueList responsive leagueSummaries =
 leagueTitle : Responsive -> LeagueSummary -> Element Msg
 leagueTitle responsive league =
     el
-        --LeagueListLeagueTitle
+        (Styles.leagueListLeagueName responsive ++
         [ padding responsive.mediumGap
         , spacing responsive.smallGap
         , width <| fillPortion responsive.designPortraitPercentageWidth
         , dataTestClass "league"
         , centerX --center
         , onClick <| ShowLeagueTable league.title
-        ]
+        ])
         (paragraph [] [ text league.title ])
