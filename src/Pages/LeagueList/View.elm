@@ -43,7 +43,7 @@ leagueTitle responsive league =
         (Styles.leagueListLeagueName responsive ++
         [ padding responsive.mediumGap
         , spacing responsive.smallGap
-        , width <| fillPortion responsive.designPortraitPercentageWidth
+        , width (fill |> maximum responsive.designPortraitWidth)
         , dataTestClass "league"
         , centerX --center
         , onClick <| ShowLeagueTable league.title

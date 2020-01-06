@@ -23,8 +23,8 @@ type alias Responsive =
     -- that is ok too, it is a guide, not a rule
     , designPlayerNamePixelWidthBigFont : Int
 
-    -- if the content is essentiallyl portrait, try and extend out to this percentage width
-    , designPortraitPercentageWidth : Int
+    -- if the content is essentiallyl portrait, try and extend out to this width
+    , designPortraitWidth : Int
     }
 
 
@@ -50,7 +50,8 @@ calculateResponsive viewportWidth =
             }
         , designTeamWidthMediumFont = 141
         , designPlayerNamePixelWidthBigFont = 250
-        , designPortraitPercentageWidth = 95
+        --, designPortraitPercentageWidth = 95 -- this wants to be a pixel value and not a percentage now
+        , designPortraitWidth = round 0.95 * viewportWidth  
         }
 
     else if viewportWidth <= 1200 then
@@ -66,7 +67,8 @@ calculateResponsive viewportWidth =
             }
         , designTeamWidthMediumFont = 191
         , designPlayerNamePixelWidthBigFont = 300
-        , designPortraitPercentageWidth = 60
+        --, designPortraitPercentageWidth = 60
+        , designPortraitWidth = round 0.6 * viewportWidth  
         }
 
     else if viewportWidth <= 1800 then
@@ -82,7 +84,8 @@ calculateResponsive viewportWidth =
             }
         , designTeamWidthMediumFont = 252
         , designPlayerNamePixelWidthBigFont = 350
-        , designPortraitPercentageWidth = 60
+        --, designPortraitPercentageWidth = 60
+        , designPortraitWidth = round 0.6 * viewportWidth  
         }
 
     else
@@ -98,7 +101,8 @@ calculateResponsive viewportWidth =
             }
         , designTeamWidthMediumFont = 322
         , designPlayerNamePixelWidthBigFont = 500
-        , designPortraitPercentageWidth = 60
+        --, designPortraitPercentageWidth = 60
+        , designPortraitWidth = round 0.6 * viewportWidth  
         }
 
 
