@@ -5,6 +5,7 @@ import Html.Attributes exposing (..)
 --import Element.Attributes exposing (..)
 --import Http exposing (decodeUri)
 import LeagueStyleElements exposing (..)
+import Styles exposing (..)
 import Models.League exposing (League)
 import Models.LeagueTable exposing (LeagueTable)
 import Models.Team exposing (..)
@@ -52,7 +53,7 @@ leagueTableElement responsive leagueTable =
                 (allColumns responsive.pageWidth)
     in
     column --None
-        [ dataTestClass "teams" ]
+        [ dataTestClass "teams", centerX ]
         ([ headerRow columns responsive ]
             ++ List.map (teamRow columns responsive) leagueTable.teams
         )
@@ -62,7 +63,9 @@ headerRow : List Pages.ResponsiveColumn.Column -> Responsive -> Element Msg
 headerRow tableColumns responsive =
     row
         --LeagueTableHeaderRow
-        [ padding responsive.mediumGap, spacing responsive.smallGap, centerX ]
+        ( leagueTableHeaderRow responsive ++
+          [ padding responsive.mediumGap, spacing responsive.smallGap ]
+        )
         (List.map headerCell tableColumns)
 
 
@@ -78,7 +81,9 @@ teamRow : List Pages.ResponsiveColumn.Column -> Responsive -> Team -> Element Ms
 teamRow tableColumns responsive aTeam =
     row
         --LeagueTableTeamRow
-        [ padding responsive.mediumGap, spacing responsive.smallGap, centerX, dataTestClass "team" ]
+        ( leagueTableTeamRow responsive ++
+          [ padding responsive.mediumGap, spacing responsive.smallGap, dataTestClass "team" ]
+        )
         (List.map (teamCell aTeam) tableColumns)
 
 

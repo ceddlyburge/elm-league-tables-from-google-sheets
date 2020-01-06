@@ -43,6 +43,45 @@ leagueListLeagueName responsive =
     , pointer
     ]
 
+leagueTableHeaderRow: Responsive -> List (Element.Attribute msg)
+leagueTableHeaderRow responsive = 
+    [ Font.size responsive.fontSize.small
+    , Font.color colors.text
+    , Border.widthEach
+        { bottom = 2
+        , left = 0
+        , right = 0
+        , top = 0
+        } 
+    , Border.color colors.border
+    ]
+--         , style LeagueTableHeaderRow
+--             [ Font.size fontSize.small
+--             , Color.text colors.text
+--             , Border.bottom 2
+--             , Color.border colors.border
+--             ]
+
+leagueTableTeamRow: Responsive -> List (Element.Attribute msg)
+leagueTableTeamRow responsive = 
+    [ Font.size responsive.fontSize.small
+    , Font.color colors.text
+    , Border.widthEach
+        { bottom = 2
+        , left = 0
+        , right = 0
+        , top = 0
+        } 
+    , Border.color colors.border
+    ]
+
+--         , style LeagueTableTeamRow
+--             [ Font.size fontSize.small
+--             , Color.text colors.text
+--             , Border.bottom 2
+--             , Color.border colors.border
+--             ]
+
 ceddRgba: Int -> Int -> Int -> Float -> Color
 ceddRgba r g b a =
     rgba255 r g b a
