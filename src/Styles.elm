@@ -5,6 +5,25 @@ import Element.Border as Border
 import Element.Font as Font
 import Element.Background as Background
 import Element exposing (..)
+import Msg exposing (..)
+
+type alias Attributes = List (Element.Attribute Msg)
+
+type alias Styles = {
+    leagueListLeagueName: Attributes
+    }
+
+createStyles: Responsive -> Styles
+createStyles responsive = 
+    Styles
+        (leagueListLeagueName responsive)
+
+elWithStyle: Attributes -> Attributes -> Element Msg  -> Element Msg
+elWithStyle styleAttributes layoutAttributes child =
+    el
+        (styleAttributes ++ layoutAttributes)
+        child
+
 
 
 mainHeaderBar: Responsive ->  List (Element.Attribute msg)
@@ -29,12 +48,6 @@ subHeaderBar responsive =
     , Font.center
     , Font.color colors.titleText
     ]
---         , style SubTitle
---             [ Color.background colors.subTitleBackground
---             , Font.size fontSize.medium
---             , Font.center
---             , Color.text colors.titleText
---             ]
 
 unhappyPathText: List (Element.Attribute msg)
 unhappyPathText  = 
@@ -42,11 +55,6 @@ unhappyPathText  =
       Font.center
     , Font.color colors.supplementaryText
     ]
---         , style UnhappyPathText
---             [ Font.size fontSize.medium
---             , Font.center
---             , Color.text colors.supplementaryText
---             ]
 
 invisibleButTakesUpSpace: List (Element.Attribute msg)
 invisibleButTakesUpSpace = 
@@ -54,7 +62,7 @@ invisibleButTakesUpSpace =
     , Font.color colors.transparent
     ]
 
-leagueListLeagueName: Responsive -> List (Element.Attribute msg)
+leagueListLeagueName: Responsive -> Attributes
 leagueListLeagueName responsive = 
     [ Font.size responsive.fontSize.medium
     , Font.center

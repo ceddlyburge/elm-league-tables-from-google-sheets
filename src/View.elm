@@ -18,22 +18,24 @@ import Pages.ResultsFixtures.View exposing (..)
 import Pages.TopScorers.View exposing (..)
 import RemoteData exposing (WebData)
 import Browser exposing (Document)
+import Styles exposing (..)
 
 
 view : ModelAndKey -> Document Msg
 view modelAndKey =
     let
         responsive = calculateResponsive modelAndKey.model.viewportWidth
+        styles = createStyles responsive
     in
-        page modelAndKey.model responsive
+        page modelAndKey.model responsive styles 
         |> renderPage responsive
 
 
-page : Model -> Responsive -> Page
-page model responsive =
+page : Model -> Responsive -> Styles -> Page
+page model responsive styles =
     case model.route of
         Route.LeagueList ->
-            Pages.LeagueList.View.page model.config model.leagueSummaries responsive
+            Pages.LeagueList.View.page model.config model.leagueSummaries responsive styles
 
         Route.LeagueTable leagueTitle ->
             Pages.LeagueTable.View.page leagueTitle (getLeague leagueTitle model) responsive
@@ -45,7 +47,7 @@ page model responsive =
             Pages.TopScorers.View.page leagueTitle (RemoteData.map .players (getLeague leagueTitle model)) responsive
 
         Route.NotFound ->
-            Pages.LeagueList.View.page model.config model.leagueSummaries responsive
+            Pages.LeagueList.View.page model.config model.leagueSummaries responsive styles
 
 
 getLeague : String -> Model -> WebData League
