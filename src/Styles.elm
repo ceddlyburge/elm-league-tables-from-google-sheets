@@ -36,6 +36,18 @@ subHeaderBar responsive =
 --             , Color.text colors.titleText
 --             ]
 
+unhappyPathText: List (Element.Attribute msg)
+unhappyPathText  = 
+    [ -- need to add this back in once responsive sorted out Font.size responsive.fontSize.medium 
+      Font.center
+    , Font.color colors.supplementaryText
+    ]
+--         , style UnhappyPathText
+--             [ Font.size fontSize.medium
+--             , Font.center
+--             , Color.text colors.supplementaryText
+--             ]
+
 invisibleButTakesUpSpace: List (Element.Attribute msg)
 invisibleButTakesUpSpace = 
     [ Background.color colors.transparent

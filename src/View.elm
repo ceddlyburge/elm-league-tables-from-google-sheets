@@ -48,37 +48,8 @@ page model responsive =
             Pages.LeagueList.View.page model.config model.leagueSummaries responsive
 
 
-
--- return 404 later
--- namedPlayerDataAvailable : String -> Model -> Bool
--- namedPlayerDataAvailable leagueTitle model =
---     let
---         players = getTopScorers leagueTitle model
---     in
---         case players of
---             RemoteData.Success players ->
---                 players.namedPlayerDataAvailable
---             _ ->
---                 False
-
-
 getLeague : String -> Model -> WebData League
 getLeague leagueTitle model =
     Dict.get leagueTitle model.leagues
         |> Maybe.withDefault RemoteData.NotAsked
 
-
-
--- getResultsFixtures : String -> Model -> WebData ResultsFixtures
--- getResultsFixtures leagueTitle model =
---     Dict.get leagueTitle model.resultsFixtures
---     |> Maybe.withDefault RemoteData.NotAsked
--- getTopScorers : String -> Model -> WebData Players
--- getTopScorers leagueTitle model =
---     Dict.get leagueTitle model.players
---     |> Maybe.withDefault RemoteData.NotAsked
--- notFoundView : Html msg
--- notFoundView =
---     div []
---         [ text "Not found"
---         ]

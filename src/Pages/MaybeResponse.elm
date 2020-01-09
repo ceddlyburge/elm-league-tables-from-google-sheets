@@ -5,8 +5,9 @@ import Element exposing (..)
 import Html exposing (div)
 import Html.Attributes exposing (class)
 import Http exposing (..)
-import LeagueStyleElements exposing (..)
 import RemoteData exposing (WebData)
+--import LeagueStyleElements exposing (..)
+import Styles exposing (..)
 
 
 maybeResponse : WebData payload -> (payload -> Element msg) -> Element msg
@@ -56,20 +57,30 @@ httpErrorMessage error =
 
 loading : Element msg
 loading =
-    Html.div
-        [ Html.Attributes.class "loading" ]
-        [ Html.div
-            [ Html.Attributes.class "la-ball-newton-cradle la-3x" ]
-            [ Html.div [] []
-            , Html.div [] []
-            , Html.div [] []
-            , Html.div [] []
-            ]
-        ]
-        |> Element.html
+    el 
+        [ centerX ]
+        (
+            Html.div
+                [ Html.Attributes.class "loading" ]
+                [ Html.div
+                    [ Html.Attributes.class "la-ball-newton-cradle la-3x" ]
+                    [ Html.div [] []
+                    , Html.div [] []
+                    , Html.div [] []
+                    , Html.div [] []
+                    ]
+                ]
+                |> Element.html
+        )
 
 
 unhappyPathText : String -> Element msg
 unhappyPathText string =
-    -- need to style this in the way that UnhappyPathText used to do
-    paragraph [ width (fillPortion 90) ] [ text string ]
+    paragraph 
+        -- UnhappyPathText
+        ( 
+            Styles.unhappyPathText
+            ++ 
+            [ width (fillPortion 90) ] 
+        )
+        [ text string ]
