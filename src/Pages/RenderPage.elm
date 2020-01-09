@@ -134,7 +134,13 @@ renderHeaderBarItem headerBarItem =
 
         BackHeaderButton msg ->
             el 
-                ( Styles.mainHeaderBarLink ++ [ onClick msg ] )
+                ( 
+                    Styles.mainHeaderBarLink 
+                    ++ 
+                    [ onClick msg
+                    , dataTestClass "back"
+                    ] 
+                )
                 backIcon
 
 
