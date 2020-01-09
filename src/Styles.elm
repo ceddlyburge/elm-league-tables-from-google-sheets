@@ -155,6 +155,39 @@ resultFixtureTime =
 --             ]
 
 
+topScorerPlayerName: Responsive -> List (Element.Attribute msg)
+topScorerPlayerName responsive = 
+    [ Font.size responsive.fontSize.big ]
+
+--         , style TopScorerPlayerName
+--             [ Font.size fontSize.big
+--             ]
+
+topScorerTeamName: Responsive -> List (Element.Attribute msg)
+topScorerTeamName responsive = 
+    [ Font.size responsive.fontSize.medium
+    , Font.color colors.supplementaryText
+     ]
+
+--         , style TopScorerTeamName
+--             [ Font.size fontSize.medium
+--             , Color.text colors.supplementaryText
+--             ]
+
+topScorerGoalCount: Responsive -> List (Element.Attribute msg)
+topScorerGoalCount responsive = 
+    [ Font.size responsive.fontSize.big
+    , Font.alignRight
+    , Font.color colors.supplementaryText
+     ]
+
+--         , style TopScorerGoalCount
+--             [ Font.size fontSize.big
+--             , Font.alignRight
+--             , Color.text colors.supplementaryText
+--             ]
+
+
 ceddRgba: Int -> Int -> Int -> Float -> Color
 ceddRgba r g b a =
     rgba255 r g b a

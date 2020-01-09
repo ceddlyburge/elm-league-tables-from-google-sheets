@@ -2,7 +2,7 @@ module Pages.LeagueList.View exposing (page)
 
 import Element exposing (..)
 import Element.Events exposing (onClick)
-import LeagueStyleElements exposing (..)
+--import LeagueStyleElements exposing (..)
 import Models.Config exposing (Config)
 import Models.LeagueSummary exposing (LeagueSummary)
 import Msg exposing (..)

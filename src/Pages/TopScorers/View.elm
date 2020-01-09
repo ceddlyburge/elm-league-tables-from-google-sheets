@@ -2,7 +2,8 @@ module Pages.TopScorers.View exposing (page)
 
 import Element exposing (..)
 -- import Element.Attributes exposing (..)
-import LeagueStyleElements exposing (..)
+--import LeagueStyleElements exposing (..)
+import Styles exposing (..)
 import Models.Player exposing (..)
 import Msg exposing (..)
 import Pages.HeaderBar exposing (..)
@@ -50,6 +51,7 @@ topScorer responsive player =
     column
         --None
         [ spacing responsive.smallGap
+        , centerX
         , dataTestClass "top-scorer"
         ]
         [ row
@@ -58,21 +60,35 @@ topScorer responsive player =
             ]
             [ paragraph
                 --TopScorerPlayerName
-                [ --minWidth <| px responsive.designPlayerNamePixelWidthBigFont
-                width
-                    (fill |> minimum responsive.designPlayerNamePixelWidthBigFont)
-                , dataTestClass "top-scorer-player-name"
-                ]
+                (
+                    topScorerPlayerName responsive
+                    ++
+                    [ --minWidth <| px responsive.designPlayerNamePixelWidthBigFont
+                    width
+                        (fill |> minimum responsive.designPlayerNamePixelWidthBigFont)
+                    , dataTestClass "top-scorer-player-name"
+                    ]
+                )
                 [ text <| playerName player ]
             , el
                 --TopScorerGoalCount
-                [ centerY --verticalCenter
-                , dataTestClass "top-scorer-goal-count"
-                ]
+                (
+                    topScorerGoalCount responsive
+                    ++
+                    [ centerY --verticalCenter
+                    , dataTestClass "top-scorer-goal-count"
+                    ]
+                )
                 (text <| String.fromInt player.goalCount)
             ]
-        , paragraph
+            , paragraph
             --TopScorerTeamName
-            [ dataTestClass "top-scorer-team-name" ]
+            (
+                topScorerTeamName responsive
+                ++
+                [ width fill
+                , dataTestClass "top-scorer-team-name" 
+                ]
+            )
             [ text <| teamName player ]
         ]
