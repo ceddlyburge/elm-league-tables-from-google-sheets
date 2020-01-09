@@ -4,7 +4,7 @@ import Pages.Responsive exposing (Responsive, FontSize)
 import Element.Border as Border
 import Element.Font as Font
 import Element.Background as Background
-import Element exposing (Attribute, Color, rgba255, pointer)
+import Element exposing (..)
 
 
 mainHeaderBar: Responsive ->  List (Element.Attribute msg)
@@ -21,6 +21,20 @@ mainHeaderBarLink =
     , Font.color colors.titleButton
     , pointer
     ]
+
+subHeaderBar: Responsive ->  List (Element.Attribute msg)
+subHeaderBar responsive = 
+    [ Background.color colors.subTitleBackground
+    , Font.size responsive.fontSize.medium 
+    , Font.center
+    , Font.color colors.titleText
+    ]
+--         , style SubTitle
+--             [ Color.background colors.subTitleBackground
+--             , Font.size fontSize.medium
+--             , Font.center
+--             , Color.text colors.titleText
+--             ]
 
 invisibleButTakesUpSpace: List (Element.Attribute msg)
 invisibleButTakesUpSpace = 
@@ -81,6 +95,65 @@ leagueTableTeamRow responsive =
 --             , Border.bottom 2
 --             , Color.border colors.border
 --             ]
+
+
+resultFixtureDayHeader: Responsive -> List (Element.Attribute msg)
+resultFixtureDayHeader responsive = 
+    [ Font.size responsive.fontSize.small
+    , Font.color colors.text
+    , Border.widthEach
+        { bottom = 2
+        , left = 0
+        , right = 0
+        , top = 0
+        } 
+    , Border.color colors.border
+    ]
+--         , style ResultFixtureDayHeader
+--             [ Font.size fontSize.small
+--             , Color.text colors.text
+--             , Border.bottom 2
+--             , Color.border colors.border
+--             ]
+
+resultFixtureRow: Responsive -> List (Element.Attribute msg)
+resultFixtureRow responsive = 
+    [ Font.size responsive.fontSize.medium
+    , Font.color colors.text
+    ]
+--         , style ResultFixtureRow
+--             [ Font.size fontSize.medium
+--             , Color.text colors.text
+--             ]
+
+resultFixtureGoals: Responsive -> List (Element.Attribute msg)
+resultFixtureGoals responsive = 
+    [ Font.size responsive.fontSize.small
+    , Font.color colors.supplementaryText
+    ]
+--         , style ResultFixtureGoals
+--             [ Font.size fontSize.small
+--             , Color.text colors.supplementaryText
+--             ]
+
+
+resultFixtureScore: List (Element.Attribute msg)
+resultFixtureScore  = 
+    [ Font.bold
+    , alignTop 
+    ]
+--         , style ResultFixtureScore
+--             [ Font.bold
+--             ]
+
+resultFixtureTime: List (Element.Attribute msg)
+resultFixtureTime = 
+    [ Font.bold ]
+
+--         , style ResultFixtureTime
+--             [ Font.bold
+--             ]
+
 
 ceddRgba: Int -> Int -> Int -> Float -> Color
 ceddRgba r g b a =

@@ -2,9 +2,11 @@ module Pages.ResultsFixtures.View exposing (page)
 
 import Time exposing (..)
 import Element exposing (..)
+import Element.Font as Font
 import Html.Attributes exposing (class)
 import DateFormat
 import LeagueStyleElements exposing (..)
+import Styles exposing (..)
 import Models.Game exposing (..)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 import Models.ResultsFixtures exposing (ResultsFixtures)
@@ -41,7 +43,7 @@ fixturesResultsElement responsive resultsFixtures =
     column
         --None
         [ dataTestClass "dates"
-        , width <| fill
+        , width fill
         , centerX --center
         ]
         (List.map (day responsive) resultsFixtures.days)
@@ -53,19 +55,24 @@ day responsive leagueGamesForDay =
         --None
         [ padding responsive.mediumGap
         , spacing responsive.mediumGap
+        , centerX
         , dayWidth responsive
         , htmlAttribute <| Html.Attributes.class <| "data-test-day data-test-date-" ++ dateClassNamePart leagueGamesForDay.date
         ]
-        [ dayHeader leagueGamesForDay.date
+        [ dayHeader responsive leagueGamesForDay.date
         , dayResultsFixtures responsive leagueGamesForDay
         ]
 
 
-dayHeader : Maybe Posix -> Element msg
-dayHeader maybeDate =
+dayHeader : Responsive -> Maybe Posix -> Element msg
+dayHeader responsive maybeDate =
     el
         --ResultFixtureDayHeader
-        [ dataTestClass "dayHeader" ]
+        ( resultFixtureDayHeader responsive
+          ++ 
+          [ width fill
+          , dataTestClass "dayHeader" ]
+        )
         (text <| dateDisplay maybeDate)
 
 
@@ -83,27 +90,31 @@ gameRow : Responsive -> Game -> Element msg
 gameRow responsive game =
     row
         --ResultFixtureRow
-        [ padding 0
-        , spacing responsive.mediumGap
-        , centerX --center
-        , dataTestClass "game"
-        , width fill
-        ]
+        ( resultFixtureRow responsive
+        ++ [ padding 0
+            , spacing responsive.mediumGap
+            , centerX --center
+            , dataTestClass "game"
+            , width fill
+            ]
+        )
         [ column
             --ResultFixtureHome
             [ teamWidth responsive ]
             [ paragraph
                 --ResultFixtureHome
-                [ alignRight, dataTestClass "homeTeamName" ]
+                [ Font.alignRight, dataTestClass "homeTeamName" ]
                 [ text game.homeTeamName ]
             , paragraph
-                --ResultFixtureGoals
-                [ alignRight, dataTestClass "homeTeamGoals" ]
+                ( resultFixtureGoals responsive
+                ++ [ Font.alignRight, dataTestClass "homeTeamGoals" ]
+                )
                 [ text (String.join ", " (homeTeamGoalsWithRealPlayerNames game)) ]
             ]
         , row
             --None
-            []
+            --[]
+            resultFixtureScore
             (scoreSlashTime game)
         , column
             --ResultFixtureAway
@@ -113,8 +124,9 @@ gameRow responsive game =
                 [ alignLeft, dataTestClass "awayTeamName" ]
                 [ text game.awayTeamName ]
             , paragraph
-                --ResultFixtureGoals
-                [ alignLeft, dataTestClass "awayTeamGoals" ]
+                ( resultFixtureGoals responsive
+                ++ [ alignLeft, dataTestClass "awayTeamGoals" ]
+                )
                 [ text (String.join ", " (awayTeamGoalsWithRealPlayerNames game)) ]
             ]
         ]
@@ -125,8 +137,7 @@ scoreSlashTime game =
     case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
         ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->
             [ el
-                --ResultFixtureScore
-                [ alignRight, dataTestClass "homeTeamGoalCount" ]
+                [ Font.alignRight, dataTestClass "homeTeamGoalCount" ]
                 (text <| String.fromInt homeTeamGoalCount)
             , el
                 --ResultFixtureScore
@@ -141,8 +152,10 @@ scoreSlashTime game =
         ( _, _ ) ->
             [ el
                 --ResultFixtureTime
-                [ centerY --verticalCenter
-                , dataTestClass "datePlayed" ]
+                ( resultFixtureTime
+                ++ [ centerY --verticalCenter
+                   , dataTestClass "datePlayed" ]
+                )
                 (text <| timeDisplay game.datePlayed)
             ]
 
@@ -170,8 +183,8 @@ timeDisplay maybeDate =
 
 dayWidth : Responsive -> Element.Attribute msg
 dayWidth responsive =
-    if toFloat responsive.designTeamWidthMediumFont * 2.5 < (toFloat responsive.pageWidth) * 0.8 then
-        width <| fillPortion 80
+    if toFloat responsive.designTeamWidthMediumFont * 2.5 < toFloat responsive.pageWidth * 0.8 then
+        width <| px <| round <| toFloat responsive.pageWidth * 0.8
 
     else
         width fill

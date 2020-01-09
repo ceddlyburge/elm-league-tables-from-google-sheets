@@ -99,10 +99,14 @@ renderSubHeaderBar : Responsive -> SubHeaderBar -> Element.Element msg
 renderSubHeaderBar responsive subHeaderBar =
     el
         --SubTitle
-        [ width fill
-        , padding responsive.mediumGap
-        , centerY --verticalCenter
-        ]
+        ( 
+            Styles.subHeaderBar responsive
+            ++
+            [ width fill
+            , padding responsive.mediumGap
+            , centerY --verticalCenter
+            ]
+        )
         (text subHeaderBar.title)
 
 

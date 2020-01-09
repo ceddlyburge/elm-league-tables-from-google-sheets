@@ -23,10 +23,9 @@ import Browser exposing (Document)
 view : ModelAndKey -> Document Msg
 view modelAndKey =
     let
-        responsive =
-            calculateResponsive modelAndKey.model.viewportWidth
+        responsive = calculateResponsive modelAndKey.model.viewportWidth
     in
-    page modelAndKey.model responsive
+        page modelAndKey.model responsive
         |> renderPage responsive
 
 
