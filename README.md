@@ -5,6 +5,8 @@ This project is bootstrapped with [Create Elm App](https://github.com/halfzebra/
 
 # Development
 
+- Create a `.env` file (see [.env.template](.env.template) for details), which needs at least [Google Api Key](https://developers.google.com/maps/documentation/javascript/get-api-key). 
+
 - `npm install`
 - `npm run start:server`
 - `npm run start:app`
