@@ -15,7 +15,7 @@ import RemoteData exposing (WebData)
 import Styles exposing (..)
 
 
-page : Config -> WebData (List LeagueSummary) -> Responsive -> Styles -> Page
+page : Config -> WebData (List LeagueSummary) -> Responsive -> Styles-> Page
 page config response responsive styles =
     Page
         (SingleHeader <|
@@ -24,27 +24,27 @@ page config response responsive styles =
                 config.applicationTitle
                 [ RefreshHeaderButton RefreshLeagueList ]
         )
-        (maybeResponse response <| leagueList responsive)
+        (maybeResponse response <| leagueList responsive styles)
 
 
-leagueList : Responsive -> List LeagueSummary -> Element Msg
-leagueList responsive leagueSummaries =
+leagueList : Responsive -> Styles -> List LeagueSummary -> Element Msg
+leagueList responsive styles leagueSummaries =
     column
         [ width fill
         , dataTestClass "leagues"
         ]
-        (List.map (leagueTitle responsive) leagueSummaries)
+        (List.map (leagueTitle responsive styles) leagueSummaries)
 
 
-leagueTitle : Responsive -> LeagueSummary -> Element Msg
-leagueTitle responsive league =
-    el
-        (Styles.leagueListLeagueName responsive ++
+leagueTitle : Responsive -> Styles -> LeagueSummary -> Element Msg
+leagueTitle responsive styles league =
+    Styles.elWithStyle
+        styles.leagueListLeagueName
         [ padding responsive.mediumGap
         , spacing responsive.smallGap
         , width (fill |> maximum responsive.designPortraitWidth)
         , dataTestClass "league"
         , centerX
         , onClick <| ShowLeagueTable league.title
-        ])
+        ]
         (paragraph [] [ text league.title ])
