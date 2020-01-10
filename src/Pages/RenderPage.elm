@@ -8,7 +8,6 @@ import Element.Font as Font
 import Html exposing (Html)
 import Html.Attributes exposing (class)
 import Styles exposing (..)
-import LeagueStyleElements exposing (..)
 import Msg exposing (..)
 import Pages.HeaderBar exposing (..)
 import Pages.HeaderBarItem exposing (..)
@@ -19,30 +18,30 @@ import Browser exposing (Document)
 import Element.Font exposing (..)
 
 
-renderPage : Responsive -> Page -> Document Msg
-renderPage responsive page =
+renderPage : Styles -> Page -> Document Msg
+renderPage styles page =
     Document
         "League Tables"
-        [ renderTestablePage responsive page]
+        [ renderTestablePage styles page]
 
 
 -- This is an annoyance, but the html test package doesn't want to work with lists really
-renderTestablePage : Responsive -> Page -> Html Msg
-renderTestablePage responsive page =
+renderTestablePage : Styles -> Page -> Html Msg
+renderTestablePage styles page =
     body
-        responsive
-        [ renderHeaderBar responsive page.header
+        styles
+        [ renderHeaderBar styles page.header
         , page.body
         ]
 
-body : Responsive -> List (Element msg) -> Html msg
-body responsive elements =
+body : Styles -> List (Element Msg) -> Html Msg
+body styles elements =
     Element.layout 
         [ sansSerifFontFamily ] 
         <| column
-            [ width <| bodyWidth responsive
-            , spacingXY 0 responsive.mediumGap
-            , centerX --center
+            [ width <| bodyWidth styles.responsive
+            , styles.mediumVerticalSpacing
+            , centerX 
             , dataTestClass "body"
             ]
             elements
@@ -52,7 +51,7 @@ body responsive elements =
 -- 100% normally works better, as it takes into account a vertical scroll bar if there is one.
 -- If you just set a pixel width, it will be wider than the available width if there is a
 -- vertical scroll bar, and then yout get an annoying horizontal scroll bar as well.
--- If 100% is too small, then we can just use a percent value, as there is going to be a
+-- If 100% is too small, then we can just use a pixel value, as there is going to be a
 -- horizontal scroll bar anyway
 
 
@@ -65,114 +64,108 @@ bodyWidth responsive =
         fill
 
 
-renderHeaderBar : Responsive -> PageHeader -> Element.Element Msg
-renderHeaderBar responsive pageHeader =
+renderHeaderBar : Styles -> PageHeader -> Element.Element Msg
+renderHeaderBar styles pageHeader =
     case pageHeader of
         SingleHeader headerBar ->
-            renderMainHeaderBar responsive headerBar
+            renderMainHeaderBar styles headerBar
 
         DoubleHeader headerBar subHeaderBar ->
-            renderMainAndSubHeaderBar responsive headerBar subHeaderBar
+            renderMainAndSubHeaderBar styles headerBar subHeaderBar
 
 
-renderMainAndSubHeaderBar : Responsive -> HeaderBar -> SubHeaderBar -> Element.Element Msg
-renderMainAndSubHeaderBar responsive headerBar subHeaderBar =
+renderMainAndSubHeaderBar : Styles -> HeaderBar -> SubHeaderBar -> Element.Element Msg
+renderMainAndSubHeaderBar styles headerBar subHeaderBar =
     column
-        --Title
         [ width fill ]
-        [ renderMainHeaderBar responsive headerBar
-        , renderSubHeaderBar responsive subHeaderBar
+        [ renderMainHeaderBar styles headerBar
+        , renderSubHeaderBar styles subHeaderBar
         ]
 
 
-renderMainHeaderBar : Responsive -> HeaderBar -> Element.Element Msg
-renderMainHeaderBar responsive headerBar =
+renderMainHeaderBar : Styles -> HeaderBar -> Element.Element Msg
+renderMainHeaderBar styles headerBar =
     heading
-        responsive
-        (List.map renderHeaderBarItem headerBar.leftItems
+        styles
+        (List.map (renderHeaderBarItem styles) headerBar.leftItems
             ++ [ title headerBar.title ]
-            ++ List.map renderHeaderBarItem headerBar.rightItems
+            ++ List.map (renderHeaderBarItem styles) headerBar.rightItems
         )
 
 
-renderSubHeaderBar : Responsive -> SubHeaderBar -> Element.Element msg
-renderSubHeaderBar responsive subHeaderBar =
-    el
-        --SubTitle
-        ( 
-            Styles.subHeaderBar responsive
-            ++
-            [ width fill
-            , padding responsive.mediumGap
-            , centerY --verticalCenter
-            ]
-        )
+renderSubHeaderBar : Styles -> SubHeaderBar -> Element.Element Msg
+renderSubHeaderBar styles subHeaderBar =
+    elWithStyle
+        styles.subHeaderBar
+        [ width fill
+        , styles.mediumPadding 
+        , centerY 
+        ]
         (text subHeaderBar.title)
 
 
-renderHeaderBarItem : HeaderBarItem -> Element.Element Msg
-renderHeaderBarItem headerBarItem =
+renderHeaderBarItem : Styles -> HeaderBarItem -> Element.Element Msg
+renderHeaderBarItem styles headerBarItem =
     case headerBarItem of
         HeaderButtonSizedSpace ->
             el 
-                invisibleButTakesUpSpace 
+                styles.invisibleButTakesUpSpace 
                 backIcon
 
         RefreshHeaderButton msg ->
-            el 
-                ( Styles.mainHeaderBarLink ++ 
-                [ dataTestClass "refresh", onClick msg ] )
+            elWithStyle 
+                styles.mainHeaderBarLink
+                [ dataTestClass "refresh"
+                , onClick msg ]
                 refreshIcon
 
         ResultsFixturesHeaderButton msg ->
-            el 
-                ( Styles.mainHeaderBarLink ++ [ onClick msg ] )
+            elWithStyle 
+                styles.mainHeaderBarLink
+                [ onClick msg ]
                 resultsFixturesIcon
 
         TopScorersHeaderButton msg namedPlayerDataAvailable ->
-            topScorerHeaderBarItem msg namedPlayerDataAvailable
+            topScorerHeaderBarItem styles msg namedPlayerDataAvailable
 
         BackHeaderButton msg ->
-            el 
-                ( 
-                    Styles.mainHeaderBarLink 
-                    ++ 
-                    [ onClick msg
-                    , dataTestClass "back"
-                    ] 
-                )
+            elWithStyle 
+                styles.mainHeaderBarLink 
+                [ onClick msg
+                , dataTestClass "back"
+                ] 
                 backIcon
 
 
-topScorerHeaderBarItem : Msg -> Bool -> Element.Element Msg
-topScorerHeaderBarItem msg namedPlayerDataAvailable =
+topScorerHeaderBarItem : Styles -> Msg -> Bool -> Element.Element Msg
+topScorerHeaderBarItem styles msg namedPlayerDataAvailable =
     if namedPlayerDataAvailable == True then
-        el
-            ( Styles.mainHeaderBarLink ++ [ onClick msg ] )
+        elWithStyle
+            styles.mainHeaderBarLink
+            [ onClick msg ]
             topScorersIcon
 
     else
         paragraph [] []
 
 
-heading : Responsive -> List (Element msg) -> Element.Element msg
-heading responsive elements =
-    row
-        (Styles.mainHeaderBar responsive ++
-        [ width <| fill
-        , padding responsive.bigGap
-        , spacing responsive.bigGap
+heading : Styles -> List (Element Msg) -> Element.Element Msg
+heading styles elements =
+    rowWithStyle
+        styles.mainHeaderBar
+        [ width fill
+        , styles.bigPadding
+        , styles.bigSpacing
         , centerY 
         , centerX 
         , dataTestClass "heading"
-        ])
+        ]
         elements
 
 
 title : String -> Element.Element msg
 title titleText =
     paragraph
-        --Title
         [ dataTestClass "title"
         , width fill
         ]

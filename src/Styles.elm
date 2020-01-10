@@ -12,7 +12,18 @@ type alias Attributes = List (Element.Attribute Msg)
 type alias Styles = {
     responsive: Responsive
     , leagueListLeagueName: Attributes
+    , mainHeaderBar: Attributes
+    , mainHeaderBarLink: Attributes
+    , subHeaderBar: Attributes
+    , invisibleButTakesUpSpace: Attributes
     , fillToDesignPortraitWidth: Length
+    , smallPadding: Attribute Msg
+    , mediumPadding: Attribute Msg
+    , bigPadding: Attribute Msg
+    , smallSpacing: Attribute Msg
+    , mediumSpacing: Attribute Msg
+    , bigSpacing: Attribute Msg
+    , mediumVerticalSpacing: Attribute Msg
     }
 
 createStyles: Responsive -> Styles
@@ -20,7 +31,18 @@ createStyles responsive =
     Styles
         responsive
         (leagueListLeagueName responsive)
+        (mainHeaderBar responsive)
+        mainHeaderBarLink
+        (subHeaderBar responsive)
+        invisibleButTakesUpSpace
         (fill |> maximum responsive.designPortraitWidth)
+        (padding responsive.smallGap)
+        (padding responsive.mediumGap)
+        (padding responsive.bigGap)
+        (spacing responsive.smallGap)
+        (spacing responsive.mediumGap)
+        (spacing responsive.bigGap)
+        (spacingXY 0 responsive.mediumGap)
 
 elWithStyle: Attributes -> Attributes -> Element Msg  -> Element Msg
 elWithStyle styleAttributes layoutAttributes child =
@@ -28,6 +50,11 @@ elWithStyle styleAttributes layoutAttributes child =
         (styleAttributes ++ layoutAttributes)
         child
 
+rowWithStyle: Attributes -> Attributes -> List (Element Msg)  -> Element Msg
+rowWithStyle styleAttributes layoutAttributes children =
+    row
+        (styleAttributes ++ layoutAttributes)
+        children
 
 
 mainHeaderBar: Responsive ->  List (Element.Attribute msg)
@@ -93,12 +120,7 @@ leagueTableHeaderRow responsive =
         } 
     , Border.color colors.border
     ]
---         , style LeagueTableHeaderRow
---             [ Font.size fontSize.small
---             , Color.text colors.text
---             , Border.bottom 2
---             , Color.border colors.border
---             ]
+
 
 leagueTableTeamRow: Responsive -> List (Element.Attribute msg)
 leagueTableTeamRow responsive = 
@@ -113,13 +135,6 @@ leagueTableTeamRow responsive =
     , Border.color colors.border
     ]
 
---         , style LeagueTableTeamRow
---             [ Font.size fontSize.small
---             , Color.text colors.text
---             , Border.bottom 2
---             , Color.border colors.border
---             ]
-
 
 resultFixtureDayHeader: Responsive -> List (Element.Attribute msg)
 resultFixtureDayHeader responsive = 
@@ -133,32 +148,20 @@ resultFixtureDayHeader responsive =
         } 
     , Border.color colors.border
     ]
---         , style ResultFixtureDayHeader
---             [ Font.size fontSize.small
---             , Color.text colors.text
---             , Border.bottom 2
---             , Color.border colors.border
---             ]
+
 
 resultFixtureRow: Responsive -> List (Element.Attribute msg)
 resultFixtureRow responsive = 
     [ Font.size responsive.fontSize.medium
     , Font.color colors.text
     ]
---         , style ResultFixtureRow
---             [ Font.size fontSize.medium
---             , Color.text colors.text
---             ]
+
 
 resultFixtureGoals: Responsive -> List (Element.Attribute msg)
 resultFixtureGoals responsive = 
     [ Font.size responsive.fontSize.small
     , Font.color colors.supplementaryText
     ]
---         , style ResultFixtureGoals
---             [ Font.size fontSize.small
---             , Color.text colors.supplementaryText
---             ]
 
 
 resultFixtureScore: List (Element.Attribute msg)
@@ -166,26 +169,17 @@ resultFixtureScore  =
     [ Font.bold
     , alignTop 
     ]
---         , style ResultFixtureScore
---             [ Font.bold
---             ]
+
 
 resultFixtureTime: List (Element.Attribute msg)
 resultFixtureTime = 
     [ Font.bold ]
-
---         , style ResultFixtureTime
---             [ Font.bold
---             ]
 
 
 topScorerPlayerName: Responsive -> List (Element.Attribute msg)
 topScorerPlayerName responsive = 
     [ Font.size responsive.fontSize.big ]
 
---         , style TopScorerPlayerName
---             [ Font.size fontSize.big
---             ]
 
 topScorerTeamName: Responsive -> List (Element.Attribute msg)
 topScorerTeamName responsive = 
@@ -193,10 +187,6 @@ topScorerTeamName responsive =
     , Font.color colors.supplementaryText
      ]
 
---         , style TopScorerTeamName
---             [ Font.size fontSize.medium
---             , Color.text colors.supplementaryText
---             ]
 
 topScorerGoalCount: Responsive -> List (Element.Attribute msg)
 topScorerGoalCount responsive = 
@@ -204,17 +194,6 @@ topScorerGoalCount responsive =
     , Font.alignRight
     , Font.color colors.supplementaryText
      ]
-
---         , style TopScorerGoalCount
---             [ Font.size fontSize.big
---             , Font.alignRight
---             , Color.text colors.supplementaryText
---             ]
-
-
-ceddRgba: Int -> Int -> Int -> Float -> Color
-ceddRgba r g b a =
-    rgba255 r g b a
 
 
 colors :
@@ -247,3 +226,20 @@ colors =
     , border = ceddRgba 215 227 241 1.0 -- secondary 1
     , transparent = ceddRgba 255 255 255 0
     }
+
+sansSerifFontFamily : Attribute msg 
+sansSerifFontFamily =
+    Font.family
+        [ Font.typeface "Source Sans Pro"
+        , Font.typeface "Trebuchet MS"
+        , Font.typeface "Lucida Grande"
+        , Font.typeface "Bitstream Vera Sans"
+        , Font.typeface "Helvetica Neue"
+        , Font.sansSerif
+        ]
+
+ceddRgba: Int -> Int -> Int -> Float -> Color
+ceddRgba r g b a =
+    rgba255 r g b a
+
+

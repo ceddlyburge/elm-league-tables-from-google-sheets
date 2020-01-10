@@ -28,7 +28,7 @@ view modelAndKey =
         styles = createStyles responsive
     in
         page modelAndKey.model styles 
-        |> renderPage responsive
+        |> renderPage styles
 
 
 page : Model -> Styles -> Page

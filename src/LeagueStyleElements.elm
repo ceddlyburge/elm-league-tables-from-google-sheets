@@ -28,16 +28,6 @@ type Styles
     | TopScorerGoalCount
 
 
-sansSerifFontFamily : Attribute msg 
-sansSerifFontFamily =
-    Font.family
-        [ Font.typeface "Source Sans Pro"
-        , Font.typeface "Trebuchet MS"
-        , Font.typeface "Lucida Grande"
-        , Font.typeface "Bitstream Vera Sans"
-        , Font.typeface "Helvetica Neue"
-        , Font.sansSerif
-        ]
 
 ceddRgba: Int -> Int -> Int -> Float -> Color
 ceddRgba r g b a =
