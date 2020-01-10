@@ -4,6 +4,7 @@ import Dict exposing (Dict)
 import Test exposing (..)
 import Expect
 import Expect exposing (Expectation)
+import Http
 import RemoteData exposing (WebData)
 import Msg exposing (..)
 import Models.Model exposing (Model, vanillaModel)
@@ -15,18 +16,18 @@ import Pages.UpdateHelpers exposing (..)
 import Calculations.LeagueFromLeagueGames exposing (calculateLeague)
 
 apiSuccess : Test
-apiSuccess = 
+apiSuccess =
     test "Calculates everything on success and adds to model" <|
         \() ->
-            individualSheetResponse 
+            individualSheetResponse
                 vanillaModel
                 (RemoteData.Success leagueGames)
                 leagueTitle
             |> getModel
-            |> Expect.equal 
-                    { vanillaModel | 
-                        leagues = 
-                            Dict.singleton 
+            |> Expect.equal
+                    { vanillaModel |
+                        leagues =
+                            Dict.singleton
                                 leagueTitle
                                 (RemoteData.Success <| calculateLeague leagueGames)
                     }
@@ -44,21 +45,21 @@ callsApi =
                 (Route.ResultsFixtures leagueTitle)
                 vanillaModel
             |> getModel
-            |> Expect.equal 
-                { vanillaModel | 
+            |> Expect.equal
+                { vanillaModel |
                     leagues = Dict.singleton leagueTitle RemoteData.Loading
                     , route = Route.ResultsFixtures leagueTitle }
 
-cachesAPiResult : Test
-cachesAPiResult =
+cachesApiResult : Test
+cachesApiResult =
     test "Only calls the api if the results isn't already available in the model" <|
         \() ->
-            let 
-                model = 
-                    { vanillaModel | 
+            let
+                model =
+                    { vanillaModel |
                         leagues = Dict.singleton leagueTitle (RemoteData.Success League.vanilla)
                     }
-            in 
+            in
                 showRouteRequiringIndividualSheetApi
                     leagueTitle
                     (Route.LeagueTable leagueTitle)
@@ -66,34 +67,57 @@ cachesAPiResult =
                 |> getModel
                 |> Expect.equal { model | route = Route.LeagueTable leagueTitle }
 
+callsApiOnError : Test
+callsApiOnError =
+    test "Calls the api if the result is failure" <|
+        \() ->
+            let
+                theRoute =
+                    Route.LeagueTable leagueTitle
+
+                leaguesWithError =
+                    Dict.singleton leagueTitle (RemoteData.Failure Http.NetworkError)
+
+                expectedLeagues =
+                    Dict.singleton leagueTitle RemoteData.Loading
+
+                model = { vanillaModel | leagues = leaguesWithError }
+            in
+            showRouteRequiringIndividualSheetApi
+                leagueTitle
+                theRoute
+                model
+                |> getModel
+                |> Expect.equal { model | route = theRoute, leagues = expectedLeagues }
+
 refreshesApi : Test
 refreshesApi =
     test "Calls the APi if asked to, even if the data already exists" <|
         \() ->
-            let 
-                model = 
-                    { vanillaModel | 
+            let
+                model =
+                    { vanillaModel |
                         leagues = Dict.singleton leagueTitle (RemoteData.Success League.vanilla)
                     }
-            in 
+            in
                 refreshRouteRequiringIndividualSheetApi
                     leagueTitle
                     (Route.TopScorers leagueTitle)
                     vanillaModel
                 |> getModel
-                |> Expect.equal 
-                    { model | 
+                |> Expect.equal
+                    { model |
                         leagues = Dict.singleton leagueTitle RemoteData.Loading
                         , route = Route.TopScorers leagueTitle }
 
-leagueTitle : String                
+leagueTitle : String
 leagueTitle =
     "Regional Div 1"
 
 leagueGames: LeagueGames
-leagueGames = 
+leagueGames =
      LeagueGames leagueTitle [ vanillaGame ]
 
 getModel : (Model, Cmd Msg) -> Model
-getModel (model, cmd) = 
+getModel (model, cmd) =
     model
