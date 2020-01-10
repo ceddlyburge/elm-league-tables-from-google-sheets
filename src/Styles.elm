@@ -10,13 +10,17 @@ import Msg exposing (..)
 type alias Attributes = List (Element.Attribute Msg)
 
 type alias Styles = {
-    leagueListLeagueName: Attributes
+    responsive: Responsive
+    , leagueListLeagueName: Attributes
+    , fillToDesignPortraitWidth: Length
     }
 
 createStyles: Responsive -> Styles
 createStyles responsive = 
     Styles
+        responsive
         (leagueListLeagueName responsive)
+        (fill |> maximum responsive.designPortraitWidth)
 
 elWithStyle: Attributes -> Attributes -> Element Msg  -> Element Msg
 elWithStyle styleAttributes layoutAttributes child =

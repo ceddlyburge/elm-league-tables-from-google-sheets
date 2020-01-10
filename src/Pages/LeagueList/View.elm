@@ -9,14 +9,13 @@ import Pages.HeaderBar exposing (..)
 import Pages.HeaderBarItem exposing (..)
 import Pages.MaybeResponse exposing (..)
 import Pages.Page exposing (..)
-import Pages.Responsive exposing (..)
 import Pages.ViewHelpers exposing (..)
 import RemoteData exposing (WebData)
 import Styles exposing (..)
 
 
-page : Config -> WebData (List LeagueSummary) -> Responsive -> Styles-> Page
-page config response responsive styles =
+page : Config -> WebData (List LeagueSummary) -> Styles-> Page
+page config response styles =
     Page
         (SingleHeader <|
             HeaderBar
@@ -24,27 +23,27 @@ page config response responsive styles =
                 config.applicationTitle
                 [ RefreshHeaderButton RefreshLeagueList ]
         )
-        (maybeResponse response <| leagueList responsive styles)
+        (maybeResponse response <| leagueList styles)
 
 
-leagueList : Responsive -> Styles -> List LeagueSummary -> Element Msg
-leagueList responsive styles leagueSummaries =
+leagueList : Styles -> List LeagueSummary -> Element Msg
+leagueList styles leagueSummaries =
     column
         [ width fill
         , dataTestClass "leagues"
         ]
-        (List.map (leagueTitle responsive styles) leagueSummaries)
+        (List.map (leagueTitle styles) leagueSummaries)
 
 
-leagueTitle : Responsive -> Styles -> LeagueSummary -> Element Msg
-leagueTitle responsive styles league =
+leagueTitle : Styles -> LeagueSummary -> Element Msg
+leagueTitle styles league =
     Styles.elWithStyle
         styles.leagueListLeagueName
-        [ padding responsive.mediumGap
-        , spacing responsive.smallGap
-        , width (fill |> maximum responsive.designPortraitWidth)
-        , dataTestClass "league"
+        [ padding styles.responsive.mediumGap
+        , spacing styles.responsive.smallGap
+        , width styles.fillToDesignPortraitWidth
         , centerX
         , onClick <| ShowLeagueTable league.title
+        , dataTestClass "league"
         ]
         (paragraph [] [ text league.title ])

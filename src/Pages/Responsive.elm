@@ -50,8 +50,7 @@ calculateResponsive viewportWidth =
             }
         , designTeamWidthMediumFont = 141
         , designPlayerNamePixelWidthBigFont = 250
-        --, designPortraitPercentageWidth = 95 -- this wants to be a pixel value and not a percentage now
-        , designPortraitWidth = round 0.95 * viewportWidth  
+        , designPortraitWidth = percentage 0.6 viewportWidth
         }
 
     else if viewportWidth <= 1200 then
@@ -67,8 +66,7 @@ calculateResponsive viewportWidth =
             }
         , designTeamWidthMediumFont = 191
         , designPlayerNamePixelWidthBigFont = 300
-        --, designPortraitPercentageWidth = 60
-        , designPortraitWidth = round 0.6 * viewportWidth  
+        , designPortraitWidth = percentage 0.6 viewportWidth
         }
 
     else if viewportWidth <= 1800 then
@@ -84,8 +82,7 @@ calculateResponsive viewportWidth =
             }
         , designTeamWidthMediumFont = 252
         , designPlayerNamePixelWidthBigFont = 350
-        --, designPortraitPercentageWidth = 60
-        , designPortraitWidth = round 0.6 * viewportWidth  
+        , designPortraitWidth = percentage 0.6 viewportWidth
         }
 
     else
@@ -101,8 +98,7 @@ calculateResponsive viewportWidth =
             }
         , designTeamWidthMediumFont = 322
         , designPlayerNamePixelWidthBigFont = 500
-        --, designPortraitPercentageWidth = 60
-        , designPortraitWidth = round 0.6 * viewportWidth  
+        , designPortraitWidth = percentage 0.6 viewportWidth
         }
 
 
@@ -114,6 +110,10 @@ calculatePageWidth viewportWidth =
     else
         viewportWidth
 
+percentage : Float -> Int -> Int
+percentage fraction total =
+    fraction * toFloat total 
+    |> round
 
 vanillaResponsive : Responsive
 vanillaResponsive =

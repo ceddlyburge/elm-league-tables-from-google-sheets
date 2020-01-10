@@ -27,27 +27,27 @@ view modelAndKey =
         responsive = calculateResponsive modelAndKey.model.viewportWidth
         styles = createStyles responsive
     in
-        page modelAndKey.model responsive styles 
+        page modelAndKey.model styles 
         |> renderPage responsive
 
 
-page : Model -> Responsive -> Styles -> Page
-page model responsive styles =
+page : Model -> Styles -> Page
+page model styles =
     case model.route of
         Route.LeagueList ->
-            Pages.LeagueList.View.page model.config model.leagueSummaries responsive styles
+            Pages.LeagueList.View.page model.config model.leagueSummaries styles
 
         Route.LeagueTable leagueTitle ->
-            Pages.LeagueTable.View.page leagueTitle (getLeague leagueTitle model) responsive
+            Pages.LeagueTable.View.page leagueTitle (getLeague leagueTitle model) styles.responsive
 
         Route.ResultsFixtures leagueTitle ->
-            Pages.ResultsFixtures.View.page leagueTitle (RemoteData.map .resultsFixtures (getLeague leagueTitle model)) responsive
+            Pages.ResultsFixtures.View.page leagueTitle (RemoteData.map .resultsFixtures (getLeague leagueTitle model)) styles.responsive
 
         Route.TopScorers leagueTitle ->
-            Pages.TopScorers.View.page leagueTitle (RemoteData.map .players (getLeague leagueTitle model)) responsive
+            Pages.TopScorers.View.page leagueTitle (RemoteData.map .players (getLeague leagueTitle model)) styles.responsive
 
         Route.NotFound ->
-            Pages.LeagueList.View.page model.config model.leagueSummaries responsive styles
+            Pages.LeagueList.View.page model.config model.leagueSummaries styles
 
 
 getLeague : String -> Model -> WebData League
