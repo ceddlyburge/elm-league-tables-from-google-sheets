@@ -24,7 +24,7 @@ import Styles exposing (..)
 view : ModelAndKey -> Document Msg
 view modelAndKey =
     let
-        responsive = calculateResponsive modelAndKey.model.viewportWidth
+        responsive = calculateResponsive modelAndKey.model.device modelAndKey.model.viewportWidth 
         styles = createStyles responsive
     in
         page modelAndKey.model styles 
@@ -41,7 +41,7 @@ page model styles =
             Pages.LeagueTable.View.page leagueTitle (getLeague leagueTitle model) styles
 
         Route.ResultsFixtures leagueTitle ->
-            Pages.ResultsFixtures.View.page leagueTitle (RemoteData.map .resultsFixtures (getLeague leagueTitle model)) styles.responsive
+            Pages.ResultsFixtures.View.page leagueTitle (RemoteData.map .resultsFixtures (getLeague leagueTitle model)) styles
 
         Route.TopScorers leagueTitle ->
             Pages.TopScorers.View.page leagueTitle (RemoteData.map .players (getLeague leagueTitle model)) styles.responsive

@@ -1,5 +1,7 @@
 module Pages.Responsive exposing (FontSize, Responsive, calculateResponsive, vanillaResponsive)
 
+import Element exposing (Device, DeviceClass(..), Orientation(..))
+
 -- Pixel widths, with one character spare, measured using https://codepen.io/jasesmith/pen/eBeoNz
 
 
@@ -35,8 +37,8 @@ type alias FontSize =
     }
 
 
-calculateResponsive : Int -> Responsive
-calculateResponsive viewportWidth =
+calculateResponsive : Device -> Int -> Responsive
+calculateResponsive device viewportWidth =
     if viewportWidth <= 600 then
         { bigGap = 12
         , mediumGap = 5
@@ -50,7 +52,7 @@ calculateResponsive viewportWidth =
             }
         , designTeamWidthMediumFont = 141
         , designPlayerNamePixelWidthBigFont = 250
-        , designPortraitWidth = percentage 0.6 viewportWidth
+        , designPortraitWidth = calculatedesignPortraitWidth device 0.6 viewportWidth
         }
 
     else if viewportWidth <= 1200 then
@@ -66,7 +68,7 @@ calculateResponsive viewportWidth =
             }
         , designTeamWidthMediumFont = 191
         , designPlayerNamePixelWidthBigFont = 300
-        , designPortraitWidth = percentage 0.6 viewportWidth
+        , designPortraitWidth = calculatedesignPortraitWidth device 0.6 viewportWidth
         }
 
     else if viewportWidth <= 1800 then
@@ -82,7 +84,7 @@ calculateResponsive viewportWidth =
             }
         , designTeamWidthMediumFont = 252
         , designPlayerNamePixelWidthBigFont = 350
-        , designPortraitWidth = percentage 0.6 viewportWidth
+        , designPortraitWidth = calculatedesignPortraitWidth device 0.6 viewportWidth
         }
 
     else
@@ -98,7 +100,7 @@ calculateResponsive viewportWidth =
             }
         , designTeamWidthMediumFont = 322
         , designPlayerNamePixelWidthBigFont = 500
-        , designPortraitWidth = percentage 0.6 viewportWidth
+        , designPortraitWidth = calculatedesignPortraitWidth device 0.6 viewportWidth
         }
 
 
@@ -110,6 +112,14 @@ calculatePageWidth viewportWidth =
     else
         viewportWidth
 
+calculatedesignPortraitWidth: Device -> Float -> Int -> Int
+calculatedesignPortraitWidth device landscapePercentage viewportWidth =
+    case device.orientation of
+        Portrait ->
+            viewportWidth
+        Landscape ->
+            percentage landscapePercentage viewportWidth
+
 percentage : Float -> Int -> Int
 percentage fraction total =
     fraction * toFloat total 
@@ -117,4 +127,4 @@ percentage fraction total =
 
 vanillaResponsive : Responsive
 vanillaResponsive =
-    calculateResponsive 1024
+    calculateResponsive (Device Desktop Landscape) 1024

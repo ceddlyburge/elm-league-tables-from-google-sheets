@@ -17,6 +17,10 @@ type alias Styles = {
     , leagueListLeagueName: Attributes
     , leagueTableHeaderRow: Attributes
     , leagueTableTeamRow: Attributes
+    , resultFixtureDayHeader: Attributes
+    , resultFixtureRow: Attributes
+    , resultFixtureGoals: Attributes
+    , resultFixtureTime: Attributes
     , invisibleButTakesUpSpace: Attributes
     , fillToDesignPortraitWidth: Length
     , smallPadding: Attribute Msg
@@ -38,6 +42,10 @@ createStyles responsive =
         (leagueListLeagueName responsive)
         (leagueTableHeaderRow responsive)
         (leagueTableTeamRow responsive)
+        (resultFixtureDayHeader responsive)
+        (resultFixtureRow responsive)
+        (resultFixtureGoals responsive)
+        resultFixtureTime
         invisibleButTakesUpSpace
         (fill |> maximum responsive.designPortraitWidth)
         (padding responsive.smallGap)
@@ -57,6 +65,12 @@ elWithStyle styleAttributes layoutAttributes child =
 rowWithStyle: Attributes -> Attributes -> List (Element Msg)  -> Element Msg
 rowWithStyle styleAttributes layoutAttributes children =
     row
+        (styleAttributes ++ layoutAttributes)
+        children
+
+paragraphWithStyle: Attributes -> Attributes -> List (Element Msg)  -> Element Msg
+paragraphWithStyle styleAttributes layoutAttributes children =
+    paragraph
         (styleAttributes ++ layoutAttributes)
         children
 
