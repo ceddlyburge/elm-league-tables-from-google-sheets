@@ -14,6 +14,7 @@ type alias Styles = {
     , mainHeaderBar: Attributes
     , mainHeaderBarLink: Attributes
     , subHeaderBar: Attributes
+    , unhappyPathText: Attributes
     , leagueListLeagueName: Attributes
     , leagueTableHeaderRow: Attributes
     , leagueTableTeamRow: Attributes
@@ -43,6 +44,7 @@ createStyles responsive =
         (mainHeaderBar responsive)
         mainHeaderBarLink
         (subHeaderBar responsive)
+        (unhappyPathText responsive)
         (leagueListLeagueName responsive)
         (leagueTableHeaderRow responsive)
         (leagueTableTeamRow responsive)
@@ -106,10 +108,10 @@ subHeaderBar responsive =
     , Font.color colors.titleText
     ]
 
-unhappyPathText: List (Element.Attribute msg)
-unhappyPathText  = 
-    [ -- need to add this back in once responsive sorted out Font.size responsive.fontSize.medium 
-      Font.center
+unhappyPathText: Responsive -> List (Element.Attribute msg)
+unhappyPathText responsive = 
+    [ Font.size responsive.fontSize.medium 
+    ,  Font.center
     , Font.color colors.supplementaryText
     ]
 

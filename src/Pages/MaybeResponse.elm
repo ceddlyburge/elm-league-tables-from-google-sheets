@@ -1,20 +1,19 @@
 module Pages.MaybeResponse exposing (maybeResponse)
 
 import Element exposing (..)
--- import Element.Attributes exposing (..)
 import Html exposing (div)
 import Html.Attributes exposing (class)
 import Http exposing (..)
 import RemoteData exposing (WebData)
---import LeagueStyleElements exposing (..)
+import Msg exposing (..)
 import Styles exposing (..)
 
 
-maybeResponse : WebData payload -> (payload -> Element msg) -> Element msg
-maybeResponse response success =
+maybeResponse : WebData payload -> (payload -> Element Msg) -> Styles -> Element Msg
+maybeResponse response success styles =
     case response of
         RemoteData.NotAsked ->
-            unhappyPathText unexpectedNotAskedMessage
+            unhappyPathText unexpectedNotAskedMessage styles
 
         RemoteData.Loading ->
             loading
@@ -23,7 +22,7 @@ maybeResponse response success =
             success payload
 
         RemoteData.Failure error ->
-            unhappyPathText <| httpErrorMessage error
+            unhappyPathText (httpErrorMessage error) styles
 
 
 unexpectedNotAskedMessage : String
@@ -74,13 +73,9 @@ loading =
         )
 
 
-unhappyPathText : String -> Element msg
-unhappyPathText string =
-    paragraph 
-        -- UnhappyPathText
-        ( 
-            Styles.unhappyPathText
-            ++ 
-            [ width (fillPortion 90) ] 
-        )
+unhappyPathText : String -> Styles -> Element Msg
+unhappyPathText string styles =
+    paragraphWithStyle 
+        styles.unhappyPathText
+        [ width (fillPortion 90) ] 
         [ text string ]

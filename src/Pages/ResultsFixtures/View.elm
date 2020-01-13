@@ -26,7 +26,7 @@ page leagueTitle response styles =
             (headerBar leagueTitle)
             (SubHeaderBar "Results / Fixtures")
         )
-        (maybeResponse response <| fixturesResultsElement styles)
+        (maybeResponse response (fixturesResultsElement styles) styles)
 
 
 headerBar : String -> HeaderBar

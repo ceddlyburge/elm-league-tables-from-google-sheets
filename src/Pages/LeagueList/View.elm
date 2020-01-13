@@ -23,7 +23,7 @@ page config response styles =
                 config.applicationTitle
                 [ RefreshHeaderButton RefreshLeagueList ]
         )
-        (maybeResponse response <| leagueList styles)
+        (maybeResponse response (leagueList styles)  styles)
 
 
 leagueList : Styles -> List LeagueSummary -> Element Msg

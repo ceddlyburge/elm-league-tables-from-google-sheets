@@ -20,7 +20,7 @@ page leagueTitle response styles =
             (headerBar leagueTitle)
             (SubHeaderBar "Top Scorers")
         )
-        (maybeResponse response <| topScorersElement styles)
+        (maybeResponse response (topScorersElement styles) styles)
 
 
 headerBar : String -> HeaderBar

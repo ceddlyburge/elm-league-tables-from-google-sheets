@@ -29,7 +29,7 @@ page leagueTitle response styles =
                 leagueTitle
                 [ RefreshHeaderButton <| RefreshLeagueTable leagueTitle ]
         )
-        (maybeResponse (RemoteData.map .table response) (leagueTableElement styles))
+        (maybeResponse (RemoteData.map .table response) (leagueTableElement styles) styles)
 
 
 namedPlayerDataAvailable : WebData League -> Bool
