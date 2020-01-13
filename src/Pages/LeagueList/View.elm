@@ -39,8 +39,8 @@ leagueTitle : Styles -> LeagueSummary -> Element Msg
 leagueTitle styles league =
     Styles.elWithStyle
         styles.leagueListLeagueName
-        [ padding styles.responsive.mediumGap
-        , spacing styles.responsive.smallGap
+        [ styles.mediumPadding
+        , styles.smallSpacing
         , width styles.fillToDesignPortraitWidth
         , centerX
         , onClick <| ShowLeagueTable league.title
