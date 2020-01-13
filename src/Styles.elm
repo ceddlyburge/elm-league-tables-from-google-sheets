@@ -11,10 +11,12 @@ type alias Attributes = List (Element.Attribute Msg)
 
 type alias Styles = {
     responsive: Responsive
-    , leagueListLeagueName: Attributes
     , mainHeaderBar: Attributes
     , mainHeaderBarLink: Attributes
     , subHeaderBar: Attributes
+    , leagueListLeagueName: Attributes
+    , leagueTableHeaderRow: Attributes
+    , leagueTableTeamRow: Attributes
     , invisibleButTakesUpSpace: Attributes
     , fillToDesignPortraitWidth: Length
     , smallPadding: Attribute Msg
@@ -30,10 +32,12 @@ createStyles: Responsive -> Styles
 createStyles responsive = 
     Styles
         responsive
-        (leagueListLeagueName responsive)
         (mainHeaderBar responsive)
         mainHeaderBarLink
         (subHeaderBar responsive)
+        (leagueListLeagueName responsive)
+        (leagueTableHeaderRow responsive)
+        (leagueTableTeamRow responsive)
         invisibleButTakesUpSpace
         (fill |> maximum responsive.designPortraitWidth)
         (padding responsive.smallGap)

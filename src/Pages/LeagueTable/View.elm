@@ -2,9 +2,6 @@ module Pages.LeagueTable.View exposing (page)
 
 import Element exposing (..)
 import Html.Attributes exposing (..)
---import Element.Attributes exposing (..)
---import Http exposing (decodeUri)
---import LeagueStyleElements exposing (..)
 import Styles exposing (..)
 import Models.League exposing (League)
 import Models.LeagueTable exposing (LeagueTable)
@@ -20,8 +17,8 @@ import Pages.ViewHelpers exposing (..)
 import RemoteData exposing (WebData)
 
 
-page : String -> WebData League -> Responsive -> Page
-page leagueTitle response responsive =
+page : String -> WebData League -> Styles -> Page
+page leagueTitle response styles =
     Page
         (SingleHeader <|
             HeaderBar
@@ -32,7 +29,7 @@ page leagueTitle response responsive =
                 leagueTitle
                 [ RefreshHeaderButton <| RefreshLeagueTable leagueTitle ]
         )
-        (maybeResponse (RemoteData.map .table response) (leagueTableElement responsive))
+        (maybeResponse (RemoteData.map .table response) (leagueTableElement styles))
 
 
 namedPlayerDataAvailable : WebData League -> Bool
@@ -42,56 +39,55 @@ namedPlayerDataAvailable leagueResponse =
         |> Maybe.withDefault False
 
 
-leagueTableElement : Responsive -> LeagueTable -> Element Msg
-leagueTableElement responsive leagueTable =
+leagueTableElement : Styles -> LeagueTable -> Element Msg
+leagueTableElement styles leagueTable =
     let
         columns =
             respondedColumns
-                responsive.pageWidth
-                responsive.mediumGap
-                responsive.smallGap
-                (allColumns responsive.pageWidth)
+                styles.responsive.pageWidth
+                styles.responsive.mediumGap
+                styles.responsive.smallGap
+                (allColumns styles.responsive.pageWidth)
     in
-    column --None
+    column
         [ dataTestClass "teams", centerX ]
-        ([ headerRow columns responsive ]
-            ++ List.map (teamRow columns responsive) leagueTable.teams
+        (   headerRow columns styles
+            :: List.map (teamRow columns styles) leagueTable.teams
         )
 
 
-headerRow : List Pages.ResponsiveColumn.Column -> Responsive -> Element Msg
-headerRow tableColumns responsive =
-    row
-        --LeagueTableHeaderRow
-        ( leagueTableHeaderRow responsive ++
-          [ padding responsive.mediumGap, spacing responsive.smallGap ]
-        )
+headerRow : List Pages.ResponsiveColumn.Column -> Styles -> Element Msg
+headerRow tableColumns styles =
+    rowWithStyle
+        styles.leagueTableHeaderRow
+        [ styles.mediumPadding
+        , styles.smallSpacing ]
         (List.map headerCell tableColumns)
 
 
 headerCell : Pages.ResponsiveColumn.Column -> Element Msg
 headerCell column =
     column.element
-        --None
-        [ Element.width (px column.width), htmlAttribute (class column.cssClass) ]
+        [ Element.width (px column.width)
+        , htmlAttribute (class column.cssClass) ]
         (text column.title)
 
 
-teamRow : List Pages.ResponsiveColumn.Column -> Responsive -> Team -> Element Msg
-teamRow tableColumns responsive aTeam =
-    row
-        --LeagueTableTeamRow
-        ( leagueTableTeamRow responsive ++
-          [ padding responsive.mediumGap, spacing responsive.smallGap, dataTestClass "team" ]
-        )
+teamRow : List Pages.ResponsiveColumn.Column -> Styles -> Team -> Element Msg
+teamRow tableColumns styles aTeam =
+    rowWithStyle
+        styles.leagueTableTeamRow
+        [ styles.mediumPadding
+        , styles.mediumSpacing
+        , dataTestClass "team" ]
         (List.map (teamCell aTeam) tableColumns)
 
 
 teamCell : Team -> Pages.ResponsiveColumn.Column -> Element Msg
 teamCell aTeam column =
     column.element
-        --None
-        [ Element.width (px column.width), htmlAttribute <| class column.cssClass ]
+        [ Element.width (px column.width)
+        , htmlAttribute <| class column.cssClass ]
         (text <| column.value aTeam)
 
 

@@ -38,7 +38,7 @@ page model styles =
             Pages.LeagueList.View.page model.config model.leagueSummaries styles
 
         Route.LeagueTable leagueTitle ->
-            Pages.LeagueTable.View.page leagueTitle (getLeague leagueTitle model) styles.responsive
+            Pages.LeagueTable.View.page leagueTitle (getLeague leagueTitle model) styles
 
         Route.ResultsFixtures leagueTitle ->
             Pages.ResultsFixtures.View.page leagueTitle (RemoteData.map .resultsFixtures (getLeague leagueTitle model)) styles.responsive
