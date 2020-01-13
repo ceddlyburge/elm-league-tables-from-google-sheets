@@ -21,8 +21,12 @@ type alias Styles = {
     , resultFixtureRow: Attributes
     , resultFixtureGoals: Attributes
     , resultFixtureTime: Attributes
+    , topScorerPlayerName: Attributes
+    , topScorerGoalCount: Attributes
+    , topScorerTeamName: Attributes
     , invisibleButTakesUpSpace: Attributes
     , fillToDesignPortraitWidth: Length
+    , shrinkToDesignPlayerNameWidthBigFont: Length
     , smallPadding: Attribute Msg
     , mediumPadding: Attribute Msg
     , bigPadding: Attribute Msg
@@ -46,8 +50,12 @@ createStyles responsive =
         (resultFixtureRow responsive)
         (resultFixtureGoals responsive)
         resultFixtureTime
+        (topScorerPlayerName responsive)
+        (topScorerGoalCount responsive)
+        (topScorerTeamName responsive)
         invisibleButTakesUpSpace
         (fill |> maximum responsive.designPortraitWidth)
+        (fill |> minimum responsive.designPlayerNameWidthBigFont)
         (padding responsive.smallGap)
         (padding responsive.mediumGap)
         (padding responsive.bigGap)

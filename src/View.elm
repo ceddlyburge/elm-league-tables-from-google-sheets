@@ -44,7 +44,7 @@ page model styles =
             Pages.ResultsFixtures.View.page leagueTitle (RemoteData.map .resultsFixtures (getLeague leagueTitle model)) styles
 
         Route.TopScorers leagueTitle ->
-            Pages.TopScorers.View.page leagueTitle (RemoteData.map .players (getLeague leagueTitle model)) styles.responsive
+            Pages.TopScorers.View.page leagueTitle (RemoteData.map .players (getLeague leagueTitle model)) styles
 
         Route.NotFound ->
             Pages.LeagueList.View.page model.config model.leagueSummaries styles

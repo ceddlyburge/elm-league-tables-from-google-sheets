@@ -23,7 +23,7 @@ type alias Responsive =
     -- "Anne Claire Chiffelou" is used as the text for this theoretical long team name. Names
     -- longer than this can wrap or display an ellipsis. If pages need to wrap at shorter widths then
     -- that is ok too, it is a guide, not a rule
-    , designPlayerNamePixelWidthBigFont : Int
+    , designPlayerNameWidthBigFont : Int
 
     -- if the content is essentiallyl portrait, try and extend out to this width
     , designPortraitWidth : Int
@@ -51,7 +51,7 @@ calculateResponsive device viewportWidth =
             , small = 12
             }
         , designTeamWidthMediumFont = 141
-        , designPlayerNamePixelWidthBigFont = 250
+        , designPlayerNameWidthBigFont = 250
         , designPortraitWidth = calculatedesignPortraitWidth device 0.6 viewportWidth
         }
 
@@ -67,7 +67,7 @@ calculateResponsive device viewportWidth =
             , small = 15
             }
         , designTeamWidthMediumFont = 191
-        , designPlayerNamePixelWidthBigFont = 300
+        , designPlayerNameWidthBigFont = 300
         , designPortraitWidth = calculatedesignPortraitWidth device 0.6 viewportWidth
         }
 
@@ -83,7 +83,7 @@ calculateResponsive device viewportWidth =
             , small = 18
             }
         , designTeamWidthMediumFont = 252
-        , designPlayerNamePixelWidthBigFont = 350
+        , designPlayerNameWidthBigFont = 350
         , designPortraitWidth = calculatedesignPortraitWidth device 0.6 viewportWidth
         }
 
@@ -99,7 +99,7 @@ calculateResponsive device viewportWidth =
             , small = 24
             }
         , designTeamWidthMediumFont = 322
-        , designPlayerNamePixelWidthBigFont = 500
+        , designPlayerNameWidthBigFont = 500
         , designPortraitWidth = calculatedesignPortraitWidth device 0.6 viewportWidth
         }
 

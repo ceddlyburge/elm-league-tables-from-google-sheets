@@ -1,8 +1,6 @@
 module Pages.TopScorers.View exposing (page)
 
 import Element exposing (..)
--- import Element.Attributes exposing (..)
---import LeagueStyleElements exposing (..)
 import Styles exposing (..)
 import Models.Player exposing (..)
 import Msg exposing (..)
@@ -15,14 +13,14 @@ import RemoteData exposing (WebData)
 import Pages.ViewHelpers exposing (..)
 
 
-page : String -> WebData Players -> Responsive -> Page
-page leagueTitle response progessive =
+page : String -> WebData Players -> Styles -> Page
+page leagueTitle response styles =
     Page
         (DoubleHeader
             (headerBar leagueTitle)
             (SubHeaderBar "Top Scorers")
         )
-        (maybeResponse response <| topScorersElement progessive)
+        (maybeResponse response <| topScorersElement styles)
 
 
 headerBar : String -> HeaderBar
@@ -33,62 +31,44 @@ headerBar leagueTitle =
         [ RefreshHeaderButton <| RefreshTopScorers leagueTitle ]
 
 
-topScorersElement : Responsive -> Players -> Element msg
-topScorersElement responsive players =
+topScorersElement : Styles -> Players -> Element Msg
+topScorersElement styles players =
     column
-        --None
         [ width fill
-        , centerX --center
+        , centerX
+        , styles.bigPadding
+        , styles.bigSpacing
         , dataTestClass "top-scorers"
-        , padding responsive.bigGap
-        , spacing responsive.bigGap
         ]
-        (List.map (topScorer responsive) players.players)
+        (List.map (topScorer styles) players.players)
 
 
-topScorer : Responsive -> Player -> Element msg
-topScorer responsive player =
+topScorer : Styles -> Player -> Element Msg
+topScorer styles player =
     column
-        --None
-        [ spacing responsive.smallGap
+        [ styles.smallSpacing
         , centerX
         , dataTestClass "top-scorer"
         ]
         [ row
-            --None
-            [ spacing responsive.bigGap
-            ]
-            [ paragraph
-                --TopScorerPlayerName
-                (
-                    topScorerPlayerName responsive
-                    ++
-                    [ --minWidth <| px responsive.designPlayerNamePixelWidthBigFont
-                    width
-                        (fill |> minimum responsive.designPlayerNamePixelWidthBigFont)
-                    , dataTestClass "top-scorer-player-name"
-                    ]
-                )
+            [ styles.bigSpacing ]
+            [ paragraphWithStyle
+                styles.topScorerPlayerName
+                [ width styles.shrinkToDesignPlayerNameWidthBigFont
+                , dataTestClass "top-scorer-player-name"
+                ]
                 [ text <| playerName player ]
-            , el
-                --TopScorerGoalCount
-                (
-                    topScorerGoalCount responsive
-                    ++
-                    [ centerY --verticalCenter
-                    , dataTestClass "top-scorer-goal-count"
-                    ]
-                )
+            , elWithStyle
+                styles.topScorerGoalCount
+                [ centerY
+                , dataTestClass "top-scorer-goal-count"
+                ]
                 (text <| String.fromInt player.goalCount)
             ]
-            , paragraph
-            --TopScorerTeamName
-            (
-                topScorerTeamName responsive
-                ++
+            , paragraphWithStyle
+                styles.topScorerTeamName
                 [ width fill
                 , dataTestClass "top-scorer-team-name" 
                 ]
-            )
-            [ text <| teamName player ]
+                [ text <| teamName player ]
         ]
