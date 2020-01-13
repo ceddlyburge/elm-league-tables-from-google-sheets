@@ -1,7 +1,6 @@
 module Pages.ResponsiveColumn exposing (Column, multiline, respondedColumns)
 
 import Element exposing (..)
-import LeagueStyleElements exposing (..)
 import Models.Team exposing (Team)
 import Msg exposing (..)
 
