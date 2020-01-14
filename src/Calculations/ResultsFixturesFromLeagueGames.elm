@@ -1,5 +1,7 @@
-module Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
+module Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures, playerOccurrences)
 
+import Dict exposing (..)
+import Dict.Extra exposing (..)
 import Time exposing (..)
 import Time.Extra exposing (..)
 import List.Extra exposing (gatherWith)
@@ -78,3 +80,9 @@ compareMaybeDate date1 date2 =
 
         ( Just dateOne, Just dateTwo ) ->
             compare (posixToMillis  dateOne) (posixToMillis dateTwo)
+
+playerOccurrences : List comparable -> List (comparable, Int)
+playerOccurrences players =
+            Dict.Extra.groupBy identity players
+                |> Dict.toList
+                |> List.map (\( playerName, occurrences ) -> ( playerName, List.length occurrences ))

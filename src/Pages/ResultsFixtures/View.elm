@@ -15,7 +15,7 @@ import Pages.MaybeResponse exposing (..)
 import Pages.Page exposing (..)
 import Pages.Responsive exposing (..)
 import RemoteData exposing (WebData)
-
+import Calculations.ResultsFixturesFromLeagueGames exposing (..)
 
 page : String -> WebData ResultsFixtures -> Responsive -> Page
 page leagueTitle response progessive =
@@ -77,6 +77,21 @@ dayResultsFixtures responsive leagueGamesForDay =
         ]
         (List.map (gameRow responsive) leagueGamesForDay.games)
 
+formatPlayersCount : List (String, Int) -> List String
+formatPlayersCount =
+            List.map
+                (\( playerName, timesScored ) ->
+                    if timesScored <= 1 then
+                        playerName
+
+                    else
+                        playerName ++ " (" ++ String.fromInt timesScored ++ ")"
+                )
+
+gameRowScorers : List String -> String
+gameRowScorers players =
+    formatPlayersCount (playerOccurrences players)
+        |> String.join ", "
 
 gameRow : Responsive -> Game -> Element Styles variation Msg
 gameRow responsive game =
@@ -98,7 +113,7 @@ gameRow responsive game =
             , paragraph
                 ResultFixtureGoals
                 [ alignRight, class "data-test-homeTeamGoals" ]
-                [ text (String.join ", " (homeTeamGoalsWithRealPlayerNames game)) ]
+                [ text <| gameRowScorers (homeTeamGoalsWithRealPlayerNames game) ]
             ]
         , row
             None
@@ -114,7 +129,7 @@ gameRow responsive game =
             , paragraph
                 ResultFixtureGoals
                 [ alignLeft, class "data-test-awayTeamGoals" ]
-                [ text (String.join ", " (awayTeamGoalsWithRealPlayerNames game)) ]
+                [ text <| gameRowScorers (awayTeamGoalsWithRealPlayerNames game) ]
             ]
         ]
 
