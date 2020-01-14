@@ -1,9 +1,9 @@
 module Pages.ResultsFixtures.View exposing (page)
 
-import Time exposing (..)
+import Calculations.ResultsFixturesFromLeagueGames exposing (..)
+import DateFormat
 import Element exposing (..)
 import Element.Attributes exposing (..)
-import DateFormat
 import LeagueStyleElements exposing (..)
 import Models.Game exposing (..)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
@@ -15,6 +15,7 @@ import Pages.MaybeResponse exposing (..)
 import Pages.Page exposing (..)
 import Pages.Responsive exposing (..)
 import RemoteData exposing (WebData)
+import Time exposing (..)
 
 
 page : String -> WebData ResultsFixtures -> Responsive -> Page
@@ -78,6 +79,23 @@ dayResultsFixtures responsive leagueGamesForDay =
         (List.map (gameRow responsive) leagueGamesForDay.games)
 
 
+formatPlayerOccurrences : ( String, Int ) -> String
+formatPlayerOccurrences ( playerName, timesScored ) =
+    if timesScored <= 1 then
+        playerName
+
+    else
+        playerName ++ " (" ++ String.fromInt timesScored ++ ")"
+
+
+gameRowScorers : List ( String, Int ) -> String
+gameRowScorers occurrences =
+    List.map
+        formatPlayerOccurrences
+        occurrences
+        |> String.join ", "
+
+
 gameRow : Responsive -> Game -> Element Styles variation Msg
 gameRow responsive game =
     row
@@ -98,7 +116,7 @@ gameRow responsive game =
             , paragraph
                 ResultFixtureGoals
                 [ alignRight, class "data-test-homeTeamGoals" ]
-                [ text (String.join ", " (homeTeamGoalsWithRealPlayerNames game)) ]
+                [ text <| gameRowScorers <| homeTeamGoals game ]
             ]
         , row
             None
@@ -114,7 +132,7 @@ gameRow responsive game =
             , paragraph
                 ResultFixtureGoals
                 [ alignLeft, class "data-test-awayTeamGoals" ]
-                [ text (String.join ", " (awayTeamGoalsWithRealPlayerNames game)) ]
+                [ text <| gameRowScorers <| awayTeamGoals game ]
             ]
         ]
 
@@ -190,6 +208,7 @@ dateFormatter =
         , DateFormat.dayOfMonthFixed
         ]
 
+
 dayFormatter : Zone -> Posix -> String
 dayFormatter =
     DateFormat.format
@@ -199,6 +218,7 @@ dayFormatter =
         , DateFormat.text ", "
         , DateFormat.yearNumber
         ]
+
 
 timeFormatter : Zone -> Posix -> String
 timeFormatter =

@@ -1,5 +1,7 @@
 module Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
 
+import Dict exposing (..)
+import Dict.Extra exposing (..)
 import Time exposing (..)
 import Time.Extra exposing (..)
 import List.Extra exposing (gatherWith)

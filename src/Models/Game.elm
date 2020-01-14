@@ -1,7 +1,9 @@
-module Models.Game exposing (..)
+module Models.Game exposing (Game, awayTeamGoals, homeTeamGoals, vanillaGame)
 
-import Time exposing (..)
-import Models.RealName as RealName exposing (..)
+import Dict exposing (toList)
+import Dict.Extra exposing (groupBy)
+import Models.RealName as RealName exposing (hasRealName)
+import Time exposing (Posix)
 
 
 
@@ -39,6 +41,25 @@ type alias Game =
 vanillaGame : Game
 vanillaGame =
     Game "" Nothing "" Nothing Nothing [] [] "" "" ""
+
+
+homeTeamGoals : Game -> List ( String, Int )
+homeTeamGoals game =
+    homeTeamGoalsWithRealPlayerNames game
+        |> goalsAsPlayerOccurrences
+
+
+awayTeamGoals : Game -> List ( String, Int )
+awayTeamGoals game =
+    awayTeamGoalsWithRealPlayerNames game
+        |> goalsAsPlayerOccurrences
+
+
+goalsAsPlayerOccurrences : List String -> List ( String, Int )
+goalsAsPlayerOccurrences lst =
+    Dict.Extra.groupBy identity lst
+        |> Dict.toList
+        |> List.map (\( playerName, occurrences ) -> ( playerName, List.length occurrences ))
 
 
 homeTeamGoalsWithRealPlayerNames : Game -> List String
