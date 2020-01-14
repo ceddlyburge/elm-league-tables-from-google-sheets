@@ -9,7 +9,7 @@ import Expect exposing (Expectation)
 import List.Extra exposing (gatherWith)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.ResultsFixtures exposing (ResultsFixtures)
-import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures, playerOccurrences)
+import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
 import ResultsFixturesHelpers exposing (..)
 
 
@@ -43,12 +43,3 @@ expectNumberOfGamesForDates expectedNumberOfDaysFordateTimes resultsFixtures =
         actualNumberOfDaysFordateTimes = List.map (\leagueGamesForDay -> GamesForDay leagueGamesForDay.date (List.length leagueGamesForDay.games )) resultsFixtures.days
     in
         Expect.equalLists expectedNumberOfDaysFordateTimes actualNumberOfDaysFordateTimes
-
-playerOccurrencesTest : Test
-playerOccurrencesTest =
-    test  "Groups player occurrences" <|
-        \() ->
-            playerOccurrences
-                [ "john", "mike", "ed", "cedd", "mike", "cedd", "john", "john" ]
-            |> Expect.equal
-                [("cedd", 2), ("ed", 1), ("john", 3), ("mike", 2)]
