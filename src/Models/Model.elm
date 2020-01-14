@@ -27,6 +27,14 @@ type alias Model =
     , viewportHeight : Int
     }
 
+updateScreenSize : Int -> Int -> Model -> Model
+updateScreenSize width height model =
+    { 
+        model | 
+            device = classifyDevice { width = width, height = height }
+            , viewportWidth = width
+            , viewportHeight = height
+    }
 
 vanillaModel : Model
 vanillaModel =
