@@ -1,9 +1,9 @@
 module Pages.ResultsFixtures.View exposing (page)
 
-import Time exposing (..)
+import Calculations.ResultsFixturesFromLeagueGames exposing (..)
+import DateFormat
 import Element exposing (..)
 import Element.Attributes exposing (..)
-import DateFormat
 import LeagueStyleElements exposing (..)
 import Models.Game exposing (..)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
@@ -15,7 +15,8 @@ import Pages.MaybeResponse exposing (..)
 import Pages.Page exposing (..)
 import Pages.Responsive exposing (..)
 import RemoteData exposing (WebData)
-import Calculations.ResultsFixturesFromLeagueGames exposing (..)
+import Time exposing (..)
+
 
 page : String -> WebData ResultsFixtures -> Responsive -> Page
 page leagueTitle response progessive =
@@ -77,21 +78,23 @@ dayResultsFixtures responsive leagueGamesForDay =
         ]
         (List.map (gameRow responsive) leagueGamesForDay.games)
 
-formatPlayersCount : List (String, Int) -> List String
-formatPlayersCount =
-            List.map
-                (\( playerName, timesScored ) ->
-                    if timesScored <= 1 then
-                        playerName
 
-                    else
-                        playerName ++ " (" ++ String.fromInt timesScored ++ ")"
-                )
+formatPlayerOccurrences : ( String, Int ) -> String
+formatPlayerOccurrences ( playerName, timesScored ) =
+    if timesScored <= 1 then
+        playerName
 
-gameRowScorers : List String -> String
-gameRowScorers players =
-    formatPlayersCount (playerOccurrences players)
+    else
+        playerName ++ " (" ++ String.fromInt timesScored ++ ")"
+
+
+gameRowScorers : List ( String, Int ) -> String
+gameRowScorers occurrences =
+    List.map
+        formatPlayerOccurrences
+        occurrences
         |> String.join ", "
+
 
 gameRow : Responsive -> Game -> Element Styles variation Msg
 gameRow responsive game =
@@ -113,7 +116,7 @@ gameRow responsive game =
             , paragraph
                 ResultFixtureGoals
                 [ alignRight, class "data-test-homeTeamGoals" ]
-                [ text <| gameRowScorers (homeTeamGoalsWithRealPlayerNames game) ]
+                [ text <| gameRowScorers <| homeTeamGoals game ]
             ]
         , row
             None
@@ -129,7 +132,7 @@ gameRow responsive game =
             , paragraph
                 ResultFixtureGoals
                 [ alignLeft, class "data-test-awayTeamGoals" ]
-                [ text <| gameRowScorers (awayTeamGoalsWithRealPlayerNames game) ]
+                [ text <| gameRowScorers <| awayTeamGoals game ]
             ]
         ]
 
@@ -205,6 +208,7 @@ dateFormatter =
         , DateFormat.dayOfMonthFixed
         ]
 
+
 dayFormatter : Zone -> Posix -> String
 dayFormatter =
     DateFormat.format
@@ -214,6 +218,7 @@ dayFormatter =
         , DateFormat.text ", "
         , DateFormat.yearNumber
         ]
+
 
 timeFormatter : Zone -> Posix -> String
 timeFormatter =
