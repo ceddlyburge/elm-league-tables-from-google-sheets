@@ -1,9 +1,9 @@
 describe('The Results / Fixtures Page', function() {
   it('shows days in descending order, and games within days in ascending order', function() {
-	cy.server() 
-    
+	cy.server()
+
 	cy.route(
-	  'GET',      
+	  'GET',
 	  '/.netlify/functions/google-api?leagueTitle=Regional Div 1',
 	  'fixture:two-results-two-fixtures.json'
 	)
@@ -12,13 +12,13 @@ describe('The Results / Fixtures Page', function() {
 	// this would be a better end to end test, but risks repeating the navigating testing a
 	// lot, and means I would have to set up another route
 	// I think I'll test the navigation separately
-	cy.visit('/results-fixtures/Regional%20Div%201') 
-	
+	cy.visit('/results-fixtures/Regional%20Div%201')
+
 	// these assert the order of the days
 	cy.get('.data-test-dates .data-test-day:nth-Child(1)').should('have.class', 'data-test-date-2018-06-04')
 	cy.get('.data-test-dates .data-test-day:nth-Child(2)').should('have.class', 'data-test-date-2018-06-03')
 	cy.get('.data-test-dates .data-test-day:nth-Child(3)').should('have.class', 'data-test-date-unscheduled')
-	
+
 	// these assert the day titles / headers
 	cy.get('.data-test-date-2018-06-04 .data-test-dayHeader').contains('June 4th, 2018')
 	cy.get('.data-test-date-2018-06-03 .data-test-dayHeader').contains('June 3rd, 2018')
@@ -28,7 +28,7 @@ describe('The Results / Fixtures Page', function() {
 	cy.get('.data-test-dates .data-test-date-2018-06-04 .data-test-game:nth-Child(1)').within(() => {
 		cy.get('.data-test-homeTeamName').contains('Blackwater')
 		cy.get('.data-test-homeTeamGoalCount').contains('3')
-		cy.get('.data-test-homeTeamGoals').contains('Will, Johnnie, Lisa')
+		cy.get('.data-test-homeTeamGoals').contains('Johnnie, Lisa, Will')
 		cy.get('.data-test-awayTeamName').contains('Clapham')
 		cy.get('.data-test-awayTeamGoalCount').contains('0')
 	})
@@ -53,26 +53,26 @@ describe('The Results / Fixtures Page', function() {
   })
 
   it('shows scorers', function() {
-	cy.server() 
-    
+	cy.server()
+
 	cy.route(
-	  'GET',      
+	  'GET',
 	  '/.netlify/functions/google-api?leagueTitle=Regional Div 1',
 	  'fixture:two-results-two-fixtures.json'
 	)
 
-	cy.visit('/results-fixtures/Regional%20Div%201') 
-	
+	cy.visit('/results-fixtures/Regional%20Div%201')
+
 	// only played games should have scorers, even if scorers are entered
 	cy.get('.data-test-dates .data-test-date-2018-06-04 .data-test-game:nth-Child(1)').within(() => {
-		cy.get('.data-test-homeTeamGoals').contains('Will, Johnnie, Lisa')
+		cy.get('.data-test-homeTeamGoals').contains('Johnnie, Lisa, Will')
 	})
 
 	cy.get('.data-test-dates .data-test-date-2018-06-04 .data-test-game:nth-Child(2)').within(() => {
-		cy.get('.data-test-homeTeamGoals').contains('Cedd, Cedd')
+		cy.get('.data-test-homeTeamGoals').contains('Cedd (2)')
 		// only scorers with real names (not numbers) should be shown
 		cy.get('.data-test-awayTeamGoals').should('not.have.text', '1')
 	})
   })
-  
+
 })
