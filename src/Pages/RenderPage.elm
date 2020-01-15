@@ -2,9 +2,6 @@ module Pages.RenderPage exposing (renderPage, renderTestablePage)
 
 import Element exposing (..)
 import Element.Events exposing (onClick)
-import Element.Background as Background
-import Element.Border as Border
-import Element.Font as Font
 import Html exposing (Html)
 import Html.Attributes exposing (class)
 import Styles exposing (..)
@@ -146,7 +143,16 @@ topScorerHeaderBarItem styles msg namedPlayerDataAvailable =
             topScorersIcon
 
     else
-        paragraph [] []
+        -- this avoids screen jank when loading the page
+        -- namedPlayerDataAvailable is only known after the result
+        -- is fetched from the google api, which takes time, and
+        -- it defaults to false
+        -- could potentially show it greyed out instead
+        -- or just show it, and if there is no named player data
+        -- link to a help page stating this
+        el 
+            styles.invisibleButTakesUpSpace 
+            topScorersIcon
 
 
 heading : Styles -> List (Element Msg) -> Element.Element Msg
@@ -157,7 +163,6 @@ heading styles elements =
         , styles.bigPadding
         , styles.bigSpacing
         , centerY 
-        , centerX 
         , dataTestClass "heading"
         ]
         elements
@@ -167,7 +172,7 @@ title : String -> Element.Element msg
 title titleText =
     paragraph
         [ dataTestClass "title"
-        , width fill
+        , centerX
         ]
         [ text titleText ]
 
@@ -192,5 +197,5 @@ resultsFixturesIcon =
 
 topScorersIcon : Element msg
 topScorersIcon =
-    Html.span [ Html.Attributes.class "data-test-top-scorers fas fa-futbol" ] []
+    Html.span [ Html.Attributes.class "fas fa-futbol" ] []
         |> Element.html
