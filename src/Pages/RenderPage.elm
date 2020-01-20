@@ -34,10 +34,11 @@ renderTestablePage styles page =
 body : Styles -> List (Element Msg) -> Html Msg
 body styles elements =
     Element.layout 
-        [ sansSerifFontFamily ] 
+        [ sansSerifFontFamily
+        , width <| bodyWidth styles.responsive
+        ] 
         <| column
-            [ width <| bodyWidth styles.responsive
-            , styles.mediumVerticalSpacing
+            [ styles.mediumVerticalSpacing
             , centerX 
             , dataTestClass "body"
             ]
@@ -159,7 +160,7 @@ heading : Styles -> List (Element Msg) -> Element.Element Msg
 heading styles elements =
     rowWithStyle
         styles.mainHeaderBar
-        [ width fill
+        [ width <| bodyWidth styles.responsive
         , styles.bigPadding
         , styles.bigSpacing
         , centerY 
@@ -197,5 +198,5 @@ resultsFixturesIcon =
 
 topScorersIcon : Element msg
 topScorersIcon =
-    Html.span [ Html.Attributes.class "fas fa-futbol" ] []
+    Html.span [ Html.Attributes.class "data-test-top-scorers fas fa-futbol" ] []
         |> Element.html

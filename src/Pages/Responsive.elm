@@ -106,8 +106,8 @@ calculateResponsive device viewportWidth =
 
 calculatePageWidth : Int -> Int
 calculatePageWidth viewportWidth =
-    if viewportWidth < 200 then
-        200
+    if viewportWidth < 250 then
+        250
 
     else
         viewportWidth
@@ -116,9 +116,9 @@ calculatedesignPortraitWidth: Device -> Float -> Int -> Int
 calculatedesignPortraitWidth device landscapePercentage viewportWidth =
     case device.orientation of
         Portrait ->
-            viewportWidth
+            calculatePageWidth viewportWidth
         Landscape ->
-            percentage landscapePercentage viewportWidth
+            percentage landscapePercentage (calculatePageWidth viewportWidth)
 
 percentage : Float -> Int -> Int
 percentage fraction total =
