@@ -27,7 +27,8 @@ type alias Styles = {
     , topScorerTeamName: Attributes
     , invisibleButTakesUpSpace: Attributes
     , fillToDesignPortraitWidth: Length
-    , shrinkToDesignPlayerNameWidthBigFont: Length
+    , designPlayerNameWidthBigFont: Length
+    , percentagePageWidth: Float -> Int
     , smallPadding: Attribute Msg
     , mediumPadding: Attribute Msg
     , bigPadding: Attribute Msg
@@ -57,7 +58,8 @@ createStyles responsive =
         (topScorerTeamName responsive)
         invisibleButTakesUpSpace
         (fill |> maximum responsive.designPortraitWidth)
-        (fill |> minimum responsive.designPlayerNameWidthBigFont)
+        (px responsive.designPlayerNameWidthBigFont)
+        (\percentage -> round (toFloat responsive.pageWidth * percentage ))
         (padding responsive.smallGap)
         (padding responsive.mediumGap)
         (padding responsive.bigGap)

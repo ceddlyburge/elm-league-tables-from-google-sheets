@@ -34,8 +34,7 @@ headerBar leagueTitle =
 topScorersElement : Styles -> Players -> Element Msg
 topScorersElement styles players =
     column
-        [ width fill
-        , centerX
+        [ centerX
         , styles.bigPadding
         , styles.bigSpacing
         , dataTestClass "top-scorers"
@@ -47,16 +46,15 @@ topScorer : Styles -> Player -> Element Msg
 topScorer styles player =
     column
         [ styles.smallSpacing
-        , centerX
         , dataTestClass "top-scorer"
         ]
         [ row
             [ styles.bigSpacing ]
             [ paragraphWithStyle
                 styles.topScorerPlayerName
-                [ width styles.shrinkToDesignPlayerNameWidthBigFont
-                , dataTestClass "top-scorer-player-name"
-                ]
+                [ -- probably worth making this width tidier somehow 
+                  width (styles.designPlayerNameWidthBigFont |> maximum (styles.percentagePageWidth 0.8)) 
+                , dataTestClass "top-scorer-player-name" ]
                 [ text <| playerName player ]
             , elWithStyle
                 styles.topScorerGoalCount

@@ -114,11 +114,14 @@ calculatePageWidth viewportWidth =
 
 calculatedesignPortraitWidth: Device -> Float -> Int -> Int
 calculatedesignPortraitWidth device landscapePercentage viewportWidth =
-    case device.orientation of
-        Portrait ->
-            calculatePageWidth viewportWidth
-        Landscape ->
-            percentage landscapePercentage (calculatePageWidth viewportWidth)
+    let
+        pageWidth = calculatePageWidth viewportWidth
+    in
+        case device.orientation of
+            Portrait ->
+                pageWidth
+            Landscape ->
+                percentage landscapePercentage pageWidth
 
 percentage : Float -> Int -> Int
 percentage fraction total =
