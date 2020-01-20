@@ -39,6 +39,7 @@ body styles elements =
         ] 
         <| column
             [ styles.mediumVerticalSpacing
+            , width <| bodyWidth styles.responsive
             , centerX 
             , dataTestClass "body"
             ]
