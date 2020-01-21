@@ -42,8 +42,7 @@ Change attributes
 
 Change padding and spacing calls
 padding and spacing take Int instead of Float
-fillPortion same, presumablyl between 0 and 1
-fa
+fillPortion same, presumably between 0 and 1
 probably others
 
 Element.layout takes a list of attributes instead of a StyleSheet
