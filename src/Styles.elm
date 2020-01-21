@@ -4,7 +4,8 @@ module Styles exposing (
     , elWithStyle
     , rowWithStyle
     , paragraphWithStyle
-    , sansSerifFontFamily)
+    , sansSerifFontFamily
+    , vanillaStyles)
 
 import Pages.Responsive exposing (Responsive)
 import Element.Border as Border
@@ -276,3 +277,4 @@ sansSerifFontFamily =
         , Font.sansSerif
         ]
 
+vanillaStyles = createStyles Pages.Responsive.vanillaResponsive

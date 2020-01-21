@@ -9,11 +9,11 @@ import Models.ResultsFixtures exposing (ResultsFixtures)
 import Models.Game exposing (Game)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 import Msg exposing (..)
-import Pages.Responsive exposing (..)
+import Styles exposing (vanillaStyles)
 
 html :  Game -> Query.Single Msg
 html game  =
     renderTestablePage 
-        vanillaResponsive
-        (page "" (RemoteData.Success (ResultsFixtures "" [ LeagueGamesForDay game.datePlayed [ game ] ]))  vanillaResponsive)
+        vanillaStyles
+        (page "" (RemoteData.Success (ResultsFixtures "" [ LeagueGamesForDay game.datePlayed [ game ] ]))  vanillaStyles)
     |> Query.fromHtml
