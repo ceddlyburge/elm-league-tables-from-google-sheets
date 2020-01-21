@@ -19,28 +19,27 @@ groupsGamesByDay =
         \(dateTimes) ->
             let
                 games = List.map scheduledGame dateTimes
-                groupedDates = 
+                groupedDates =
                     List.map (Time.Extra.floor Day utc) dateTimes
                     |> List.sortWith comparePosix
                     |> List.reverse
                     |> gatherWith (==)
-            in    
+            in
                 calculateResultsFixtures (LeagueGames "Any League Title" games)
-                |> expectNumberOfGamesForDates 
-                        (List.map 
-                            (\(firstDate, remainingDates) 
-                                -> GamesForDay (Just firstDate) (1 + (List.length remainingDates))) 
+                |> expectNumberOfGamesForDates
+                        (List.map
+                            (\(firstDate, remainingDates)
+                                -> GamesForDay (Just firstDate) (1 + List.length remainingDates))
                             groupedDates)
 
 type alias GamesForDay =
     { date: Maybe Posix
-    , numberOfGames: Int 
+    , numberOfGames: Int
     }
 
 expectNumberOfGamesForDates: List GamesForDay -> ResultsFixtures -> Expectation
 expectNumberOfGamesForDates expectedNumberOfDaysFordateTimes resultsFixtures =
     let
         actualNumberOfDaysFordateTimes = List.map (\leagueGamesForDay -> GamesForDay leagueGamesForDay.date (List.length leagueGamesForDay.games )) resultsFixtures.days
-    in    
+    in
         Expect.equalLists expectedNumberOfDaysFordateTimes actualNumberOfDaysFordateTimes
-    

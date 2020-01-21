@@ -12,14 +12,27 @@ import Models.LeagueGames exposing (LeagueGames)
 import Models.Model exposing (Model)
 import Models.Route as Route exposing (Route)
 import Msg exposing (..)
-import RemoteData exposing (WebData)
+import RemoteData exposing (WebData, RemoteData(..))
 
+
+shouldRefreshModel: String -> Model -> Bool
+shouldRefreshModel leagueTitle model =
+    let
+        shouldRefresh : RemoteData a b -> Bool
+        shouldRefresh rmData = case rmData of
+            NotAsked -> True
+            Loading -> False
+            Failure _ -> True
+            Success _ -> False
+    in
+    case Dict.get leagueTitle model.leagues of
+        Just dictElement -> shouldRefresh dictElement
+        Nothing -> True
 
 showRouteRequiringIndividualSheetApi : String -> Route -> Model -> ( Model, Cmd Msg )
 showRouteRequiringIndividualSheetApi leagueTitle route model =
-    if Dict.member leagueTitle model.leagues == False then
+    if shouldRefreshModel leagueTitle model then
         refreshRouteRequiringIndividualSheetApi leagueTitle route model
-
     else
         ( { model | route = route }, Cmd.none )
 

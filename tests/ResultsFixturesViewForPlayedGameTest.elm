@@ -13,7 +13,7 @@ import Models.Game exposing (vanillaGame)
 onePlayedGame : Test
 onePlayedGame =
     describe "Displays date, teams and score for played games"
-        [ 
+        [
         test "date" <|
             \_ ->
                 dayElement
@@ -28,7 +28,7 @@ onePlayedGame =
             \_ ->
                 dayElement
                 |> Query.find [ Test.Html.Selector.class "data-test-homeTeamGoals" ]
-                |> Query.has [ Test.Html.Selector.text "Cedd, Lisa, Barry"]
+                |> Query.has [ Test.Html.Selector.text "Barry, Cedd, Lisa"]
         , test "homeTeamGoalCount" <|
             \_ ->
                 dayElement
@@ -53,7 +53,7 @@ onePlayedGame =
 
 dayElement: Query.Single Msg
 dayElement =
-    html { vanillaGame | 
+    html { vanillaGame |
         datePlayed = Just <| (Time.Extra.Parts 2006 Mar 23 0 0 0 0 |> Time.Extra.partsToPosix utc)
         , homeTeamName = "Castle"
         , homeTeamGoalCount = Just 3
