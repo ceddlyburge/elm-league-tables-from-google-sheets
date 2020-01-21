@@ -101,7 +101,7 @@ gameRow styles game =
                 [ text (String.join ", " (homeTeamGoalsWithRealPlayerNames game)) ]
             ]
         , row
-            resultFixtureScore
+            styles.resultFixtureScore
             (scoreSlashTime game styles)
         , column
             [ teamWidth ]

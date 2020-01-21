@@ -1,11 +1,17 @@
-module Styles exposing (..)
+module Styles exposing (
+    Styles
+    , createStyles
+    , elWithStyle
+    , rowWithStyle
+    , paragraphWithStyle
+    , sansSerifFontFamily)
 
-import Pages.Responsive exposing (Responsive, FontSize)
+import Pages.Responsive exposing (Responsive)
 import Element.Border as Border
 import Element.Font as Font
 import Element.Background as Background
 import Element exposing (..)
-import Msg exposing (..)
+import Msg exposing (Msg)
 
 type alias Attributes = List (Element.Attribute Msg)
 
@@ -22,6 +28,7 @@ type alias Styles = {
     , resultFixtureRow: Attributes
     , resultFixtureGoals: Attributes
     , resultFixtureTime: Attributes
+    , resultFixtureScore: Attributes
     , topScorerPlayerName: Attributes
     , topScorerGoalCount: Attributes
     , topScorerTeamName: Attributes
@@ -52,6 +59,7 @@ createStyles responsive =
         (resultFixtureDayHeader responsive)
         (resultFixtureRow responsive)
         (resultFixtureGoals responsive)
+        resultFixtureScore
         resultFixtureTime
         (topScorerPlayerName responsive)
         (topScorerGoalCount responsive)
@@ -242,19 +250,19 @@ colors :
     , transparent : Color
     }
 colors =
-    { secondary5 = ceddRgba 7 25 48 1.0
-    , secondary4 = ceddRgba 35 63 98 1.0
-    , secondary2 = ceddRgba 139 162 190 1.0
-    , text = ceddRgba 79 108 142 1.0 -- secondary 3
-    , supplementaryText = ceddRgba 150 109 44 1.0 -- secondary-2-3
-    , titleText = ceddRgba 4 38 45 1.0 -- primary 5
-    , subTitleText = ceddRgba 7 25 48 1.0 -- primary 5
-    , heading1 = ceddRgba 35 63 98 1.0 -- secondary 4
-    , titleButton = ceddRgba 70 124 134 1.0 -- primary 3
-    , titleBackground = ceddRgba 130 174 182 1.0 -- primary 2
-    , subTitleBackground = ceddRgba 215 226 241 1.0 -- secondeay 2 - 1
-    , border = ceddRgba 215 227 241 1.0 -- secondary 1
-    , transparent = ceddRgba 255 255 255 0
+    { secondary5 = rgba255 7 25 48 1.0
+    , secondary4 = rgba255 35 63 98 1.0
+    , secondary2 = rgba255 139 162 190 1.0
+    , text = rgba255 79 108 142 1.0 -- secondary 3
+    , supplementaryText = rgba255 150 109 44 1.0 -- secondary-2-3
+    , titleText = rgba255 4 38 45 1.0 -- primary 5
+    , subTitleText = rgba255 7 25 48 1.0 -- primary 5
+    , heading1 = rgba255 35 63 98 1.0 -- secondary 4
+    , titleButton = rgba255 70 124 134 1.0 -- primary 3
+    , titleBackground = rgba255 130 174 182 1.0 -- primary 2
+    , subTitleBackground = rgba255 215 226 241 1.0 -- secondeay 2 - 1
+    , border = rgba255 215 227 241 1.0 -- secondary 1
+    , transparent = rgba255 255 255 255 0
     }
 
 sansSerifFontFamily : Attribute msg 
@@ -267,9 +275,4 @@ sansSerifFontFamily =
         , Font.typeface "Helvetica Neue"
         , Font.sansSerif
         ]
-
-ceddRgba: Int -> Int -> Int -> Float -> Color
-ceddRgba r g b a =
-    rgba255 r g b a
-
 
