@@ -71,7 +71,6 @@ padColumns width padding spacing columns =
 
 multiline : List (Element.Attribute Msg) -> Element.Element Msg -> Element.Element Msg
 multiline attributes element =
-    --paragraph styles attributes [ element ]
     paragraph attributes [ element ]
 
 
