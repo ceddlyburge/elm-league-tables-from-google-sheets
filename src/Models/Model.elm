@@ -7,7 +7,6 @@ import Models.League exposing (League)
 import Models.LeagueSummary exposing (LeagueSummary)
 import Models.Route as Route exposing (Route)
 import RemoteData exposing (WebData)
-import Browser.Events exposing (onResize)
 import Browser.Navigation exposing (Key)
 
 
@@ -24,8 +23,18 @@ type alias Model =
     , leagueSummaries : WebData (List LeagueSummary)
     , leagues : Dict String (WebData League)
     , device : Device
+    , viewportWidth : Int
+    , viewportHeight : Int
     }
 
+updateScreenSize : Int -> Int -> Model -> Model
+updateScreenSize width height model =
+    { 
+        model | 
+            device = classifyDevice { width = width, height = height }
+            , viewportWidth = width
+            , viewportHeight = height
+    }
 
 vanillaModel : Model
 vanillaModel =
@@ -35,6 +44,8 @@ vanillaModel =
         RemoteData.NotAsked
         Dict.empty
         (classifyDevice { width = 1024, height = 768 } )
+        1024
+        768
 
 vanillaModelAndKey : Key -> ModelAndKey
 vanillaModelAndKey key =

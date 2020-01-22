@@ -3,8 +3,9 @@ module Pages.ResultsFixtures.View exposing (page)
 import Calculations.ResultsFixturesFromLeagueGames exposing (..)
 import DateFormat
 import Element exposing (..)
-import Element.Attributes exposing (..)
-import LeagueStyleElements exposing (..)
+import Element.Font as Font
+import Html.Attributes exposing (class)
+import Styles exposing (..)
 import Models.Game exposing (..)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 import Models.ResultsFixtures exposing (ResultsFixtures)
@@ -14,18 +15,19 @@ import Pages.HeaderBarItem exposing (..)
 import Pages.MaybeResponse exposing (..)
 import Pages.Page exposing (..)
 import Pages.Responsive exposing (..)
+import Pages.ViewHelpers exposing (..)
 import RemoteData exposing (WebData)
 import Time exposing (..)
 
 
-page : String -> WebData ResultsFixtures -> Responsive -> Page
-page leagueTitle response progessive =
+page : String -> WebData ResultsFixtures -> Styles -> Page
+page leagueTitle response styles =
     Page
         (DoubleHeader
             (headerBar leagueTitle)
             (SubHeaderBar "Results / Fixtures")
         )
-        (maybeResponse response <| fixturesResultsElement progessive)
+        (maybeResponse response (fixturesResultsElement styles) styles)
 
 
 headerBar : String -> HeaderBar
@@ -36,47 +38,46 @@ headerBar leagueTitle =
         [ RefreshHeaderButton <| RefreshResultsFixtures leagueTitle ]
 
 
-fixturesResultsElement : Responsive -> ResultsFixtures -> Element Styles variation Msg
-fixturesResultsElement responsive resultsFixtures =
+fixturesResultsElement : Styles -> ResultsFixtures -> Element Msg
+fixturesResultsElement styles resultsFixtures =
     column
-        None
-        [ class "data-test-dates"
-        , width <| percent 100
-        , center
+        [ dataTestClass "dates"
+        , width fill
+        , centerX
         ]
-        (List.map (day responsive) resultsFixtures.days)
+        (List.map (day styles) resultsFixtures.days)
 
 
-day : Responsive -> LeagueGamesForDay -> Element Styles variation Msg
-day responsive leagueGamesForDay =
+day : Styles -> LeagueGamesForDay -> Element Msg
+day styles leagueGamesForDay =
     column
-        None
-        [ padding responsive.mediumGap
-        , spacing responsive.mediumGap
-        , dayWidth responsive
-        , class <| "data-test-day data-test-date-" ++ dateClassNamePart leagueGamesForDay.date
+        [ styles.mediumPadding
+        , styles.mediumSpacing
+        , centerX
+        , width styles.fillToDesignPortraitWidth
+        , htmlAttribute <| Html.Attributes.class <| "data-test-day data-test-date-" ++ dateClassNamePart leagueGamesForDay.date
         ]
-        [ dayHeader leagueGamesForDay.date
-        , dayResultsFixtures responsive leagueGamesForDay
+        [ dayHeader styles leagueGamesForDay.date
+        , dayResultsFixtures styles leagueGamesForDay
         ]
 
 
-dayHeader : Maybe Posix -> Element Styles variation Msg
-dayHeader maybeDate =
-    el
-        ResultFixtureDayHeader
-        [ class "data-test-dayHeader" ]
+dayHeader : Styles -> Maybe Posix -> Element Msg
+dayHeader styles maybeDate =
+    elWithStyle
+        styles.resultFixtureDayHeader
+        [ width fill
+        , dataTestClass "dayHeader" ]
         (text <| dateDisplay maybeDate)
 
 
-dayResultsFixtures : Responsive -> LeagueGamesForDay -> Element Styles variation Msg
-dayResultsFixtures responsive leagueGamesForDay =
+dayResultsFixtures : Styles -> LeagueGamesForDay -> Element Msg
+dayResultsFixtures styles leagueGamesForDay =
     column
-        None
-        [ width <| percent 100
-        , spacing responsive.smallGap
+        [ width fill
+        , styles.smallSpacing
         ]
-        (List.map (gameRow responsive) leagueGamesForDay.games)
+        (List.map (gameRow styles) leagueGamesForDay.games)
 
 
 formatPlayerOccurrences : ( String, Int ) -> String
@@ -96,69 +97,67 @@ gameRowScorers occurrences =
         |> String.join ", "
 
 
-gameRow : Responsive -> Game -> Element Styles variation Msg
-gameRow responsive game =
-    row
-        ResultFixtureRow
+gameRow : Styles -> Game -> Element Msg
+gameRow styles game =
+    rowWithStyle
+        styles.resultFixtureRow
         [ padding 0
-        , spacing responsive.mediumGap
-        , center
-        , class "data-test-game"
-        , width <| percent 100
+        , styles.mediumSpacing
+        , centerX
+        , dataTestClass "game"
+        , width fill
         ]
         [ column
-            ResultFixtureHome
-            [ teamWidth responsive ]
+            [ teamWidth ]
             [ paragraph
-                ResultFixtureHome
-                [ alignRight, class "data-test-homeTeamName" ]
+                [ Font.alignRight, dataTestClass "homeTeamName" ]
                 [ text game.homeTeamName ]
-            , paragraph
-                ResultFixtureGoals
-                [ alignRight, class "data-test-homeTeamGoals" ]
+            , paragraphWithStyle
+                styles.resultFixtureGoals
+                [ Font.alignRight
+                , dataTestClass "homeTeamGoals" ]
                 [ text <| gameRowScorers <| homeTeamGoals game ]
             ]
         , row
-            None
-            []
-            (scoreSlashTime game)
+            styles.resultFixtureScore
+            (scoreSlashTime game styles)
         , column
-            ResultFixtureAway
-            [ teamWidth responsive ]
+            [ teamWidth ]
             [ paragraph
-                ResultFixtureAway
-                [ alignLeft, class "data-test-awayTeamName" ]
+                [ alignLeft
+                , dataTestClass "awayTeamName" ]
                 [ text game.awayTeamName ]
-            , paragraph
-                ResultFixtureGoals
-                [ alignLeft, class "data-test-awayTeamGoals" ]
+            , paragraphWithStyle
+                styles.resultFixtureGoals
+                [ alignLeft
+                , dataTestClass "awayTeamGoals" ]
                 [ text <| gameRowScorers <| awayTeamGoals game ]
             ]
         ]
 
 
-scoreSlashTime : Game -> List (Element Styles variation Msg)
-scoreSlashTime game =
+scoreSlashTime : Game -> Styles -> List (Element Msg)
+scoreSlashTime game styles =
     case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
         ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->
             [ el
-                ResultFixtureScore
-                [ alignRight, class "data-test-homeTeamGoalCount" ]
+                [ Font.alignRight
+                , dataTestClass "homeTeamGoalCount" ]
                 (text <| String.fromInt homeTeamGoalCount)
             , el
-                ResultFixtureScore
                 []
                 (text " - ")
             , el
-                ResultFixtureScore
-                [ alignLeft, class "data-test-awayTeamGoalCount" ]
+                [ alignLeft
+                , dataTestClass "awayTeamGoalCount" ]
                 (text <| String.fromInt awayTeamGoalCount)
             ]
 
         ( _, _ ) ->
-            [ el
-                ResultFixtureTime
-                [ verticalCenter, class "data-test-datePlayed" ]
+            [ elWithStyle
+                styles.resultFixtureTime
+                [ centerY
+                , dataTestClass "datePlayed" ]
                 (text <| timeDisplay game.datePlayed)
             ]
 
@@ -184,17 +183,8 @@ timeDisplay maybeDate =
         |> Maybe.withDefault " - "
 
 
-dayWidth : Responsive -> Element.Attribute variation msg
-dayWidth responsive =
-    if responsive.designTeamWidthMediumFont * 2.5 < responsive.pageWidth * 0.8 then
-        width <| percent 80
-
-    else
-        width <| percent 100
-
-
-teamWidth : Responsive -> Element.Attribute variation msg
-teamWidth responsive =
+teamWidth : Element.Attribute msg
+teamWidth  =
     width <| fillPortion 50
 
 

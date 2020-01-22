@@ -1,7 +1,6 @@
 module Pages.ResponsiveColumn exposing (Column, multiline, respondedColumns)
 
 import Element exposing (..)
-import LeagueStyleElements exposing (..)
 import Models.Team exposing (Team)
 import Msg exposing (..)
 
@@ -9,21 +8,21 @@ import Msg exposing (..)
 type alias Column =
     { value : Team -> String
     , cssClass : String
-    , element : Styles -> List (Element.Attribute Variations Msg) -> Element.Element Styles Variations Msg -> Element.Element Styles Variations Msg
+    , element : List (Element.Attribute Msg) -> Element.Element Msg -> Element.Element Msg
     , title : String
-    , width : Float
+    , width : Int
     , priority : Int
     }
 
 
-respondedColumns : Float -> Float -> Float -> List Column -> List Column
+respondedColumns : Int -> Int -> Int -> List Column -> List Column
 respondedColumns width padding spacing columns =
     columns
         |> columnsAvailableForWidth width padding spacing
         |> padColumns width padding spacing
 
 
-columnsAvailableForWidth : Float -> Float -> Float -> List Column -> List Column
+columnsAvailableForWidth : Int -> Int -> Int -> List Column -> List Column
 columnsAvailableForWidth width padding spacing columns =
     let
         lowestPriority =
@@ -40,19 +39,19 @@ columnsAvailableForWidth width padding spacing columns =
             (List.filter (isNotLowestPriority lowestPriority) columns)
 
 
-columnsWidth : Float -> Float -> List Column -> Float
+columnsWidth : Int -> Int -> List Column -> Int
 columnsWidth padding spacing columns =
     List.foldr addWidth 0 columns
         + padding
         + padding
-        + (toFloat (List.length columns) * spacing)
+        + (List.length columns * spacing)
 
 
-padColumns : Float -> Float -> Float -> List Column -> List Column
+padColumns : Int -> Int -> Int -> List Column -> List Column
 padColumns width padding spacing columns =
     let
         numberOfColumns =
-            toFloat (List.length columns)
+            List.length columns
 
         allColumnsWidth =
             columnsWidth padding spacing columns
@@ -61,18 +60,18 @@ padColumns width padding spacing columns =
             width - padding - padding - (numberOfColumns * spacing)
 
         desiredWidth =
-            availableWidth * 0.8
+            round (toFloat availableWidth * 0.8)
     in
     if allColumnsWidth < desiredWidth then
-        List.map (\column -> { column | width = column.width + (desiredWidth - allColumnsWidth) / numberOfColumns }) columns
+        List.map (\column -> { column | width = column.width + (desiredWidth - allColumnsWidth) // numberOfColumns }) columns
 
     else
         columns
 
 
-multiline : Styles -> List (Element.Attribute Variations Msg) -> Element.Element Styles Variations Msg -> Element.Element Styles Variations Msg
-multiline styles attributes element =
-    paragraph styles attributes [ element ]
+multiline : List (Element.Attribute Msg) -> Element.Element Msg -> Element.Element Msg
+multiline attributes element =
+    paragraph attributes [ element ]
 
 
 priority : Column -> Int
@@ -85,6 +84,6 @@ isNotLowestPriority lowestPriority column =
     not (column.priority == lowestPriority)
 
 
-addWidth : Column -> Float -> Float
+addWidth : Column -> Int -> Int
 addWidth column width =
     column.width + width
