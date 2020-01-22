@@ -2,10 +2,9 @@ module Main exposing (..)
 
 import Element exposing (classifyDevice)
 import Models.Config exposing (Config)
-import Models.Model exposing (ModelAndKey, vanillaModelAndKey)
+import Models.Model exposing (ModelAndKey, vanillaModelAndKey, updateScreenSize)
 import Msg exposing (Msg)
 import Subscriptions
-import Task exposing (perform)
 import Update exposing (update)
 import View exposing (view)
 import Browser exposing (..)
@@ -19,11 +18,8 @@ init config url key =
         vanillamodelAndKey = vanillaModelAndKey key 
         vanillaModel = vanillamodelAndKey.model
         vanillaModelWithConfig = 
-            { 
-                vanillaModel | 
-                    config = config
-                    , device = (classifyDevice { width = config.windowWidth, height = config.windowHeight } ) 
-            }
+            { vanillaModel | config = config }
+            |> updateScreenSize config.windowWidth config.windowHeight
         vanillaModelAndKeyWithConfig = { vanillamodelAndKey | model = vanillaModelWithConfig }
         ( model, cmd ) =
             update

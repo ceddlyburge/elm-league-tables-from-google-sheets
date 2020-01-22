@@ -1,9 +1,7 @@
 module Pages.LeagueList.View exposing (page)
 
 import Element exposing (..)
-import Element.Attributes exposing (..)
 import Element.Events exposing (onClick)
-import LeagueStyleElements exposing (..)
 import Models.Config exposing (Config)
 import Models.LeagueSummary exposing (LeagueSummary)
 import Msg exposing (..)
@@ -11,12 +9,13 @@ import Pages.HeaderBar exposing (..)
 import Pages.HeaderBarItem exposing (..)
 import Pages.MaybeResponse exposing (..)
 import Pages.Page exposing (..)
-import Pages.Responsive exposing (..)
+import Pages.ViewHelpers exposing (..)
 import RemoteData exposing (WebData)
+import Styles exposing (..)
 
 
-page : Config -> WebData (List LeagueSummary) -> Responsive -> Page
-page config response responsive =
+page : Config -> WebData (List LeagueSummary) -> Styles-> Page
+page config response styles =
     Page
         (SingleHeader <|
             HeaderBar
@@ -24,28 +23,27 @@ page config response responsive =
                 config.applicationTitle
                 [ RefreshHeaderButton RefreshLeagueList ]
         )
-        (maybeResponse response <| leagueList responsive)
+        (maybeResponse response (leagueList styles)  styles)
 
 
-leagueList : Responsive -> List LeagueSummary -> Element Styles variation Msg
-leagueList responsive leagueSummaries =
+leagueList : Styles -> List LeagueSummary -> Element Msg
+leagueList styles leagueSummaries =
     column
-        None
-        [ width (percent 100)
-        , class "data-test-leagues"
+        [ width fill
+        , dataTestClass "leagues"
         ]
-        (List.map (leagueTitle responsive) leagueSummaries)
+        (List.map (leagueTitle styles) leagueSummaries)
 
 
-leagueTitle : Responsive -> LeagueSummary -> Element Styles variation Msg
-leagueTitle responsive league =
-    el
-        LeagueListLeagueTitle
-        [ padding responsive.mediumGap
-        , spacing responsive.smallGap
-        , width <| percent responsive.designPortraitPercentageWidth
-        , class "data-test-league"
-        , center
+leagueTitle : Styles -> LeagueSummary -> Element Msg
+leagueTitle styles league =
+    Styles.elWithStyle
+        styles.leagueListLeagueName
+        [ styles.mediumPadding
+        , styles.smallSpacing
+        , width styles.fillToDesignPortraitWidth
+        , centerX
         , onClick <| ShowLeagueTable league.title
+        , dataTestClass "league"
         ]
-        (paragraph None [] [ text league.title ])
+        (paragraph [] [ text league.title ])

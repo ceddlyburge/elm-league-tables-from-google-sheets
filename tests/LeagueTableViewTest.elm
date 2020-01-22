@@ -4,7 +4,6 @@ import Test exposing (..)
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (text, class)
 import RemoteData exposing (WebData)
-
 import Pages.LeagueTable.View exposing (..)
 import Pages.RenderPage exposing (..)
 import Models.Team exposing (Team)
@@ -13,7 +12,7 @@ import Models.LeagueTable exposing (LeagueTable)
 import Models.ResultsFixtures exposing (vanillaResultsFixtures)
 import Models.Player exposing (vanillaPlayers)
 import Msg exposing (..)
-import Pages.Responsive exposing (..)
+import Styles exposing (vanillaStyles)
 
 oneTeam : Test
 oneTeam =
@@ -83,7 +82,7 @@ teamElement  =
 html : Query.Single Msg.Msg
 html  =
     renderTestablePage 
-        vanillaResponsive
+        vanillaStyles
         (page 
             "" 
             (RemoteData.Success 
@@ -97,5 +96,5 @@ html  =
                     vanillaPlayers
                 )
             )  
-            vanillaResponsive)
+            vanillaStyles)
     |> Query.fromHtml

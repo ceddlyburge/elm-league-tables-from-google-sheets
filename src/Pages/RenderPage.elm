@@ -1,44 +1,47 @@
 module Pages.RenderPage exposing (renderPage, renderTestablePage)
 
 import Element exposing (..)
-import Element.Attributes exposing (..)
 import Element.Events exposing (onClick)
 import Html exposing (Html)
 import Html.Attributes exposing (class)
-import LeagueStyleElements exposing (..)
+import Styles exposing (..)
 import Msg exposing (..)
 import Pages.HeaderBar exposing (..)
 import Pages.HeaderBarItem exposing (..)
 import Pages.Page exposing (..)
 import Pages.Responsive exposing (..)
+import Pages.ViewHelpers exposing (..)
 import Browser exposing (Document)
+import Element.Font exposing (..)
 
 
-renderPage : Responsive -> Page -> Document Msg
-renderPage responsive page =
+renderPage : Styles -> Page -> Document Msg
+renderPage styles page =
     Document
         "League Tables"
-        [ renderTestablePage responsive page]
+        [ renderTestablePage styles page]
 
 
 -- This is an annoyance, but the html test package doesn't want to work with lists really
-renderTestablePage : Responsive -> Page -> Html Msg
-renderTestablePage responsive page =
+renderTestablePage : Styles -> Page -> Html Msg
+renderTestablePage styles page =
     body
-        responsive
-        [ renderHeaderBar responsive page.header
+        styles
+        [ renderHeaderBar styles page.header
         , page.body
         ]
 
-body : Responsive -> List (Element Styles variation msg) -> Html msg
-body responsive elements =
-    Element.layout (stylesheet responsive.fontSize) <|
-        column
-            Body
-            [ width <| bodyWidth responsive
-            , spacingXY 0 responsive.mediumGap
-            , center
-            , Element.Attributes.class "data-class-body"
+body : Styles -> List (Element Msg) -> Html Msg
+body styles elements =
+    Element.layout 
+        [ sansSerifFontFamily
+        , width <| bodyWidth styles.responsive
+        ] 
+        <| column
+            [ styles.mediumVerticalSpacing
+            , width <| bodyWidth styles.responsive
+            , centerX 
+            , dataTestClass "body"
             ]
             elements
 
@@ -47,7 +50,7 @@ body responsive elements =
 -- 100% normally works better, as it takes into account a vertical scroll bar if there is one.
 -- If you just set a pixel width, it will be wider than the available width if there is a
 -- vertical scroll bar, and then yout get an annoying horizontal scroll bar as well.
--- If 100% is too small, then we can just use a percent value, as there is going to be a
+-- If 100% is too small, then we can just use a pixel value, as there is going to be a
 -- horizontal scroll bar anyway
 
 
@@ -57,121 +60,144 @@ bodyWidth responsive =
         px responsive.pageWidth
 
     else
-        percent 100
+        fill
 
 
-renderHeaderBar : Responsive -> PageHeader -> Element.Element Styles variation Msg
-renderHeaderBar responsive pageHeader =
+renderHeaderBar : Styles -> PageHeader -> Element.Element Msg
+renderHeaderBar styles pageHeader =
     case pageHeader of
         SingleHeader headerBar ->
-            renderMainHeaderBar responsive headerBar
+            renderMainHeaderBar styles headerBar
 
         DoubleHeader headerBar subHeaderBar ->
-            renderMainAndSubHeaderBar responsive headerBar subHeaderBar
+            renderMainAndSubHeaderBar styles headerBar subHeaderBar
 
 
-renderMainAndSubHeaderBar : Responsive -> HeaderBar -> SubHeaderBar -> Element.Element Styles variation Msg
-renderMainAndSubHeaderBar responsive headerBar subHeaderBar =
+renderMainAndSubHeaderBar : Styles -> HeaderBar -> SubHeaderBar -> Element.Element Msg
+renderMainAndSubHeaderBar styles headerBar subHeaderBar =
     column
-        Title
-        [ width <| percent 100 ]
-        [ renderMainHeaderBar responsive headerBar
-        , renderSubHeaderBar responsive subHeaderBar
+        [ width fill ]
+        [ renderMainHeaderBar styles headerBar
+        , renderSubHeaderBar styles subHeaderBar
         ]
 
 
-renderMainHeaderBar : Responsive -> HeaderBar -> Element.Element Styles variation Msg
-renderMainHeaderBar responsive headerBar =
+renderMainHeaderBar : Styles -> HeaderBar -> Element.Element Msg
+renderMainHeaderBar styles headerBar =
     heading
-        responsive
-        (List.map renderHeaderBarItem headerBar.leftItems
+        styles
+        (List.map (renderHeaderBarItem styles) headerBar.leftItems
             ++ [ title headerBar.title ]
-            ++ List.map renderHeaderBarItem headerBar.rightItems
+            ++ List.map (renderHeaderBarItem styles) headerBar.rightItems
         )
 
 
-renderSubHeaderBar : Responsive -> SubHeaderBar -> Element.Element Styles variation Msg
-renderSubHeaderBar responsive subHeaderBar =
-    el
-        SubTitle
-        [ width <| percent 100
-        , padding responsive.mediumGap
-        , verticalCenter
+renderSubHeaderBar : Styles -> SubHeaderBar -> Element.Element Msg
+renderSubHeaderBar styles subHeaderBar =
+    elWithStyle
+        styles.subHeaderBar
+        [ width fill
+        , styles.mediumPadding 
+        , centerY 
         ]
         (text subHeaderBar.title)
 
 
-renderHeaderBarItem : HeaderBarItem -> Element.Element Styles variation Msg
-renderHeaderBarItem headerBarItem =
+renderHeaderBarItem : Styles -> HeaderBarItem -> Element.Element Msg
+renderHeaderBarItem styles headerBarItem =
     case headerBarItem of
         HeaderButtonSizedSpace ->
-            el Hidden [] backIcon
+            el 
+                styles.invisibleButTakesUpSpace 
+                backIcon
 
         RefreshHeaderButton msg ->
-            el TitleButton [ Element.Attributes.class "data-test-refresh", onClick msg ] refreshIcon
+            elWithStyle 
+                styles.mainHeaderBarLink
+                [ dataTestClass "refresh"
+                , onClick msg ]
+                refreshIcon
 
         ResultsFixturesHeaderButton msg ->
-            el TitleButton [ onClick msg ] resultsFixturesIcon
+            elWithStyle 
+                styles.mainHeaderBarLink
+                [ onClick msg ]
+                resultsFixturesIcon
 
         TopScorersHeaderButton msg namedPlayerDataAvailable ->
-            topScorerHeaderBarItem msg namedPlayerDataAvailable
+            topScorerHeaderBarItem styles msg namedPlayerDataAvailable
 
         BackHeaderButton msg ->
-            el TitleButton [ onClick msg ] backIcon
+            elWithStyle 
+                styles.mainHeaderBarLink 
+                [ onClick msg
+                , dataTestClass "back"
+                ] 
+                backIcon
 
 
-topScorerHeaderBarItem : Msg -> Bool -> Element.Element Styles variation Msg
-topScorerHeaderBarItem msg namedPlayerDataAvailable =
+topScorerHeaderBarItem : Styles -> Msg -> Bool -> Element.Element Msg
+topScorerHeaderBarItem styles msg namedPlayerDataAvailable =
     if namedPlayerDataAvailable == True then
-        el TitleButton [ onClick msg ] topScorersIcon
+        elWithStyle
+            styles.mainHeaderBarLink
+            [ onClick msg ]
+            topScorersIcon
 
     else
-        paragraph None [] []
+        -- this avoids screen jank when loading the page
+        -- namedPlayerDataAvailable is only known after the result
+        -- is fetched from the google api, which takes time, and
+        -- it defaults to false
+        -- could potentially show it greyed out instead
+        -- or just show it, and if there is no named player data
+        -- link to a help page stating this
+        el 
+            styles.invisibleButTakesUpSpace 
+            topScorersIcon
 
 
-heading : Responsive -> List (Element Styles variation msg) -> Element.Element Styles variation msg
-heading responsive elements =
-    row
-        Title
-        [ width <| percent 100
-        , padding responsive.bigGap
-        , spacing responsive.bigGap
-        , verticalCenter
-        , center
-        , Element.Attributes.class "data-class-heading"
+heading : Styles -> List (Element Msg) -> Element.Element Msg
+heading styles elements =
+    rowWithStyle
+        styles.mainHeaderBar
+        [ width <| bodyWidth styles.responsive
+        , styles.bigPadding
+        , styles.bigSpacing
+        , centerY 
+        , dataTestClass "heading"
         ]
         elements
 
 
-title : String -> Element.Element Styles variation msg
+title : String -> Element.Element msg
 title titleText =
     paragraph
-        Title
-        [ Element.Attributes.class "data-test-title"
-        , width fill
+        [ dataTestClass "title"
+        , centerX
         ]
         [ text titleText ]
 
 
-backIcon : Element style variation msg
+backIcon : Element msg
 backIcon =
-    Html.span [ Html.Attributes.class "data-test-back fas fa-arrow-alt-circle-left" ] []
+    Html.span [ Html.Attributes.class "back fas fa-arrow-alt-circle-left" ] []
         |> Element.html
 
 
-refreshIcon : Element style variation msg
+refreshIcon : Element msg
 refreshIcon =
     Html.span [ Html.Attributes.class "fas fa-sync-alt" ] []
         |> Element.html
 
 
-resultsFixturesIcon : Element style variation msg
+resultsFixturesIcon : Element msg
 resultsFixturesIcon =
     Html.span [ Html.Attributes.class "data-test-results-fixtures fas fa-calendar-alt" ] []
         |> Element.html
 
 
-topScorersIcon : Element style variation msg
+topScorersIcon : Element msg
 topScorersIcon =
     Html.span [ Html.Attributes.class "data-test-top-scorers fas fa-futbol" ] []
         |> Element.html

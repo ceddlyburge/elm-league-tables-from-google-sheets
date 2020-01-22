@@ -1,9 +1,8 @@
 module Pages.LeagueTable.View exposing (page)
 
 import Element exposing (..)
-import Element.Attributes exposing (..)
---import Http exposing (decodeUri)
-import LeagueStyleElements exposing (..)
+import Html.Attributes exposing (..)
+import Styles exposing (..)
 import Models.League exposing (League)
 import Models.LeagueTable exposing (LeagueTable)
 import Models.Team exposing (..)
@@ -14,11 +13,12 @@ import Pages.MaybeResponse exposing (..)
 import Pages.Page exposing (..)
 import Pages.Responsive exposing (..)
 import Pages.ResponsiveColumn exposing (..)
+import Pages.ViewHelpers exposing (..)
 import RemoteData exposing (WebData)
 
 
-page : String -> WebData League -> Responsive -> Page
-page leagueTitle response responsive =
+page : String -> WebData League -> Styles -> Page
+page leagueTitle response styles =
     Page
         (SingleHeader <|
             HeaderBar
@@ -29,7 +29,7 @@ page leagueTitle response responsive =
                 leagueTitle
                 [ RefreshHeaderButton <| RefreshLeagueTable leagueTitle ]
         )
-        (maybeResponse (RemoteData.map .table response) (leagueTableElement responsive))
+        (maybeResponse (RemoteData.map .table response) (leagueTableElement styles) styles)
 
 
 namedPlayerDataAvailable : WebData League -> Bool
@@ -39,52 +39,55 @@ namedPlayerDataAvailable leagueResponse =
         |> Maybe.withDefault False
 
 
-leagueTableElement : Responsive -> LeagueTable -> Element Styles Variations Msg
-leagueTableElement responsive leagueTable =
+leagueTableElement : Styles -> LeagueTable -> Element Msg
+leagueTableElement styles leagueTable =
     let
         columns =
             respondedColumns
-                responsive.pageWidth
-                responsive.mediumGap
-                responsive.smallGap
-                (allColumns responsive.pageWidth)
+                styles.responsive.pageWidth
+                styles.responsive.mediumGap
+                styles.responsive.smallGap
+                (allColumns styles.responsive.pageWidth)
     in
-    column None
-        [ class "data-test-teams" ]
-        ([ headerRow columns responsive ]
-            ++ List.map (teamRow columns responsive) leagueTable.teams
+    column
+        [ dataTestClass "teams", centerX ]
+        (   headerRow columns styles
+            :: List.map (teamRow columns styles) leagueTable.teams
         )
 
 
-headerRow : List Column -> Responsive -> Element Styles Variations Msg
-headerRow tableColumns responsive =
-    row
-        LeagueTableHeaderRow
-        [ padding responsive.mediumGap, spacing responsive.smallGap, center ]
+headerRow : List Pages.ResponsiveColumn.Column -> Styles -> Element Msg
+headerRow tableColumns styles =
+    rowWithStyle
+        styles.leagueTableHeaderRow
+        [ styles.mediumPadding
+        , styles.smallSpacing ]
         (List.map headerCell tableColumns)
 
 
-headerCell : Column -> Element Styles Variations Msg
+headerCell : Pages.ResponsiveColumn.Column -> Element Msg
 headerCell column =
     column.element
-        None
-        [ width (px column.width), class column.cssClass ]
+        [ Element.width (px column.width)
+        , htmlAttribute (class column.cssClass) ]
         (text column.title)
 
 
-teamRow : List Column -> Responsive -> Team -> Element Styles Variations Msg
-teamRow tableColumns responsive aTeam =
-    row
-        LeagueTableTeamRow
-        [ padding responsive.mediumGap, spacing responsive.smallGap, center, class "data-test-team" ]
+teamRow : List Pages.ResponsiveColumn.Column -> Styles -> Team -> Element Msg
+teamRow tableColumns styles aTeam =
+    rowWithStyle
+        styles.leagueTableTeamRow
+        [ styles.mediumPadding
+        , styles.mediumSpacing
+        , dataTestClass "team" ]
         (List.map (teamCell aTeam) tableColumns)
 
 
-teamCell : Team -> Column -> Element Styles Variations Msg
+teamCell : Team -> Pages.ResponsiveColumn.Column -> Element Msg
 teamCell aTeam column =
     column.element
-        None
-        [ width (px column.width), class column.cssClass ]
+        [ Element.width (px column.width)
+        , htmlAttribute <| class column.cssClass ]
         (text <| column.value aTeam)
 
 
@@ -92,7 +95,7 @@ teamCell aTeam column =
 -- Pixel widths, with one character spare, measured using https://codepen.io/jasesmith/pen/eBeoNz
 
 
-allColumns : Float -> List Column
+allColumns : Int -> List Pages.ResponsiveColumn.Column
 allColumns viewportWidth =
     if viewportWidth <= 600 then
         -- 12px font (font size is from LeagueStyleElements)
@@ -157,40 +160,40 @@ allColumns viewportWidth =
 
 
 position =
-    Column Models.Team.position "data-test-position"
+    Pages.ResponsiveColumn.Column Models.Team.position "data-test-position"
 
 
 team =
-    Column Models.Team.name "data-test-name"
+    Pages.ResponsiveColumn.Column Models.Team.name "data-test-name"
 
 
 played =
-    Column Models.Team.gamesPlayed "data-test-gamesPlayed"
+    Pages.ResponsiveColumn.Column Models.Team.gamesPlayed "data-test-gamesPlayed"
 
 
 won =
-    Column Models.Team.won "data-test-won"
+    Pages.ResponsiveColumn.Column Models.Team.won "data-test-won"
 
 
 drawn =
-    Column Models.Team.drawn "data-test-drawn"
+    Pages.ResponsiveColumn.Column Models.Team.drawn "data-test-drawn"
 
 
 lost =
-    Column Models.Team.lost "data-test-lost"
+    Pages.ResponsiveColumn.Column Models.Team.lost "data-test-lost"
 
 
 goalsFor =
-    Column Models.Team.goalsFor "data-test-goalsFor"
+    Pages.ResponsiveColumn.Column Models.Team.goalsFor "data-test-goalsFor"
 
 
 goalsAgainst =
-    Column Models.Team.goalsAgainst "data-test-goalsAgainst"
+    Pages.ResponsiveColumn.Column Models.Team.goalsAgainst "data-test-goalsAgainst"
 
 
 goalDifference =
-    Column Models.Team.goalDifference "data-test-goalDifference"
+    Pages.ResponsiveColumn.Column Models.Team.goalDifference "data-test-goalDifference"
 
 
 points =
-    Column Models.Team.points "data-test-points"
+    Pages.ResponsiveColumn.Column Models.Team.points "data-test-points"

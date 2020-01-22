@@ -1,7 +1,6 @@
 module Update exposing (update, updatewithoutBrowserHistory)
 
-import Element exposing (classifyDevice)
-import Models.Model exposing (Model, ModelAndKey)
+import Models.Model exposing (Model, ModelAndKey, updateScreenSize)
 import Models.Route as Route exposing (Route)
 import Msg exposing (..)
 import Url exposing (Url)
@@ -72,7 +71,8 @@ updatewithoutBrowserHistory msg model =
 
         -- responsiveness
         SetScreenSize width height ->
-            ( { model | device = classifyDevice { width = width, height = height } }, Cmd.none )
+            ( updateScreenSize width height model
+            , Cmd.none )
 
         -- routing
         OnUrlChange url ->
@@ -106,12 +106,12 @@ updateFromLocation model location =
         route =
             parseLocation location
     in
-    updateFromRoute model location route
+    updateFromRoute model route
         |> stopInfiniteLoop model route
 
 
-updateFromRoute : Model -> Url -> Route -> ( Model, Cmd Msg )
-updateFromRoute model location route =
+updateFromRoute : Model -> Route -> ( Model, Cmd Msg )
+updateFromRoute model route =
     case route of
         Route.LeagueList ->
             updatewithoutBrowserHistory ShowLeagueList model

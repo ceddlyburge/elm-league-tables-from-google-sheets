@@ -1,19 +1,19 @@
 module Pages.MaybeResponse exposing (maybeResponse)
 
 import Element exposing (..)
-import Element.Attributes exposing (..)
 import Html exposing (div)
 import Html.Attributes exposing (class)
 import Http exposing (..)
-import LeagueStyleElements exposing (..)
 import RemoteData exposing (WebData)
+import Msg exposing (..)
+import Styles exposing (..)
 
 
-maybeResponse : WebData payload -> (payload -> Element Styles variation msg) -> Element Styles variation msg
-maybeResponse response success =
+maybeResponse : WebData payload -> (payload -> Element Msg) -> Styles -> Element Msg
+maybeResponse response success styles =
     case response of
         RemoteData.NotAsked ->
-            unhappyPathText unexpectedNotAskedMessage
+            unhappyPathText unexpectedNotAskedMessage styles
 
         RemoteData.Loading ->
             loading
@@ -22,7 +22,7 @@ maybeResponse response success =
             success payload
 
         RemoteData.Failure error ->
-            unhappyPathText <| httpErrorMessage error
+            unhappyPathText (httpErrorMessage error) styles
 
 
 unexpectedNotAskedMessage : String
@@ -54,21 +54,28 @@ httpErrorMessage error =
 -- style-elements doesn't really support this, so using standard html / css
 
 
-loading : Element style variation msg
+loading : Element msg
 loading =
-    Html.div
-        [ Html.Attributes.class "loading" ]
-        [ Html.div
-            [ Html.Attributes.class "la-ball-newton-cradle la-3x" ]
-            [ Html.div [] []
-            , Html.div [] []
-            , Html.div [] []
-            , Html.div [] []
-            ]
-        ]
-        |> Element.html
+    el 
+        [ centerX ]
+        (
+            Html.div
+                [ Html.Attributes.class "loading" ]
+                [ Html.div
+                    [ Html.Attributes.class "la-ball-newton-cradle la-3x" ]
+                    [ Html.div [] []
+                    , Html.div [] []
+                    , Html.div [] []
+                    , Html.div [] []
+                    ]
+                ]
+                |> Element.html
+        )
 
 
-unhappyPathText : String -> Element Styles variation msg
-unhappyPathText string =
-    paragraph UnhappyPathText [ width (percent 90) ] [ text string ]
+unhappyPathText : String -> Styles -> Element Msg
+unhappyPathText string styles =
+    paragraphWithStyle 
+        styles.unhappyPathText
+        [ width (fillPortion 90) ] 
+        [ text string ]
