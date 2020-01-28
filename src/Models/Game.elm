@@ -1,4 +1,4 @@
-module Models.Game exposing (Game, awayTeamGoals, homeTeamGoals, vanillaGame)
+module Models.Game exposing (Game, vanillaGame, aggregateGoals)
 
 import Dict exposing (toList)
 import Dict.Extra exposing (groupBy)
@@ -9,22 +9,23 @@ import Time exposing (Posix)
 
 -- This type is what the google spreadsheet is decoded to, and is used
 -- in results fixtures. It might be better to separate these two uses,
--- which would allow the minor smell of homeTeamGoalsWithRealPlayerNames
--- to be fixed
+-- which would allow the minor smell of aggregateGoals to be fixed
+-- This would require LeagueGamesForDays to use the new type, instead
+-- of this one
 
 
 type alias Game =
     { homeTeamName : String
 
-    -- homeTeamGoalCount and awayTeamGoalCount are considered necessary in the spreadsheet
-    -- if they are not entered a game is considered invalid / not played yet
+    -- if homeTeamGoalCount and awayTeamGoalCount are not entered a game 
+    -- is considered not played yet (or not played yet)
     , homeTeamGoalCount : Maybe Int
     , awayTeamName : String
     , awayTeamGoalCount : Maybe Int
     , datePlayed : Maybe Posix
 
-    -- homeTeamGoalCount and awayTeamGoalCount are lists of goals (currently just a string
-    -- that represents the name of the scorer). They are options. This creates
+    -- homeTeamGoals and awayTeamGoals are lists of goals (currently just a string
+    -- that represents the name or number of the scorer). They are optional. This creates
     -- the potential for a disconnect between the number of items in the list
     -- and the number of goals. I think this is Ok, we could add something to the
     -- docs later, but we don't control the data coming in so there isn't too much
@@ -43,30 +44,20 @@ vanillaGame =
     Game "" Nothing "" Nothing Nothing [] [] "" "" ""
 
 
-homeTeamGoals : Game -> List ( String, Int )
-homeTeamGoals game =
-    homeTeamGoalsWithRealPlayerNames game
-        |> goalsAsPlayerOccurrences
-
-
-awayTeamGoals : Game -> List ( String, Int )
-awayTeamGoals game =
-    awayTeamGoalsWithRealPlayerNames game
-        |> goalsAsPlayerOccurrences
-
-
-goalsAsPlayerOccurrences : List String -> List ( String, Int )
-goalsAsPlayerOccurrences lst =
-    Dict.Extra.groupBy identity lst
+-- this returns a string to represent a list of scorers in the view
+aggregateGoals : List String -> String
+aggregateGoals goals =
+    List.filter hasRealName goals
+        |> Dict.Extra.groupBy identity
         |> Dict.toList
-        |> List.map (\( playerName, occurrences ) -> ( playerName, List.length occurrences ))
+        |> List.map (\( playerName, occurrencesOfPlayerName ) -> ( playerName, List.length occurrencesOfPlayerName ))
+        |> List.map formatPlayerOccurrences
+        |> String.join ", "
 
+formatPlayerOccurrences : ( String, Int ) -> String
+formatPlayerOccurrences ( playerName, timesScored ) =
+    if timesScored <= 1 then
+        playerName
 
-homeTeamGoalsWithRealPlayerNames : Game -> List String
-homeTeamGoalsWithRealPlayerNames game =
-    List.filter RealName.hasRealName game.homeTeamGoals
-
-
-awayTeamGoalsWithRealPlayerNames : Game -> List String
-awayTeamGoalsWithRealPlayerNames game =
-    List.filter RealName.hasRealName game.awayTeamGoals
+    else
+        playerName ++ " (" ++ String.fromInt timesScored ++ ")"

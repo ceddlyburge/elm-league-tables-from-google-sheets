@@ -1,34 +1,13 @@
-module GameTest exposing (..)
+module GameTest exposing (aggregateGoalsTest)
 
-import Expect exposing (Expectation)
-import Fuzz exposing (Fuzzer, intRange, list)
-import Models.Game exposing (..)
-import Test exposing (..)
-import Time exposing (..)
-import Time.Extra exposing (..)
+import Expect
+import Models.Game exposing (aggregateGoals)
+import Test exposing (Test, test)
 
 
-homeTeamGoalsTest : Test
-homeTeamGoalsTest =
-    test "Groups home team player occurrences" <|
+aggregateGoalsTest : Test
+aggregateGoalsTest =
+    test "Groups home team player occurrences and ignores numbers" <|
         \() ->
-            homeTeamGoals { vanillaGame | homeTeamGoals = [ "john", "mike", "ed", "cedd", "mike", "cedd", "john", "john" ] }
-                |> Expect.equal [ ( "cedd", 2 ), ( "ed", 1 ), ( "john", 3 ), ( "mike", 2 ) ]
-
-
-awayTeamGoalsTest : Test
-awayTeamGoalsTest =
-    test "Groups away team player occurrences" <|
-        \() ->
-            awayTeamGoals { vanillaGame | awayTeamGoals = [ "john", "mike", "ed", "cedd", "mike", "cedd", "john", "john" ] }
-                |> Expect.equal [ ( "cedd", 2 ), ( "ed", 1 ), ( "john", 3 ), ( "mike", 2 ) ]
-
-
--- playerOccurrencesTest : Test
--- playerOccurrencesTest =
---     test "Groups player occurrences" <|
---         \() ->
---             playerOccurrences
---                 [ "john", "mike", "ed", "cedd", "mike", "cedd", "john", "john" ]
---                 |> Expect.equal
---                     [ ( "cedd", 2 ), ( "ed", 1 ), ( "john", 3 ), ( "mike", 2 ) ]
+            aggregateGoals [ "john", "11", "mike", "ed", "cedd", "mike", "cedd", "john", "john" ]
+                |> Expect.equal "cedd (2), ed, john (3), mike (2)"

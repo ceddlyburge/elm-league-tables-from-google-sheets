@@ -51,11 +51,6 @@ leagueGamesForDay ( firstGame, remainingGames ) =
         (List.sortWith gamesAscendingDate (firstGame :: remainingGames))
 
 
-dateOfFirstGame : List Game -> Maybe Posix
-dateOfFirstGame games =
-    Maybe.andThen .datePlayed (List.head games)
-
-
 gamesAscendingDate : Game -> Game -> Order
 gamesAscendingDate game1 game2 =
     compareMaybeDate game1.datePlayed game2.datePlayed

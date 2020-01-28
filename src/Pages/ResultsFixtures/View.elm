@@ -1,6 +1,5 @@
 module Pages.ResultsFixtures.View exposing (page)
 
-import Calculations.ResultsFixturesFromLeagueGames exposing (..)
 import DateFormat
 import Element exposing (..)
 import Element.Font as Font
@@ -80,21 +79,21 @@ dayResultsFixtures styles leagueGamesForDay =
         (List.map (gameRow styles) leagueGamesForDay.games)
 
 
-formatPlayerOccurrences : ( String, Int ) -> String
-formatPlayerOccurrences ( playerName, timesScored ) =
-    if timesScored <= 1 then
-        playerName
+-- formatPlayerOccurrences : ( String, Int ) -> String
+-- formatPlayerOccurrences ( playerName, timesScored ) =
+--     if timesScored <= 1 then
+--         playerName
 
-    else
-        playerName ++ " (" ++ String.fromInt timesScored ++ ")"
+--     else
+--         playerName ++ " (" ++ String.fromInt timesScored ++ ")"
 
 
-gameRowScorers : List ( String, Int ) -> String
-gameRowScorers occurrences =
-    List.map
-        formatPlayerOccurrences
-        occurrences
-        |> String.join ", "
+-- gameRowScorers : List ( String, Int ) -> String
+-- gameRowScorers occurrences =
+--     List.map
+--         formatPlayerOccurrences
+--         occurrences
+--         |> String.join ", "
 
 
 gameRow : Styles -> Game -> Element Msg
@@ -116,7 +115,7 @@ gameRow styles game =
                 styles.resultFixtureGoals
                 [ Font.alignRight
                 , dataTestClass "homeTeamGoals" ]
-                [ text <| gameRowScorers <| homeTeamGoals game ]
+                [ text <| aggregateGoals game.homeTeamGoals ]
             ]
         , row
             styles.resultFixtureScore
@@ -131,7 +130,7 @@ gameRow styles game =
                 styles.resultFixtureGoals
                 [ alignLeft
                 , dataTestClass "awayTeamGoals" ]
-                [ text <| gameRowScorers <| awayTeamGoals game ]
+                [ text <| aggregateGoals game.awayTeamGoals ]
             ]
         ]
 
