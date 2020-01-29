@@ -3,7 +3,7 @@ module CalculateTopScorersFromLeagueGamesTest exposing (..)
 import Test exposing (..)
 import Expect
 
-import Models.Game exposing (Game, vanillaGame)
+import Models.DecodedGame exposing (DecodedGame, vanillaGame)
 import Calculations.PlayersFromLeagueGames exposing (calculatePlayers)
 import Models.Player exposing (..)
 
@@ -91,7 +91,7 @@ namedPlayers =
             |> Expect.equal 
                 True
 
-game: String -> List String -> String -> List String -> Game
+game: String -> List String -> String -> List String -> DecodedGame
 game homeTeamName homeTeamGoalCount awayTeamName awayTeamGoalCount = 
     { vanillaGame | 
         homeTeamName = homeTeamName

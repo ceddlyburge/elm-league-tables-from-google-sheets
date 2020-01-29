@@ -2,7 +2,7 @@ module GoogleSheet.DecodeGoogleSheetToGameList exposing (decodeSheetToLeagueGame
 
 import Json.Decode exposing (Decoder, Value, andThen, at, decodeString, index, int, list, maybe, string, succeed, value)
 import Json.Decode.Extra exposing (andMap, indexedList, optionalField, parseInt, withDefault, datetime)
-import Models.Game exposing (Game)
+import Models.DecodedGame exposing (DecodedGame)
 import Models.LeagueGames exposing (LeagueGames)
 import Iso8601 exposing (toTime)
 import Time exposing (Posix)
@@ -12,14 +12,14 @@ decodeSheetToLeagueGames leagueTitle =
     Json.Decode.map (\games -> LeagueGames leagueTitle games) decodeSheetToGames
 
 
-decodeSheetToGames : Decoder (List Game)
+decodeSheetToGames : Decoder (List DecodedGame)
 decodeSheetToGames =
     decodeSheetToMaybeGames
         |> Json.Decode.map (List.filterMap identity)
         |> Json.Decode.map (List.filter validTeamNames)
 
 
-decodeSheetToMaybeGames : Decoder (List (Maybe Game))
+decodeSheetToMaybeGames : Decoder (List (Maybe DecodedGame))
 decodeSheetToMaybeGames =
     Json.Decode.field "values" (indexedList decodeRowToGame)
 
@@ -28,7 +28,7 @@ decodeSheetToMaybeGames =
 -- skip header row
 
 
-decodeRowToGame : Int -> Decoder (Maybe Game)
+decodeRowToGame : Int -> Decoder (Maybe DecodedGame)
 decodeRowToGame row =
     case row of
         0 ->
@@ -38,7 +38,7 @@ decodeRowToGame row =
             withDefault
                 Maybe.Nothing
                 (succeed
-                    Game
+                    DecodedGame
                     |> andMap (Json.Decode.map String.trim (index 0 string))
                     |> andMap (index 1 (maybe parseInt))
                     |> andMap (Json.Decode.map String.trim (index 3 string))
@@ -60,6 +60,6 @@ parseGoals goalsCsv =
         |> String.split ","
         |> List.map String.trim
 
-validTeamNames : Game -> Bool
+validTeamNames : DecodedGame -> Bool
 validTeamNames game =
     game.homeTeamName /= "" && game.awayTeamName /= ""

@@ -5,7 +5,7 @@ import Time.Extra exposing (..)
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, intRange, list)
 
-import Models.Game exposing (Game, vanillaGame)
+import Models.DecodedGame exposing (DecodedGame, vanillaGame)
 import Models.ResultsFixtures exposing (ResultsFixtures)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 
@@ -21,11 +21,11 @@ expectFirstDay: (Maybe LeagueGamesForDay -> Expectation) -> ResultsFixtures -> E
 expectFirstDay expect resultsFixtures =
     expect (List.head resultsFixtures.days)
 
-unscheduledGame: Game
+unscheduledGame: DecodedGame
 unscheduledGame = 
     vanillaGame
     
-scheduledGame: Posix -> Game
+scheduledGame: Posix -> DecodedGame
 scheduledGame date = 
     { vanillaGame | datePlayed = Just date }
 

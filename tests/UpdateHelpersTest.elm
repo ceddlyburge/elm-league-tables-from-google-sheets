@@ -8,7 +8,7 @@ import Http
 import RemoteData exposing (WebData)
 import Msg exposing (..)
 import Models.Model exposing (Model, vanillaModel)
-import Models.Game exposing (vanillaGame)
+import Models.DecodedGame exposing (vanillaGame)
 import Models.League as League exposing (..)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.Route as Route exposing (Route)

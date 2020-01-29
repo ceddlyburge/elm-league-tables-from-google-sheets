@@ -7,7 +7,7 @@ import Fuzz exposing (Fuzzer, intRange)
 import Expect
 
 import Models.LeagueTable exposing (LeagueTable)
-import Models.Game exposing (Game, vanillaGame)
+import Models.DecodedGame exposing (DecodedGame, vanillaGame)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.Team exposing (Team)
 import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
@@ -24,7 +24,7 @@ oneGame =
                 calculateLeagueTable (LeagueGames "Regional Div 1" [ game castleGoals meridianGoals ])
                 |> Expect.equal (leagueTable castleGoals meridianGoals castleGoalDifference meridianGoalDifference)
 
-game: Int -> Int -> Game
+game: Int -> Int -> DecodedGame
 game castleGoals meridianGoals = 
     { vanillaGame | 
         homeTeamName = "Meridian"

@@ -2,7 +2,7 @@ module Calculations.PlayersFromLeagueGames exposing (calculatePlayers)
 
 import Calculations.SortBy exposing (..)
 import Dict exposing (..)
-import Models.Game exposing (Game)
+import Models.DecodedGame exposing (DecodedGame)
 import Models.Player exposing (..)
 
 
@@ -16,7 +16,7 @@ import Models.Player exposing (..)
 -- list.
 
 
-calculatePlayers : List Game -> Players
+calculatePlayers : List DecodedGame -> Players
 calculatePlayers games =
     let
         playerList =
@@ -27,7 +27,7 @@ calculatePlayers games =
         playerList
 
 
-calculatePlayerList : List Game -> List Player
+calculatePlayerList : List DecodedGame -> List Player
 calculatePlayerList games =
     listScorers games
         |> List.foldl incrementGoals Dict.empty
@@ -47,12 +47,12 @@ incrementGoals playerId playerGoals =
     Dict.insert (toTuple playerId) (currentGoals + 1) playerGoals
 
 
-listScorers : List Game -> List PlayerId
+listScorers : List DecodedGame -> List PlayerId
 listScorers games =
     List.foldl addScorers [] games
 
 
-addScorers : Game -> List PlayerId -> List PlayerId
+addScorers : DecodedGame -> List PlayerId -> List PlayerId
 addScorers game scorers =
     scorers
         ++ List.map (addScorer game.homeTeamName) game.homeTeamGoals

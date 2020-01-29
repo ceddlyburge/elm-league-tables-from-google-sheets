@@ -5,17 +5,20 @@ import Dict.Extra exposing (..)
 import Time exposing (..)
 import Time.Extra exposing (..)
 import List.Extra exposing (gatherWith)
+import Models.DecodedGame exposing (DecodedGame)
 import Models.Game exposing (Game)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 import Models.ResultsFixtures exposing (ResultsFixtures)
+import Calculations.GameFromDecodedGame exposing (calculateGame)
 
 
 calculateResultsFixtures : LeagueGames -> ResultsFixtures
 calculateResultsFixtures leagueGames =
     ResultsFixtures
         leagueGames.leagueTitle
-        (groupGamesByDate leagueGames.games
+        (List.map calculateGame leagueGames.games
+            |> groupGamesByDate
             |> List.map leagueGamesForDay
             |> List.sortWith daysDescendingDate
         )
@@ -49,11 +52,6 @@ leagueGamesForDay ( firstGame, remainingGames ) =
     LeagueGamesForDay
         (Maybe.map (Time.Extra.floor Day utc) firstGame.datePlayed)
         (List.sortWith gamesAscendingDate (firstGame :: remainingGames))
-
-
-dateOfFirstGame : List Game -> Maybe Posix
-dateOfFirstGame games =
-    Maybe.andThen .datePlayed (List.head games)
 
 
 gamesAscendingDate : Game -> Game -> Order
