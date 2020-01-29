@@ -8,7 +8,7 @@ import Time.Extra exposing (..)
 
 import Msg exposing (..)
 import ResultsFixturesViewHelpers exposing (..)
-import Models.DecodedGame exposing (vanillaGame)
+import Models.Game exposing (vanillaGame)
 
 
 oneUnplayedGame : Test

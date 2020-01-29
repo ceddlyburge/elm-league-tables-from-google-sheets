@@ -5,7 +5,7 @@ import Element exposing (..)
 import Element.Font as Font
 import Html.Attributes exposing (class)
 import Styles exposing (..)
-import Models.DecodedGame exposing (..)
+import Models.Game exposing (Game)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 import Models.ResultsFixtures exposing (ResultsFixtures)
 import Msg exposing (..)
@@ -79,24 +79,7 @@ dayResultsFixtures styles leagueGamesForDay =
         (List.map (gameRow styles) leagueGamesForDay.games)
 
 
--- formatPlayerOccurrences : ( String, Int ) -> String
--- formatPlayerOccurrences ( playerName, timesScored ) =
---     if timesScored <= 1 then
---         playerName
-
---     else
---         playerName ++ " (" ++ String.fromInt timesScored ++ ")"
-
-
--- gameRowScorers : List ( String, Int ) -> String
--- gameRowScorers occurrences =
---     List.map
---         formatPlayerOccurrences
---         occurrences
---         |> String.join ", "
-
-
-gameRow : Styles -> DecodedGame -> Element Msg
+gameRow : Styles -> Game -> Element Msg
 gameRow styles game =
     rowWithStyle
         styles.resultFixtureRow
@@ -115,7 +98,7 @@ gameRow styles game =
                 styles.resultFixtureGoals
                 [ Font.alignRight
                 , dataTestClass "homeTeamGoals" ]
-                [ text <| aggregateGoals game.homeTeamGoals ]
+                [ text game.homeTeamGoals ]
             ]
         , row
             styles.resultFixtureScore
@@ -130,12 +113,12 @@ gameRow styles game =
                 styles.resultFixtureGoals
                 [ alignLeft
                 , dataTestClass "awayTeamGoals" ]
-                [ text <| aggregateGoals game.awayTeamGoals ]
+                [ text game.awayTeamGoals ]
             ]
         ]
 
 
-scoreSlashTime : DecodedGame -> Styles -> List (Element Msg)
+scoreSlashTime : Game -> Styles -> List (Element Msg)
 scoreSlashTime game styles =
     case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
         ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->

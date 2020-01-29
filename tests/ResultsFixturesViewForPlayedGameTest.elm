@@ -8,7 +8,7 @@ import Time.Extra exposing (..)
 
 import Msg exposing (..)
 import ResultsFixturesViewHelpers exposing (..)
-import Models.DecodedGame exposing (vanillaGame)
+import Models.Game exposing (vanillaGame)
 
 onePlayedGame : Test
 onePlayedGame =
@@ -28,7 +28,7 @@ onePlayedGame =
             \_ ->
                 dayElement
                 |> Query.find [ Test.Html.Selector.class "data-test-homeTeamGoals" ]
-                |> Query.has [ Test.Html.Selector.text "Barry, Cedd, Lisa"]
+                |> Query.has [ Test.Html.Selector.text "Cedd, Lisa, Barry" ]
         , test "homeTeamGoalCount" <|
             \_ ->
                 dayElement
@@ -57,8 +57,8 @@ dayElement =
         datePlayed = Just <| (Time.Extra.Parts 2006 Mar 23 0 0 0 0 |> Time.Extra.partsToPosix utc)
         , homeTeamName = "Castle"
         , homeTeamGoalCount = Just 3
-        , homeTeamGoals = [ "Cedd" , "Lisa", "Barry" ]
+        , homeTeamGoals = "Cedd, Lisa, Barry"
         , awayTeamName = "Meridian"
-        , awayTeamGoals = [ "Chad", "Pog" ]
+        , awayTeamGoals = "Chad, Pog"
         , awayTeamGoalCount = Just 2 }
     |> Query.find [ Test.Html.Selector.class "data-test-day" ]
