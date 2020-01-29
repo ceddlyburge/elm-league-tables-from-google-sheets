@@ -1,8 +1,5 @@
-module Models.DecodedGame exposing (DecodedGame, vanillaGame, aggregateGoals)
+module Models.DecodedGame exposing (DecodedGame, vanillaGame)
 
-import Dict exposing (toList)
-import Dict.Extra exposing (groupBy)
-import Models.RealName as RealName exposing (hasRealName)
 import Time exposing (Posix)
 
 
@@ -42,22 +39,3 @@ type alias DecodedGame =
 vanillaGame : DecodedGame
 vanillaGame =
     DecodedGame "" Nothing "" Nothing Nothing [] [] "" "" ""
-
-
--- this returns a string to represent a list of scorers in the view
-aggregateGoals : List String -> String
-aggregateGoals goals =
-    List.filter hasRealName goals
-        |> Dict.Extra.groupBy identity
-        |> Dict.toList
-        |> List.map (\( playerName, occurrencesOfPlayerName ) -> ( playerName, List.length occurrencesOfPlayerName ))
-        |> List.map formatPlayerOccurrences
-        |> String.join ", "
-
-formatPlayerOccurrences : ( String, Int ) -> String
-formatPlayerOccurrences ( playerName, timesScored ) =
-    if timesScored <= 1 then
-        playerName
-
-    else
-        playerName ++ " (" ++ String.fromInt timesScored ++ ")"

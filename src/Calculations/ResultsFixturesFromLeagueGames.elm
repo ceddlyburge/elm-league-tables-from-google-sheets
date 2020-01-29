@@ -5,11 +5,12 @@ import Dict.Extra exposing (..)
 import Time exposing (..)
 import Time.Extra exposing (..)
 import List.Extra exposing (gatherWith)
-import Models.DecodedGame exposing (DecodedGame, aggregateGoals)
+import Models.DecodedGame exposing (DecodedGame)
 import Models.Game exposing (Game)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 import Models.ResultsFixtures exposing (ResultsFixtures)
+import Calculations.GameFromDecodedGame exposing (calculateGame)
 
 
 calculateResultsFixtures : LeagueGames -> ResultsFixtures
@@ -22,19 +23,6 @@ calculateResultsFixtures leagueGames =
             |> List.sortWith daysDescendingDate
         )
 
-calculateGame : DecodedGame -> Game
-calculateGame decodedGame =
-    Game
-        decodedGame.homeTeamName
-        decodedGame.homeTeamGoalCount
-        decodedGame.awayTeamName
-        decodedGame.awayTeamGoalCount
-        decodedGame.datePlayed
-        (Models.DecodedGame.aggregateGoals decodedGame.homeTeamGoals)
-        (Models.DecodedGame.aggregateGoals decodedGame.awayTeamGoals)
-        decodedGame.homeTeamCards
-        decodedGame.awayTeamCards
-        decodedGame.notes
 
 groupGamesByDate : List Game -> List ( Game, List Game )
 groupGamesByDate games =
@@ -59,7 +47,6 @@ datesEqual date1 date2 =
     Time.Extra.floor Day utc date1 == Time.Extra.floor Day utc date2
 
 
--- this could probably take games instead
 leagueGamesForDay : ( Game, List Game ) -> LeagueGamesForDay
 leagueGamesForDay ( firstGame, remainingGames ) =
     LeagueGamesForDay
