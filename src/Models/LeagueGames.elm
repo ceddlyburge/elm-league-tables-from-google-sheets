@@ -1,9 +1,9 @@
 module Models.LeagueGames exposing (LeagueGames)
 
-import Models.Game exposing (Game)
+import Models.DecodedGame exposing (DecodedGame)
 
 
 type alias LeagueGames =
     { leagueTitle : String
-    , games : List Game
+    , games : List DecodedGame
     }
