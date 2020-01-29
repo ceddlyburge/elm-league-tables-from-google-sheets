@@ -5,7 +5,7 @@ import Dict.Extra exposing (..)
 import Time exposing (..)
 import Time.Extra exposing (..)
 import List.Extra exposing (gatherWith)
-import Models.Game exposing (Game)
+import Models.DecodedGame exposing (DecodedGame)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 import Models.ResultsFixtures exposing (ResultsFixtures)
@@ -21,12 +21,12 @@ calculateResultsFixtures leagueGames =
         )
 
 
-groupGamesByDate : List Game -> List ( Game, List Game )
+groupGamesByDate : List DecodedGame -> List ( DecodedGame, List DecodedGame )
 groupGamesByDate games =
     gatherWith gameDatesEqual games
 
 
-gameDatesEqual : Game -> Game -> Bool
+gameDatesEqual : DecodedGame -> DecodedGame -> Bool
 gameDatesEqual game1 game2 =
     maybeDatesEqual game1.datePlayed game2.datePlayed
 
@@ -44,14 +44,14 @@ datesEqual date1 date2 =
     Time.Extra.floor Day utc date1 == Time.Extra.floor Day utc date2
 
 
-leagueGamesForDay : ( Game, List Game ) -> LeagueGamesForDay
+leagueGamesForDay : ( DecodedGame, List DecodedGame ) -> LeagueGamesForDay
 leagueGamesForDay ( firstGame, remainingGames ) =
     LeagueGamesForDay
         (Maybe.map (Time.Extra.floor Day utc) firstGame.datePlayed)
         (List.sortWith gamesAscendingDate (firstGame :: remainingGames))
 
 
-gamesAscendingDate : Game -> Game -> Order
+gamesAscendingDate : DecodedGame -> DecodedGame -> Order
 gamesAscendingDate game1 game2 =
     compareMaybeDate game1.datePlayed game2.datePlayed
 

@@ -1,7 +1,7 @@
 module Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 
 import Time exposing (..)
-import Models.Game exposing (Game)
+import Models.DecodedGame exposing (DecodedGame)
 
 -- Game is what the google spreadsheet is decoded to, and is used
 -- again here for a calculated result. 
@@ -11,5 +11,5 @@ import Models.Game exposing (Game)
 
 type alias LeagueGamesForDay =
     { date : Maybe Posix
-    , games : List Game
+    , games : List DecodedGame
     }

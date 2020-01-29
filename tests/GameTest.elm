@@ -1,7 +1,7 @@
 module GameTest exposing (aggregateGoalsTest)
 
 import Expect
-import Models.Game exposing (aggregateGoals)
+import Models.DecodedGame exposing (aggregateGoals)
 import Test exposing (Test, test)
 
 

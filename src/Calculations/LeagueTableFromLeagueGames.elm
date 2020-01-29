@@ -2,7 +2,7 @@ module Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
 
 import Calculations.SortBy exposing (..)
 import List.Extra exposing (unique)
-import Models.Game exposing (Game)
+import Models.DecodedGame exposing (DecodedGame)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.LeagueTable exposing (LeagueTable)
 import Models.Team exposing (Team)
@@ -51,7 +51,7 @@ positionedTeam position team =
     { team | position = position + 1 }
 
 
-unpositionedTeam : List Game -> String -> Team
+unpositionedTeam : List DecodedGame -> String -> Team
 unpositionedTeam games teamName =
     Team
         0
@@ -66,12 +66,12 @@ unpositionedTeam games teamName =
         (goalsFor games teamName - goalsAgainst games teamName)
 
 
-won : List Game -> String -> Int
+won : List DecodedGame -> String -> Int
 won games teamName =
     List.foldl (\current total -> total + current) 0 (List.map (\game -> gameWon teamName game) games)
 
 
-gameWon : String -> Game -> Int
+gameWon : String -> DecodedGame -> Int
 gameWon teamName game =
     if teamName == game.homeTeamName then
         homeWon game
@@ -83,7 +83,7 @@ gameWon teamName game =
         0
 
 
-homeWon : Game -> Int
+homeWon : DecodedGame -> Int
 homeWon game =
     case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
         ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->
@@ -97,7 +97,7 @@ homeWon game =
             0
 
 
-awayWon : Game -> Int
+awayWon : DecodedGame -> Int
 awayWon game =
     case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
         ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->
@@ -111,13 +111,13 @@ awayWon game =
             0
 
 
-drawn : List Game -> String -> Int
+drawn : List DecodedGame -> String -> Int
 drawn games teamName =
     -- could turn this in to a function (aggregateIntegers or something)
     List.foldl (\current total -> total + current) 0 (List.map (\game -> gameDrawn teamName game) games)
 
 
-gameDrawn : String -> Game -> Int
+gameDrawn : String -> DecodedGame -> Int
 gameDrawn teamName game =
     if teamName == game.homeTeamName then
         homeDrawn game
@@ -129,7 +129,7 @@ gameDrawn teamName game =
         0
 
 
-homeDrawn : Game -> Int
+homeDrawn : DecodedGame -> Int
 homeDrawn game =
     case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
         ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->
@@ -143,7 +143,7 @@ homeDrawn game =
             0
 
 
-awayDrawn : Game -> Int
+awayDrawn : DecodedGame -> Int
 awayDrawn game =
     case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
         ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->
@@ -157,12 +157,12 @@ awayDrawn game =
             0
 
 
-lost : List Game -> String -> Int
+lost : List DecodedGame -> String -> Int
 lost games teamName =
     List.foldl (\current total -> total + current) 0 (List.map (\game -> gameLost teamName game) games)
 
 
-gameLost : String -> Game -> Int
+gameLost : String -> DecodedGame -> Int
 gameLost teamName game =
     if teamName == game.homeTeamName then
         homeLost game
@@ -174,7 +174,7 @@ gameLost teamName game =
         0
 
 
-homeLost : Game -> Int
+homeLost : DecodedGame -> Int
 homeLost game =
     case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
         ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->
@@ -188,7 +188,7 @@ homeLost game =
             0
 
 
-awayLost : Game -> Int
+awayLost : DecodedGame -> Int
 awayLost game =
     case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
         ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->
@@ -202,12 +202,12 @@ awayLost game =
             0
 
 
-points : List Game -> String -> Int
+points : List DecodedGame -> String -> Int
 points games teamName =
     List.foldl (\gameGoals totalGoals -> totalGoals + gameGoals) 0 (List.map (\game -> gamePoints teamName game) games)
 
 
-gamePoints : String -> Game -> Int
+gamePoints : String -> DecodedGame -> Int
 gamePoints teamName game =
     if teamName == game.homeTeamName then
         homePoints game
@@ -219,7 +219,7 @@ gamePoints teamName game =
         0
 
 
-homePoints : Game -> Int
+homePoints : DecodedGame -> Int
 homePoints game =
     case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
         ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->
@@ -236,7 +236,7 @@ homePoints game =
             0
 
 
-awayPoints : Game -> Int
+awayPoints : DecodedGame -> Int
 awayPoints game =
     case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
         ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->
@@ -253,12 +253,12 @@ awayPoints game =
             0
 
 
-gamesPlayed : List Game -> String -> Int
+gamesPlayed : List DecodedGame -> String -> Int
 gamesPlayed games teamName =
     List.foldl (\gameGoals totalGoals -> totalGoals + gameGoals) 0 (List.map (\game -> gameGamesPlayed teamName game) games)
 
 
-gameGamesPlayed : String -> Game -> Int
+gameGamesPlayed : String -> DecodedGame -> Int
 gameGamesPlayed teamName game =
     case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
         ( Just _, Just _ ) ->
@@ -275,12 +275,12 @@ gameGamesPlayed teamName game =
             0
 
 
-goalsAgainst : List Game -> String -> Int
+goalsAgainst : List DecodedGame -> String -> Int
 goalsAgainst games teamName =
     List.foldl (\gameGoals totalGoals -> totalGoals + gameGoals) 0 (List.map (\game -> gameGoalsAgainst teamName game) games)
 
 
-gameGoalsAgainst : String -> Game -> Int
+gameGoalsAgainst : String -> DecodedGame -> Int
 gameGoalsAgainst teamName game =
     if teamName == game.homeTeamName then
         Maybe.withDefault 0 game.awayTeamGoalCount
@@ -292,12 +292,12 @@ gameGoalsAgainst teamName game =
         0
 
 
-goalsFor : List Game -> String -> Int
+goalsFor : List DecodedGame -> String -> Int
 goalsFor games teamName =
     List.foldl (\gameGoals totalGoals -> totalGoals + gameGoals) 0 (List.map (\game -> gameGoalsFor teamName game) games)
 
 
-gameGoalsFor : String -> Game -> Int
+gameGoalsFor : String -> DecodedGame -> Int
 gameGoalsFor teamName game =
     if teamName == game.homeTeamName then
         Maybe.withDefault 0 game.homeTeamGoalCount

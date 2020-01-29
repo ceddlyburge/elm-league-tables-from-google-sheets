@@ -5,7 +5,7 @@ import Element exposing (..)
 import Element.Font as Font
 import Html.Attributes exposing (class)
 import Styles exposing (..)
-import Models.Game exposing (..)
+import Models.DecodedGame exposing (..)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 import Models.ResultsFixtures exposing (ResultsFixtures)
 import Msg exposing (..)
@@ -96,7 +96,7 @@ dayResultsFixtures styles leagueGamesForDay =
 --         |> String.join ", "
 
 
-gameRow : Styles -> Game -> Element Msg
+gameRow : Styles -> DecodedGame -> Element Msg
 gameRow styles game =
     rowWithStyle
         styles.resultFixtureRow
@@ -135,7 +135,7 @@ gameRow styles game =
         ]
 
 
-scoreSlashTime : Game -> Styles -> List (Element Msg)
+scoreSlashTime : DecodedGame -> Styles -> List (Element Msg)
 scoreSlashTime game styles =
     case ( game.homeTeamGoalCount, game.awayTeamGoalCount ) of
         ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->

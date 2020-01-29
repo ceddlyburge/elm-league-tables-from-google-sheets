@@ -5,7 +5,7 @@ import Time exposing (..)
 import Time.Extra exposing (..)
 import Expect
 import Json.Decode exposing (decodeString)
-import Models.Game exposing (Game, vanillaGame)
+import Models.DecodedGame exposing (DecodedGame, vanillaGame)
 import Models.LeagueGames exposing (LeagueGames)
 import GoogleSheet.DecodeGoogleSheetToGameList exposing (decodeSheetToLeagueGames)
 
@@ -22,7 +22,7 @@ decodeSpreadsheetIdResponse =
                     Ok (
                       LeagueGames 
                         "Regional Div 1" 
-                        [Game 
+                        [DecodedGame 
                           "Castle" 
                           (Just 3) 
                           "Meridian" 

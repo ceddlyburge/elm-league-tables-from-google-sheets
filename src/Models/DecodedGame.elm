@@ -1,4 +1,4 @@
-module Models.Game exposing (Game, vanillaGame, aggregateGoals)
+module Models.DecodedGame exposing (DecodedGame, vanillaGame, aggregateGoals)
 
 import Dict exposing (toList)
 import Dict.Extra exposing (groupBy)
@@ -14,7 +14,7 @@ import Time exposing (Posix)
 -- of this one
 
 
-type alias Game =
+type alias DecodedGame =
     { homeTeamName : String
 
     -- if homeTeamGoalCount and awayTeamGoalCount are not entered a game 
@@ -39,9 +39,9 @@ type alias Game =
     }
 
 
-vanillaGame : Game
+vanillaGame : DecodedGame
 vanillaGame =
-    Game "" Nothing "" Nothing Nothing [] [] "" "" ""
+    DecodedGame "" Nothing "" Nothing Nothing [] [] "" "" ""
 
 
 -- this returns a string to represent a list of scorers in the view

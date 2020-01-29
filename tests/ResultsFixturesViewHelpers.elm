@@ -6,12 +6,12 @@ import RemoteData exposing (WebData)
 import Pages.ResultsFixtures.View exposing (..)
 import Pages.RenderPage exposing (..)
 import Models.ResultsFixtures exposing (ResultsFixtures)
-import Models.Game exposing (Game)
+import Models.DecodedGame exposing (DecodedGame)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 import Msg exposing (..)
 import Styles exposing (vanillaStyles)
 
-html :  Game -> Query.Single Msg
+html :  DecodedGame -> Query.Single Msg
 html game  =
     renderTestablePage 
         vanillaStyles
