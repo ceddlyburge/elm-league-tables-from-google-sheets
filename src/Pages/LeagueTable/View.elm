@@ -78,7 +78,7 @@ teamRow tableColumns styles aTeam =
     rowWithStyle
         styles.leagueTableTeamRow
         [ styles.mediumPadding
-        , styles.mediumSpacing
+        , styles.smallSpacing
         , dataTestClass "team" ]
         (List.map (teamCell aTeam) tableColumns)
 
