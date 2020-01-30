@@ -90,7 +90,9 @@ gameRow styles game =
         , width fill
         ]
         [ column
-            [ teamWidth ]
+            [ teamWidth
+            , alignTop 
+            ]
             [ paragraph
                 [ Font.alignRight, dataTestClass "homeTeamName" ]
                 [ text game.homeTeamName ]
@@ -100,11 +102,14 @@ gameRow styles game =
                 , dataTestClass "homeTeamGoals" ]
                 [ text game.homeTeamGoals ]
             ]
-        , row
+        , rowWithStyle
             styles.resultFixtureScore
+            [ alignTop ]
             (scoreSlashTime game styles)
         , column
-            [ teamWidth ]
+            [ teamWidth
+            , alignTop 
+            ]
             [ paragraph
                 [ alignLeft
                 , dataTestClass "awayTeamName" ]
