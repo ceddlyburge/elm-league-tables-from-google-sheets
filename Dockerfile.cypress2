@@ -1,0 +1,24 @@
+FROM cypress/base:14.21.1
+
+COPY package.json ./
+
+RUN npm install
+
+COPY elm.json ./
+
+COPY serve.json ./
+
+ENV ELM_HOME=/.elm
+
+COPY ./public ./public
+COPY cypress.config.js ./
+COPY ./cypress ./cypress
+COPY ./src ./src
+# COPY ./functions ./functions
+# COPY ./build ./build
+
+RUN npm run build:app
+
+ENV CYPRESS_VIDEO=false
+
+CMD ["npm", "run", "cypress:test-built"]

@@ -1,0 +1,21 @@
+---
+name: Test-Scenario
+author: Cedd Burge
+version: 1
+description: The test scenario is running the cypress tests at the moment
+
+services:
+  cypress:
+    image: cypress
+    build:
+      context: "."
+      dockerfile: /Dockerfile.cypress
+
+flow:
+  - name: Load 1000
+    container: cypress
+    commands:
+      - type: console
+        command: npm run cypress:test-built
+        detach: true
+        note: Running cypress tests against website
