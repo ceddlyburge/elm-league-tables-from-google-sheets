@@ -1,8 +1,9 @@
 FROM cypress/base:14.21.1
 
 COPY package.json ./
+COPY package-lock.json ./
 
-RUN npm install
+RUN npm install --production --force || true
 
 COPY elm.json ./
 
