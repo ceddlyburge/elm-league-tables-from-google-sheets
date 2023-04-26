@@ -1,19 +1,18 @@
 [![codecov](https://codecov.io/gh/ceddlyburge/elm-league-tables-from-google-sheets/branch/master/graph/badge.svg)](https://codecov.io/gh/ceddlyburge/elm-league-tables-from-google-sheets)
 
-
 This project is bootstrapped with [Create Elm App](https://github.com/halfzebra/create-elm-app).
 
 # Development
 
-- Create a `.env` file (see [.env.template](.env.template) for details), which needs at least [Google Api Key](https://developers.google.com/maps/documentation/javascript/get-api-key). 
+- Create a `.env` file (see [.env.template](.env.template) for details), which needs at least [Google Api Key](https://developers.google.com/maps/documentation/javascript/get-api-key).
 
 - `npm install`
 - `npm run start:server`
 - `npm run start:app`
 
 - `elm-app test` will run the unit tests
-- `npm cypress open` will open the cypress test runner, for debugging / running the end to end tests interactively
-- `cypress run` will run the end to end tests
+- `npm cypress:open` will open the cypress test runner, for debugging / running the end to end tests interactively
+- `npm cypress:run` will run the end to end tests
 - `npm test` will run the unit and the end to end tests
 
 # Building
@@ -22,7 +21,6 @@ This project is bootstrapped with [Create Elm App](https://github.com/halfzebra/
 - npm run build
 
 [![Build status](https://ci.appveyor.com/api/projects/status/2a2vfr5dau7rquob?svg=true)](https://ci.appveyor.com/project/ceddlyburge/elm-league-tables-from-google-sheets)
-
 
 # Netlify Build
 
@@ -38,7 +36,7 @@ Netlify detects the package.json and runs npm install automatically. It caches t
 
 # Deployment
 
-There are various deployments of this code on Netlify, most of which deploy whenever there is a push to the master branch, or a pull request. You can create a new deployment using the button below. 
+There are various deployments of this code on Netlify, most of which deploy whenever there is a push to the master branch, or a pull request. You can create a new deployment using the button below.
 
 The Netlify build process only runs the unit tests, so make sure the Appveyor build passes before merging in to master.
 
@@ -50,4 +48,3 @@ You will need to create a (free) Netlify account if you haven't already got one,
 - A [Google Api Key](https://developers.google.com/maps/documentation/javascript/get-api-key)
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/ceddlyburge/elm-league-tables-from-google-sheets)
-
