@@ -1,4 +1,4 @@
-FROM cypress/base:18.16.0
+FROM cypress/base:16.18.1
 
 COPY package.json ./
 COPY package-lock.json ./
