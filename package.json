@@ -37,11 +37,10 @@
     "serve": "^14.2.0",
     "elm-format": "^0.8.7",
     "elm-review": "^2.9.1",
-    "elm-coverage": "^0.4.1"
+    "elm-coverage": "^0.4.1",
+    "axios": "^0.21.1",
+    "elm": "^0.19.1-5"
   },
   "dependencies": {
-    "axios": "^0.21.1",
-    "create-elm-app": "^5.2.2",
-    "elm": "^0.19.1-5"
   }
 }

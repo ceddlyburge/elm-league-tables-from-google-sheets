@@ -1,9 +1,9 @@
-image: Visual Studio 2019
+image: Ubuntu
 environment:
   CYPRESS_RECORD_KEY:
     secure: 65ltm15zTNHI/+9C2xyhXncZbnbqzLNofhEDRWp6VE9Hm3xD6lTzQhxFIUnCwJYV
 install:
-  - ps: Install-Product node 10 x64
+  # - ps: Install-Product node 10 x64
   - node --version
   - npm --version
   - npm install
