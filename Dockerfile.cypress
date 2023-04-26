@@ -1,0 +1,16 @@
+FROM cypress/base:14.21.1
+
+COPY package.json ./
+
+RUN npm install
+
+COPY serve.json ./
+
+COPY cypress.config.js ./
+COPY ./cypress ./cypress
+
+COPY ./build ./build
+
+ENV CYPRESS_VIDEO=false
+
+CMD ["npm", "run", "cypress:test-built"]
