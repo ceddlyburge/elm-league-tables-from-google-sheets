@@ -1,0 +1,17 @@
+version: '2'
+services:
+  web:
+    build:
+      context: '.'
+      dockerfile: Dockerfile.app
+    expose: 
+    - '3000'
+  cypress:
+    build:
+      context: '.'
+      dockerfile: Dockerfile.cypress
+    depends_on:
+      - web
+    environment:
+      - CYPRESS_baseUrl=http://web:3000
+    command: cypress run --config video=false --browser chrome --headed

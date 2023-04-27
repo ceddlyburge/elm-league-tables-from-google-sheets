@@ -5,17 +5,26 @@ version: 1
 description: The test scenario is running the cypress tests at the moment
 
 services:
-  cypress:
-    image: cypress
+  web:
     build:
       context: "."
-      dockerfile: /Dockerfile.cypress
+      dockerfile: Dockerfile.app
+    expose:
+      - "3000"
+  cypress:
+    build:
+      context: "."
+      dockerfile: Dockerfile.cypress
+    depends_on:
+      - web
+    environment:
+      - CYPRESS_baseUrl=http://web:3000
 
 flow:
   - name: Load 1000
     container: cypress
     commands:
       - type: console
-        command: npm run cypress:test-built
+        command: cypress run --config video=false --browser chrome --headed
         detach: true
         note: Running cypress tests against website
