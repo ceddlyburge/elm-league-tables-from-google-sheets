@@ -1,16 +1,8 @@
-FROM cypress/base:14.21.1
-
-COPY package.json ./
-
-RUN npm install
-
-COPY serve.json ./
+FROM cypress/included:12.4.1
 
 COPY cypress.config.js ./
 COPY ./cypress ./cypress
 
-COPY ./build ./build
-
-ENV CYPRESS_VIDEO=false
-
-CMD ["npm", "run", "cypress:test-built"]
+# CMD ["cypress", "run", "--config", "video=false", "--browser", "chrome", "--headed"]
+CMD ["bin/bash"]
+ENTRYPOINT []
