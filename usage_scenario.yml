@@ -25,6 +25,10 @@ flow:
     container: cypress
     commands:
       - type: console
-        command: cypress run --config video=false --browser chrome --headed
+        command: cypress run --config video=false --browser chrome --headless
         detach: true
         note: Running cypress tests against website
+        # The cypress docker image has an open issue and writes some stuff to stdErr,
+        # which causes a failure even with a 0 exit code
+        # https://github.com/cypress-io/cypress-docker-images/issues/747
+        ignore-errors: true
