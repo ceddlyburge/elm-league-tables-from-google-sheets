@@ -14,4 +14,4 @@ services:
       - web
     environment:
       - CYPRESS_baseUrl=http://web:3000
-    command: cypress run --config video=false --browser chrome --headed
+    command: cypress run --config video=false
