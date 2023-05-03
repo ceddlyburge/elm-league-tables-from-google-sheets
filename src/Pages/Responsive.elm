@@ -2,6 +2,8 @@ module Pages.Responsive exposing (FontSize, Responsive, calculateResponsive, van
 
 import Element exposing (Device, DeviceClass(..), Orientation(..))
 
+
+
 -- Pixel widths, with one character spare, measured using https://codepen.io/jasesmith/pen/eBeoNz
 
 
@@ -19,13 +21,13 @@ type alias Responsive =
     -- that is ok too, it is a guide, not a rule
     , designTeamWidthMediumFont : Int
 
-    -- designTeamWidths are the width that a team should ideally be able to be displayed on one line,
-    -- "Anne Claire Chiffelou" is used as the text for this theoretical long team name. Names
-    -- longer than this can wrap or display an ellipsis. If pages need to wrap at shorter widths then
-    -- that is ok too, it is a guide, not a rule
+    -- designPlayerNameWidths are the width that a player name should ideally be able to be displayed
+    -- on one line, "Anne Claire Chiffelou" is used as the text for this theoretical long team name.
+    -- Names longer than this can wrap or display an ellipsis. If pages need to wrap at shorter widths
+    -- then that is ok too, it is a guide, not a rule
     , designPlayerNameWidthBigFont : Int
 
-    -- if the content is essentiallyl portrait, try and extend out to this width
+    -- if the content is essentially portrait, try and extend out to this width
     , designPortraitWidth : Int
     }
 
@@ -112,21 +114,27 @@ calculatePageWidth viewportWidth =
     else
         viewportWidth
 
-calculatedesignPortraitWidth: Device -> Float -> Int -> Int
+
+calculatedesignPortraitWidth : Device -> Float -> Int -> Int
 calculatedesignPortraitWidth device landscapePercentage viewportWidth =
     let
-        pageWidth = calculatePageWidth viewportWidth
+        pageWidth =
+            calculatePageWidth viewportWidth
     in
-        case device.orientation of
-            Portrait ->
-                pageWidth
-            Landscape ->
-                percentage landscapePercentage pageWidth
+    case device.orientation of
+        Portrait ->
+            pageWidth
+
+        Landscape ->
+            percentage landscapePercentage pageWidth
+
 
 percentage : Float -> Int -> Int
 percentage fraction total =
-    fraction * toFloat total 
-    |> round
+    fraction
+        * toFloat total
+        |> round
+
 
 vanillaResponsive : Responsive
 vanillaResponsive =
