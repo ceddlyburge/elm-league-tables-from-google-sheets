@@ -1,57 +1,62 @@
-module Styles exposing (
-    Styles
+module Styles exposing
+    ( Styles
     , createStyles
     , elWithStyle
-    , rowWithStyle
     , paragraphWithStyle
+    , rowWithStyle
     , sansSerifFontFamily
-    , vanillaStyles)
+    , vanillaStyles
+    )
 
-import Pages.Responsive exposing (Responsive)
+import Element exposing (..)
+import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
-import Element.Background as Background
-import Element exposing (..)
 import Msg exposing (Msg)
+import Pages.Responsive exposing (FontSize, Responsive)
 
-type alias Attributes = List (Element.Attribute Msg)
 
-type alias Styles = {
-    responsive: Responsive
-    , mainHeaderBar: Attributes
-    , mainHeaderBarLink: Attributes
-    , subHeaderBar: Attributes
-    , unhappyPathText: Attributes
-    , leagueListLeagueName: Attributes
-    , leagueTableHeaderRow: Attributes
-    , leagueTableTeamRow: Attributes
-    , resultFixtureDayHeader: Attributes
-    , resultFixtureRow: Attributes
-    , resultFixtureGoals: Attributes
-    , resultFixtureTime: Attributes
-    , resultFixtureScore: Attributes
-    , topScorerPlayerName: Attributes
-    , topScorerGoalCount: Attributes
-    , topScorerTeamName: Attributes
-    , invisibleButTakesUpSpace: Attributes
-    , fillToDesignPortraitWidth: Length
-    , designPlayerNameWidthBigFont: Length
-    , percentagePageWidth: Float -> Int
-    , smallPadding: Attribute Msg
-    , mediumPadding: Attribute Msg
-    , bigPadding: Attribute Msg
-    , smallSpacing: Attribute Msg
-    , mediumSpacing: Attribute Msg
-    , bigSpacing: Attribute Msg
-    , mediumVerticalSpacing: Attribute Msg
+type alias Attributes =
+    List (Element.Attribute Msg)
+
+
+type alias Styles =
+    { responsive : Responsive
+    , mainHeaderBar : Attributes
+    , mainHeaderBarLink : Attributes
+    , subHeaderBar : Attributes
+    , unhappyPathText : Attributes
+    , leagueListLeagueName : Attributes
+    , leagueTableHeaderRow : Attributes
+    , leagueTableTeamRow : Attributes
+    , resultFixtureDayHeader : Attributes
+    , resultFixtureRow : Attributes
+    , resultFixtureGoals : Attributes
+    , resultFixtureTime : Attributes
+    , resultFixtureScore : Attributes
+    , topScorerPlayerName : Attributes
+    , topScorerGoalCount : Attributes
+    , topScorerTeamName : Attributes
+    , invisibleButTakesUpSpace : Attributes
+    , fillToDesignPortraitWidth : Length
+    , designPlayerNameWidthBigFont : Length
+    , percentagePageWidth : Float -> Int
+    , smallPadding : Attribute Msg
+    , mediumPadding : Attribute Msg
+    , bigPadding : Attribute Msg
+    , smallSpacing : Attribute Msg
+    , mediumSpacing : Attribute Msg
+    , bigSpacing : Attribute Msg
+    , mediumVerticalSpacing : Attribute Msg
     }
 
-createStyles: Responsive -> Styles
-createStyles responsive = 
+
+createStyles : Responsive -> Styles
+createStyles responsive =
     Styles
         responsive
         (mainHeaderBar responsive)
-        mainHeaderBarLink
+        (mainHeaderBarLink responsive)
         (subHeaderBar responsive)
         (unhappyPathText responsive)
         (leagueListLeagueName responsive)
@@ -68,7 +73,7 @@ createStyles responsive =
         invisibleButTakesUpSpace
         (fill |> maximum responsive.designPortraitWidth)
         (px responsive.designPlayerNameWidthBigFont)
-        (\percentage -> round (toFloat responsive.pageWidth * percentage ))
+        (\percentage -> round (toFloat responsive.pageWidth * percentage))
         (padding responsive.smallGap)
         (padding responsive.mediumGap)
         (padding responsive.bigGap)
@@ -77,63 +82,73 @@ createStyles responsive =
         (spacing responsive.bigGap)
         (spacingXY 0 responsive.mediumGap)
 
-elWithStyle: Attributes -> Attributes -> Element Msg  -> Element Msg
+
+elWithStyle : Attributes -> Attributes -> Element Msg -> Element Msg
 elWithStyle styleAttributes layoutAttributes child =
     el
         (styleAttributes ++ layoutAttributes)
         child
 
-rowWithStyle: Attributes -> Attributes -> List (Element Msg)  -> Element Msg
+
+rowWithStyle : Attributes -> Attributes -> List (Element Msg) -> Element Msg
 rowWithStyle styleAttributes layoutAttributes children =
     row
         (styleAttributes ++ layoutAttributes)
         children
 
-paragraphWithStyle: Attributes -> Attributes -> List (Element Msg)  -> Element Msg
+
+paragraphWithStyle : Attributes -> Attributes -> List (Element Msg) -> Element Msg
 paragraphWithStyle styleAttributes layoutAttributes children =
     paragraph
         (styleAttributes ++ layoutAttributes)
         children
 
 
-mainHeaderBar: Responsive ->  List (Element.Attribute msg)
-mainHeaderBar responsive = 
+mainHeaderBar : Responsive -> List (Element.Attribute msg)
+mainHeaderBar responsive =
     [ Background.color colors.titleBackground
-    , Font.size responsive.fontSize.big 
+    , Font.size responsive.fontSize.big
     , Font.center
     , Font.color colors.titleText
     ]
 
-mainHeaderBarLink: List (Element.Attribute msg)
-mainHeaderBarLink = 
+
+mainHeaderBarLink : Responsive -> List (Element.Attribute msg)
+mainHeaderBarLink responsive =
     [ Background.color colors.titleBackground
     , Font.color colors.titleButton
+    , height fill
+    , width (px responsive.fontSize.big)
     , pointer
     ]
 
-subHeaderBar: Responsive ->  List (Element.Attribute msg)
-subHeaderBar responsive = 
+
+subHeaderBar : Responsive -> List (Element.Attribute msg)
+subHeaderBar responsive =
     [ Background.color colors.subTitleBackground
-    , Font.size responsive.fontSize.medium 
+    , Font.size responsive.fontSize.medium
     , Font.center
     , Font.color colors.titleText
     ]
 
-unhappyPathText: Responsive -> List (Element.Attribute msg)
-unhappyPathText responsive = 
-    [ Font.size responsive.fontSize.medium 
-    ,  Font.center
+
+unhappyPathText : Responsive -> List (Element.Attribute msg)
+unhappyPathText responsive =
+    [ Font.size responsive.fontSize.medium
+    , Font.center
     , Font.color colors.supplementaryText
     ]
 
-invisibleButTakesUpSpace: List (Element.Attribute msg)
-invisibleButTakesUpSpace = 
+
+invisibleButTakesUpSpace : List (Element.Attribute msg)
+invisibleButTakesUpSpace =
     [ Background.color colors.transparent
     , Font.color colors.transparent
     ]
 
-leagueListLeagueName: Responsive -> Attributes
-leagueListLeagueName responsive = 
+
+leagueListLeagueName : Responsive -> Attributes
+leagueListLeagueName responsive =
     [ Font.size responsive.fontSize.medium
     , Font.center
     , Font.color colors.text
@@ -142,13 +157,14 @@ leagueListLeagueName responsive =
         , left = 0
         , right = 0
         , top = 0
-        } 
+        }
     , Border.color colors.border
     , pointer
     ]
 
-leagueTableHeaderRow: Responsive -> List (Element.Attribute msg)
-leagueTableHeaderRow responsive = 
+
+leagueTableHeaderRow : Responsive -> List (Element.Attribute msg)
+leagueTableHeaderRow responsive =
     [ Font.size responsive.fontSize.small
     , Font.color colors.text
     , Border.widthEach
@@ -156,13 +172,13 @@ leagueTableHeaderRow responsive =
         , left = 0
         , right = 0
         , top = 0
-        } 
+        }
     , Border.color colors.border
     ]
 
 
-leagueTableTeamRow: Responsive -> List (Element.Attribute msg)
-leagueTableTeamRow responsive = 
+leagueTableTeamRow : Responsive -> List (Element.Attribute msg)
+leagueTableTeamRow responsive =
     [ Font.size responsive.fontSize.small
     , Font.color colors.text
     , Border.widthEach
@@ -170,13 +186,13 @@ leagueTableTeamRow responsive =
         , left = 0
         , right = 0
         , top = 0
-        } 
+        }
     , Border.color colors.border
     ]
 
 
-resultFixtureDayHeader: Responsive -> List (Element.Attribute msg)
-resultFixtureDayHeader responsive = 
+resultFixtureDayHeader : Responsive -> List (Element.Attribute msg)
+resultFixtureDayHeader responsive =
     [ Font.size responsive.fontSize.small
     , Font.color colors.text
     , Border.widthEach
@@ -184,55 +200,55 @@ resultFixtureDayHeader responsive =
         , left = 0
         , right = 0
         , top = 0
-        } 
+        }
     , Border.color colors.border
     ]
 
 
-resultFixtureRow: Responsive -> List (Element.Attribute msg)
-resultFixtureRow responsive = 
+resultFixtureRow : Responsive -> List (Element.Attribute msg)
+resultFixtureRow responsive =
     [ Font.size responsive.fontSize.medium
     , Font.color colors.text
     ]
 
 
-resultFixtureGoals: Responsive -> List (Element.Attribute msg)
-resultFixtureGoals responsive = 
+resultFixtureGoals : Responsive -> List (Element.Attribute msg)
+resultFixtureGoals responsive =
     [ Font.size responsive.fontSize.small
     , Font.color colors.supplementaryText
     ]
 
 
-resultFixtureScore: List (Element.Attribute msg)
-resultFixtureScore  = 
+resultFixtureScore : List (Element.Attribute msg)
+resultFixtureScore =
     [ Font.bold
-    , alignTop 
+    , alignTop
     ]
 
 
-resultFixtureTime: List (Element.Attribute msg)
-resultFixtureTime = 
+resultFixtureTime : List (Element.Attribute msg)
+resultFixtureTime =
     [ Font.bold ]
 
 
-topScorerPlayerName: Responsive -> List (Element.Attribute msg)
-topScorerPlayerName responsive = 
+topScorerPlayerName : Responsive -> List (Element.Attribute msg)
+topScorerPlayerName responsive =
     [ Font.size responsive.fontSize.big ]
 
 
-topScorerTeamName: Responsive -> List (Element.Attribute msg)
-topScorerTeamName responsive = 
+topScorerTeamName : Responsive -> List (Element.Attribute msg)
+topScorerTeamName responsive =
     [ Font.size responsive.fontSize.medium
     , Font.color colors.supplementaryText
-     ]
+    ]
 
 
-topScorerGoalCount: Responsive -> List (Element.Attribute msg)
-topScorerGoalCount responsive = 
+topScorerGoalCount : Responsive -> List (Element.Attribute msg)
+topScorerGoalCount responsive =
     [ Font.size responsive.fontSize.big
     , Font.alignRight
     , Font.color colors.supplementaryText
-     ]
+    ]
 
 
 colors :
@@ -266,7 +282,8 @@ colors =
     , transparent = rgba255 255 255 255 0
     }
 
-sansSerifFontFamily : Attribute msg 
+
+sansSerifFontFamily : Attribute msg
 sansSerifFontFamily =
     Font.family
         [ Font.typeface "Source Sans Pro"
@@ -277,4 +294,6 @@ sansSerifFontFamily =
         , Font.sansSerif
         ]
 
-vanillaStyles = createStyles Pages.Responsive.vanillaResponsive
+
+vanillaStyles =
+    createStyles Pages.Responsive.vanillaResponsive
