@@ -150,7 +150,7 @@ topScorerHeaderBarItem styles msg namedPlayerDataAvailable =
     if namedPlayerDataAvailable == True then
         elWithStyle
             styles.mainHeaderBarLink
-            [ onClick msg ]
+            [ dataTestClass "top-scorers", onClick msg ]
             topScorersIcon
 
     else
