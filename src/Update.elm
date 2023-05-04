@@ -1,17 +1,17 @@
-module Update exposing (update, updatewithoutBrowserHistory)
+module Update exposing (update)
 
+import Browser exposing (UrlRequest(..))
+import Browser.Navigation exposing (Key, pushUrl)
 import Models.Model exposing (Model, ModelAndKey, updateScreenSize)
 import Models.Route as Route exposing (Route)
-import Msg exposing (..)
-import Url exposing (Url)
-import Browser exposing (UrlRequest(..))
-import Browser.Navigation exposing (pushUrl, Key)
-import Pages.LeagueList.Update exposing (..)
+import Msg exposing (Msg(..))
+import Pages.LeagueList.Update exposing (allSheetSummaryResponse, refreshLeagueList, showLeagueList)
 import Pages.LeagueTable.Update exposing (refreshLeagueTable, showLeagueTable)
 import Pages.ResultsFixtures.Update exposing (refreshResultsFixtures, showResultsFixtures)
 import Pages.TopScorers.Update exposing (refreshTopScorers, showTopScorers)
 import Pages.UpdateHelpers exposing (individualSheetResponse)
-import Routing exposing (..)
+import Routing exposing (parseLocation, toUrl)
+import Url exposing (Url)
 
 
 
@@ -22,21 +22,21 @@ import Routing exposing (..)
 update : Msg -> ModelAndKey -> ( ModelAndKey, Cmd Msg )
 update msg modelAndKey =
     let
-        (newModel, newMsg) = 
+        ( newModel, newMsg ) =
             updatewithoutBrowserHistory msg modelAndKey.model
                 |> addBrowserHistory msg modelAndKey.model modelAndKey.key
     in
-        ( { modelAndKey | model = newModel }, newMsg )    
+    ( { modelAndKey | model = newModel }, newMsg )
 
 
--- This should be a private function, but being as I can't test `update`, 
+
+-- This should be a private function, but being as I can't test `update`,
 -- I export this so it can be tested.
+
+
 updatewithoutBrowserHistory : Msg -> Model -> ( Model, Cmd Msg )
 updatewithoutBrowserHistory msg model =
     case msg of
-        NoOp ->
-            ( model, Cmd.none )
-
         -- League List
         ShowLeagueList ->
             showLeagueList model
@@ -72,7 +72,8 @@ updatewithoutBrowserHistory msg model =
         -- responsiveness
         SetScreenSize width height ->
             ( updateScreenSize width height model
-            , Cmd.none )
+            , Cmd.none
+            )
 
         -- routing
         OnUrlChange url ->
@@ -86,8 +87,9 @@ updatewithoutBrowserHistory msg model =
                 External _ ->
                     ( model, Cmd.none )
 
-addBrowserHistory : Msg -> Model ->  Key -> (Model, Cmd Msg) -> ( Model, Cmd Msg )
-addBrowserHistory oldMsg oldModel  key (newModel, newMsg) =
+
+addBrowserHistory : Msg -> Model -> Key -> ( Model, Cmd Msg ) -> ( Model, Cmd Msg )
+addBrowserHistory oldMsg oldModel key ( newModel, newMsg ) =
     case oldMsg of
         OnUrlChange _ ->
             ( newModel, newMsg )
@@ -103,6 +105,7 @@ addBrowserHistory oldMsg oldModel  key (newModel, newMsg) =
 updateFromLocation : Model -> Url -> ( Model, Cmd Msg )
 updateFromLocation model location =
     let
+        route : Route
         route =
             parseLocation location
     in

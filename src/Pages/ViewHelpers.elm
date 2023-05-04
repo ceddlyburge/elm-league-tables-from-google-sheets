@@ -1,11 +1,12 @@
-module Pages.ViewHelpers exposing ( 
-    dataTestClass
-    )
+module Pages.ViewHelpers exposing (dataTestClass)
 
-import Element exposing (..)
-import Html.Attributes exposing (..)
+import Element exposing (Attribute, htmlAttribute)
+import Html.Attributes
 
+
+dataTestClass : String -> Attribute msg
 dataTestClass namePostfix =
-    "data-test-" ++ namePostfix
-    |> Html.Attributes.class 
-    |> htmlAttribute
+    "data-test-"
+        ++ namePostfix
+        |> Html.Attributes.class
+        |> htmlAttribute

@@ -1,16 +1,15 @@
 module Pages.TopScorers.View exposing (page)
 
-import Element exposing (..)
-import Styles exposing (..)
-import Models.Player exposing (..)
-import Msg exposing (..)
-import Pages.HeaderBar exposing (..)
-import Pages.HeaderBarItem exposing (..)
-import Pages.MaybeResponse exposing (..)
-import Pages.Page exposing (..)
-import Pages.Responsive exposing (..)
+import Element exposing (Element, centerX, centerY, column, fill, maximum, row, text, width)
+import Models.Player exposing (Player, Players, playerName, teamName)
+import Msg exposing (Msg(..))
+import Pages.HeaderBar exposing (HeaderBar, PageHeader(..), SubHeaderBar)
+import Pages.HeaderBarItem exposing (HeaderBarItem(..))
+import Pages.MaybeResponse exposing (maybeResponse)
+import Pages.Page exposing (Page)
+import Pages.ViewHelpers exposing (dataTestClass)
 import RemoteData exposing (WebData)
-import Pages.ViewHelpers exposing (..)
+import Styles exposing (Styles, elWithStyle, paragraphWithStyle)
 
 
 page : String -> WebData Players -> Styles -> Page
@@ -52,9 +51,10 @@ topScorer styles player =
             [ styles.bigSpacing ]
             [ paragraphWithStyle
                 styles.topScorerPlayerName
-                [ -- probably worth making this width tidier somehow 
-                  width (styles.designPlayerNameWidthBigFont |> maximum (styles.percentagePageWidth 0.8)) 
-                , dataTestClass "top-scorer-player-name" ]
+                [ -- probably worth making this width tidier somehow
+                  width (styles.designPlayerNameWidthBigFont |> maximum (styles.percentagePageWidth 0.8))
+                , dataTestClass "top-scorer-player-name"
+                ]
                 [ text <| playerName player ]
             , elWithStyle
                 styles.topScorerGoalCount
@@ -63,10 +63,10 @@ topScorer styles player =
                 ]
                 (text <| String.fromInt player.goalCount)
             ]
-            , paragraphWithStyle
-                styles.topScorerTeamName
-                [ width fill
-                , dataTestClass "top-scorer-team-name" 
-                ]
-                [ text <| teamName player ]
+        , paragraphWithStyle
+            styles.topScorerTeamName
+            [ width fill
+            , dataTestClass "top-scorer-team-name"
+            ]
+            [ text <| teamName player ]
         ]

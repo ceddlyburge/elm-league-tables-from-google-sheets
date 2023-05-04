@@ -1,11 +1,10 @@
 module GoogleSheet.DecodeGoogleSheetToGameList exposing (decodeSheetToLeagueGames)
 
-import Json.Decode exposing (Decoder, Value, andThen, at, decodeString, index, int, list, maybe, string, succeed, value)
-import Json.Decode.Extra exposing (andMap, indexedList, optionalField, parseInt, withDefault, datetime)
+import Json.Decode exposing (Decoder, index, maybe, string, succeed)
+import Json.Decode.Extra exposing (andMap, datetime, indexedList, parseInt, withDefault)
 import Models.DecodedGame exposing (DecodedGame)
 import Models.LeagueGames exposing (LeagueGames)
-import Iso8601 exposing (toTime)
-import Time exposing (Posix)
+
 
 decodeSheetToLeagueGames : String -> Decoder LeagueGames
 decodeSheetToLeagueGames leagueTitle =
@@ -59,6 +58,7 @@ parseGoals goalsCsv =
     goalsCsv
         |> String.split ","
         |> List.map String.trim
+
 
 validTeamNames : DecodedGame -> Bool
 validTeamNames game =

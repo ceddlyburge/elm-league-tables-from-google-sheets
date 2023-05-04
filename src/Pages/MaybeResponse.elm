@@ -1,12 +1,12 @@
 module Pages.MaybeResponse exposing (maybeResponse)
 
-import Element exposing (..)
-import Html exposing (div)
-import Html.Attributes exposing (class)
-import Http exposing (..)
+import Element exposing (Element, centerX, el, fillPortion, text, width)
+import Html
+import Html.Attributes
+import Http
+import Msg exposing (Msg)
 import RemoteData exposing (WebData)
-import Msg exposing (..)
-import Styles exposing (..)
+import Styles exposing (Styles, paragraphWithStyle)
 
 
 maybeResponse : WebData payload -> (payload -> Element Msg) -> Styles -> Element Msg
@@ -56,26 +56,25 @@ httpErrorMessage error =
 
 loading : Element msg
 loading =
-    el 
+    el
         [ centerX ]
-        (
-            Html.div
-                [ Html.Attributes.class "loading" ]
-                [ Html.div
-                    [ Html.Attributes.class "la-ball-newton-cradle la-3x" ]
-                    [ Html.div [] []
-                    , Html.div [] []
-                    , Html.div [] []
-                    , Html.div [] []
-                    ]
+        (Html.div
+            [ Html.Attributes.class "loading" ]
+            [ Html.div
+                [ Html.Attributes.class "la-ball-newton-cradle la-3x" ]
+                [ Html.div [] []
+                , Html.div [] []
+                , Html.div [] []
+                , Html.div [] []
                 ]
-                |> Element.html
+            ]
+            |> Element.html
         )
 
 
 unhappyPathText : String -> Styles -> Element Msg
 unhappyPathText string styles =
-    paragraphWithStyle 
+    paragraphWithStyle
         styles.unhappyPathText
-        [ width (fillPortion 90) ] 
+        [ width (fillPortion 90) ]
         [ text string ]

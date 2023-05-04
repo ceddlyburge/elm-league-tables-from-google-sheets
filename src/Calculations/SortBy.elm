@@ -1,4 +1,4 @@
-module Calculations.SortBy exposing (..)
+module Calculations.SortBy exposing (Direction(..), andThen, by)
 
 
 type Direction

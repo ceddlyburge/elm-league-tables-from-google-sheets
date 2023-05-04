@@ -3,14 +3,15 @@ module Pages.LeagueList.Update exposing (allSheetSummaryResponse, refreshLeagueL
 import GoogleSheet.Api exposing (fetchLeagueSummaries)
 import Models.LeagueSummary exposing (LeagueSummary)
 import Models.Model exposing (Model)
-import Models.Route as Route exposing (Route)
-import Msg exposing (..)
+import Models.Route as Route
+import Msg exposing (Msg(..))
 import RemoteData exposing (WebData)
 
 
 showLeagueList : Model -> ( Model, Cmd Msg )
 showLeagueList model =
     let
+        modelWithRoute : Model
         modelWithRoute =
             { model | route = Route.LeagueList }
     in

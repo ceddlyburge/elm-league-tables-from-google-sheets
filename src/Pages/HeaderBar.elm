@@ -1,6 +1,6 @@
-module Pages.HeaderBar exposing (..)
+module Pages.HeaderBar exposing (HeaderBar, PageHeader(..), SubHeaderBar)
 
-import Pages.HeaderBarItem exposing (..)
+import Pages.HeaderBarItem exposing (HeaderBarItem)
 
 
 type PageHeader

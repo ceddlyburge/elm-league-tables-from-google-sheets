@@ -1,9 +1,9 @@
 -- Should expose less things here, probably make some of the types opaque
 
 
-module Models.Player exposing (..)
+module Models.Player exposing (Player, PlayerId, Players, fromTuple, hasRealName, player, playerName, teamName, toTuple)
 
-import Models.RealName exposing (..)
+import Models.RealName exposing (RealName, fromString)
 
 
 type alias PlayerId =
@@ -56,18 +56,3 @@ teamName aPlayer =
 hasRealName : Player -> Bool
 hasRealName aPlayer =
     Models.RealName.toBool aPlayer.realName
-
-
-vanillaPlayerId : PlayerId
-vanillaPlayerId =
-    PlayerId "" ""
-
-
-vanillaPlayer : Player
-vanillaPlayer =
-    Player vanillaPlayerId 0 NoName
-
-
-vanillaPlayers : Players
-vanillaPlayers =
-    Players False []

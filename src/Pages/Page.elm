@@ -1,8 +1,8 @@
-module Pages.Page exposing (..)
+module Pages.Page exposing (Page)
 
-import Element exposing (..)
-import Msg exposing (..)
-import Pages.HeaderBar exposing (..)
+import Element exposing (Element)
+import Msg exposing (Msg)
+import Pages.HeaderBar exposing (PageHeader)
 
 
 type alias Page =

@@ -1,5 +1,6 @@
-module Models.Model exposing (..)
+module Models.Model exposing (Model, ModelAndKey, updateScreenSize, vanillaModelAndKey)
 
+import Browser.Navigation exposing (Key)
 import Dict exposing (Dict)
 import Element exposing (Device, classifyDevice)
 import Models.Config exposing (Config, vanillaConfig)
@@ -7,15 +8,18 @@ import Models.League exposing (League)
 import Models.LeagueSummary exposing (LeagueSummary)
 import Models.Route as Route exposing (Route)
 import RemoteData exposing (WebData)
-import Browser.Navigation exposing (Key)
+
 
 
 -- The business with the Key is really stupid, see
 -- https://github.com/elm-explorations/test/issues/24
+
+
 type alias ModelAndKey =
-    { key: Key
-    , model: Model
+    { key : Key
+    , model : Model
     }
+
 
 type alias Model =
     { config : Config
@@ -27,14 +31,15 @@ type alias Model =
     , viewportHeight : Int
     }
 
+
 updateScreenSize : Int -> Int -> Model -> Model
 updateScreenSize width height model =
-    { 
-        model | 
-            device = classifyDevice { width = width, height = height }
-            , viewportWidth = width
-            , viewportHeight = height
+    { model
+        | device = classifyDevice { width = width, height = height }
+        , viewportWidth = width
+        , viewportHeight = height
     }
+
 
 vanillaModel : Model
 vanillaModel =
@@ -43,9 +48,10 @@ vanillaModel =
         Route.NotFound
         RemoteData.NotAsked
         Dict.empty
-        (classifyDevice { width = 1024, height = 768 } )
+        (classifyDevice { width = 1024, height = 768 })
         1024
         768
+
 
 vanillaModelAndKey : Key -> ModelAndKey
 vanillaModelAndKey key =

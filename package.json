@@ -23,9 +23,11 @@
     "start:built-app": "serve",
     "start:server": "netlify-lambda serve functions --config ./webpack.functions.js",
     "netlifybuild": "bash download-favicon.sh && bash rewrite-application-title.sh && elm-app test && npm run build",
-    "build": "npm run build:app && npm run build:functions",
+    "build": "npm run format && npm run review && npm run build:app && npm run build:functions",
     "build:app": "elm-app build",
-    "build:functions": "netlify-lambda build functions"
+    "build:functions": "netlify-lambda build functions",
+    "format": "elm-format . --validate",
+    "review": "elm-review ./src"
   },
   "devDependencies": {
     "create-elm-app": "^5.22.0",
@@ -41,6 +43,5 @@
     "axios": "^0.21.1",
     "elm": "^0.19.1-5"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

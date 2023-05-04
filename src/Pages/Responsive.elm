@@ -1,6 +1,6 @@
-module Pages.Responsive exposing (FontSize, Responsive, calculateResponsive, vanillaResponsive)
+module Pages.Responsive exposing (FontSize, Responsive, calculateResponsive)
 
-import Element exposing (Device, DeviceClass(..), Orientation(..))
+import Element exposing (Device, Orientation(..))
 
 
 
@@ -118,6 +118,7 @@ calculatePageWidth viewportWidth =
 calculatedesignPortraitWidth : Device -> Float -> Int -> Int
 calculatedesignPortraitWidth device landscapePercentage viewportWidth =
     let
+        pageWidth : Int
         pageWidth =
             calculatePageWidth viewportWidth
     in
@@ -134,8 +135,3 @@ percentage fraction total =
     fraction
         * toFloat total
         |> round
-
-
-vanillaResponsive : Responsive
-vanillaResponsive =
-    calculateResponsive (Device Desktop Landscape) 1024

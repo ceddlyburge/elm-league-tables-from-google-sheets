@@ -1,22 +1,21 @@
 module Pages.ResultsFixtures.View exposing (page)
 
 import DateFormat
-import Element exposing (..)
+import Element exposing (Element, alignLeft, alignTop, centerX, centerY, column, el, fill, fillPortion, htmlAttribute, padding, paragraph, text, width)
 import Element.Font as Font
-import Html.Attributes exposing (class)
-import Styles exposing (..)
+import Html.Attributes
 import Models.Game exposing (Game)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 import Models.ResultsFixtures exposing (ResultsFixtures)
-import Msg exposing (..)
-import Pages.HeaderBar exposing (..)
-import Pages.HeaderBarItem exposing (..)
-import Pages.MaybeResponse exposing (..)
-import Pages.Page exposing (..)
-import Pages.Responsive exposing (..)
-import Pages.ViewHelpers exposing (..)
+import Msg exposing (Msg(..))
+import Pages.HeaderBar exposing (HeaderBar, PageHeader(..), SubHeaderBar)
+import Pages.HeaderBarItem exposing (HeaderBarItem(..))
+import Pages.MaybeResponse exposing (maybeResponse)
+import Pages.Page exposing (Page)
+import Pages.ViewHelpers exposing (dataTestClass)
 import RemoteData exposing (WebData)
-import Time exposing (..)
+import Styles exposing (Styles, elWithStyle, paragraphWithStyle, rowWithStyle)
+import Time exposing (Posix, Zone, utc)
 
 
 page : String -> WebData ResultsFixtures -> Styles -> Page
@@ -66,7 +65,8 @@ dayHeader styles maybeDate =
     elWithStyle
         styles.resultFixtureDayHeader
         [ width fill
-        , dataTestClass "dayHeader" ]
+        , dataTestClass "dayHeader"
+        ]
         (text <| dateDisplay maybeDate)
 
 
@@ -91,7 +91,7 @@ gameRow styles game =
         ]
         [ column
             [ teamWidth
-            , alignTop 
+            , alignTop
             ]
             [ paragraph
                 [ Font.alignRight, dataTestClass "homeTeamName" ]
@@ -99,7 +99,8 @@ gameRow styles game =
             , paragraphWithStyle
                 styles.resultFixtureGoals
                 [ Font.alignRight
-                , dataTestClass "homeTeamGoals" ]
+                , dataTestClass "homeTeamGoals"
+                ]
                 [ text game.homeTeamGoals ]
             ]
         , rowWithStyle
@@ -108,16 +109,18 @@ gameRow styles game =
             (scoreSlashTime game styles)
         , column
             [ teamWidth
-            , alignTop 
+            , alignTop
             ]
             [ paragraph
                 [ alignLeft
-                , dataTestClass "awayTeamName" ]
+                , dataTestClass "awayTeamName"
+                ]
                 [ text game.awayTeamName ]
             , paragraphWithStyle
                 styles.resultFixtureGoals
                 [ alignLeft
-                , dataTestClass "awayTeamGoals" ]
+                , dataTestClass "awayTeamGoals"
+                ]
                 [ text game.awayTeamGoals ]
             ]
         ]
@@ -129,22 +132,25 @@ scoreSlashTime game styles =
         ( Just homeTeamGoalCount, Just awayTeamGoalCount ) ->
             [ el
                 [ Font.alignRight
-                , dataTestClass "homeTeamGoalCount" ]
+                , dataTestClass "homeTeamGoalCount"
+                ]
                 (text <| String.fromInt homeTeamGoalCount)
             , el
                 []
                 (text " - ")
             , el
                 [ alignLeft
-                , dataTestClass "awayTeamGoalCount" ]
+                , dataTestClass "awayTeamGoalCount"
+                ]
                 (text <| String.fromInt awayTeamGoalCount)
             ]
 
-        ( _, _ ) ->
+        _ ->
             [ elWithStyle
                 styles.resultFixtureTime
                 [ centerY
-                , dataTestClass "datePlayed" ]
+                , dataTestClass "datePlayed"
+                ]
                 (text <| timeDisplay game.datePlayed)
             ]
 
@@ -171,7 +177,7 @@ timeDisplay maybeDate =
 
 
 teamWidth : Element.Attribute msg
-teamWidth  =
+teamWidth =
     width <| fillPortion 50
 
 

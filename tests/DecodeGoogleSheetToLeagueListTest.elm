@@ -1,12 +1,12 @@
-module DecodeGoogleSheetToLeagueListTest exposing (..)
+module DecodeGoogleSheetToLeagueListTest exposing (decodeSpreadsheetIdResponse)
 
-import Test exposing (..)
-import Fuzz exposing (Fuzzer, list, string)
 import Expect
-import Json.Decode exposing (decodeString)
-import Json.Encode exposing (encode, string)
-import Models.LeagueSummary exposing (LeagueSummary)
+import Fuzz exposing (list)
 import GoogleSheet.DecodeGoogleSheetToLeagueList exposing (decodeAllSheetSummaryToLeagueSummaries)
+import Json.Decode exposing (decodeString)
+import Json.Encode exposing (encode)
+import Models.LeagueSummary exposing (LeagueSummary)
+import Test exposing (..)
 
 
 decodeSpreadsheetIdResponse : Test

@@ -1,8 +1,8 @@
 module Pages.ResultsFixtures.Update exposing (refreshResultsFixtures, showResultsFixtures)
 
 import Models.Model exposing (Model)
-import Models.Route as Route exposing (Route)
-import Msg exposing (..)
+import Models.Route as Route
+import Msg exposing (Msg)
 import Pages.UpdateHelpers exposing (refreshRouteRequiringIndividualSheetApi, showRouteRequiringIndividualSheetApi)
 
 

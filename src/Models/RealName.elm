@@ -1,4 +1,4 @@
-module Models.RealName exposing (..)
+module Models.RealName exposing (RealName(..), fromString, hasRealName, toBool)
 
 import Char
 
@@ -31,6 +31,3 @@ hasRealName : String -> Bool
 hasRealName name =
     fromString name
         |> toBool
-
-
-

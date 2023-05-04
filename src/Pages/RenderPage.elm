@@ -1,17 +1,16 @@
-module Pages.RenderPage exposing (renderPage, renderTestablePage)
+module Pages.RenderPage exposing (renderPage)
 
 import Browser exposing (Document)
-import Element exposing (..)
+import Element exposing (Element, Length, centerX, centerY, column, el, fill, paragraph, px, text, width)
 import Element.Events exposing (onClick)
-import Element.Font exposing (..)
 import Html exposing (Html)
-import Msg exposing (..)
-import Pages.HeaderBar exposing (..)
-import Pages.HeaderBarItem exposing (..)
-import Pages.Page exposing (..)
-import Pages.Responsive exposing (..)
-import Pages.ViewHelpers exposing (..)
-import Styles exposing (..)
+import Msg exposing (Msg)
+import Pages.HeaderBar exposing (HeaderBar, PageHeader(..), SubHeaderBar)
+import Pages.HeaderBarItem exposing (HeaderBarItem(..))
+import Pages.Page exposing (Page)
+import Pages.Responsive exposing (Responsive)
+import Pages.ViewHelpers exposing (dataTestClass)
+import Styles exposing (Styles, elWithStyle, rowWithStyle, sansSerifFontFamily)
 import Svg
 import Svg.Attributes
 
@@ -147,7 +146,7 @@ renderHeaderBarItem styles headerBarItem =
 
 topScorerHeaderBarItem : Styles -> Msg -> Bool -> Element.Element Msg
 topScorerHeaderBarItem styles msg namedPlayerDataAvailable =
-    if namedPlayerDataAvailable == True then
+    if namedPlayerDataAvailable then
         elWithStyle
             styles.mainHeaderBarLink
             [ dataTestClass "top-scorers", onClick msg ]

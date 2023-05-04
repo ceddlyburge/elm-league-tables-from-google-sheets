@@ -1,8 +1,8 @@
 module Subscriptions exposing (subscriptions)
 
-import Models.Model exposing (..)
-import Msg exposing (..)
 import Browser.Events exposing (onResize)
+import Models.Model exposing (ModelAndKey)
+import Msg exposing (Msg(..))
 
 
 subscriptions : ModelAndKey -> Sub Msg
