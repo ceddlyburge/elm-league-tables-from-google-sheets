@@ -1,8 +1,8 @@
-module Models.League exposing (..)
+module Models.League exposing (League)
 
-import Models.LeagueTable exposing (..)
-import Models.Player as Player exposing (..)
-import Models.ResultsFixtures exposing (..)
+import Models.LeagueTable exposing (LeagueTable)
+import Models.Player exposing (Players)
+import Models.ResultsFixtures exposing (ResultsFixtures)
 
 
 type alias League =
@@ -11,12 +11,3 @@ type alias League =
     , resultsFixtures : ResultsFixtures
     , players : Players
     }
-
-
-vanilla : League
-vanilla =
-    League
-        ""
-        vanillaLeagueTable
-        vanillaResultsFixtures
-        vanillaPlayers

@@ -1,20 +1,19 @@
 module Pages.LeagueTable.View exposing (page)
 
-import Element exposing (..)
-import Html.Attributes exposing (..)
-import Styles exposing (..)
+import Element exposing (Element, centerX, column, el, htmlAttribute, px, text)
+import Html.Attributes exposing (class)
 import Models.League exposing (League)
 import Models.LeagueTable exposing (LeagueTable)
-import Models.Team exposing (..)
-import Msg exposing (..)
-import Pages.HeaderBar exposing (..)
-import Pages.HeaderBarItem exposing (..)
-import Pages.MaybeResponse exposing (..)
-import Pages.Page exposing (..)
-import Pages.Responsive exposing (..)
-import Pages.ResponsiveColumn exposing (..)
-import Pages.ViewHelpers exposing (..)
+import Models.Team exposing (Team)
+import Msg exposing (Msg(..))
+import Pages.HeaderBar exposing (HeaderBar, PageHeader(..))
+import Pages.HeaderBarItem exposing (HeaderBarItem(..))
+import Pages.MaybeResponse exposing (maybeResponse)
+import Pages.Page exposing (Page)
+import Pages.ResponsiveColumn exposing (multiline, respondedColumns)
+import Pages.ViewHelpers exposing (dataTestClass)
 import RemoteData exposing (WebData)
+import Styles exposing (Styles, rowWithStyle)
 
 
 page : String -> WebData League -> Styles -> Page
@@ -42,6 +41,7 @@ namedPlayerDataAvailable leagueResponse =
 leagueTableElement : Styles -> LeagueTable -> Element Msg
 leagueTableElement styles leagueTable =
     let
+        columns : List Pages.ResponsiveColumn.Column
         columns =
             respondedColumns
                 styles.responsive.pageWidth
@@ -51,7 +51,7 @@ leagueTableElement styles leagueTable =
     in
     column
         [ dataTestClass "teams", centerX ]
-        (   headerRow columns styles
+        (headerRow columns styles
             :: List.map (teamRow columns styles) leagueTable.teams
         )
 
@@ -61,7 +61,8 @@ headerRow tableColumns styles =
     rowWithStyle
         styles.leagueTableHeaderRow
         [ styles.mediumPadding
-        , styles.smallSpacing ]
+        , styles.smallSpacing
+        ]
         (List.map headerCell tableColumns)
 
 
@@ -69,7 +70,8 @@ headerCell : Pages.ResponsiveColumn.Column -> Element Msg
 headerCell column =
     column.element
         [ Element.width (px column.width)
-        , htmlAttribute (class column.cssClass) ]
+        , htmlAttribute (class column.cssClass)
+        ]
         (text column.title)
 
 
@@ -79,7 +81,8 @@ teamRow tableColumns styles aTeam =
         styles.leagueTableTeamRow
         [ styles.mediumPadding
         , styles.smallSpacing
-        , dataTestClass "team" ]
+        , dataTestClass "team"
+        ]
         (List.map (teamCell aTeam) tableColumns)
 
 
@@ -87,7 +90,8 @@ teamCell : Team -> Pages.ResponsiveColumn.Column -> Element Msg
 teamCell aTeam column =
     column.element
         [ Element.width (px column.width)
-        , htmlAttribute <| class column.cssClass ]
+        , htmlAttribute <| class column.cssClass
+        ]
         (text <| column.value aTeam)
 
 
@@ -159,41 +163,51 @@ allColumns viewportWidth =
 -- way of making it better, so I'm just leaving them out for now.
 
 
+position : (List (Element.Attribute Msg) -> Element Msg -> Element Msg) -> String -> Int -> Int -> Pages.ResponsiveColumn.Column
 position =
     Pages.ResponsiveColumn.Column Models.Team.position "data-test-position"
 
 
+team : (List (Element.Attribute Msg) -> Element Msg -> Element Msg) -> String -> Int -> Int -> Pages.ResponsiveColumn.Column
 team =
     Pages.ResponsiveColumn.Column Models.Team.name "data-test-name"
 
 
+played : (List (Element.Attribute Msg) -> Element Msg -> Element Msg) -> String -> Int -> Int -> Pages.ResponsiveColumn.Column
 played =
     Pages.ResponsiveColumn.Column Models.Team.gamesPlayed "data-test-gamesPlayed"
 
 
+won : (List (Element.Attribute Msg) -> Element Msg -> Element Msg) -> String -> Int -> Int -> Pages.ResponsiveColumn.Column
 won =
     Pages.ResponsiveColumn.Column Models.Team.won "data-test-won"
 
 
+drawn : (List (Element.Attribute Msg) -> Element Msg -> Element Msg) -> String -> Int -> Int -> Pages.ResponsiveColumn.Column
 drawn =
     Pages.ResponsiveColumn.Column Models.Team.drawn "data-test-drawn"
 
 
+lost : (List (Element.Attribute Msg) -> Element Msg -> Element Msg) -> String -> Int -> Int -> Pages.ResponsiveColumn.Column
 lost =
     Pages.ResponsiveColumn.Column Models.Team.lost "data-test-lost"
 
 
+goalsFor : (List (Element.Attribute Msg) -> Element Msg -> Element Msg) -> String -> Int -> Int -> Pages.ResponsiveColumn.Column
 goalsFor =
     Pages.ResponsiveColumn.Column Models.Team.goalsFor "data-test-goalsFor"
 
 
+goalsAgainst : (List (Element.Attribute Msg) -> Element Msg -> Element Msg) -> String -> Int -> Int -> Pages.ResponsiveColumn.Column
 goalsAgainst =
     Pages.ResponsiveColumn.Column Models.Team.goalsAgainst "data-test-goalsAgainst"
 
 
+goalDifference : (List (Element.Attribute Msg) -> Element Msg -> Element Msg) -> String -> Int -> Int -> Pages.ResponsiveColumn.Column
 goalDifference =
     Pages.ResponsiveColumn.Column Models.Team.goalDifference "data-test-goalDifference"
 
 
+points : (List (Element.Attribute Msg) -> Element Msg -> Element Msg) -> String -> Int -> Int -> Pages.ResponsiveColumn.Column
 points =
     Pages.ResponsiveColumn.Column Models.Team.points "data-test-points"

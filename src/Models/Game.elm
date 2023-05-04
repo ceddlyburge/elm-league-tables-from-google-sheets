@@ -1,12 +1,12 @@
-module Models.Game exposing (Game, vanillaGame)
+module Models.Game exposing (Game)
 
 import Time exposing (Posix)
 
 
-
 type alias Game =
     { homeTeamName : String
-    -- if homeTeamGoalCount and awayTeamGoalCount are not entered a game 
+
+    -- if homeTeamGoalCount and awayTeamGoalCount are not entered a game
     -- is considered invalid (or not played yet)
     , homeTeamGoalCount : Maybe Int
     , awayTeamName : String
@@ -18,8 +18,3 @@ type alias Game =
     , awayTeamCards : String
     , notes : String
     }
-
-
-vanillaGame : Game
-vanillaGame =
-    Game "" Nothing "" Nothing Nothing "" "" "" "" ""

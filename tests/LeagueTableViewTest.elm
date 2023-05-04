@@ -1,14 +1,14 @@
-module LeagueTableViewTest exposing (..)
+module LeagueTableViewTest exposing (oneTeam)
 
 import Models.League exposing (League)
 import Models.LeagueTable exposing (LeagueTable)
 import Models.Player exposing (vanillaPlayers)
 import Models.ResultsFixtures exposing (vanillaResultsFixtures)
 import Models.Team exposing (Team)
-import Msg exposing (..)
+import Msg
 import Pages.LeagueTable.View exposing (..)
 import Pages.RenderPage exposing (..)
-import RemoteData exposing (WebData)
+import RemoteData
 import Styles exposing (vanillaStyles)
 import Test exposing (..)
 import Test.Html.Query as Query

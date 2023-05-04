@@ -1,10 +1,11 @@
 module Calculations.GameFromDecodedGame exposing (calculateGame)
 
-import Dict exposing (toList)
-import Dict.Extra exposing (groupBy)
+import Dict
+import Dict.Extra
 import Models.DecodedGame exposing (DecodedGame)
 import Models.Game exposing (Game)
 import Models.RealName exposing (hasRealName)
+
 
 calculateGame : DecodedGame -> Game
 calculateGame decodedGame =
@@ -38,4 +39,3 @@ formatPlayerOccurrences ( playerName, timesScored ) =
 
     else
         playerName ++ " (" ++ String.fromInt timesScored ++ ")"
-

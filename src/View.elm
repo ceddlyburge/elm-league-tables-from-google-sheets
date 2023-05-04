@@ -1,33 +1,34 @@
 module View exposing (view)
 
-import Dict exposing (Dict)
-import Html exposing (Html)
-import Models.League exposing (League)
-import Models.LeagueTable exposing (LeagueTable)
-import Models.Model exposing (Model, ModelAndKey)
-import Models.Player exposing (..)
-import Models.ResultsFixtures exposing (ResultsFixtures)
-import Models.Route as Route exposing (Route)
-import Msg exposing (..)
-import Pages.LeagueList.View exposing (..)
-import Pages.LeagueTable.View exposing (..)
-import Pages.Page exposing (..)
-import Pages.RenderPage exposing (..)
-import Pages.Responsive exposing (..)
-import Pages.ResultsFixtures.View exposing (..)
-import Pages.TopScorers.View exposing (..)
-import RemoteData exposing (WebData)
 import Browser exposing (Document)
-import Styles exposing (..)
+import Dict
+import Models.League exposing (League)
+import Models.Model exposing (Model, ModelAndKey)
+import Models.Route as Route
+import Msg exposing (Msg)
+import Pages.LeagueList.View
+import Pages.LeagueTable.View
+import Pages.Page exposing (Page)
+import Pages.RenderPage exposing (renderPage)
+import Pages.Responsive exposing (Responsive, calculateResponsive)
+import Pages.ResultsFixtures.View
+import Pages.TopScorers.View
+import RemoteData exposing (WebData)
+import Styles exposing (Styles, createStyles)
 
 
 view : ModelAndKey -> Document Msg
 view modelAndKey =
     let
-        responsive = calculateResponsive modelAndKey.model.device modelAndKey.model.viewportWidth 
-        styles = createStyles responsive
+        responsive : Responsive
+        responsive =
+            calculateResponsive modelAndKey.model.device modelAndKey.model.viewportWidth
+
+        styles : Styles
+        styles =
+            createStyles responsive
     in
-        page modelAndKey.model styles 
+    page modelAndKey.model styles
         |> renderPage styles
 
 
@@ -54,4 +55,3 @@ getLeague : String -> Model -> WebData League
 getLeague leagueTitle model =
     Dict.get leagueTitle model.leagues
         |> Maybe.withDefault RemoteData.NotAsked
-

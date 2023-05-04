@@ -1,10 +1,11 @@
-module Msg exposing (..)
+module Msg exposing (Msg(..))
 
+import Browser exposing (UrlRequest)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.LeagueSummary exposing (LeagueSummary)
-import Url exposing (Url)
 import RemoteData exposing (WebData)
-import Browser exposing (UrlRequest)
+import Url exposing (Url)
+
 
 type Msg
     = -- league List
@@ -24,5 +25,3 @@ type Msg
     | OnUrlRequest UrlRequest
       -- responsiveness
     | SetScreenSize Int Int
-      --
-    | NoOp

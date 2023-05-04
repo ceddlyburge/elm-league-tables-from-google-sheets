@@ -1,9 +1,9 @@
 module Calculations.PlayersFromLeagueGames exposing (calculatePlayers)
 
-import Calculations.SortBy exposing (..)
-import Dict exposing (..)
+import Calculations.SortBy exposing (Direction(..), andThen, by)
+import Dict exposing (Dict)
 import Models.DecodedGame exposing (DecodedGame)
-import Models.Player exposing (..)
+import Models.Player exposing (Player, PlayerId, Players, fromTuple, hasRealName, player, playerName, teamName, toTuple)
 
 
 
@@ -19,6 +19,7 @@ import Models.Player exposing (..)
 calculatePlayers : List DecodedGame -> Players
 calculatePlayers games =
     let
+        playerList : List Player
         playerList =
             calculatePlayerList games
     in
@@ -40,6 +41,7 @@ calculatePlayerList games =
 incrementGoals : PlayerId -> Dict ( String, String ) Int -> Dict ( String, String ) Int
 incrementGoals playerId playerGoals =
     let
+        currentGoals : Int
         currentGoals =
             Dict.get (toTuple playerId) playerGoals
                 |> Maybe.withDefault 0

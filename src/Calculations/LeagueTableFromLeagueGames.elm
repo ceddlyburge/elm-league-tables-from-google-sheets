@@ -1,6 +1,6 @@
 module Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
 
-import Calculations.SortBy exposing (..)
+import Calculations.SortBy exposing (Direction(..), andThen, by)
 import List.Extra exposing (unique)
 import Models.DecodedGame exposing (DecodedGame)
 import Models.LeagueGames exposing (LeagueGames)
@@ -11,33 +11,27 @@ import Models.Team exposing (Team)
 calculateLeagueTable : LeagueGames -> LeagueTable
 calculateLeagueTable leagueGames =
     let
+        homeTeams : List String
         homeTeams =
             List.map (\game -> game.homeTeamName) leagueGames.games
 
+        awayTeams : List String
         awayTeams =
             List.map (\game -> game.awayTeamName) leagueGames.games
 
+        teamNames : List String
         teamNames =
             List.append homeTeams awayTeams |> unique
 
-        goalsFor2 =
-            List.map (goalsFor leagueGames.games) teamNames
-
-        goalsAgainst2 =
-            List.map (goalsAgainst leagueGames.games) teamNames
-
-        gamesPlayed2 =
-            List.map (gamesPlayed leagueGames.games) teamNames
-
-        points2 =
-            List.map (points leagueGames.games) teamNames
-
+        unpositionedTeams : List Team
         unpositionedTeams =
             List.map (unpositionedTeam leagueGames.games) teamNames
 
+        sortedTeams : List { position : Int, name : String, gamesPlayed : Int, won : Int, drawn : Int, lost : Int, points : Int, goalsFor : Int, goalsAgainst : Int, goalDifference : Int }
         sortedTeams =
             List.sortWith (by .points DESC |> andThen .goalDifference DESC |> andThen .goalsFor DESC) unpositionedTeams
 
+        positionedTeams : List Team
         positionedTeams =
             List.indexedMap positionedTeam sortedTeams
     in
@@ -68,7 +62,7 @@ unpositionedTeam games teamName =
 
 won : List DecodedGame -> String -> Int
 won games teamName =
-    List.foldl (\current total -> total + current) 0 (List.map (\game -> gameWon teamName game) games)
+    List.sum (List.map (\game -> gameWon teamName game) games)
 
 
 gameWon : String -> DecodedGame -> Int
@@ -93,7 +87,7 @@ homeWon game =
             else
                 0
 
-        ( _, _ ) ->
+        _ ->
             0
 
 
@@ -107,14 +101,14 @@ awayWon game =
             else
                 0
 
-        ( _, _ ) ->
+        _ ->
             0
 
 
 drawn : List DecodedGame -> String -> Int
 drawn games teamName =
     -- could turn this in to a function (aggregateIntegers or something)
-    List.foldl (\current total -> total + current) 0 (List.map (\game -> gameDrawn teamName game) games)
+    List.sum (List.map (\game -> gameDrawn teamName game) games)
 
 
 gameDrawn : String -> DecodedGame -> Int
@@ -139,7 +133,7 @@ homeDrawn game =
             else
                 0
 
-        ( _, _ ) ->
+        _ ->
             0
 
 
@@ -153,13 +147,13 @@ awayDrawn game =
             else
                 0
 
-        ( _, _ ) ->
+        _ ->
             0
 
 
 lost : List DecodedGame -> String -> Int
 lost games teamName =
-    List.foldl (\current total -> total + current) 0 (List.map (\game -> gameLost teamName game) games)
+    List.sum (List.map (\game -> gameLost teamName game) games)
 
 
 gameLost : String -> DecodedGame -> Int
@@ -184,7 +178,7 @@ homeLost game =
             else
                 0
 
-        ( _, _ ) ->
+        _ ->
             0
 
 
@@ -198,13 +192,13 @@ awayLost game =
             else
                 0
 
-        ( _, _ ) ->
+        _ ->
             0
 
 
 points : List DecodedGame -> String -> Int
 points games teamName =
-    List.foldl (\gameGoals totalGoals -> totalGoals + gameGoals) 0 (List.map (\game -> gamePoints teamName game) games)
+    List.sum (List.map (\game -> gamePoints teamName game) games)
 
 
 gamePoints : String -> DecodedGame -> Int
@@ -232,7 +226,7 @@ homePoints game =
             else
                 1
 
-        ( _, _ ) ->
+        _ ->
             0
 
 
@@ -249,13 +243,13 @@ awayPoints game =
             else
                 1
 
-        ( _, _ ) ->
+        _ ->
             0
 
 
 gamesPlayed : List DecodedGame -> String -> Int
 gamesPlayed games teamName =
-    List.foldl (\gameGoals totalGoals -> totalGoals + gameGoals) 0 (List.map (\game -> gameGamesPlayed teamName game) games)
+    List.sum (List.map (\game -> gameGamesPlayed teamName game) games)
 
 
 gameGamesPlayed : String -> DecodedGame -> Int
@@ -271,13 +265,13 @@ gameGamesPlayed teamName game =
             else
                 0
 
-        ( _, _ ) ->
+        _ ->
             0
 
 
 goalsAgainst : List DecodedGame -> String -> Int
 goalsAgainst games teamName =
-    List.foldl (\gameGoals totalGoals -> totalGoals + gameGoals) 0 (List.map (\game -> gameGoalsAgainst teamName game) games)
+    List.sum (List.map (\game -> gameGoalsAgainst teamName game) games)
 
 
 gameGoalsAgainst : String -> DecodedGame -> Int
@@ -294,7 +288,7 @@ gameGoalsAgainst teamName game =
 
 goalsFor : List DecodedGame -> String -> Int
 goalsFor games teamName =
-    List.foldl (\gameGoals totalGoals -> totalGoals + gameGoals) 0 (List.map (\game -> gameGoalsFor teamName game) games)
+    List.sum (List.map (\game -> gameGoalsFor teamName game) games)
 
 
 gameGoalsFor : String -> DecodedGame -> Int

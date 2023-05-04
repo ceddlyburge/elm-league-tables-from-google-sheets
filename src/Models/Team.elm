@@ -1,4 +1,4 @@
-module Models.Team exposing (..)
+module Models.Team exposing (Team, drawn, gamesPlayed, goalDifference, goalsAgainst, goalsFor, lost, name, points, position, won)
 
 
 type alias Team =

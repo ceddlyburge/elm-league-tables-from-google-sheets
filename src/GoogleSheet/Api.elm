@@ -1,7 +1,7 @@
 module GoogleSheet.Api exposing (fetchIndividualSheet, fetchLeagueSummaries)
 
-import GoogleSheet.DecodeGoogleSheetToGameList exposing (..)
-import GoogleSheet.DecodeGoogleSheetToLeagueList exposing (..)
+import GoogleSheet.DecodeGoogleSheetToGameList exposing (decodeSheetToLeagueGames)
+import GoogleSheet.DecodeGoogleSheetToLeagueList exposing (decodeAllSheetSummaryToLeagueSummaries)
 import Http
 import Models.Config exposing (Config)
 import Models.LeagueGames exposing (LeagueGames)

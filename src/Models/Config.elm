@@ -1,4 +1,4 @@
-module Models.Config exposing (..)
+module Models.Config exposing (Config, vanillaConfig)
 
 
 type alias Config =

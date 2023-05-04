@@ -5,34 +5,47 @@ module Pages.UpdateHelpers exposing
     )
 
 import Calculations.LeagueFromLeagueGames exposing (calculateLeague)
-import Dict exposing (Dict)
+import Dict
 import GoogleSheet.Api exposing (fetchIndividualSheet)
 import Models.Config exposing (Config)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.Model exposing (Model)
-import Models.Route as Route exposing (Route)
-import Msg exposing (..)
-import RemoteData exposing (WebData, RemoteData(..))
+import Models.Route exposing (Route)
+import Msg exposing (Msg(..))
+import RemoteData exposing (RemoteData(..), WebData)
 
 
-shouldRefreshModel: String -> Model -> Bool
+shouldRefreshModel : String -> Model -> Bool
 shouldRefreshModel leagueTitle model =
     let
         shouldRefresh : RemoteData a b -> Bool
-        shouldRefresh rmData = case rmData of
-            NotAsked -> True
-            Loading -> False
-            Failure _ -> True
-            Success _ -> False
+        shouldRefresh rmData =
+            case rmData of
+                NotAsked ->
+                    True
+
+                Loading ->
+                    False
+
+                Failure _ ->
+                    True
+
+                Success _ ->
+                    False
     in
     case Dict.get leagueTitle model.leagues of
-        Just dictElement -> shouldRefresh dictElement
-        Nothing -> True
+        Just dictElement ->
+            shouldRefresh dictElement
+
+        Nothing ->
+            True
+
 
 showRouteRequiringIndividualSheetApi : String -> Route -> Model -> ( Model, Cmd Msg )
 showRouteRequiringIndividualSheetApi leagueTitle route model =
     if shouldRefreshModel leagueTitle model then
         refreshRouteRequiringIndividualSheetApi leagueTitle route model
+
     else
         ( { model | route = route }, Cmd.none )
 

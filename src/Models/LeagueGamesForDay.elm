@@ -1,7 +1,8 @@
 module Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 
-import Time exposing (Posix)
 import Models.Game exposing (Game)
+import Time exposing (Posix)
+
 
 type alias LeagueGamesForDay =
     { date : Maybe Posix

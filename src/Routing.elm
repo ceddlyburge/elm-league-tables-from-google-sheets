@@ -1,11 +1,10 @@
 module Routing exposing (parseLocation, toUrl)
 
-import Http
 import Models.Route as Route exposing (Route)
-import Url exposing (..)
-import String exposing (join, split)
-import Url.Parser exposing (..)
-import Url.Builder exposing (..)
+import String
+import Url exposing (Url)
+import Url.Builder exposing (absolute)
+import Url.Parser exposing ((</>), Parser, map, oneOf, parse, s, top)
 
 
 parseLocation : Url -> Route

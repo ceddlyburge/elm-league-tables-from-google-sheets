@@ -1,4 +1,4 @@
-module Models.DecodedGame exposing (DecodedGame, vanillaGame)
+module Models.DecodedGame exposing (DecodedGame)
 
 import Time exposing (Posix)
 
@@ -14,7 +14,7 @@ import Time exposing (Posix)
 type alias DecodedGame =
     { homeTeamName : String
 
-    -- if homeTeamGoalCount and awayTeamGoalCount are not entered a game 
+    -- if homeTeamGoalCount and awayTeamGoalCount are not entered a game
     -- is considered not played yet (or not played yet)
     , homeTeamGoalCount : Maybe Int
     , awayTeamName : String
@@ -34,8 +34,3 @@ type alias DecodedGame =
     , awayTeamCards : String
     , notes : String
     }
-
-
-vanillaGame : DecodedGame
-vanillaGame =
-    DecodedGame "" Nothing "" Nothing Nothing [] [] "" "" ""

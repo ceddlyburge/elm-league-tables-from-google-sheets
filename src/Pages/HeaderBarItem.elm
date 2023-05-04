@@ -1,6 +1,6 @@
 module Pages.HeaderBarItem exposing (HeaderBarItem(..))
 
-import Msg exposing (..)
+import Msg exposing (Msg)
 
 
 type HeaderBarItem

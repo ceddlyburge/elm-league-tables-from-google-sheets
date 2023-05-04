@@ -1,8 +1,8 @@
 module Pages.ResponsiveColumn exposing (Column, multiline, respondedColumns)
 
-import Element exposing (..)
+import Element
 import Models.Team exposing (Team)
-import Msg exposing (..)
+import Msg exposing (Msg)
 
 
 type alias Column =
@@ -24,14 +24,15 @@ respondedColumns width padding spacing columns =
 
 columnsAvailableForWidth : Int -> Int -> Int -> List Column -> List Column
 columnsAvailableForWidth width padding spacing columns =
-    let
-        lowestPriority =
-            Maybe.withDefault 0 (List.minimum <| List.map priority columns)
-    in
     if columnsWidth padding spacing columns <= width then
         columns
 
     else
+        let
+            lowestPriority : Int
+            lowestPriority =
+                Maybe.withDefault 0 (List.minimum <| List.map priority columns)
+        in
         columnsAvailableForWidth
             width
             padding
@@ -50,15 +51,19 @@ columnsWidth padding spacing columns =
 padColumns : Int -> Int -> Int -> List Column -> List Column
 padColumns width padding spacing columns =
     let
+        numberOfColumns : Int
         numberOfColumns =
             List.length columns
 
+        allColumnsWidth : Int
         allColumnsWidth =
             columnsWidth padding spacing columns
 
+        availableWidth : Int
         availableWidth =
             width - padding - padding - (numberOfColumns * spacing)
 
+        desiredWidth : Int
         desiredWidth =
             round (toFloat availableWidth * 0.8)
     in
@@ -71,7 +76,7 @@ padColumns width padding spacing columns =
 
 multiline : List (Element.Attribute Msg) -> Element.Element Msg -> Element.Element Msg
 multiline attributes element =
-    paragraph attributes [ element ]
+    Element.paragraph attributes [ element ]
 
 
 priority : Column -> Int

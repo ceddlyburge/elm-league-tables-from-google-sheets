@@ -1,16 +1,13 @@
 module Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
 
-import Dict exposing (..)
-import Dict.Extra exposing (..)
-import Time exposing (..)
-import Time.Extra exposing (..)
+import Calculations.GameFromDecodedGame exposing (calculateGame)
 import List.Extra exposing (gatherWith)
-import Models.DecodedGame exposing (DecodedGame)
 import Models.Game exposing (Game)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 import Models.ResultsFixtures exposing (ResultsFixtures)
-import Calculations.GameFromDecodedGame exposing (calculateGame)
+import Time exposing (Posix, posixToMillis, utc)
+import Time.Extra exposing (Interval(..))
 
 
 calculateResultsFixtures : LeagueGames -> ResultsFixtures
@@ -77,4 +74,4 @@ compareMaybeDate date1 date2 =
             GT
 
         ( Just dateOne, Just dateTwo ) ->
-            compare (posixToMillis  dateOne) (posixToMillis dateTwo)
+            compare (posixToMillis dateOne) (posixToMillis dateTwo)

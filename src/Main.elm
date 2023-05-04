@@ -1,32 +1,39 @@
-module Main exposing (..)
+module Main exposing (main)
 
-import Element exposing (classifyDevice)
+import Browser
+import Browser.Navigation exposing (Key)
 import Models.Config exposing (Config)
-import Models.Model exposing (ModelAndKey, vanillaModelAndKey, updateScreenSize)
+import Models.Model exposing (ModelAndKey, updateScreenSize, vanillaModelAndKey)
 import Msg exposing (Msg)
 import Subscriptions
 import Update exposing (update)
-import View exposing (view)
-import Browser exposing (..)
-import Browser.Navigation exposing (Key)
 import Url exposing (Url)
+import View exposing (view)
 
 
 init : Config -> Url -> Key -> ( ModelAndKey, Cmd Msg )
 init config url key =
     let
-        vanillamodelAndKey = vanillaModelAndKey key 
-        vanillaModel = vanillamodelAndKey.model
-        vanillaModelWithConfig = 
+        vanillamodelAndKey : ModelAndKey
+        vanillamodelAndKey =
+            vanillaModelAndKey key
+
+        vanillaModel : Models.Model.Model
+        vanillaModel =
+            vanillamodelAndKey.model
+
+        vanillaModelWithConfig : Models.Model.Model
+        vanillaModelWithConfig =
             { vanillaModel | config = config }
-            |> updateScreenSize config.windowWidth config.windowHeight
-        vanillaModelAndKeyWithConfig = { vanillamodelAndKey | model = vanillaModelWithConfig }
-        ( model, cmd ) =
-            update
-                (Msg.OnUrlChange url)
-                vanillaModelAndKeyWithConfig
+                |> updateScreenSize config.windowWidth config.windowHeight
+
+        vanillaModelAndKeyWithConfig : ModelAndKey
+        vanillaModelAndKeyWithConfig =
+            { vanillamodelAndKey | model = vanillaModelWithConfig }
     in
-        ( model, cmd )
+    update
+        (Msg.OnUrlChange url)
+        vanillaModelAndKeyWithConfig
 
 
 
@@ -35,7 +42,7 @@ init config url key =
 
 main : Program Config ModelAndKey Msg
 main =
-    Browser.application 
+    Browser.application
         { init = init
         , view = view
         , update = update

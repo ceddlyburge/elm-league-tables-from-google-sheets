@@ -1,19 +1,19 @@
 module Styles exposing
-    ( Styles
+    ( Attributes
+    , Styles
     , createStyles
     , elWithStyle
     , paragraphWithStyle
     , rowWithStyle
     , sansSerifFontFamily
-    , vanillaStyles
     )
 
-import Element exposing (..)
+import Element exposing (Attribute, Color, Element, Length, alignTop, el, fill, height, maximum, padding, paragraph, pointer, px, rgba255, row, spacing, spacingXY, width)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Msg exposing (Msg)
-import Pages.Responsive exposing (FontSize, Responsive)
+import Pages.Responsive exposing (Responsive)
 
 
 type alias Attributes =
@@ -293,7 +293,3 @@ sansSerifFontFamily =
         , Font.typeface "Helvetica Neue"
         , Font.sansSerif
         ]
-
-
-vanillaStyles =
-    createStyles Pages.Responsive.vanillaResponsive
