@@ -2,13 +2,13 @@ module LeagueListUpdateTest exposing (apiError, apiSuccess, cachesApiResult, cal
 
 import Expect
 import Fuzz exposing (list, string)
-import Http exposing (..)
+import Http exposing (Error(..))
 import Models.LeagueSummary exposing (LeagueSummary)
 import Models.Model exposing (Model, vanillaModel)
 import Models.Route as Route
-import Msg exposing (..)
+import Msg exposing (Msg(..))
 import RemoteData
-import Test exposing (..)
+import Test exposing (Test, fuzz, test)
 import Update exposing (updatewithoutBrowserHistory)
 
 
@@ -17,6 +17,7 @@ apiError =
     test "Retains response on error" <|
         \() ->
             let
+                response : RemoteData.RemoteData Error a
                 response =
                     RemoteData.Failure NetworkError
             in
@@ -50,6 +51,7 @@ cachesApiResult =
     test "Only calls the api if the results isn't already available in the model" <|
         \() ->
             let
+                model : Model
                 model =
                     { vanillaModel
                         | leagueSummaries = RemoteData.Success []
@@ -67,6 +69,7 @@ refreshesAPi =
     test "Calls the APi if asked to, even if the data already exists" <|
         \() ->
             let
+                model : Model
                 model =
                     { vanillaModel
                         | leagueSummaries = RemoteData.Success []
@@ -85,6 +88,7 @@ apiSuccess =
     fuzz (list string) "Returns model and Leagues on success" <|
         \leagues ->
             let
+                response : RemoteData.RemoteData e (List LeagueSummary)
                 response =
                     RemoteData.Success <| List.map LeagueSummary leagues
             in
@@ -93,6 +97,6 @@ apiSuccess =
                 |> Expect.equal { vanillaModel | leagueSummaries = response }
 
 
-getModel : ( Model, Cmd Msg ) -> Model
-getModel ( model, cmd ) =
+getModel : ( Model, Cmd msg ) -> Model
+getModel ( model, _ ) =
     model

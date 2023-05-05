@@ -8,9 +8,9 @@ import Models.DecodedGame exposing (DecodedGame)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.LeagueTable exposing (LeagueTable)
 import Models.Team exposing (Team)
-import Test exposing (..)
-import Time exposing (..)
-import Time.Extra exposing (..)
+import Test exposing (Test, fuzz)
+import Time exposing (Month(..), utc)
+import Time.Extra exposing (Parts)
 
 
 oneGame : Test
@@ -18,12 +18,15 @@ oneGame =
     fuzz (intRange 1 100) "Calculates one game" <|
         \meridianGoals ->
             let
+                castleGoals : number
                 castleGoals =
                     meridianGoals * 2
 
+                castleGoalDifference : number
                 castleGoalDifference =
                     meridianGoals
 
+                meridianGoalDifference : number
                 meridianGoalDifference =
                     -meridianGoals
             in

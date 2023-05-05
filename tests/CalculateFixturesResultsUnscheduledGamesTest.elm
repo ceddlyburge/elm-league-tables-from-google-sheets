@@ -3,11 +3,12 @@ module CalculateFixturesResultsUnscheduledGamesTest exposing (groupsUnscheduledG
 import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
 import Expect exposing (Expectation)
 import Fuzz exposing (intRange)
+import Models.DecodedGame exposing (DecodedGame)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
-import ResultsFixturesHelpers exposing (..)
-import Test exposing (..)
-import Time exposing (..)
+import ResultsFixturesHelpers exposing (expectDays, expectFirstDay, unscheduledGame)
+import Test exposing (Test, fuzz)
+import Time exposing (Posix)
 
 
 groupsUnscheduledGamesInNothingDay : Test
@@ -15,6 +16,7 @@ groupsUnscheduledGamesInNothingDay =
     fuzz (intRange 1 100) "Groups all unscheduled games in a LeagueGamesForDay with a 'Nothing' day" <|
         \numberOfGames ->
             let
+                games : List DecodedGame
                 games =
                     List.repeat numberOfGames unscheduledGame
             in

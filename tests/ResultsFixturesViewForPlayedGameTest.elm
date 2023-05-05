@@ -1,12 +1,12 @@
 module ResultsFixturesViewForPlayedGameTest exposing (onePlayedGame)
 
 import Helpers exposing (vanillaGame)
-import Msg exposing (..)
-import ResultsFixturesViewHelpers exposing (..)
-import Test exposing (..)
+import Msg exposing (Msg)
+import ResultsFixturesViewHelpers exposing (html)
+import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector
-import Time exposing (..)
+import Time exposing (Month(..), utc)
 import Time.Extra
 
 

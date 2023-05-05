@@ -6,7 +6,7 @@ import GoogleSheet.DecodeGoogleSheetToLeagueList exposing (decodeAllSheetSummary
 import Json.Decode exposing (decodeString)
 import Json.Encode exposing (encode)
 import Models.LeagueSummary exposing (LeagueSummary)
-import Test exposing (..)
+import Test exposing (Test, fuzz)
 
 
 decodeSpreadsheetIdResponse : Test

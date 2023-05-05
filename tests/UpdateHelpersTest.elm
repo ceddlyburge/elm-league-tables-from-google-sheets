@@ -5,14 +5,12 @@ import Dict
 import Expect
 import Helpers exposing (vanillaDecodedGame, vanillaLeague)
 import Http
-import Models.League as League
 import Models.LeagueGames exposing (LeagueGames)
 import Models.Model exposing (Model, vanillaModel)
-import Models.Route as Route
-import Msg exposing (..)
-import Pages.UpdateHelpers exposing (..)
+import Models.Route as Route exposing (Route)
+import Pages.UpdateHelpers exposing (individualSheetResponse, refreshRouteRequiringIndividualSheetApi, showRouteRequiringIndividualSheetApi)
 import RemoteData
-import Test exposing (..)
+import Test exposing (Test, test)
 
 
 apiSuccess : Test
@@ -61,6 +59,7 @@ cachesApiResult =
     test "Only calls the api if the results isn't already available in the model" <|
         \() ->
             let
+                model : Model
                 model =
                     { vanillaModel
                         | leagues = Dict.singleton leagueTitle (RemoteData.Success vanillaLeague)
@@ -79,15 +78,19 @@ callsApiOnError =
     test "Calls the api if the result is failure" <|
         \() ->
             let
+                theRoute : Route
                 theRoute =
                     Route.LeagueTable leagueTitle
 
+                leaguesWithError : Dict.Dict String (RemoteData.RemoteData Http.Error a)
                 leaguesWithError =
                     Dict.singleton leagueTitle (RemoteData.Failure Http.NetworkError)
 
+                expectedLeagues : Dict.Dict String (RemoteData.RemoteData e a)
                 expectedLeagues =
                     Dict.singleton leagueTitle RemoteData.Loading
 
+                model : Model
                 model =
                     { vanillaModel | leagues = leaguesWithError }
             in
@@ -104,6 +107,7 @@ refreshesApi =
     test "Calls the APi if asked to, even if the data already exists" <|
         \() ->
             let
+                model : Model
                 model =
                     { vanillaModel
                         | leagues = Dict.singleton leagueTitle (RemoteData.Success vanillaLeague)
@@ -131,6 +135,6 @@ leagueGames =
     LeagueGames leagueTitle [ vanillaDecodedGame ]
 
 
-getModel : ( Model, Cmd Msg ) -> Model
-getModel ( model, cmd ) =
+getModel : ( Model, Cmd msg ) -> Model
+getModel ( model, _ ) =
     model
