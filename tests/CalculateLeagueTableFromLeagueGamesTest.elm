@@ -1,4 +1,4 @@
-module CalculateLeagueTableFromLeagueGamesTest exposing (oneGame)
+module CalculateLeagueTableFromLeagueGamesTest exposing (calculatesOneGame)
 
 import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
 import Expect
@@ -10,28 +10,27 @@ import Models.LeagueTable exposing (LeagueTable)
 import Models.Team exposing (Team)
 import Test exposing (Test, fuzz)
 import Time exposing (Month(..), utc)
-import Time.Extra exposing (Parts)
+import Time.Extra exposing (Parts, partsToPosix)
 
 
-oneGame : Test
-oneGame =
+calculatesOneGame : Test
+calculatesOneGame =
     fuzz (intRange 1 100) "Calculates one game" <|
         \meridianGoals ->
-            let
-                castleGoals : number
-                castleGoals =
-                    meridianGoals * 2
-
-                castleGoalDifference : number
-                castleGoalDifference =
-                    meridianGoals
-
-                meridianGoalDifference : number
-                meridianGoalDifference =
-                    -meridianGoals
-            in
-            calculateLeagueTable (LeagueGames "Regional Div 1" [ game castleGoals meridianGoals ])
-                |> Expect.equal (leagueTable castleGoals meridianGoals castleGoalDifference meridianGoalDifference)
+            -- using these let statements exercises a compiler bug, so have inlined them
+            -- let
+            --     -- castleGoalDifference : number
+            --     -- castleGoalDifference =
+            --     --     meridianGoals
+            --     -- meridianGoalDifference : number
+            --     -- meridianGoalDifference =
+            --     --     -meridianGoals
+            --     -- castleGoals : number
+            --     -- castleGoals =
+            --     --     meridianGoals * 2
+            -- in
+            calculateLeagueTable (LeagueGames "Regional Div 1" [ game (meridianGoals * 2) meridianGoals ])
+                |> Expect.equal (leagueTable (meridianGoals * 2) meridianGoals meridianGoals -meridianGoals)
 
 
 game : Int -> Int -> DecodedGame
@@ -41,7 +40,7 @@ game castleGoals meridianGoals =
         , homeTeamGoalCount = Just meridianGoals
         , awayTeamName = "Castle"
         , awayTeamGoalCount = Just castleGoals
-        , datePlayed = Just (Time.Extra.partsToPosix utc (Parts 1970 Jan 1 0 0 0 1))
+        , datePlayed = Just (partsToPosix utc (Parts 1970 Jan 1 0 0 0 1))
     }
 
 

@@ -9,7 +9,7 @@ import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 import ResultsFixturesHelpers exposing (comparePosix, expectFirstDay, scheduledGame)
 import Test exposing (Test, fuzz)
 import Time exposing (Month(..), Posix, utc)
-import Time.Extra exposing (Interval(..), Parts)
+import Time.Extra exposing (Interval(..), Parts, add, partsToPosix)
 
 
 orderGamesByTime : Test
@@ -44,7 +44,7 @@ dateTimeOnFebruaryFirst : Fuzzer Posix
 dateTimeOnFebruaryFirst =
     Fuzz.map
         (\hours ->
-            Time.Extra.partsToPosix utc (Parts 2001 Feb 1 0 0 0 0)
-                |> Time.Extra.add Hour hours utc
+            partsToPosix utc (Parts 2001 Feb 1 0 0 0 0)
+                |> add Hour hours utc
         )
         (intRange 0 23)
