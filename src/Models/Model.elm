@@ -1,4 +1,4 @@
-module Models.Model exposing (Model, ModelAndKey, updateScreenSize, vanillaModelAndKey)
+module Models.Model exposing (Model, ModelAndKey, updateScreenSize, vanillaModel, vanillaModelAndKey)
 
 import Browser.Navigation exposing (Key)
 import Dict exposing (Dict)

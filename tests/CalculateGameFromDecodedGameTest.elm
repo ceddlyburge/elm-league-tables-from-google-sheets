@@ -2,7 +2,7 @@ module CalculateGameFromDecodedGameTest exposing (aggregateGoalsTest)
 
 import Calculations.GameFromDecodedGame exposing (calculateGame)
 import Expect
-import Models.DecodedGame exposing (vanillaGame)
+import Helpers exposing (vanillaDecodedGame)
 import Test exposing (Test, test)
 
 
@@ -10,7 +10,7 @@ aggregateGoalsTest : Test
 aggregateGoalsTest =
     test "Groups home team player occurrences and ignores numbers" <|
         \() ->
-            { vanillaGame
+            { vanillaDecodedGame
                 | homeTeamGoals = [ "john", "11", "mike", "ed", "cedd", "mike", "cedd", "john", "john" ]
             }
                 |> calculateGame

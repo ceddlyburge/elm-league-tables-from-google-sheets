@@ -1,6 +1,6 @@
 module ResultsFixturesViewForPlayedGameTest exposing (onePlayedGame)
 
-import Models.Game exposing (vanillaGame)
+import Helpers exposing (vanillaGame)
 import Msg exposing (..)
 import ResultsFixturesViewHelpers exposing (..)
 import Test exposing (..)

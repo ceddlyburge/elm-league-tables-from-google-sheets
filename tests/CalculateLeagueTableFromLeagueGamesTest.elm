@@ -3,7 +3,8 @@ module CalculateLeagueTableFromLeagueGamesTest exposing (oneGame)
 import Calculations.LeagueTableFromLeagueGames exposing (calculateLeagueTable)
 import Expect
 import Fuzz exposing (intRange)
-import Models.DecodedGame exposing (DecodedGame, vanillaGame)
+import Helpers exposing (vanillaDecodedGame)
+import Models.DecodedGame exposing (DecodedGame)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.LeagueTable exposing (LeagueTable)
 import Models.Team exposing (Team)
@@ -32,7 +33,7 @@ oneGame =
 
 game : Int -> Int -> DecodedGame
 game castleGoals meridianGoals =
-    { vanillaGame
+    { vanillaDecodedGame
         | homeTeamName = "Meridian"
         , homeTeamGoalCount = Just meridianGoals
         , awayTeamName = "Castle"

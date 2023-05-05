@@ -3,8 +3,8 @@ module UpdateHelpersTest exposing (apiSuccess, cachesApiResult, callsApi, callsA
 import Calculations.LeagueFromLeagueGames exposing (calculateLeague)
 import Dict
 import Expect
+import Helpers exposing (vanillaDecodedGame, vanillaLeague)
 import Http
-import Models.DecodedGame exposing (vanillaGame)
 import Models.League as League
 import Models.LeagueGames exposing (LeagueGames)
 import Models.Model exposing (Model, vanillaModel)
@@ -63,7 +63,7 @@ cachesApiResult =
             let
                 model =
                     { vanillaModel
-                        | leagues = Dict.singleton leagueTitle (RemoteData.Success League.vanilla)
+                        | leagues = Dict.singleton leagueTitle (RemoteData.Success vanillaLeague)
                     }
             in
             showRouteRequiringIndividualSheetApi
@@ -106,7 +106,7 @@ refreshesApi =
             let
                 model =
                     { vanillaModel
-                        | leagues = Dict.singleton leagueTitle (RemoteData.Success League.vanilla)
+                        | leagues = Dict.singleton leagueTitle (RemoteData.Success vanillaLeague)
                     }
             in
             refreshRouteRequiringIndividualSheetApi
@@ -128,7 +128,7 @@ leagueTitle =
 
 leagueGames : LeagueGames
 leagueGames =
-    LeagueGames leagueTitle [ vanillaGame ]
+    LeagueGames leagueTitle [ vanillaDecodedGame ]
 
 
 getModel : ( Model, Cmd Msg ) -> Model
