@@ -48,3 +48,9 @@ You will need to create a (free) Netlify account if you haven't already got one,
 - A [Google Api Key](https://developers.google.com/maps/documentation/javascript/get-api-key)
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/ceddlyburge/elm-league-tables-from-google-sheets)
+
+# Carbon emissions
+
+The [usage_scenario.yml](./usage_scenario.yml) file is used with the [Green Metrics Tool](https://metrics.green-coding.berlin/index.html) from Green Coding Berlin to analyse how much carbon is emitted when using the website. It tracks the emissions from running the cypress tests, which visit every page in the website, so effects of changes can be easily monitored. The lambda and the calls the the google api are not included in this.
+
+You can see some results on the [Green Metrics Tool webiste](https://metrics.green-coding.berlin/stats.html?id=ad7de4a7-9a63-4970-ac00-3bea04843d1b)
