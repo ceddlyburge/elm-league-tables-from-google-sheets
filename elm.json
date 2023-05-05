@@ -15,23 +15,25 @@
       "elm-community/dict-extra": "2.4.0",
       "elm-community/json-extra": "4.3.0",
       "elm-community/list-extra": "8.7.0",
-
       "justinmimbs/time-extra": "1.1.1",
       "krisajenkins/remotedata": "5.0.0",
       "mdgriffith/elm-ui": "1.1.8",
       "ryannhg/date-format": "2.3.0"
     },
     "indirect": {
-      "elm/bytes": "1.0.8",
       "elm/parser": "1.1.0",
-      "elm/random": "1.0.0",
       "elm/virtual-dom": "1.0.3",
       "justinmimbs/date": "4.0.1",
       "rtfeldman/elm-iso8601-date-strings": "1.1.4"
     }
   },
   "test-dependencies": {
-    "direct": { "elm-explorations/test": "2.1.1" },
-    "indirect": {}
+    "direct": {
+      "elm-explorations/test": "2.1.1"
+    },
+    "indirect": {
+      "elm/bytes": "1.0.8",
+      "elm/random": "1.0.0"
+    }
   }
 }

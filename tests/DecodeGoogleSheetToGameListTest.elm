@@ -8,7 +8,7 @@ import Models.DecodedGame exposing (DecodedGame)
 import Models.LeagueGames exposing (LeagueGames)
 import Test exposing (Test, test)
 import Time exposing (Month(..), utc)
-import Time.Extra exposing (Parts)
+import Time.Extra exposing (Parts, partsToPosix)
 
 
 
@@ -32,7 +32,7 @@ decodeSpreadsheetIdResponse =
                                 (Just 3)
                                 "Meridian"
                                 (Just 1)
-                                (Just (Time.Extra.partsToPosix utc (Parts 2018 Jun 4 0 0 0 0)))
+                                (Just (partsToPosix utc (Parts 2018 Jun 4 0 0 0 0)))
                                 [ "Cedd", "Lisa", "Barry" ]
                                 [ "Nobody" ]
                                 "Green 3, Yellow 5"

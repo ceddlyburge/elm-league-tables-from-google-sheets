@@ -8,7 +8,7 @@ import Models.DecodedGame exposing (DecodedGame)
 import Models.LeagueGames exposing (LeagueGames)
 import ResultsFixturesHelpers exposing (comparePosix, dateTimeInFebruary, scheduledGame, unscheduledGame)
 import Test exposing (Test, fuzz)
-import Time exposing (posixToMillis, utc)
+import Time exposing (Posix, posixToMillis, utc)
 import Time.Extra exposing (Interval(..))
 
 
@@ -21,7 +21,7 @@ orderDaysByDateDescending =
                 games =
                     unscheduledGame :: List.map scheduledGame dateTimes
 
-                descendingDates : List (Maybe Time.Posix)
+                descendingDates : List (Maybe Posix)
                 descendingDates =
                     List.map (Time.Extra.floor Day utc) dateTimes
                         |> List.Extra.uniqueBy posixToMillis

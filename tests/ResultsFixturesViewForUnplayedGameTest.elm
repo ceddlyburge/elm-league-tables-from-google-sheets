@@ -7,7 +7,7 @@ import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector
 import Time exposing (Month(..), utc)
-import Time.Extra
+import Time.Extra exposing (Parts, partsToPosix)
 
 
 oneUnplayedGame : Test
@@ -25,7 +25,7 @@ dayElement : Query.Single Msg
 dayElement =
     html
         { vanillaGame
-            | datePlayed = Just (Time.Extra.Parts 2006 Mar 23 10 20 0 0 |> Time.Extra.partsToPosix utc)
+            | datePlayed = Just (Parts 2006 Mar 23 10 20 0 0 |> partsToPosix utc)
             , homeTeamName = "Castle"
             , awayTeamName = "Meridian"
         }
