@@ -2,7 +2,8 @@ module CalculateTopScorersFromLeagueGamesTest exposing (anonymousPlayers, multip
 
 import Calculations.PlayersFromLeagueGames exposing (calculatePlayers)
 import Expect
-import Models.DecodedGame exposing (DecodedGame, vanillaGame)
+import Helpers exposing (vanillaDecodedGame)
+import Models.DecodedGame exposing (DecodedGame)
 import Models.Player exposing (..)
 import Test exposing (..)
 
@@ -99,7 +100,7 @@ namedPlayers =
 
 game : String -> List String -> String -> List String -> DecodedGame
 game homeTeamName homeTeamGoalCount awayTeamName awayTeamGoalCount =
-    { vanillaGame
+    { vanillaDecodedGame
         | homeTeamName = homeTeamName
         , homeTeamGoals = homeTeamGoalCount
         , awayTeamName = awayTeamName

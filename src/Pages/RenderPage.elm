@@ -1,4 +1,4 @@
-module Pages.RenderPage exposing (renderPage)
+module Pages.RenderPage exposing (renderPage, renderTestablePage)
 
 import Browser exposing (Document)
 import Element exposing (Element, Length, centerX, centerY, column, el, fill, paragraph, px, text, width)

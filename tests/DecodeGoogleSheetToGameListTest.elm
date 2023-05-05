@@ -2,8 +2,9 @@ module DecodeGoogleSheetToGameListTest exposing (decodeBlankTeamName, decodeJust
 
 import Expect
 import GoogleSheet.DecodeGoogleSheetToGameList exposing (decodeSheetToLeagueGames)
+import Helpers exposing (vanillaDecodedGame)
 import Json.Decode exposing (decodeString)
-import Models.DecodedGame exposing (DecodedGame, vanillaGame)
+import Models.DecodedGame exposing (DecodedGame)
 import Models.LeagueGames exposing (LeagueGames)
 import Test exposing (..)
 import Time exposing (..)
@@ -52,7 +53,7 @@ decodeJustEnoughColumnsSpreadsheetIdResponse =
                     (Ok
                         (LeagueGames
                             "Regional Div 1"
-                            [ { vanillaGame | homeTeamName = "Castle", awayTeamName = "Meridian" } ]
+                            [ { vanillaDecodedGame | homeTeamName = "Castle", awayTeamName = "Meridian" } ]
                         )
                     )
 
@@ -86,7 +87,7 @@ trimWhitespaceFromTeamNames =
                     (Ok
                         (LeagueGames
                             "Regional Div 1"
-                            [ { vanillaGame | homeTeamName = "Castle", awayTeamName = "Meridian" } ]
+                            [ { vanillaDecodedGame | homeTeamName = "Castle", awayTeamName = "Meridian" } ]
                         )
                     )
 

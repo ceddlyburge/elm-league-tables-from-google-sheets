@@ -9,27 +9,11 @@
     "url": "https://github.com/ceddlyburge/elm-league-table-from-sheet"
   },
   "scripts": {
-    "test-record": "npm run coverage && npm run cypress:test-record",
-    "test": "elm-app test && npm run cypress:test",
-    "coverage": "elm-coverage --report codecov",
-    "codecov": "codecov -f .coverage/codecov.json",
-    "cypress:test-record": "start-server-and-test start:app http://localhost:3000 cypress:run-record",
-    "cypress:test": "start-server-and-test start:app http://localhost:3000 cypress:run",
-    "cypress:test-built": "start-server-and-test start:built-app http://localhost:3000 cypress:run",
-    "cypress:run-record": "cypress run --record",
-    "cypress:run": "cypress run --config video=false",
-    "cypress:open": "cypress open",
-    "start:app": "elm-app start",
     "start:built-app": "serve",
-    "start:server": "netlify-lambda serve functions --config ./webpack.functions.js",
-    "netlifybuild": "bash download-favicon.sh && bash rewrite-application-title.sh && elm-app test && npm run build",
-    "build": "npm run build:app && npm run build:functions",
-    "build:app": "elm-app build",
-    "build:functions": "netlify-lambda build functions"
+    "build:app": "elm-app build"
   },
   "devDependencies": {
     "create-elm-app": "^5.22.0",
-    "cypress": "^12.3.0",
     "dotenv-webpack": "^1.7.0",
     "start-server-and-test": "^1.10.0",
     "serve": "^14.2.0",

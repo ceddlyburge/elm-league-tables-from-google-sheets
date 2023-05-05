@@ -1,4 +1,4 @@
-module Update exposing (update)
+module Update exposing (update, updatewithoutBrowserHistory)
 
 import Browser exposing (UrlRequest(..))
 import Browser.Navigation exposing (Key, pushUrl)

@@ -2,7 +2,8 @@ module ResultsFixturesHelpers exposing (comparePosix, dateTimeInFebruary, expect
 
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, intRange)
-import Models.DecodedGame exposing (DecodedGame, vanillaGame)
+import Helpers exposing (vanillaDecodedGame)
+import Models.DecodedGame exposing (DecodedGame)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 import Models.ResultsFixtures exposing (ResultsFixtures)
 import Time exposing (..)
@@ -26,12 +27,12 @@ expectFirstDay expect resultsFixtures =
 
 unscheduledGame : DecodedGame
 unscheduledGame =
-    vanillaGame
+    vanillaDecodedGame
 
 
 scheduledGame : Posix -> DecodedGame
 scheduledGame date =
-    { vanillaGame | datePlayed = Just date }
+    { vanillaDecodedGame | datePlayed = Just date }
 
 
 dateTimeInFebruary : Fuzzer Posix
