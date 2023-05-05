@@ -4,8 +4,8 @@ import Calculations.PlayersFromLeagueGames exposing (calculatePlayers)
 import Expect
 import Helpers exposing (vanillaDecodedGame)
 import Models.DecodedGame exposing (DecodedGame)
-import Models.Player exposing (..)
-import Test exposing (..)
+import Models.Player exposing (PlayerId, player)
+import Test exposing (Test, test)
 
 
 orderByGoalCount : Test

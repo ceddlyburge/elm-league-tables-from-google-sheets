@@ -3,12 +3,13 @@ module CalculateFixturesResultsOrderGamesWithinDayByDateTest exposing (orderGame
 import Calculations.ResultsFixturesFromLeagueGames exposing (calculateResultsFixtures)
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, intRange, list)
+import Models.DecodedGame exposing (DecodedGame)
 import Models.LeagueGames exposing (LeagueGames)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
-import ResultsFixturesHelpers exposing (..)
-import Test exposing (..)
-import Time exposing (..)
-import Time.Extra exposing (..)
+import ResultsFixturesHelpers exposing (comparePosix, expectFirstDay, scheduledGame)
+import Test exposing (Test, fuzz)
+import Time exposing (Month(..), Posix, utc)
+import Time.Extra exposing (Interval(..), Parts)
 
 
 orderGamesByTime : Test
@@ -16,9 +17,11 @@ orderGamesByTime =
     fuzz (list dateTimeOnFebruaryFirst) "Games within a LeagueGamesForDay should be ordered by time" <|
         \timesInDay ->
             let
+                games : List DecodedGame
                 games =
                     List.map scheduledGame timesInDay
 
+                sortedTimes : List (Maybe Posix)
                 sortedTimes =
                     List.sortWith comparePosix timesInDay
                         |> List.map Just

@@ -1,9 +1,9 @@
 module ResultsFixturesViewForUnplayedGameWithNoDateTest exposing (oneUnplayedGame)
 
 import Helpers exposing (vanillaGame)
-import Msg exposing (..)
-import ResultsFixturesViewHelpers exposing (..)
-import Test exposing (..)
+import Msg exposing (Msg)
+import ResultsFixturesViewHelpers exposing (html)
+import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector
 

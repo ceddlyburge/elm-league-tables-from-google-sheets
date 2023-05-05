@@ -6,8 +6,8 @@ import Helpers exposing (vanillaDecodedGame)
 import Models.DecodedGame exposing (DecodedGame)
 import Models.LeagueGamesForDay exposing (LeagueGamesForDay)
 import Models.ResultsFixtures exposing (ResultsFixtures)
-import Time exposing (..)
-import Time.Extra exposing (..)
+import Time exposing (Month(..), Posix, posixToMillis, utc)
+import Time.Extra exposing (Interval(..), Parts)
 
 
 comparePosix : Posix -> Posix -> Order

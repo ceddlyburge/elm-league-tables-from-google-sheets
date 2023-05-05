@@ -27,7 +27,7 @@
     "build:app": "elm-app build",
     "build:functions": "netlify-lambda build functions",
     "format": "elm-format . --validate",
-    "review": "elm-review ./src"
+    "review": "elm-review ./src ./tests"
   },
   "devDependencies": {
     "create-elm-app": "^5.22.0",

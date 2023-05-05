@@ -5,10 +5,10 @@ import Models.League exposing (League)
 import Models.LeagueTable exposing (LeagueTable)
 import Models.Team exposing (Team)
 import Msg
-import Pages.LeagueTable.View exposing (..)
-import Pages.RenderPage exposing (..)
+import Pages.LeagueTable.View exposing (page)
+import Pages.RenderPage exposing (renderTestablePage)
 import RemoteData
-import Test exposing (..)
+import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (class, text)
 
