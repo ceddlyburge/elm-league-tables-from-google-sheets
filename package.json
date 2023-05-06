@@ -10,7 +10,7 @@
   },
   "scripts": {
     "test-record": "npm run coverage && npm run cypress:test-record",
-    "test": "elm-app test && npm run cypress:test",
+    "test": "elm-test && npm run cypress:test",
     "coverage": "elm-coverage --report codecov",
     "codecov": "codecov -f .coverage/codecov.json",
     "cypress:test-record": "start-server-and-test start:app http://localhost:3000 cypress:run-record",
@@ -22,7 +22,7 @@
     "start:app": "elm-app start",
     "start:built-app": "serve",
     "start:server": "netlify-lambda serve functions --config ./webpack.functions.js",
-    "netlifybuild": "bash download-favicon.sh && bash rewrite-application-title.sh && elm-app test && npm run build",
+    "netlifybuild": "bash download-favicon.sh && bash rewrite-application-title.sh && elm-test && npm run build",
     "build": "npm run format && npm run review && npm run build:app && npm run build:functions",
     "build:app": "elm-app build",
     "build:functions": "netlify-lambda build functions",
