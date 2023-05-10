@@ -30,18 +30,18 @@
     "review": "elm-review ./src ./tests"
   },
   "devDependencies": {
-    "create-elm-app": "^5.22.0",
-    "codecov": "^3.6.1",
-    "cypress": "^12.3.0",
-    "dotenv-webpack": "^1.7.0",
-    "netlify-lambda": "^1.4.13",
-    "start-server-and-test": "^1.10.0",
-    "serve": "^14.2.0",
-    "elm-format": "^0.8.7",
-    "elm-review": "^2.9.1",
-    "elm-coverage": "^0.4.1",
     "axios": "^0.21.1",
-    "elm": "^0.19.1-5"
+    "codecov": "^3.6.1",
+    "create-elm-app": "^5.22.0",
+    "cypress": "^12.12.0",
+    "dotenv-webpack": "^1.7.0",
+    "elm": "^0.19.1-5",
+    "elm-coverage": "^0.4.1",
+    "elm-format": "^0.8.7",
+    "elm-review": "^2.10.2",
+    "netlify-lambda": "^1.4.13",
+    "serve": "^14.2.0",
+    "start-server-and-test": "^1.10.0"
   },
   "dependencies": {}
 }
