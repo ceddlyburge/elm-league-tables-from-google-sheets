@@ -54,3 +54,7 @@ You will need to create a (free) Netlify account if you haven't already got one,
 The [usage_scenario.yml](./usage_scenario.yml) file is used with the [Green Metrics Tool](https://metrics.green-coding.berlin/index.html) from Green Coding Berlin to analyse how much carbon is emitted when using the website. It tracks the emissions from running the cypress tests, which visit every page in the website, so effects of changes can be easily monitored. The lambda and the calls the the google api are not included in this.
 
 You can see some results on the [Green Metrics Tool webiste](https://metrics.green-coding.berlin/stats.html?id=ad7de4a7-9a63-4970-ac00-3bea04843d1b)
+
+The usage_scenario.yml has a very similar format to the usage_scenario.yml, so you can run `docker compose up --build --abort-on-container-exit --exit-code-from cypress` to debug locally.
+
+Submitting runs is currently a manual process, and can be done using the [Certify New Software form](https://metrics.green-coding.berlin/request.html).
