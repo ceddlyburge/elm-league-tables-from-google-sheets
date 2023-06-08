@@ -18,13 +18,17 @@ services:
     depends_on:
       - web
     environment:
-      - CYPRESS_baseUrl=http://web:3000
+      - CYPRESS_BASE_URL=http://web:3000
 
 flow:
-  - name: Load 1000
+  - name: Cypress tests
     container: cypress
     commands:
       - type: console
         command: cypress run --config video=false --browser chrome --headless
         detach: true
         note: Running cypress tests against website
+        # The cypress docker image has an open issue and writes some stuff to stdErr,
+        # which causes a failure even with a 0 exit code
+        # https://github.com/cypress-io/cypress-docker-images/issues/747
+        ignore-errors: true
