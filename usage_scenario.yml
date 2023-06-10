@@ -25,7 +25,7 @@ flow:
     container: cypress
     commands:
       - type: console
-        command: cypress run --config video=false --browser chrome --headless
+        command: cypress run --config video=false --browser chrome --headless --env CYPRESS_BASE_URL=http://web:3000
         detach: true
         note: Running cypress tests against website
         # The cypress docker image has an open issue and writes some stuff to stdErr,
