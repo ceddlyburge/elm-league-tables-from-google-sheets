@@ -12,6 +12,6 @@ services:
       dockerfile: Dockerfile.cypress
     depends_on:
       - web
-    environment:
-      - CYPRESS_BASE_URL=http://web:3000
-    command: cypress run --config video=false
+    # environment:
+    #   - CYPRESS_BASE_URL=http://web:3000
+    command: cypress run --config baseUrl=http://web:3000,video=false 

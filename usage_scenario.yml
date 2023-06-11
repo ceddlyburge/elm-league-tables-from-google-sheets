@@ -17,15 +17,16 @@ services:
       dockerfile: Dockerfile.cypress
     depends_on:
       - web
-    environment:
-      - CYPRESS_BASE_URL=http://web:3000
+    # This environment variable doesn't seem to work, so we set the value use --config instead
+    # environment:
+    #   - CYPRESS_BASE_URL=http://web:3000
 
 flow:
   - name: Cypress tests
     container: cypress
     commands:
       - type: console
-        command: cypress run --config video=false --browser chrome --headless --env CYPRESS_BASE_URL=http://web:3000
+        command: cypress run --config baseUrl=http://web:3000,video=false --browser chrome --headless
         detach: true
         note: Running cypress tests against website
         # The cypress docker image has an open issue and writes some stuff to stdErr,
