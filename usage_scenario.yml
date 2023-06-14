@@ -1,35 +1,34 @@
----
-name: Test-Scenario
-author: Cedd Burge
 version: 1
-description: The test scenario is running the cypress tests at the moment
+name: "Test-Scenario"
+author: "Cedd Burge"
+description: "Cypress tests"
+
+networks:
+  cedds-network:
 
 services:
   web:
     build:
       context: "."
-      dockerfile: Dockerfile.app
+      dockerfile: "Dockerfile.app"
     expose:
-      - "3000"
+      - 3000
+    networks:
+      - cedds-network
   cypress:
     build:
       context: "."
-      dockerfile: Dockerfile.cypress
+      dockerfile: "Dockerfile.cypress"
+    networks:
+      - cedds-network
     depends_on:
       - web
-    # This environment variable doesn't seem to work, so we set the value use --config instead
-    # environment:
-    #   - CYPRESS_BASE_URL=http://web:3000
 
 flow:
-  - name: Cypress tests
-    container: cypress
+  - name: "Cypress tests"
     commands:
-      - type: console
-        command: cypress run --config baseUrl=http://web:3000,video=false --browser chrome --headless
-        detach: true
-        note: Running cypress tests against website
-        # The cypress docker image has an open issue and writes some stuff to stdErr,
-        # which causes a failure even with a 0 exit code
-        # https://github.com/cypress-io/cypress-docker-images/issues/747
-        ignore-errors: true
+      - note: "Running cypress tests against website"
+        type: console
+        command: "cypress run --config baseUrl=http://web:3000,video=false --browser chrome --headless"
+        "ignore-errors": true
+    container: cypress
