@@ -32,8 +32,6 @@ Netlify detects the package.json and runs npm install automatically. It caches t
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/a09c65ca-8139-4aa4-93f6-87da2ad62079/deploy-status)](https://app.netlify.com/sites/se-polo-2019/deploys)
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/34b6a5a7-0314-4cea-9284-f46d213986c5/deploy-status)](https://app.netlify.com/sites/league-tables-development/deploys)
-
 # Deployment
 
 There are various deployments of this code on Netlify, most of which deploy whenever there is a push to the master branch, or a pull request. You can create a new deployment using the button below.
