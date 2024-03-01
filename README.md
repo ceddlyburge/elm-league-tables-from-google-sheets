@@ -38,12 +38,16 @@ There are various deployments of this code on Netlify, most of which deploy when
 
 The Netlify build process only runs the unit tests, so make sure the Appveyor build passes before merging in to master.
 
-You will need to create a (free) Netlify account if you haven't already got one, and you will need to enter the following things
+# Creating a new deployment
+
+You can create a new league website by simply deploying this code to Netlify, using the button below. You will need to create a (free) Netlify account if you haven't already got one, and you will need to enter the following things
 
 - The url of an Icon that will be used for the favicon and the manifest. You can use [this one](https://raw.githubusercontent.com/ceddlyburge/CanoePoloLeagueOrganiser/master/CanoePoloLeagueOrganiserXamarin/Resources/drawable/canoe_polo_ball.png) if you like
 - The title ("League Tables" or similar)
 - The [Spreadsheet Id](https://developers.google.com/sheets/api/guides/concepts#spreadsheet_id) of the Google Sheet to use as the source of the Data. This sheet [must be published](https://support.google.com/docs/answer/183965). You can use the test one if you like (1Ai9H6Pfe1LPsOcksN6EF03-z-gO1CkNp8P1Im37N3TE)
 - A [Google Api Key](https://developers.google.com/maps/documentation/javascript/get-api-key)
+
+Then you can click this button and follow the instructions.
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/ceddlyburge/elm-league-tables-from-google-sheets)
 
@@ -53,6 +57,6 @@ The [usage_scenario.yml](./usage_scenario.yml) file is used with the [Green Metr
 
 You can see some results on the [Green Metrics Tool webiste](https://metrics.green-coding.berlin/stats.html?id=ad7de4a7-9a63-4970-ac00-3bea04843d1b)
 
-The usage_scenario.yml has a very similar format to the usage_scenario.yml, so you can run `docker compose up --build --abort-on-container-exit --exit-code-from cypress` to debug locally.
+The usage_scenario.yml is a very similar format to the docker_compose.yml, so you can run `docker compose up --build --abort-on-container-exit --exit-code-from cypress` to debug locally.
 
 Submitting runs is currently a manual process, and can be done using the [Certify New Software form](https://metrics.green-coding.berlin/request.html).
