@@ -1,7 +1,7 @@
 module Pages.RenderPage exposing (renderPage, renderTestablePage)
 
 import Browser exposing (Document)
-import Element exposing (Element, Length, centerX, centerY, column, el, fill, paragraph, px, text, width)
+import Element exposing (Element, Length, centerX, centerY, column, el, fill, newTabLink, paragraph, px, text, width)
 import Element.Events exposing (onClick)
 import Html exposing (Html)
 import Msg exposing (Msg)
@@ -94,6 +94,11 @@ renderMainHeaderBar styles headerBar =
         (List.map (renderHeaderBarItem styles) headerBar.leftItems
             ++ [ title headerBar.title ]
             ++ List.map (renderHeaderBarItem styles) headerBar.rightItems
+            ++ [ elWithStyle
+                    styles.mainHeaderBarLink
+                    []
+                    (newTabLink styles.mainHeaderBarLink { url = "https://github.com/ceddlyburge/tournament-organiser", label = codeIcon })
+               ]
         )
 
 
@@ -197,6 +202,22 @@ backIcon =
         ]
         [ Svg.path
             [ Svg.Attributes.d "M256 504C119 504 8 393 8 256S119 8 256 8s248 111 248 248-111 248-248 248zm116-292H256v-70.9c0-10.7-13-16.1-20.5-8.5L121.2 247.5c-4.7 4.7-4.7 12.2 0 16.9l114.3 114.9c7.6 7.6 20.5 2.2 20.5-8.5V300h116c6.6 0 12-5.4 12-12v-64c0-6.6-5.4-12-12-12z"
+            ]
+            []
+        ]
+        |> Element.html
+
+
+codeIcon : Element msg
+codeIcon =
+    Svg.svg
+        [ Svg.Attributes.viewBox "0 0 640 640"
+        , Svg.Attributes.class "code"
+        , Svg.Attributes.fill "currentColor"
+        , Svg.Attributes.stroke "currentColor"
+        ]
+        [ Svg.path
+            [ Svg.Attributes.d "M320 128C214 128 128 214 128 320C128 426 214 512 320 512C337.7 512 352 526.3 352 544C352 561.7 337.7 576 320 576C178.6 576 64 461.4 64 320C64 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320L576 352C576 405 533 448 480 448C450.7 448 424.4 434.8 406.8 414.1C384 435.1 353.5 448 320 448C249.3 448 192 390.7 192 320C192 249.3 249.3 192 320 192C347.9 192 373.7 200.9 394.7 216.1C400.4 211.1 407.8 208 416 208C433.7 208 448 222.3 448 240L448 352C448 369.7 462.3 384 480 384C497.7 384 512 369.7 512 352L512 320C512 214 426 128 320 128zM384 320C384 284.7 355.3 256 320 256C284.7 256 256 284.7 256 320C256 355.3 284.7 384 320 384C355.3 384 384 355.3 384 320z"
             ]
             []
         ]
