@@ -1,7 +1,7 @@
 module Pages.RenderPage exposing (renderPage, renderTestablePage)
 
 import Browser exposing (Document)
-import Element exposing (Element, Length, centerX, centerY, column, el, fill, paragraph, px, text, width)
+import Element exposing (Element, Length, centerX, centerY, column, el, fill, link, paragraph, px, text, width)
 import Element.Events exposing (onClick)
 import Html exposing (Html)
 import Msg exposing (Msg)
@@ -94,6 +94,11 @@ renderMainHeaderBar styles headerBar =
         (List.map (renderHeaderBarItem styles) headerBar.leftItems
             ++ [ title headerBar.title ]
             ++ List.map (renderHeaderBarItem styles) headerBar.rightItems
+            ++ [ elWithStyle
+                    styles.mainHeaderBarLink
+                    []
+                    (link [] { url = "https://github.com/ceddlyburge/tournament-organiser", label = codeIcon })
+               ]
         )
 
 
@@ -197,6 +202,22 @@ backIcon =
         ]
         [ Svg.path
             [ Svg.Attributes.d "M256 504C119 504 8 393 8 256S119 8 256 8s248 111 248 248-111 248-248 248zm116-292H256v-70.9c0-10.7-13-16.1-20.5-8.5L121.2 247.5c-4.7 4.7-4.7 12.2 0 16.9l114.3 114.9c7.6 7.6 20.5 2.2 20.5-8.5V300h116c6.6 0 12-5.4 12-12v-64c0-6.6-5.4-12-12-12z"
+            ]
+            []
+        ]
+        |> Element.html
+
+
+codeIcon : Element msg
+codeIcon =
+    Svg.svg
+        [ Svg.Attributes.viewBox "0 0 24 24"
+        , Svg.Attributes.class "code"
+        , Svg.Attributes.fill "currentColor"
+        , Svg.Attributes.stroke "currentColor"
+        ]
+        [ Svg.path
+            [ Svg.Attributes.d "M20 4C21.6569 4 23 5.34315 23 7V17C23 18.6569 21.6569 20 20 20H4C2.34315 20 1 18.6569 1 17V7C1 5.34315 2.34315 4 4 4H20ZM19.2529 6H4.74718L11.3804 11.2367C11.7437 11.5236 12.2563 11.5236 12.6197 11.2367L19.2529 6ZM3 7.1688V17C3 17.5523 3.44772 18 4 18H20C20.5523 18 21 17.5523 21 17V7.16882L13.8589 12.8065C12.769 13.667 11.231 13.667 10.1411 12.8065L3 7.1688Z"
             ]
             []
         ]
