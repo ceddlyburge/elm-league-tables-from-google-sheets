@@ -97,7 +97,7 @@ renderMainHeaderBar styles headerBar =
             ++ [ elWithStyle
                     styles.mainHeaderBarLink
                     []
-                    (link [] { url = "https://github.com/ceddlyburge/tournament-organiser", label = codeIcon })
+                    (link styles.mainHeaderBarLink { url = "https://github.com/ceddlyburge/tournament-organiser", label = codeIcon })
                ]
         )
 
