@@ -1,7 +1,7 @@
 module Pages.RenderPage exposing (renderPage, renderTestablePage)
 
 import Browser exposing (Document)
-import Element exposing (Element, Length, centerX, centerY, column, el, fill, link, paragraph, px, text, width)
+import Element exposing (Element, Length, centerX, centerY, column, el, fill, newTabLink, paragraph, px, text, width)
 import Element.Events exposing (onClick)
 import Html exposing (Html)
 import Msg exposing (Msg)
@@ -97,7 +97,7 @@ renderMainHeaderBar styles headerBar =
             ++ [ elWithStyle
                     styles.mainHeaderBarLink
                     []
-                    (link styles.mainHeaderBarLink { url = "https://github.com/ceddlyburge/tournament-organiser", label = codeIcon })
+                    (newTablink styles.mainHeaderBarLink { url = "https://github.com/ceddlyburge/tournament-organiser", label = codeIcon })
                ]
         )
 
